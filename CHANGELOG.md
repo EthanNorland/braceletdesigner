@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.1] - 2026-10-19
+
+### Changed - Visual Refinements
+- **Studio White Viewport Background:** Replaced dark stage background with a luminous studio white canvas (`#FFFFFF`) with a subtle radial contact shadow plane under the bracelet, rendering a luxury jewelry display aesthetic.
+- **Authentic Lobster Claw Clasp Geometry:** Replaced placeholder clasp with an anatomically faithful 3D lobster claw clasp directly matching `reference/lobster clasp gold.webp`, featuring a seamless sculpted teardrop body, functional thumb trigger lever with rounded push pad, graceful curved beak loop with open aperture hole, spring gate tongue, and interlocking connector jump ring.
+- **Studio Environment Reflections:** Added runtime PMREM environment map reflecting soft overhead studio panels across all metallic clasps, beads, spacers, and chains for realistic jewelry luster.
+- **High-Contrast Selection Ring:** Updated bead selection halo to vibrant sapphire blue (`0x2563EB`) for crisp contrast against the studio white stage.
+- **Floating Dark-Glass Stage Controls:** Restyled invitation pill, fit accumulator meter, and undo/action bar into elegant floating dark-glass panels with subtle blur and translucent borders.
+
 ## [1.1.0] - 2026-10-19
 
 ### Added - Phase 2: The Core Loop

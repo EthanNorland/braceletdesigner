@@ -154,12 +154,12 @@
     z-index: 10;
   }
 
-  /* Center Stage: 3D Viewport */
+  /* Center Stage: 3D Viewport with Studio White Background */
   #stage-container {
     position: relative;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 50% 45%, #151D2A 0%, #0B0E14 75%);
+    background: radial-gradient(circle at 50% 45%, #FFFFFF 0%, #F5F7FA 65%, #E5E9F0 100%);
     overflow: hidden;
   }
 
@@ -175,38 +175,40 @@
     cursor: ew-resize !important;
   }
 
-  /* Invitation Callout */
+  /* Invitation Callout (Floating Dark Glass on White Stage) */
   #invitation {
     position: absolute;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(20, 25, 35, 0.88);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--panel-border);
+    background: rgba(11, 14, 20, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 8px 18px;
     border-radius: 20px;
     font-size: 0.82rem;
-    color: var(--accent-silver);
+    color: #F8FAFC;
     pointer-events: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
     letter-spacing: 0.02em;
     transition: opacity 0.4s ease;
     display: flex;
     align-items: center;
     gap: 8px;
+    z-index: 5;
   }
 
-  /* Fit Status Bar (Top Center) */
+  /* Fit Status Bar (Floating Dark Glass on White Stage) */
   #fit-indicator {
     position: absolute;
     top: 64px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(14, 18, 26, 0.9);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--panel-border);
+    background: rgba(11, 14, 20, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     padding: 6px 14px;
     display: flex;
@@ -215,14 +217,14 @@
     font-size: 0.78rem;
     font-family: var(--mono);
     color: var(--fg-muted);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     z-index: 5;
   }
 
   .fit-meter {
     width: 90px;
     height: 6px;
-    background: #1A2232;
+    background: #1E293B;
     border-radius: 3px;
     overflow: hidden;
     position: relative;
@@ -239,7 +241,7 @@
     background: #F59E0B;
   }
 
-  /* Stage Bottom Action Bar */
+  /* Stage Bottom Action Bar (Floating Dark Glass on White Stage) */
   #stage-actions {
     position: absolute;
     bottom: 24px;
@@ -247,12 +249,13 @@
     transform: translateX(-50%);
     display: flex;
     gap: 8px;
-    background: rgba(20, 25, 35, 0.92);
-    backdrop-filter: blur(8px);
+    background: rgba(11, 14, 20, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 6px;
     border-radius: 8px;
-    border: 1px solid var(--panel-border);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
     z-index: 10;
   }
 
@@ -707,7 +710,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.1.0",
+      version: "1.1.1",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -723,8 +726,8 @@
       wristMm: 175,
       cordType: "silver",
       cordColor: "#1E293B",
-      claspType: "magnetic",
-      claspColor: "silver",
+      claspType: "lobster",
+      claspColor: "gold",
       beads: [
         { id: 1, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.4 },
         { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.3 },
@@ -812,6 +815,7 @@
     const canvas = document.getElementById("stage-canvas");
 
     const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xFFFFFF);
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.set(0, 16, 26);
 
@@ -820,6 +824,24 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.15;
+
+    // Studio Environment Generator for realistic metal specular reflections
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envScene = new THREE.Scene();
+    envScene.background = new THREE.Color(0xFFFFFF);
+    const ceilMesh = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshBasicMaterial({ color: 0xFFFFFF }));
+    ceilMesh.position.set(0, 25, 0);
+    ceilMesh.rotation.x = Math.PI / 2;
+    envScene.add(ceilMesh);
+    const pKey = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshBasicMaterial({ color: 0xFFFBEB }));
+    pKey.position.set(18, 16, 18);
+    pKey.lookAt(0, 0, 0);
+    envScene.add(pKey);
+    const pFill = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshBasicMaterial({ color: 0xEFF6FF }));
+    pFill.position.set(-18, 14, -18);
+    pFill.lookAt(0, 0, 0);
+    envScene.add(pFill);
+    scene.environment = pmrem.fromScene(envScene).texture;
 
     const controls = new THREE.OrbitControls(camera, canvas);
     controls.enableDamping = true;
@@ -853,9 +875,29 @@
     let beadMeshes = new Map(); // id -> THREE.Mesh / Group
     let selectionRingMesh = null;
 
-    // Selection Ring Visualizer
-    const selRingGeo = new THREE.TorusGeometry(1.2, 0.05, 16, 32);
-    const selRingMat = new THREE.MeshBasicMaterial({ color: 0x88A4C4, wireframe: false });
+    // Subtle Contact Shadow Plane under bracelet for realism against white background
+    const shadowCanvas = document.createElement("canvas");
+    shadowCanvas.width = 256;
+    shadowCanvas.height = 256;
+    const sCtx = shadowCanvas.getContext("2d");
+    const sGrad = sCtx.createRadialGradient(128, 128, 35, 128, 128, 125);
+    sGrad.addColorStop(0, "rgba(15, 23, 42, 0.18)");
+    sGrad.addColorStop(0.6, "rgba(15, 23, 42, 0.06)");
+    sGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
+    sCtx.fillStyle = sGrad;
+    sCtx.fillRect(0, 0, 256, 256);
+    const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
+    const shadowPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(22, 22),
+      new THREE.MeshBasicMaterial({ map: shadowTexture, transparent: true, opacity: 0.85 })
+    );
+    shadowPlane.rotation.x = -Math.PI / 2;
+    shadowPlane.position.y = -1.1;
+    scene.add(shadowPlane);
+
+    // Selection Ring Visualizer (Crisp vibrant blue for high contrast against white stage)
+    const selRingGeo = new THREE.TorusGeometry(1.2, 0.07, 16, 32);
+    const selRingMat = new THREE.MeshBasicMaterial({ color: 0x2563EB });
     selectionRingMesh = new THREE.Mesh(selRingGeo, selRingMat);
     selectionRingMesh.rotation.x = Math.PI / 2;
     selectionRingMesh.visible = false;
@@ -934,35 +976,124 @@
     function createClaspMesh(type, color) {
       const group = new THREE.Group();
       const mat = new THREE.MeshStandardMaterial({
-        color: color === "gold" ? 0xFACC15 : 0xE2E8F0,
-        metalness: 0.96,
-        roughness: 0.16
+        color: color === "gold" ? 0xF5C542 : 0xE2E8F0,
+        metalness: 0.90,
+        roughness: 0.18,
+        envMapIntensity: 1.2
       });
 
       if (type === "magnetic") {
         const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 1.4, 32), mat);
         cyl.rotation.z = Math.PI / 2;
         group.add(cyl);
-        const ring1 = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.08, 12, 24), mat);
-        ring1.position.x = -0.8;
+        // Center seam ring
+        const seam = new THREE.Mesh(new THREE.TorusGeometry(0.56, 0.04, 12, 32), mat);
+        seam.rotation.y = Math.PI / 2;
+        group.add(seam);
+        // Left & right jump rings
+        const ring1 = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.08, 12, 24), mat);
+        ring1.position.x = -0.85;
+        ring1.rotation.y = Math.PI / 2;
         group.add(ring1);
         const ring2 = ring1.clone();
-        ring2.position.x = 0.8;
+        ring2.position.x = 0.85;
         group.add(ring2);
       } else if (type === "lobster") {
-        const body = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.22, 16, 24, Math.PI * 1.4), mat);
-        body.rotation.y = Math.PI / 2;
-        group.add(body);
-        const loop = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.08, 12, 24), mat);
-        loop.position.x = -0.7;
-        group.add(loop);
+        // Modeled faithfully after reference/lobster clasp gold.webp
+        // 1. Base attachment eyelet ring (fused directly to teardrop tail)
+        const baseEyelet = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.08, 18, 32), mat);
+        baseEyelet.position.set(-0.78, 0, 0);
+        baseEyelet.rotation.y = Math.PI / 2;
+        group.add(baseEyelet);
+
+        // 2. Seamless Sculpted Almond/Teardrop Body (smooth Lathe geometry)
+        const points = [];
+        const N = 24;
+        for (let i = 0; i <= N; i++) {
+          const t = i / N;
+          const x = (t - 0.5) * 0.95;
+          const r = Math.sin(t * Math.PI) * (0.22 + 0.14 * t);
+          points.push(new THREE.Vector2(r, x));
+        }
+        const bodyGeo = new THREE.LatheGeometry(points, 32);
+        bodyGeo.rotateZ(-Math.PI / 2);
+        bodyGeo.scale(1.0, 0.68, 0.94);
+        const bodyMesh = new THREE.Mesh(bodyGeo, mat);
+        bodyMesh.position.set(-0.32, 0, 0.02);
+        group.add(bodyMesh);
+
+        // 3. Graceful Claw Hook Arm (emerges seamlessly from body, loops around apex)
+        const hookCurve = new THREE.CatmullRomCurve3([
+          new THREE.Vector3(-0.20, 0, -0.06),
+          new THREE.Vector3(0.06, 0, -0.24),
+          new THREE.Vector3(0.34, 0, -0.28),
+          new THREE.Vector3(0.62, 0, -0.16),
+          new THREE.Vector3(0.72, 0, 0.0),
+          new THREE.Vector3(0.64, 0, 0.18),
+          new THREE.Vector3(0.44, 0, 0.24),
+          new THREE.Vector3(0.24, 0, 0.20),
+          new THREE.Vector3(0.15, 0, 0.12)
+        ]);
+        const hookGeo = new THREE.TubeGeometry(hookCurve, 36, 0.085, 16, false);
+        const hookMesh = new THREE.Mesh(hookGeo, mat);
+        group.add(hookMesh);
+
+        const beakTip = new THREE.Mesh(new THREE.SphereGeometry(0.085, 16, 16), mat);
+        beakTip.position.set(0.15, 0, 0.12);
+        group.add(beakTip);
+
+        // 4. Retractable Spring Gate / Tongue (internal closing bar)
+        const gateCurve = new THREE.CatmullRomCurve3([
+          new THREE.Vector3(-0.04, 0, 0.01),
+          new THREE.Vector3(0.06, 0, 0.07),
+          new THREE.Vector3(0.14, 0, 0.11)
+        ]);
+        const gateGeo = new THREE.TubeGeometry(gateCurve, 16, 0.052, 12, false);
+        const gateMesh = new THREE.Mesh(gateGeo, mat);
+        group.add(gateMesh);
+
+        // 5. Iconic Thumb Trigger Lever (angled lever with smooth rounded knob)
+        const trigger = new THREE.Group();
+        const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.085, 0.34, 16), mat);
+        stem.position.y = 0.17;
+        trigger.add(stem);
+        const thumbKnob = new THREE.Mesh(new THREE.SphereGeometry(0.11, 16, 16), mat);
+        thumbKnob.position.y = 0.34;
+        thumbKnob.scale.set(1.25, 0.75, 1.4);
+        trigger.add(thumbKnob);
+
+        trigger.position.set(-0.20, 0, 0.28);
+        trigger.rotation.x = Math.PI / 2;
+        trigger.rotation.z = -Math.PI / 4.0;
+        group.add(trigger);
+
+        // 6. Opposing Jump Ring (connector on the right side)
+        const opposingRing = new THREE.Mesh(new THREE.TorusGeometry(0.32, 0.08, 18, 32), mat);
+        opposingRing.position.set(0.82, 0, 0);
+        opposingRing.rotation.y = Math.PI / 2;
+        group.add(opposingRing);
       } else if (type === "screw") {
-        const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 1.6, 24), mat);
+        // Screw-in barrel with decorative ribs and end-loops
+        const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 1.5, 32), mat);
         barrel.rotation.z = Math.PI / 2;
         group.add(barrel);
-        const rib = new THREE.Mesh(new THREE.TorusGeometry(0.54, 0.06, 12, 24), mat);
-        rib.rotation.y = Math.PI / 2;
-        group.add(rib);
+        const rib1 = new THREE.Mesh(new THREE.TorusGeometry(0.56, 0.06, 12, 32), mat);
+        rib1.rotation.y = Math.PI / 2;
+        rib1.position.x = -0.38;
+        group.add(rib1);
+        const rib2 = rib1.clone();
+        rib2.position.x = 0.38;
+        group.add(rib2);
+        const seam = new THREE.Mesh(new THREE.TorusGeometry(0.54, 0.04, 12, 32), mat);
+        seam.rotation.y = Math.PI / 2;
+        group.add(seam);
+        const loop1 = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.08, 12, 24), mat);
+        loop1.position.x = -0.9;
+        loop1.rotation.y = Math.PI / 2;
+        group.add(loop1);
+        const loop2 = loop1.clone();
+        loop2.position.x = 0.9;
+        group.add(loop2);
       }
       return group;
     }
