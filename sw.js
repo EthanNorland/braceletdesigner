@@ -1,5 +1,5 @@
 const APP_ID = "bracelet-designer";
-const VERSION = "1.4.0";
+const VERSION = "1.5.0";
 const CACHE = APP_ID + "-" + VERSION;
 const FILES = [
   "./",
@@ -9,6 +9,7 @@ const FILES = [
   "./icon-180.png",
   "./icon-192.png",
   "./icon-512.png",
+  "./reference/bracelet designer logo.jpg",
   "./vendor/three.min.js",
   "./vendor/OrbitControls.js",
   "./vendor/LICENSE"

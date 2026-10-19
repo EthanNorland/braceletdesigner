@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] - 2026-10-19
+
+### Added - Phase 4: Visual Identity, Custom Logo & Wrist Preview
+- **Interactive 3D "Preview on Wrist" Mode (`btn-wrist`):** Added a dedicated header toggle allowing creators to switch instantly between Studio View and Wrist View. Drapes the active bracelet design around an anatomically tapered human forearm/wrist cylinder with realistic skin PBR shader, natural wrist flattening (1.12X, 1.0Y, 0.84Z), and organic forearm curvature.
+- **Adjustable Skin Tone Swatches:** Added a floating control banner (`#wrist-banner`) featuring 4 skin tone presets: Fair (`#F4D0BA`), Natural (`#D8A684`), Warm Tan (`#A66D44`), and Deep Rich (`#5C3826`), updating the 3D forearm in real time.
+- **Dynamic Wrist Scaling:** Forearm geometry dynamically recalculates and scales in unison with the wrist circumference slider (140mm–220mm) so the bracelet cord and beads always rest gracefully along the wrist surface.
+- **Header Brand Identity:** Integrated the brand mark icon (`icon.svg`) directly into the header bar alongside the serif title with responsive vertical centering.
+- **Custom Atelier Logo in About Dialog:** Embedded the full brand mark asset (`reference/bracelet designer logo.jpg`) within a shadowed editorial card in `dlg-about`, accompanied by documented Three.js 3D engine attribution and Antigravity pair programming disclosure.
+- **Real-Time Searchable Help Dialog:** Added an instant keyword search input (`#help-search`) in `dlg-help` that filters guides, shortcuts, and core concepts on keystroke with empty-state feedback and workbench ring targeting.
+- **Deep Linking Support:** Added query parameter support (`?view=wrist&tone=...`, `?dialog=about`, `?dialog=help&q=...`) enabling direct navigation to specific views and guides.
+- **Version 1.5.0 Bump:** Bumped application version in `index.html` and Service Worker cache key in `sw.js` to `1.5.0`, and added the custom logo asset to the offline PWA cache.
+
 ## [1.4.0] - 2026-10-19
 
 ### Added - Phase 3: Autosave (IndexedDB), Project Open & Drag-and-Drop

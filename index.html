@@ -70,7 +70,7 @@
 
   .brand {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 10px;
   }
 
@@ -293,6 +293,45 @@
     z-index: 5;
   }
 
+  /* Wrist View Floating Control Banner */
+  #wrist-banner {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(14, 18, 26, 0.94);
+    border: 1px solid var(--accent-blue);
+    padding: 8px 18px;
+    border-radius: 24px;
+    font-size: 0.82rem;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 15;
+  }
+  #wrist-banner.active {
+    display: flex;
+  }
+  .tone-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--panel-border);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .tone-btn:hover {
+    transform: scale(1.18);
+  }
+  .tone-btn.active {
+    transform: scale(1.22);
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 8px rgba(136, 164, 196, 0.5);
+  }
+
   /* Fit Status Bar (Top Center) */
   #fit-indicator {
     position: absolute;
@@ -313,6 +352,10 @@
     color: var(--fg-muted);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     z-index: 5;
+    transition: top 0.2s ease;
+  }
+  #stage-container.wrist-active #fit-indicator {
+    top: 76px;
   }
 
   .fit-meter {
@@ -618,6 +661,7 @@
   <!-- Header -->
   <header>
     <div class="brand">
+      <img src="icon.svg" alt="Bracelet Designer Logo" width="24" height="24" style="border-radius:4px; display:inline-block; vertical-align:middle; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
       <h1>Bracelet DESIGNER</h1>
       <span class="tagline">Atelier Studio <span id="autosave-status" class="autosave-status"></span></span>
     </div>
@@ -686,6 +730,21 @@
 
     <div id="invitation">
       <span>✦</span> Drag any bead to slide it along the loop
+    </div>
+
+    <!-- Wrist View Floating Control Banner -->
+    <div id="wrist-banner" role="region" aria-label="Wrist view controls">
+      <span style="font-weight:600; color:var(--fg); display:flex; align-items:center; gap:6px;">
+        <span style="color:var(--accent-blue);">✦</span> Wrist Preview
+      </span>
+      <span style="color:var(--fg-muted); margin-left:4px;">Tone:</span>
+      <div style="display:flex; gap:6px;" id="wrist-skin-tones">
+        <button class="tone-btn" data-color="#F4D0BA" title="Fair tone" style="background:#F4D0BA;"></button>
+        <button class="tone-btn active" data-color="#D8A684" title="Natural tone" style="background:#D8A684;"></button>
+        <button class="tone-btn" data-color="#A66D44" title="Warm Tan tone" style="background:#A66D44;"></button>
+        <button class="tone-btn" data-color="#5C3826" title="Deep Rich tone" style="background:#5C3826;"></button>
+      </div>
+      <button class="btn" id="btn-wrist-close" style="height:26px; padding:0 8px; font-size:0.75rem;">Exit Wrist</button>
     </div>
 
     <div id="fit-indicator">
@@ -860,7 +919,7 @@
   </aside>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.4.0 ↻</button>
+  <button id="chip" title="Check for a newer version">1.5.0 ↻</button>
 
   <!-- Materials List Dialog -->
   <dialog id="dlg-materials">
@@ -877,24 +936,42 @@
   <dialog id="dlg-help">
     <h2>Help & Core Guide</h2>
     <p>Welcome to <strong>Bracelet Designer</strong>, your tactile 3D jewelry workshop.</p>
-    <div style="display:flex; flex-direction:column; gap:10px; margin: 16px 0;">
-      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-canvas')">
+    <div style="margin: 14px 0 12px 0;">
+      <input type="search" id="help-search" placeholder="Search guides, tools, shortcuts (e.g. wrist, slide, export)..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; background: var(--bg); border: 1px solid var(--panel-border); border-radius: 6px; color: var(--fg); font-family: var(--sans); font-size: 0.85rem;" autocomplete="off">
+    </div>
+    <div id="help-items-container" style="display:flex; flex-direction:column; gap:10px; margin: 10px 0; max-height:360px; overflow-y:auto; padding-right:4px;">
+      <div class="help-item" data-keywords="wrist view preview drape arm skin tone fit size cylinder anatomy" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-wrist')">
+        <strong>Preview on Wrist:</strong> Toggle <em>Wrist View</em> in the header to drape your bracelet onto an anatomically tapered human forearm with 4 realistic skin tones.
+      </div>
+      <div class="help-item" data-keywords="slide arrange move drag angle circle interactive" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-canvas')">
         <strong>Slide & Arrange:</strong> Click directly on any bead in 3D and drag to slide it along the bracelet curve.
       </div>
-      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#left-panel')">
+      <div class="help-item" data-keywords="string add bead spacer clasp shape sphere cube faceted star barrel rondelle" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#left-panel')">
         <strong>String New Elements:</strong> Click beads, spacers, or clasps in the left palette to add them to your strand.
       </div>
-      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#card-selected-bead')">
-        <strong>Customize Material & Size:</strong> Select any bead to change its millimeter diameter, color, or material (Glass, Metal, Stone, Wood).
+      <div class="help-item" data-keywords="material glass quartz stone metal wood size diameter color monogram cube properties" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#card-selected-bead')">
+        <strong>Customize Material & Size:</strong> Select any bead to change its millimeter diameter, color, shape, or material (Glass, Metal, Stone, Wood).
       </div>
-      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-open')">
+      <div class="help-item" data-keywords="monogram engraving symbol heart cross smiley peace dash letter number cube text" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#cube-inscription-section')">
+        <strong>Cube Inscriptions:</strong> Select any Cube bead to engrave a custom letter (A-Z), number (0-9), or symbol (Heart, Cross, Smiley, Peace, Dash).
+      </div>
+      <div class="help-item" data-keywords="open save project file download import export cmd s cmd o drag drop" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-open')">
         <strong>Open & Save:</strong> Download your design as a <kbd>.bracelet</kbd> project file (<kbd>Cmd+S</kbd>) or drag any saved file directly onto the 3D stage (<kbd>Cmd+O</kbd>) to reopen it.
       </div>
-      <div style="padding:10px; background:var(--bg); border-radius:6px;">
+      <div class="help-item" data-keywords="autosave indexeddb persist reload offline session state" style="padding:10px; background:var(--bg); border-radius:6px;">
         <strong>Continuous Autosave:</strong> Your workspace automatically persists in browser storage so you can close or reload anytime without losing your work.
       </div>
-      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-actions')">
+      <div class="help-item" data-keywords="duplicate delete remove hotkey d key backspace action" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-actions')">
         <strong>Duplicate & Delete:</strong> Use the action bar or press <kbd>D</kbd> to duplicate and <kbd>Delete</kbd> to remove beads.
+      </div>
+      <div class="help-item" data-keywords="materials spec sheet recipe jeweler dimensions list breakdown" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-list')">
+        <strong>Materials Spec Sheet:</strong> View an itemized recipe with bead count, clasp type, and total wrist millimeters for jeweler assembly.
+      </div>
+      <div class="help-item" data-keywords="export png image snapshot render resolution photo" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-export')">
+        <strong>Export High-Res PNG:</strong> Capture a crisp studio render of your bracelet without UI overlays.
+      </div>
+      <div id="help-no-results" style="display:none; padding:16px; color:var(--fg-muted); font-size:0.85rem; text-align:center;">
+        No matching guides found. Try searching for "wrist", "bead", "cube", "clasp", or "save".
       </div>
     </div>
     <div class="dialog-footer">
@@ -904,13 +981,16 @@
 
   <!-- About Dialog -->
   <dialog id="dlg-about">
+    <div style="text-align:center; margin-bottom:16px;">
+      <img src="reference/bracelet designer logo.jpg" alt="Bracelet Designer Logo" style="max-width:100%; height:auto; max-height:160px; border-radius:10px; border:1px solid var(--panel-border); box-shadow:0 8px 24px rgba(0,0,0,0.5); object-fit:contain; background:#0B0E14;">
+    </div>
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
-    <p style="font-size:0.8rem; color:var(--fg-muted);">
-      Version: <strong style="color:var(--fg);" id="about-version">1.4.0</strong><br>
-      Created by <strong>Ethan Norland</strong>.<br>
-      Released under the <strong>MIT License</strong>. Powered by Three.js.<br>
-      Your work stays in this browser. Nothing is ever uploaded.
+    <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
+      Version: <strong style="color:var(--fg);" id="about-version">1.5.0</strong><br>
+      Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
+      Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
+      100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
     </p>
     <div class="dialog-footer">
       <button class="btn primary" onclick="document.getElementById('dlg-about').close()">Close</button>
@@ -927,7 +1007,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.4.0",
+      version: "1.5.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -1223,7 +1303,31 @@
       document.getElementById("dlg-help").close();
     }
 
-    document.getElementById("btn-help").addEventListener("click", () => document.getElementById("dlg-help").showModal());
+    const helpSearchInput = document.getElementById("help-search");
+    if (helpSearchInput) {
+      helpSearchInput.addEventListener("input", e => {
+        const query = e.target.value.trim().toLowerCase();
+        const items = document.querySelectorAll("#help-items-container .help-item");
+        let matchesCount = 0;
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          const keywords = (item.getAttribute("data-keywords") || "").toLowerCase();
+          const isMatch = !query || text.includes(query) || keywords.includes(query);
+          item.style.display = isMatch ? "block" : "none";
+          if (isMatch) matchesCount++;
+        });
+        const noResults = document.getElementById("help-no-results");
+        if (noResults) noResults.style.display = matchesCount === 0 ? "block" : "none";
+      });
+    }
+
+    document.getElementById("btn-help").addEventListener("click", () => {
+      if (helpSearchInput) {
+        helpSearchInput.value = "";
+        helpSearchInput.dispatchEvent(new Event("input"));
+      }
+      document.getElementById("dlg-help").showModal();
+    });
     document.getElementById("btn-about").addEventListener("click", () => document.getElementById("dlg-about").showModal());
 
     // ── THREE.JS STAGE & SCENE SETUP ─────────────────────────────────────────
@@ -1297,6 +1401,12 @@
     selectionRingMesh.rotation.x = Math.PI / 2;
     selectionRingMesh.visible = false;
     scene.add(selectionRingMesh);
+
+    // Wrist Preview Mode state & objects (Part 4)
+    let isWristViewActive = false;
+    let wristMesh = null;
+    let currentSkinTone = "#D8A684";
+    let wristSkinMat = null;
 
     // ── MONOGRAM INSCRIBED TEXTURE GENERATOR ─────────────────────────────────
     function hexToRgb(hex) {
@@ -1682,6 +1792,103 @@
       return (doc.wristMm / (2 * Math.PI)) * 0.26;
     }
 
+    // ── WRIST PREVIEW MODE LOGIC (PART 4) ───────────────────────────────────
+    function getWristSkinMaterial(colorHex) {
+      if (!wristSkinMat) {
+        wristSkinMat = new THREE.MeshStandardMaterial({
+          color: new THREE.Color(colorHex),
+          roughness: 0.72,
+          metalness: 0.0,
+          envMapIntensity: 0.35
+        });
+      } else {
+        wristSkinMat.color.set(colorHex);
+      }
+      return wristSkinMat;
+    }
+
+    function buildWristGeometry(radius) {
+      const rWrist = radius * 0.76;
+      const rForearm = rWrist * 1.16;
+      const rHand = rWrist * 0.92;
+      const length = 18;
+
+      const geo = new THREE.CylinderGeometry(rForearm, rHand, length, 64, 32);
+      // Anatomical flattening (wrists are wider in X than in Z)
+      geo.scale(1.12, 1.0, 0.84);
+
+      const pos = geo.attributes.position;
+      for (let i = 0; i < pos.count; i++) {
+        const y = pos.getY(i);
+        const bend = Math.sin((y / length) * Math.PI) * 0.22;
+        pos.setZ(i, pos.getZ(i) + bend);
+      }
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    function createWristMesh() {
+      const radius = getRadius();
+      const geo = buildWristGeometry(radius);
+      const mat = getWristSkinMaterial(currentSkinTone);
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(0, 0, 0);
+      mesh.name = "wristMesh";
+      return mesh;
+    }
+
+    function syncWristMeshWithCircumference() {
+      if (!wristMesh) return;
+      const radius = getRadius();
+      if (wristMesh.geometry) {
+        wristMesh.geometry.dispose();
+      }
+      wristMesh.geometry = buildWristGeometry(radius);
+    }
+
+    function toggleWristView(forceState) {
+      isWristViewActive = (typeof forceState === "boolean") ? forceState : !isWristViewActive;
+
+      const btnWrist = document.getElementById("btn-wrist");
+      const banner = document.getElementById("wrist-banner");
+      const invitation = document.getElementById("invitation");
+      container.classList.toggle("wrist-active", isWristViewActive);
+
+      if (isWristViewActive) {
+        if (!wristMesh) {
+          wristMesh = createWristMesh();
+          scene.add(wristMesh);
+        } else {
+          syncWristMeshWithCircumference();
+          wristMesh.visible = true;
+        }
+
+        btnWrist.textContent = "Studio View";
+        btnWrist.classList.add("primary");
+        banner.classList.add("active");
+        if (invitation) invitation.style.display = "none";
+
+        // Natural angled wrist camera position
+        camera.position.set(0, 11, 24);
+        controls.target.set(0, 0, 0);
+        controls.update();
+      } else {
+        if (wristMesh) {
+          wristMesh.visible = false;
+        }
+
+        btnWrist.textContent = "Wrist View";
+        btnWrist.classList.remove("primary");
+        banner.classList.remove("active");
+        if (invitation) invitation.style.display = "";
+
+        camera.position.set(0, 16, 26);
+        controls.target.set(0, 0, 0);
+        controls.update();
+      }
+      renderer.render(scene, camera);
+    }
+
     // ── REBUILD 3D SCENE FROM DOC ───────────────────────────────────────────
     function rebuild3DScene() {
       const radius = getRadius();
@@ -1748,6 +1955,10 @@
         braceletGroup.add(mesh);
         beadMeshes.set(b.id, mesh);
       });
+
+      if (isWristViewActive) {
+        syncWristMeshWithCircumference();
+      }
 
       updateSelectionIndicator();
     }
@@ -2117,6 +2328,22 @@
       change(d => d.cordColor = col);
     });
 
+    // ── WRIST VIEW CONTROLS & SKIN TONES (PART 4) ───────────────────────────
+    document.getElementById("btn-wrist").addEventListener("click", () => toggleWristView());
+    document.getElementById("btn-wrist-close")?.addEventListener("click", () => toggleWristView(false));
+
+    document.querySelectorAll("#wrist-skin-tones .tone-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#wrist-skin-tones .tone-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentSkinTone = btn.dataset.color;
+        if (wristMesh && wristSkinMat) {
+          wristSkinMat.color.set(currentSkinTone);
+          renderer.render(scene, camera);
+        }
+      });
+    });
+
     // ── DUPLICATE & DELETE BEAD ACTIONS ─────────────────────────────────────
     function duplicateSelected() {
       const selected = doc.beads.find(b => b.id === doc.selectedId);
@@ -2372,6 +2599,32 @@
       }
     }
     initSession();
+
+    // ── DEEP LINKING & VIEW PARAMETERS (PART 4) ─────────────────────────────
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("view") === "wrist") {
+        const tone = urlParams.get("tone");
+        if (tone) {
+          currentSkinTone = tone;
+          document.querySelectorAll("#wrist-skin-tones .tone-btn").forEach(b => {
+            b.classList.toggle("active", b.dataset.color.toLowerCase() === tone.toLowerCase());
+          });
+        }
+        toggleWristView(true);
+      }
+      if (urlParams.get("dialog") === "about") {
+        document.getElementById("dlg-about").showModal();
+      }
+      if (urlParams.get("dialog") === "help") {
+        document.getElementById("btn-help").click();
+        const q = urlParams.get("q");
+        if (q && helpSearchInput) {
+          helpSearchInput.value = q;
+          helpSearchInput.dispatchEvent(new Event("input"));
+        }
+      }
+    } catch {}
 
     // ── SERVICE WORKER FOR OFFLINE & UPDATE CHIP ────────────────────────────
     const chip = document.getElementById("chip");

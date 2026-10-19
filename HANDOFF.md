@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.4.0`
-- **Phase:** Phase 3 (Autosave, Project Open, Drag-and-Drop, Migration) deployed to GitHub Pages.
+- **Version:** `1.5.0`
+- **Phase:** Phase 4 (Visual Identity, Custom Logo, Wrist Preview, Searchable Help) deployed to GitHub Pages.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -27,14 +27,21 @@
   - **Format Migration:** Validates and normalizes legacy formats and external JSON to ensure clean schema, valid IDs, and safe fallback defaults.
   - **Undoable Loading & Reset:** Project opens and "New Design" resets are snapshot to the undo history stack.
   - **Atelier Feedback:** Unobtrusive brand bar saving indicator (`• Saving…` / `• Saved`) and floating toast notifications.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.4.0 ↻` with update hook.
+- Phase 4 Visual Identity, Custom Logo & Wrist Preview:
+  - **3D Preview on Wrist Mode (`btn-wrist`):** Instant toggle between Studio View and Wrist View draping the active bracelet around an anatomically tapered forearm with realistic skin PBR shader, organic curvature, and dynamic wrist scaling (`syncWristMeshWithCircumference`).
+  - **Skin Tone Swatches:** 4 realistic skin tone presets (Fair `#F4D0BA`, Natural `#D8A684`, Warm Tan `#A66D44`, Deep Rich `#5C3826`) in a floating control banner (`#wrist-banner`) with real-time material updates and dedicated Exit button.
+  - **Brand Mark in Header:** Embedded brand logo (`icon.svg`) directly into the header brand block with balanced vertical centering.
+  - **Custom Logo in About Dialog:** Embedded high-resolution brand mark (`reference/bracelet designer logo.jpg`) within a shadowed editorial card in `dlg-about`, with complete Three.js engine and Antigravity pair programming credits.
+  - **Searchable Help Dialog:** Instant keyword filter (`#help-search`) in `dlg-help` with real-time guide matching and workbench ring highlighting.
+  - **Deep Linking Query Parameters:** Support for `?view=wrist&tone=...`, `?dialog=about`, and `?dialog=help&q=...`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.5.0 ↻` with update hook.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
-## What's Next (Phase 4: Visual Identity, Custom Logo & Audio/Sensory Polish)
-- Full visual audit on target MacBook screen.
-- Verify "Preview on Wrist" lighting fidelity and scale balance.
-- Refine subtle interactive animations and micro-transitions.
+## What's Next (Phase 5: User Testing & Sensory Immersion)
+- Solicit end-user and jeweler feedback on bead sliding fluidity and wrist preview lighting across various screen resolutions.
+- Optional sensory enhancements: subtle tactile audio feedback (soft bead clicks on collision/slide, clasp click) with mute toggle.
+- Extended starter template presets (e.g. Minimalist Gold, Bohemian Stone, Chakra Healer).
 
 ## Rules Learned & Project Constraints
 - Dragging a bead records ONE undo step (pointerdown snapshot, pointerup commit).
@@ -45,3 +52,4 @@
 - Form inputs (`input`, `textarea`, `select`) must be excluded from global single-key shortcuts (`D`, `Delete`, `Backspace`).
 - Symbol vector canvas operations (`drawSymbol`) provide cross-platform consistency without relying on OS-level emoji fonts.
 - Star ExtrudeGeometry created in X-Y plane must be rotated with `geo.rotateY(Math.PI / 2)` to align its front normal along +X (radially outward) and its cord passage along Z.
+- For wrist mesh shader under bright multi-light studio environment, use `MeshStandardMaterial` with `envMapIntensity: 0.35` and call `renderer.render(scene, camera)` synchronously on tone switch for instant visual feedback.
