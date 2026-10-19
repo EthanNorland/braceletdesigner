@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.5.0](https://img.shields.io/badge/Version-1.5.0-lightgrey?style=flat-square)](#)
+[![Version: 1.5.1](https://img.shields.io/badge/Version-1.5.1-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -29,7 +29,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 ---
 
 ## Key Features
-- **3D Preview on Wrist Mode:** Toggle between Studio View and Wrist View with 4 realistic skin tone presets (Fair, Natural, Warm Tan, Deep Rich) and dynamic scaling matching your exact wrist circumference.
+- **3D Preview on Wrist Mode:** Toggle between Studio View and Wrist View to drape your custom bracelet onto an anatomically realistic human arm and gracefully posed hand, featuring 4 skin tone presets (Fair, Natural, Warm Tan, Deep Rich) and dynamic scaling matching your exact wrist circumference.
 - **Searchable Help & Tool Walkthrough:** Real-time keyword filter in the Help dialog with direct links to ring corresponding workbench controls.
 - **Brand Identity & Atelier Logo:** Custom atelier logo mark embedded in the About dialog with complete Three.js engine and open-source attribution.
 - **Continuous Autosave (IndexedDB):** All design changes, bead angles, colors, and cord lengths automatically persist in browser storage across tab reloads.
@@ -42,7 +42,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Fit Calculator:** Real-time millimeter accumulator tracking bracelet fullness against wrist circumference (140mm–220mm).
 - **Studio Lighting & PMREM Reflections:** Multi-point studio lighting with high-contrast atelier backdrop.
 - **Full Undo/Redo & Quick Actions:** Robust history stack, duplicate (`D`), and delete actions.
-- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.5.0 ↻`).
+- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.5.1 ↻`).
 
 ---
 

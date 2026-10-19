@@ -1,5 +1,5 @@
 const APP_ID = "bracelet-designer";
-const VERSION = "1.5.0";
+const VERSION = "1.5.1";
 const CACHE = APP_ID + "-" + VERSION;
 const FILES = [
   "./",
@@ -12,7 +12,9 @@ const FILES = [
   "./reference/bracelet designer logo.jpg",
   "./vendor/three.min.js",
   "./vendor/OrbitControls.js",
-  "./vendor/LICENSE"
+  "./vendor/GLTFLoader.js",
+  "./vendor/LICENSE",
+  "./models/arm_wrist.glb"
 ];
 
 self.addEventListener("install", e => {

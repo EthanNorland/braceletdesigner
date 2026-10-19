@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.1] - 2026-10-19
+
+### Added - Realistic Anatomical Forearm & Posed Hand in Wrist View
+- **Anatomical 3D Arm Model (`models/arm_wrist.glb`):** Replaced the generic geometric cylinder in Wrist Preview mode with a realistic human forearm, wrist, and gracefully posed resting hand:
+  - Sculpted with authentic anatomical landmarks: forearm muscular tapering, distinct ulnar styloid bone prominence on the lateral wrist, carpal wrist recess where the bracelet naturally rests, natural thenar/hypothenar palm contours, and relaxed, gracefully posed fingers and thumb.
+  - High fidelity, lightweight binary glTF asset (273 KB, 5,602 vertices, 5,601 smooth-shaded faces, watertight).
+- **Vendored Three.js GLTFLoader (`vendor/GLTFLoader.js`):** Vendored Three.js r128 GLTFLoader locally, maintaining 100% offline self-containment with zero external CDN dependencies.
+- **Dynamic Anatomical Fit Scaling:** Arm geometry dynamically scales in real time in unison with the wrist circumference slider (140mm–220mm) using calibrated ratio `(wristRadius * 0.76) / 1.95`, ensuring the bracelet encircles the carpal wrist line snugly without clipping or excessive air gaps.
+- **Tuned Studio Shading & Skin Tone Preservation:** Calibrated multi-point studio lights in Wrist View (`keyLight: 1.30`, `fillLight: 0.50`, `ambientLight: 0.60`, `rimLight: 0.35`) to eliminate highlight blowout and preserve rich, natural contrast across all 4 skin tones: Fair (`#F4D0BA`), Natural (`#D8A684`), Warm Tan (`#A66D44`), and Deep Rich (`#5C3826`).
+- **Smooth Orbit Framing & Zoom:** Reframed OrbitControls target to center vertically on the bracelet resting on the wrist with expanded `maxDistance` (75) for fluid inspection.
+- **Pre-cached Offline PWA Support:** Added `vendor/GLTFLoader.js` and `models/arm_wrist.glb` directly to the `sw.js` cache manifest with version bump to `1.5.1`.
+
 ## [1.5.0] - 2026-10-19
 
 ### Added - Phase 4: Visual Identity, Custom Logo & Wrist Preview

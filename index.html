@@ -13,9 +13,10 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="theme-color" content="#0B0E14">
 
-<!-- Vendored Three.js and OrbitControls -->
+<!-- Vendored Three.js, OrbitControls, and GLTFLoader -->
 <script src="vendor/three.min.js"></script>
 <script src="vendor/OrbitControls.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
 
 <style>
   :root {
@@ -919,7 +920,7 @@
   </aside>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.5.0 ↻</button>
+  <button id="chip" title="Check for a newer version">1.5.1 ↻</button>
 
   <!-- Materials List Dialog -->
   <dialog id="dlg-materials">
@@ -940,8 +941,8 @@
       <input type="search" id="help-search" placeholder="Search guides, tools, shortcuts (e.g. wrist, slide, export)..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; background: var(--bg); border: 1px solid var(--panel-border); border-radius: 6px; color: var(--fg); font-family: var(--sans); font-size: 0.85rem;" autocomplete="off">
     </div>
     <div id="help-items-container" style="display:flex; flex-direction:column; gap:10px; margin: 10px 0; max-height:360px; overflow-y:auto; padding-right:4px;">
-      <div class="help-item" data-keywords="wrist view preview drape arm skin tone fit size cylinder anatomy" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-wrist')">
-        <strong>Preview on Wrist:</strong> Toggle <em>Wrist View</em> in the header to drape your bracelet onto an anatomically tapered human forearm with 4 realistic skin tones.
+      <div class="help-item" data-keywords="wrist view preview drape arm skin tone fit size cylinder anatomy realistic hand" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-wrist')">
+        <strong>Preview on Wrist:</strong> Toggle <em>Wrist View</em> in the header to drape your bracelet onto a realistic anatomical human arm and posed hand with 4 skin tones.
       </div>
       <div class="help-item" data-keywords="slide arrange move drag angle circle interactive" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-canvas')">
         <strong>Slide & Arrange:</strong> Click directly on any bead in 3D and drag to slide it along the bracelet curve.
@@ -987,7 +988,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.5.0</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.5.1</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1007,7 +1008,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.5.0",
+      version: "1.5.1",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -1367,7 +1368,7 @@
     controls.dampingFactor = 0.05;
     controls.maxPolarAngle = Math.PI * 0.82;
     controls.minDistance = 8;
-    controls.maxDistance = 45;
+    controls.maxDistance = 75;
 
     // Studio Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
@@ -1792,12 +1793,15 @@
       return (doc.wristMm / (2 * Math.PI)) * 0.26;
     }
 
-    // ── WRIST PREVIEW MODE LOGIC (PART 4) ───────────────────────────────────
+    // ── REAL ARM & WRIST PREVIEW MODE LOGIC ───────────────────────────────────
+    let realArmGeometry = null;
+    let isArmLoading = false;
+
     function getWristSkinMaterial(colorHex) {
       if (!wristSkinMat) {
         wristSkinMat = new THREE.MeshStandardMaterial({
           color: new THREE.Color(colorHex),
-          roughness: 0.72,
+          roughness: 0.68,
           metalness: 0.0,
           envMapIntensity: 0.35
         });
@@ -1807,6 +1811,47 @@
       return wristSkinMat;
     }
 
+    function loadRealArmGeometry(callback) {
+      if (realArmGeometry) {
+        if (callback) callback(realArmGeometry);
+        return;
+      }
+      if (typeof THREE.GLTFLoader === "function") {
+        isArmLoading = true;
+        const loader = new THREE.GLTFLoader();
+        loader.load("models/arm_wrist.glb", gltf => {
+          isArmLoading = false;
+          let mesh = null;
+          gltf.scene.traverse(c => {
+            if (c.isMesh && !mesh) mesh = c;
+          });
+          if (mesh && mesh.geometry) {
+            realArmGeometry = mesh.geometry;
+            if (wristMesh) {
+              wristMesh.geometry = realArmGeometry;
+              wristMesh.material = getWristSkinMaterial(currentSkinTone);
+              const currentR = getRadius();
+              const s = (currentR * 0.76) / 1.95;
+              wristMesh.scale.set(s, s, s);
+              renderer.render(scene, camera);
+            }
+            if (callback) callback(realArmGeometry);
+          } else if (callback) {
+            callback(null);
+          }
+        }, undefined, err => {
+          isArmLoading = false;
+          console.warn("Real arm GLB load error, using procedural fallback:", err);
+          if (callback) callback(null);
+        });
+      } else if (callback) {
+        callback(null);
+      }
+    }
+
+    // Preload real arm model on startup
+    loadRealArmGeometry();
+
     function buildWristGeometry(radius) {
       const rWrist = radius * 0.76;
       const rForearm = rWrist * 1.16;
@@ -1814,7 +1859,6 @@
       const length = 18;
 
       const geo = new THREE.CylinderGeometry(rForearm, rHand, length, 64, 32);
-      // Anatomical flattening (wrists are wider in X than in Z)
       geo.scale(1.12, 1.0, 0.84);
 
       const pos = geo.attributes.position;
@@ -1829,21 +1873,46 @@
 
     function createWristMesh() {
       const radius = getRadius();
-      const geo = buildWristGeometry(radius);
       const mat = getWristSkinMaterial(currentSkinTone);
+      const isReal = !!realArmGeometry;
+      const geo = isReal ? realArmGeometry : buildWristGeometry(radius);
+
       const mesh = new THREE.Mesh(geo, mat);
       mesh.position.set(0, 0, 0);
       mesh.name = "wristMesh";
+      mesh.receiveShadow = true;
+      mesh.castShadow = true;
+
+      if (isReal) {
+        const s = (radius * 0.76) / 1.95;
+        mesh.scale.set(s, s, s);
+      }
+
+      if (!realArmGeometry && !isArmLoading) {
+        loadRealArmGeometry(loadedGeo => {
+          if (loadedGeo && wristMesh && isWristViewActive) {
+            wristMesh.geometry = loadedGeo;
+            const currentR = getRadius();
+            const s = (currentR * 0.76) / 1.95;
+            wristMesh.scale.set(s, s, s);
+            renderer.render(scene, camera);
+          }
+        });
+      }
+
       return mesh;
     }
 
     function syncWristMeshWithCircumference() {
       if (!wristMesh) return;
       const radius = getRadius();
-      if (wristMesh.geometry) {
-        wristMesh.geometry.dispose();
+      if (realArmGeometry && wristMesh.geometry === realArmGeometry) {
+        const s = (radius * 0.76) / 1.95;
+        wristMesh.scale.set(s, s, s);
+      } else {
+        if (wristMesh.geometry) wristMesh.geometry.dispose();
+        wristMesh.geometry = buildWristGeometry(radius);
       }
-      wristMesh.geometry = buildWristGeometry(radius);
     }
 
     function toggleWristView(forceState) {
@@ -1868,11 +1937,22 @@
         banner.classList.add("active");
         if (invitation) invitation.style.display = "none";
 
-        // Natural angled wrist camera position
-        camera.position.set(0, 11, 24);
-        controls.target.set(0, 0, 0);
+        // Dynamic studio lighting tuned for realistic human skin rendering
+        ambientLight.intensity = 0.60;
+        keyLight.intensity = 1.30;
+        fillLight.intensity = 0.50;
+        rimLight.intensity = 0.35;
+
+        // Natural angled wrist camera position framing bracelet, forearm, and posed hand
+        camera.position.set(0, 14, 50);
+        controls.target.set(0, -9, 0);
         controls.update();
       } else {
+        ambientLight.intensity = 0.85;
+        keyLight.intensity = 2.30;
+        fillLight.intensity = 1.50;
+        rimLight.intensity = 1.80;
+
         if (wristMesh) {
           wristMesh.visible = false;
         }
