@@ -633,7 +633,7 @@
           <span id="char-preview-pill" style="color:var(--accent-silver); font-size:0.75rem;">Front Face</span>
         </div>
         <div style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="input-cube-char" maxlength="6" placeholder="—" style="width:48px; height:38px; text-align:center; font-size:1.15rem; font-family:var(--mono); font-weight:700; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; text-transform:uppercase;" title="Choose a symbol (Heart, Cross, Smiley, Peace), letter (A-Z), or number (0-9)">
+          <input type="text" id="input-cube-char" maxlength="6" placeholder="—" style="width:48px; height:38px; text-align:center; font-size:1.15rem; font-family:var(--mono); font-weight:700; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; text-transform:uppercase;" title="Choose a symbol (Heart, Cross, Smiley, Peace, Dash), letter (A-Z), or number (0-9)">
           <select id="select-cube-char" class="btn" style="flex:1; height:38px; padding:0 8px; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; font-family:var(--mono); font-size:0.8rem; cursor:pointer;" title="Choose a symbol, letter (A-Z), number (0-9), or blank">
             <option value="">— Blank (No Engraving) —</option>
             <optgroup label="Symbols">
@@ -641,6 +641,7 @@
               <option value="CROSS">✝ Cross</option>
               <option value="SMILEY">☺ Smiley Face</option>
               <option value="PEACE">☮ Peace Sign</option>
+              <option value="DASH">— Dash</option>
             </optgroup>
             <optgroup label="Letters (A–Z)">
               <option value="A">Letter A</option>
@@ -811,7 +812,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.3.1",
+      version: "1.3.2",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -830,7 +831,7 @@
       claspType: "lobster",
       claspColor: "gold",
       beads: [
-        { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "HEART", angle: Math.PI * 0.45 },
+        { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "DASH", angle: Math.PI * 0.45 },
         { id: 2, type: "bead", shape: "star", material: "metal", color: "#FACC15", sizeMm: 10, angle: Math.PI * 0.35 },
         { id: 3, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.25 },
         { id: 4, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.15 },
@@ -1002,6 +1003,7 @@
       if (s === "✝" || s === "✚" || s === "†" || s === "CROSS") return "CROSS";
       if (s === "☺" || s === "😊" || s === "🙂" || s === "SMILEY" || s === "SMILE") return "SMILEY";
       if (s === "☮" || s === "PEACE") return "PEACE";
+      if (s === "-" || s === "—" || s === "–" || s === "DASH" || s === "HYPHEN" || s === "MINUS") return "DASH";
       const first = s[0];
       if (/^[A-Z0-9]$/.test(first)) return first;
       return "";
@@ -1070,6 +1072,16 @@
         ctx.moveTo(cx, cy);
         ctx.lineTo(cx + r * Math.cos(ang), cy + r * Math.sin(ang));
         ctx.stroke();
+      } else if (symbolKey === "DASH") {
+        const w = 180;
+        const h = 38;
+        ctx.beginPath();
+        if (ctx.roundRect) {
+          ctx.roundRect(cx - w / 2, cy - h / 2, w, h, 6);
+        } else {
+          ctx.rect(cx - w / 2, cy - h / 2, w, h);
+        }
+        ctx.fill();
       }
     }
 
@@ -1099,7 +1111,7 @@
       ctx.lineWidth = 16;
       ctx.strokeRect(36, 36, 440, 440);
 
-      if (["HEART", "CROSS", "SMILEY", "PEACE"].includes(char)) {
+      if (["HEART", "CROSS", "SMILEY", "PEACE", "DASH"].includes(char)) {
         // 3D deboss shadow
         drawSymbol(ctx, char, 256, 266, embossColor);
         // Main crisp symbol
@@ -1580,13 +1592,15 @@
               HEART: "♥",
               CROSS: "✝",
               SMILEY: "☺",
-              PEACE: "☮"
+              PEACE: "☮",
+              DASH: "—"
             };
             const labelMap = {
               HEART: '♥ Heart Engraved',
               CROSS: '✝ Cross Engraved',
               SMILEY: '☺ Smiley Engraved',
-              PEACE: '☮ Peace Engraved'
+              PEACE: '☮ Peace Engraved',
+              DASH: '— Dash Engraved'
             };
             const inputVal = displayMap[normalized] || normalized;
             document.getElementById("input-cube-char").value = inputVal;
@@ -1821,7 +1835,7 @@
     // ── MATERIALS LIST SPEC SHEET GENERATION ────────────────────────────────
     document.getElementById("btn-list").addEventListener("click", () => {
       const counts = {};
-      const symNames = { HEART: "Heart", CROSS: "Cross", SMILEY: "Smiley", PEACE: "Peace" };
+      const symNames = { HEART: "Heart", CROSS: "Cross", SMILEY: "Smiley", PEACE: "Peace", DASH: "Dash" };
       doc.beads.forEach(b => {
         let label = "";
         if (b.shape === "cube" && b.text) {

@@ -4,6 +4,14 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.2] - 2026-10-19
+
+### Added - Dash Inscription Option for Cube Beads
+- **Dash (`—`) Inscription Option:** Added a clean horizontal dash to the cube bead engraving suite, rendered with rounded geometry, 3D debossed drop-shadow depth, and jeweler's hallmark border framing.
+- **Smart Symbol Input & Dropdown:** Added `— Dash` to the Symbols optgroup in the Front Inscription dropdown, and enabled typing or pasting `-`, `—`, `–`, `"dash"`, `"hyphen"`, or `"minus"` directly in the inscription input field.
+- **Spec Sheet Breakdown:** Itemizes dash-engraved cube beads as `[Engraved "Dash"]` in the exported materials recipe.
+- **Version 1.3.2 Bump:** Bumped app version and Service Worker cache key to `1.3.2`.
+
 ## [1.3.1] - 2026-10-19
 
 ### Added - Bracelet Base Type in Spec Sheet & Dedicated Silver/Gold Bead Color Choices
