@@ -4,6 +4,14 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.2] - 2026-10-19
+
+### Changed - Visual Refinements
+- **Restored Atelier Stage Vignette:** Restored the high-contrast midnight navy radial background (`radial-gradient(circle at 50% 45%, #151D2A 0%, #0B0E14 75%)`) to provide optimal contrast, refraction, and internal glow for translucent glass beads and faceted quartz crystals.
+- **Glass & Crystal Material Clarity:** By removing the opaque white background behind the 3D canvas, physically based transmission shaders for glass and crystal now cleanly sample the darker vignette, highlighting refraction, specular rim highlights, and rich material depth.
+- **Atelier Selection Indicator:** Reverted bead selection halo to sterling silver (`#88A4C4`), harmonizing with the quiet luxury palette.
+- **Retained Authentic Lobster Claw & PMREM Reflections:** Maintained the anatomically faithful 3D lobster claw clasp geometry and studio PMREM reflection environment so all metals, clasps, and beads sparkle with authentic jeweler's luster.
+
 ## [1.1.1] - 2026-10-19
 
 ### Changed - Visual Refinements

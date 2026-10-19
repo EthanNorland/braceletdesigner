@@ -1,7 +1,7 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.1.1`
+- **Version:** `1.1.2`
 - **Phase:** Phase 2 (The Core Loop) + Visual Polish deployed to GitHub Pages.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
