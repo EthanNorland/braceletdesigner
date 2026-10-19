@@ -332,6 +332,12 @@
     text-align: center;
   }
 
+  .item-grid.cols-2 .item-thumb {
+    aspect-ratio: auto;
+    padding: 8px 10px;
+    min-height: 32px;
+  }
+
   .item-thumb:hover {
     border-color: var(--accent-blue);
     color: var(--fg);
@@ -702,6 +708,14 @@
         <div class="swatch" style="background:#EF4444;" data-color="#EF4444" title="Coral Red"></div>
         <input type="color" id="picker-bead-color" value="#38BDF8" title="Custom color picker">
       </div>
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <button type="button" class="btn" id="bead-col-silver" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;" title="Set bead color to Sterling Silver">
+          <span style="width:10px; height:10px; border-radius:50%; background:#E2E8F0; border:1px solid #CBD5E1; display:inline-block;"></span> Silver
+        </button>
+        <button type="button" class="btn" id="bead-col-gold" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;" title="Set bead color to Polished Gold">
+          <span style="width:10px; height:10px; border-radius:50%; background:#FACC15; border:1px solid #EAB308; display:inline-block;"></span> Gold
+        </button>
+      </div>
     </div>
 
     <!-- Bracelet Base Properties -->
@@ -797,7 +811,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.3.0",
+      version: "1.3.1",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -1591,6 +1605,11 @@
           sw.classList.toggle("active", sw.dataset.color.toLowerCase() === selected.color.toLowerCase());
         });
         document.getElementById("picker-bead-color").value = selected.color;
+
+        const isSilver = selected.color.toUpperCase() === "#E2E8F0";
+        const isGold = selected.color.toUpperCase() === "#FACC15";
+        document.getElementById("bead-col-silver")?.classList.toggle("active", isSilver);
+        document.getElementById("bead-col-gold")?.classList.toggle("active", isGold);
       }
 
       // Wrist Circumference
@@ -1733,6 +1752,20 @@
       });
     });
 
+    document.getElementById("bead-col-silver")?.addEventListener("click", () => {
+      change(d => {
+        const bead = d.beads.find(b => b.id === d.selectedId);
+        if (bead) bead.color = "#E2E8F0";
+      });
+    });
+
+    document.getElementById("bead-col-gold")?.addEventListener("click", () => {
+      change(d => {
+        const bead = d.beads.find(b => b.id === d.selectedId);
+        if (bead) bead.color = "#FACC15";
+      });
+    });
+
     // ── BRACELET BASE CONTROLS ──────────────────────────────────────────────
     document.getElementById("slider-wrist-size").addEventListener("input", e => {
       const val = parseInt(e.target.value);
@@ -1800,17 +1833,36 @@
         counts[label] = (counts[label] || 0) + 1;
       });
 
+      const baseTypeNames = {
+        silver: "Sterling Silver Chain",
+        gold: "Gold Link Chain",
+        cord: `Woven Jewelry Cord (${doc.cordColor})`,
+        leather: "Stitched Leather Cord"
+      };
+      const baseTypeLabel = baseTypeNames[doc.cordType] || doc.cordType.toUpperCase();
+
+      const claspNames = {
+        magnetic: "Magnetic Cylinder Clasp",
+        lobster: "Lobster Claw Clasp",
+        screw: "Screw-in Barrel Clasp"
+      };
+      const claspMat = doc.claspColor === "gold" ? "Polished Gold" : "Sterling Silver";
+      const claspLabel = `${claspMat} ${claspNames[doc.claspType] || doc.claspType.toUpperCase()}`;
+
       let text = `========================================\n`;
       text += `BRACELET DESIGNER — MATERIALS SPEC SHEET\n`;
       text += `========================================\n\n`;
       text += `• Wrist Circumference: ${doc.wristMm} mm (${(doc.wristMm / 25.4).toFixed(1)} inches)\n`;
-      text += `• Bracelet Cord:       ${doc.cordType.toUpperCase()} ${doc.cordType === 'cord' ? '(' + doc.cordColor + ')' : ''}\n`;
-      text += `• Clasp Type:          ${doc.claspType.toUpperCase()} (${doc.claspColor.toUpperCase()})\n`;
+      text += `• Bracelet Base Type:  ${baseTypeLabel}\n`;
+      text += `• Clasp Mechanism:     ${claspLabel}\n`;
       text += `• Total Beads/Spacers: ${doc.beads.length} items\n\n`;
       text += `PARTS BREAKDOWN:\n`;
       text += `----------------------------------------\n`;
-      Object.entries(counts).forEach(([item, qty], i) => {
-        text += `${i + 1}. [Qty: ${qty}]  ${item}\n`;
+      let itemIdx = 1;
+      text += `${itemIdx++}. [Qty: 1]  Bracelet Base: ${baseTypeLabel} (~${doc.wristMm}mm length)\n`;
+      text += `${itemIdx++}. [Qty: 1]  Clasp: ${claspLabel}\n`;
+      Object.entries(counts).forEach(([item, qty]) => {
+        text += `${itemIdx++}. [Qty: ${qty}]  ${item}\n`;
       });
       text += `----------------------------------------\n`;
       text += `Ready to assemble by hand or order from artisan.`;

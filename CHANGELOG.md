@@ -4,6 +4,13 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.1] - 2026-10-19
+
+### Added - Bracelet Base Type in Spec Sheet & Dedicated Silver/Gold Bead Color Choices
+- **Bracelet Base Type in Materials Spec Sheet:** The materials list now itemizes the selected bracelet base type (`Sterling Silver Chain`, `Gold Link Chain`, `Woven Jewelry Cord (Color: ...)` or `Stitched Leather Cord`) in both the header summary and as item #1 in the parts breakdown, along with the tailored wrist length (~mm) and clasp mechanism.
+- **Dedicated Silver & Gold Bead Color Choices:** Added prominent, always-visible **Silver** and **Gold** button options directly under the bead color swatches in the Properties panel, allowing instant one-click switching to authentic sterling silver (`#E2E8F0`) or polished gold (`#FACC15`) with active state tracking.
+- **Version 1.3.1 Bump:** Bumped app version and Service Worker cache key to `1.3.1`.
+
 ## [1.3.0] - 2026-10-19
 
 ### Added - Celestial Star Bead & Symbol Engravings (Heart, Cross, Smiley, Peace)
