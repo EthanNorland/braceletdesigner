@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.1.2](https://img.shields.io/badge/Version-1.1.2-lightgrey?style=flat-square)](#)
+[![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -28,13 +28,16 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 
 ---
 
-## Features (Phase 1 Walking Skeleton)
-
-- **Interactive 3D Stage:** Real-time Three.js WebGL scene with realistic lighting and smooth trackpad/touch orbit controls.
-- **Tabletop Materials:** Physically based shaders for translucent glass, crackle quartz crystal, deep lapis lazuli stone, and reflective silver/gold metals.
-- **Inviting Default State:** Opens immediately on a starter bracelet cord with a magnetic clasp and 3 beads gently turning under studio light.
-- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.0.0 ↻`).
-- **Quiet Luxury Register:** Midnight Navy & Sterling Silver interface palette.
+## Key Features
+- **Direct 3D Raycasting ("Slide"):** Direct click-and-drag interaction allowing users to slide any bead or spacer along the 3D bracelet curve in real time.
+- **5 Bead Geometries:** Sphere, Faceted crystal, Rondelle, Barrel, and **Cube** beads with realistic edge bevels.
+- **Front Monogram & Initial Engraving:** Monogram cube beads with custom capital letters (A–Z) or numbers (0–9) rendered with dynamic debossed typography and hallmark border.
+- **Interactive Palette & Clasps:** Select from Magnetic, Lobster Claw, and Screw-In clasps in polished Gold or Silver; string discs and carved spacers.
+- **Physically Based Materials:** Shaders for translucent glass, crackle quartz, stone, precious metals, and polished wood.
+- **Fit Calculator:** Real-time millimeter accumulator tracking bracelet fullness against wrist circumference (140mm–220mm).
+- **Studio Lighting & PMREM Reflections:** Multi-point studio lighting with high-contrast atelier backdrop.
+- **Full Undo/Redo & Quick Actions:** Robust history stack, duplicate (`D`), and delete actions.
+- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.2.0 ↻`).
 
 ---
 

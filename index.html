@@ -301,6 +301,16 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .item-grid.cols-5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  #input-cube-char:focus,
+  #select-cube-char:focus {
+    border-color: var(--accent-blue) !important;
+    outline: none;
+  }
+
   .item-thumb {
     aspect-ratio: 1.1;
     background: var(--panel);
@@ -526,6 +536,7 @@
         <div class="item-thumb" id="add-faceted" title="Add a geometric faceted crystal bead">◆ Faceted</div>
         <div class="item-thumb" id="add-rondelle" title="Add a flattened circular rondelle bead">⬭ Rondelle</div>
         <div class="item-thumb" id="add-barrel" title="Add a cylindrical barrel bead">❚ Barrel</div>
+        <div class="item-thumb" id="add-cube" title="Add a geometric cube bead with optional monogram">■ Cube</div>
       </div>
     </div>
 
@@ -592,6 +603,70 @@
           <span class="control-val" id="val-bead-size">10 mm</span>
         </div>
         <input type="range" id="slider-bead-size" min="6" max="16" value="10" step="1" title="Adjust selected bead diameter in millimeters">
+      </div>
+
+      <div class="section-title" style="margin-top:14px;">Bead Shape</div>
+      <div class="item-grid cols-5" id="bead-shape-grid">
+        <div class="item-thumb active" id="shape-sphere" title="Spherical bead">●</div>
+        <div class="item-thumb" id="shape-faceted" title="Faceted crystal">◆</div>
+        <div class="item-thumb" id="shape-rondelle" title="Rondelle spacer">⬭</div>
+        <div class="item-thumb" id="shape-barrel" title="Barrel bead">❚</div>
+        <div class="item-thumb" id="shape-cube" title="Cube monogram bead">■</div>
+      </div>
+
+      <!-- Cube Inscription (Visible only when a cube bead is selected) -->
+      <div id="cube-inscription-section" style="display:none; margin-top:14px;">
+        <div class="section-title">
+          <span>Front Inscription</span>
+          <span id="char-preview-pill" style="color:var(--accent-silver); font-size:0.75rem;">Front Face</span>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <input type="text" id="input-cube-char" maxlength="1" placeholder="—" style="width:48px; height:38px; text-align:center; font-size:1.15rem; font-family:var(--mono); font-weight:700; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; text-transform:uppercase;" title="Type a single capital letter (A-Z) or number (0-9)">
+          <select id="select-cube-char" class="btn" style="flex:1; height:38px; padding:0 8px; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; font-family:var(--mono); font-size:0.8rem; cursor:pointer;" title="Choose a letter (A-Z), number (0-9), or blank">
+            <option value="">— Blank (No Engraving) —</option>
+            <optgroup label="Letters (A–Z)">
+              <option value="A">Letter A</option>
+              <option value="B">Letter B</option>
+              <option value="C">Letter C</option>
+              <option value="D">Letter D</option>
+              <option value="E">Letter E</option>
+              <option value="F">Letter F</option>
+              <option value="G">Letter G</option>
+              <option value="H">Letter H</option>
+              <option value="I">Letter I</option>
+              <option value="J">Letter J</option>
+              <option value="K">Letter K</option>
+              <option value="L">Letter L</option>
+              <option value="M">Letter M</option>
+              <option value="N">Letter N</option>
+              <option value="O">Letter O</option>
+              <option value="P">Letter P</option>
+              <option value="Q">Letter Q</option>
+              <option value="R">Letter R</option>
+              <option value="S">Letter S</option>
+              <option value="T">Letter T</option>
+              <option value="U">Letter U</option>
+              <option value="V">Letter V</option>
+              <option value="W">Letter W</option>
+              <option value="X">Letter X</option>
+              <option value="Y">Letter Y</option>
+              <option value="Z">Letter Z</option>
+            </optgroup>
+            <optgroup label="Numbers (0–9)">
+              <option value="0">Number 0</option>
+              <option value="1">Number 1</option>
+              <option value="2">Number 2</option>
+              <option value="3">Number 3</option>
+              <option value="4">Number 4</option>
+              <option value="5">Number 5</option>
+              <option value="6">Number 6</option>
+              <option value="7">Number 7</option>
+              <option value="8">Number 8</option>
+              <option value="9">Number 9</option>
+            </optgroup>
+          </select>
+          <button class="btn" id="btn-clear-char" title="Clear engraving" style="padding:0 12px; height:38px;">✕</button>
+        </div>
       </div>
 
       <div class="section-title" style="margin-top:14px;">Material Type</div>
@@ -710,7 +785,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.1.2",
+      version: "1.2.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -729,15 +804,16 @@
       claspType: "lobster",
       claspColor: "gold",
       beads: [
-        { id: 1, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.4 },
-        { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.3 },
-        { id: 3, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.2 },
-        { id: 4, type: "spacer", shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, angle: Math.PI * 0.1 }
+        { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "A", angle: Math.PI * 0.4 },
+        { id: 2, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.3 },
+        { id: 3, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.2 },
+        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.1 },
+        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, angle: Math.PI * 0.0 }
       ],
       selectedId: 1
     };
 
-    let nextBeadId = 5;
+    let nextBeadId = 6;
 
     // ── UNDO / REDO HISTORY STACK ───────────────────────────────────────────
     const undoStack = [];
@@ -768,7 +844,7 @@
 
     // Keyboard Shortcuts
     window.addEventListener("keydown", e => {
-      if (e.target.matches("input, textarea")) return;
+      if (e.target.matches("input, textarea, select")) return;
       const mod = e.metaKey || e.ctrlKey;
       if (mod && e.key.toLowerCase() === "z") {
         e.preventDefault();
@@ -882,6 +958,62 @@
     selectionRingMesh.visible = false;
     scene.add(selectionRingMesh);
 
+    // ── MONOGRAM INSCRIBED TEXTURE GENERATOR ─────────────────────────────────
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : { r: 240, g: 240, b: 240 };
+    }
+
+    const textTextureCache = new Map();
+
+    function createInscribedTexture(char, bgColorHex) {
+      const key = `${char}_${bgColorHex}`;
+      if (textTextureCache.has(key)) return textTextureCache.get(key);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = bgColorHex;
+      ctx.fillRect(0, 0, 512, 512);
+
+      const rgb = hexToRgb(bgColorHex);
+      const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+      const isLight = brightness > 140;
+
+      const fontColor = isLight ? "#0B0E14" : "#F8FAFC";
+      const embossColor = isLight ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.5)";
+
+      // Inner border frame (delicate jeweler's hallmark)
+      ctx.strokeStyle = isLight ? "rgba(0,0,0,0.18)" : "rgba(255,255,255,0.25)";
+      ctx.lineWidth = 16;
+      ctx.strokeRect(36, 36, 440, 440);
+
+      // Engraved typography
+      ctx.font = "bold 280px Georgia, 'Cinzel', serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      // 3D deboss shadow
+      ctx.fillStyle = embossColor;
+      ctx.fillText(char, 256, 266);
+
+      // Main crisp letter/number
+      ctx.fillStyle = fontColor;
+      ctx.fillText(char, 256, 256);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.anisotropy = 8;
+      texture.needsUpdate = true;
+      textTextureCache.set(key, texture);
+      return texture;
+    }
+
     // ── MATERIAL GENERATORS ─────────────────────────────────────────────────
     function getPBRMaterial(type, colorHex) {
       const col = new THREE.Color(colorHex);
@@ -943,6 +1075,10 @@
         }
         case "barrel":
           return new THREE.CylinderGeometry(radius * 0.85, radius * 0.85, radius * 1.5, 32);
+        case "cube": {
+          const s = radius * 1.65;
+          return new THREE.BoxGeometry(s, s, s);
+        }
         case "carved": {
           const group = new THREE.Group();
           return new THREE.CylinderGeometry(radius * 0.9, radius * 0.9, radius * 1.2, 24);
@@ -1114,9 +1250,28 @@
 
       doc.beads.forEach(b => {
         const beadRadius = (b.sizeMm / 10) * 0.75;
-        const geo = createBeadGeometry(b.shape, beadRadius);
-        const mat = getPBRMaterial(b.material, b.color);
-        const mesh = new THREE.Mesh(geo, mat);
+        let mesh;
+        if (b.shape === "cube") {
+          const s = beadRadius * 1.65;
+          const boxGeo = new THREE.BoxGeometry(s, s, s);
+          const baseMat = getPBRMaterial(b.material, b.color);
+          if (b.text && b.text.trim()) {
+            const char = b.text.trim().toUpperCase()[0];
+            const faceTex = createInscribedTexture(char, b.color);
+            const faceMat = baseMat.clone();
+            faceMat.color.setHex(0xFFFFFF);
+            faceMat.map = faceTex;
+            faceMat.needsUpdate = true;
+            // Face 0 is +X (radially outward towards user); Face 1 is -X (inward)
+            mesh = new THREE.Mesh(boxGeo, [faceMat, faceMat, baseMat, baseMat, baseMat, baseMat]);
+          } else {
+            mesh = new THREE.Mesh(boxGeo, baseMat);
+          }
+        } else {
+          const geo = createBeadGeometry(b.shape, beadRadius);
+          const mat = getPBRMaterial(b.material, b.color);
+          mesh = new THREE.Mesh(geo, mat);
+        }
         mesh.userData = { id: b.id };
 
         // Position on circle based on angle
@@ -1265,9 +1420,27 @@
       const selected = doc.beads.find(b => b.id === doc.selectedId) || doc.beads[0];
       if (selected) {
         doc.selectedId = selected.id;
-        document.getElementById("selected-index-badge").textContent = `ID #${selected.id} (${selected.shape})`;
+        const isCube = selected.shape === "cube";
+        document.getElementById("selected-index-badge").textContent = `ID #${selected.id} (${selected.shape.toUpperCase()})`;
         document.getElementById("val-bead-size").textContent = `${selected.sizeMm} mm`;
         document.getElementById("slider-bead-size").value = selected.sizeMm;
+
+        // Active bead shape in Properties Inspector
+        ["sphere", "faceted", "rondelle", "barrel", "cube"].forEach(s => {
+          document.getElementById(`shape-${s}`)?.classList.toggle("active", selected.shape === s);
+        });
+
+        // Cube Inscription UI
+        const insSection = document.getElementById("cube-inscription-section");
+        if (insSection) {
+          insSection.style.display = isCube ? "block" : "none";
+          if (isCube) {
+            const char = (selected.text || "").toUpperCase();
+            document.getElementById("input-cube-char").value = char;
+            document.getElementById("select-cube-char").value = char;
+            document.getElementById("char-preview-pill").textContent = char ? `"${char}" Engraved` : "Blank";
+          }
+        }
 
         // Active material thumb
         ["glass", "quartz", "stone", "metal", "wood"].forEach(m => {
@@ -1308,7 +1481,7 @@
     }
 
     // ── ELEMENT PALETTE ACTIONS (ADD BEADS & SPACERS) ───────────────────────
-    function addBead(shape, material = "glass", color = "#38BDF8", sizeMm = 10, isSpacer = false) {
+    function addBead(shape, material = "glass", color = "#38BDF8", sizeMm = 10, isSpacer = false, text = "") {
       change(d => {
         // Find next open angle around the circle
         const lastAngle = d.beads.length > 0 ? d.beads[d.beads.length - 1].angle : Math.PI * 0.5;
@@ -1322,7 +1495,8 @@
           material: material,
           color: color,
           sizeMm: sizeMm,
-          angle: newAngle
+          angle: newAngle,
+          text: shape === "cube" ? (text || "A") : undefined
         });
         d.selectedId = newId;
       });
@@ -1332,6 +1506,7 @@
     document.getElementById("add-faceted").addEventListener("click", () => addBead("faceted", "quartz", "#F8FAFC", 10));
     document.getElementById("add-rondelle").addEventListener("click", () => addBead("rondelle", "stone", "#1E40AF", 8));
     document.getElementById("add-barrel").addEventListener("click", () => addBead("barrel", "wood", "#78350F", 12));
+    document.getElementById("add-cube").addEventListener("click", () => addBead("cube", "stone", "#F8FAFC", 10, false, "A"));
 
     document.getElementById("add-spacer-silver").addEventListener("click", () => addBead("rondelle", "metal", "#E2E8F0", 6, true));
     document.getElementById("add-spacer-gold").addEventListener("click", () => addBead("rondelle", "metal", "#FACC15", 6, true));
@@ -1351,6 +1526,47 @@
         const bead = d.beads.find(b => b.id === d.selectedId);
         if (bead) bead.sizeMm = val;
       });
+    });
+
+    // Shape switcher in Properties Inspector
+    ["sphere", "faceted", "rondelle", "barrel", "cube"].forEach(s => {
+      document.getElementById(`shape-${s}`)?.addEventListener("click", () => {
+        change(d => {
+          const bead = d.beads.find(b => b.id === d.selectedId);
+          if (bead) {
+            bead.shape = s;
+            if (s === "cube" && (bead.text === undefined || bead.text === null)) {
+              bead.text = "A";
+            }
+          }
+        });
+      });
+    });
+
+    // Inscription controls for Cube beads
+    function setCubeChar(raw) {
+      let char = (raw || "").trim().toUpperCase();
+      if (char && !/^[A-Z0-9]$/.test(char)) {
+        char = "";
+      }
+      change(d => {
+        const bead = d.beads.find(b => b.id === d.selectedId);
+        if (bead && bead.shape === "cube") {
+          bead.text = char;
+        }
+      });
+    }
+
+    document.getElementById("input-cube-char").addEventListener("input", e => {
+      setCubeChar(e.target.value);
+    });
+
+    document.getElementById("select-cube-char").addEventListener("change", e => {
+      setCubeChar(e.target.value);
+    });
+
+    document.getElementById("btn-clear-char").addEventListener("click", () => {
+      setCubeChar("");
     });
 
     ["glass", "quartz", "stone", "metal", "wood"].forEach(m => {
@@ -1436,7 +1652,9 @@
     document.getElementById("btn-list").addEventListener("click", () => {
       const counts = {};
       doc.beads.forEach(b => {
-        const key = `${b.sizeMm}mm ${b.material.toUpperCase()} ${b.shape} (${b.color})`;
+        const key = b.shape === "cube" && b.text ?
+          `${b.sizeMm}mm ${b.material.toUpperCase()} CUBE [Engraved "${b.text}"] (${b.color})` :
+          `${b.sizeMm}mm ${b.material.toUpperCase()} ${b.shape.toUpperCase()} (${b.color})`;
         counts[key] = (counts[key] || 0) + 1;
       });
 

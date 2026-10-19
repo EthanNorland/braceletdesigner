@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-10-19
+
+### Added - Cube Bead Shape & Front Monogram Engraving
+- **Cube Bead Shape Option:** Added "■ Cube" bead button to the Left Palette and an interactive 5-item shape switcher (`Sphere`, `Faceted`, `Rondelle`, `Barrel`, `Cube`) in the Properties panel, allowing beads to be added or converted directly to cubes.
+- **Front Face Monogram Engraving (A–Z, 0–9):** Added a dedicated "Front Inscription" inspector for cube beads featuring both a single-character uppercase input field and a comprehensive dropdown selector with Blank/None, Letters A–Z, and Numbers 0–9, complete with a 1-click Clear button.
+- **Dynamic Jeweler's Canvas Texture:** Engraved characters are rendered onto an outward-facing (+X) 512×512 texture using high-contrast debossed serif typography and an elegant jeweler's hallmark border, adjusting text color dynamically for dark or light bead materials.
+- **Materials Spec Sheet Itemization:** Updated the Materials Spec Sheet generator and 1-click clipboard breakdown to specifically itemize engraved cube beads (e.g. `10mm STONE CUBE [Engraved "A"]`).
+- **Version 1.2.0 Bump:** Bumped app version and Service Worker cache key to `1.2.0`.
+
 ## [1.1.2] - 2026-10-19
 
 ### Changed - Visual Refinements
