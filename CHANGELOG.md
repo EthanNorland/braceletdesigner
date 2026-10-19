@@ -4,6 +4,13 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.2] - 2026-10-19
+
+### Fixed - Watertight Arm Capping & Anterior Surface Cleanup
+- **Top-View Solid Arm Dome Cap:** Capped the proximal end of the forearm mesh with an apex dome fan, eliminating the open cavity and preventing users from seeing inside the hollow arm when orbiting to the top view.
+- **Deleted Anterior Skin Flap & Seam:** Cleaned wrist cap face deletion at the boundary plane ($Z > 0.41$), eliminating a 4-edge non-manifold vertex that previously caused a double-walled flap of excess skin to hang over the anterior surface.
+- **100% Watertight Manifold Mesh:** Eliminated all boundary edges ($0$ boundary edges remaining), cleared custom split normals, and recalculated smooth organic surface shading across all 5,618 vertices.
+
 ## [1.5.1] - 2026-10-19
 
 ### Added - Realistic Anatomical Forearm & Posed Hand in Wrist View
