@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - 2026-10-19
+
+### Added - Celestial Star Bead & Symbol Engravings (Heart, Cross, Smiley, Peace)
+- **Celestial Star Bead Shape:** Added "★ Star" to the Left Palette and an expanded 6-shape switcher (`Sphere`, `Faceted`, `Rondelle`, `Barrel`, `Cube`, `Star`) in the Properties panel. Uses an extruded 5-pointed geometry with smooth jeweler's bevels, standing upright with its silhouette facing outward and threaded tangentially along the cord.
+- **Heart, Cross, Smiley Face & Peace Engravings:** Added 4 iconic jewelry symbol inscriptions to cube beads:
+  - **Heart (`♥`):** Plump symmetrical jeweler's heart with debossed 3D drop-shadow.
+  - **Cross (`✝`):** Balanced Latin cross with rounded geometry and clean proportions.
+  - **Smiley Face (`☺`):** Classic smiley with outer ring, dual eyes, and cheerful arc.
+  - **Peace Sign (`☮`):** Authentic peace symbol with vertical stem and 45° angled struts.
+- **Smart Inscription Controls:** Added a dedicated "Symbols" group in the Front Inscription dropdown and enhanced the input field to accept direct characters (`♥`, `✝`, `☺`, `☮`), keywords ("heart", "cross", "smile", "peace"), or capital letters (`A–Z`) and numbers (`0–9`).
+- **Enhanced Materials Spec Sheet:** Spec sheet itemizes engraved symbols cleanly (e.g. `10mm STONE CUBE [Engraved "Heart"]`) and lists star beads (`10mm METAL STAR`).
+- **Starter Showcase:** Updated starter bracelet to display both the Heart engraved cube and a gleaming Gold Star bead upon initial load.
+- **Version 1.3.0 Bump:** Bumped app version and Service Worker cache key to `1.3.0`.
+
 ## [1.2.0] - 2026-10-19
 
 ### Added - Cube Bead Shape & Front Monogram Engraving

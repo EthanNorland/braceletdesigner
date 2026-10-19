@@ -305,6 +305,10 @@
     grid-template-columns: repeat(5, 1fr);
   }
 
+  .item-grid.cols-6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
   #input-cube-char:focus,
   #select-cube-char:focus {
     border-color: var(--accent-blue) !important;
@@ -537,6 +541,7 @@
         <div class="item-thumb" id="add-rondelle" title="Add a flattened circular rondelle bead">⬭ Rondelle</div>
         <div class="item-thumb" id="add-barrel" title="Add a cylindrical barrel bead">❚ Barrel</div>
         <div class="item-thumb" id="add-cube" title="Add a geometric cube bead with optional monogram">■ Cube</div>
+        <div class="item-thumb" id="add-star" title="Add a celestial 5-pointed star bead">★ Star</div>
       </div>
     </div>
 
@@ -606,12 +611,13 @@
       </div>
 
       <div class="section-title" style="margin-top:14px;">Bead Shape</div>
-      <div class="item-grid cols-5" id="bead-shape-grid">
+      <div class="item-grid cols-6" id="bead-shape-grid">
         <div class="item-thumb active" id="shape-sphere" title="Spherical bead">●</div>
         <div class="item-thumb" id="shape-faceted" title="Faceted crystal">◆</div>
         <div class="item-thumb" id="shape-rondelle" title="Rondelle spacer">⬭</div>
         <div class="item-thumb" id="shape-barrel" title="Barrel bead">❚</div>
         <div class="item-thumb" id="shape-cube" title="Cube monogram bead">■</div>
+        <div class="item-thumb" id="shape-star" title="Star bead">★</div>
       </div>
 
       <!-- Cube Inscription (Visible only when a cube bead is selected) -->
@@ -621,9 +627,15 @@
           <span id="char-preview-pill" style="color:var(--accent-silver); font-size:0.75rem;">Front Face</span>
         </div>
         <div style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="input-cube-char" maxlength="1" placeholder="—" style="width:48px; height:38px; text-align:center; font-size:1.15rem; font-family:var(--mono); font-weight:700; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; text-transform:uppercase;" title="Type a single capital letter (A-Z) or number (0-9)">
-          <select id="select-cube-char" class="btn" style="flex:1; height:38px; padding:0 8px; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; font-family:var(--mono); font-size:0.8rem; cursor:pointer;" title="Choose a letter (A-Z), number (0-9), or blank">
+          <input type="text" id="input-cube-char" maxlength="6" placeholder="—" style="width:48px; height:38px; text-align:center; font-size:1.15rem; font-family:var(--mono); font-weight:700; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; text-transform:uppercase;" title="Choose a symbol (Heart, Cross, Smiley, Peace), letter (A-Z), or number (0-9)">
+          <select id="select-cube-char" class="btn" style="flex:1; height:38px; padding:0 8px; background:var(--panel); border:1px solid var(--panel-border); color:var(--fg); border-radius:6px; font-family:var(--mono); font-size:0.8rem; cursor:pointer;" title="Choose a symbol, letter (A-Z), number (0-9), or blank">
             <option value="">— Blank (No Engraving) —</option>
+            <optgroup label="Symbols">
+              <option value="HEART">♥ Heart</option>
+              <option value="CROSS">✝ Cross</option>
+              <option value="SMILEY">☺ Smiley Face</option>
+              <option value="PEACE">☮ Peace Sign</option>
+            </optgroup>
             <optgroup label="Letters (A–Z)">
               <option value="A">Letter A</option>
               <option value="B">Letter B</option>
@@ -785,7 +797,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.2.0",
+      version: "1.3.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -804,16 +816,17 @@
       claspType: "lobster",
       claspColor: "gold",
       beads: [
-        { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "A", angle: Math.PI * 0.4 },
-        { id: 2, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.3 },
-        { id: 3, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.2 },
-        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.1 },
-        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, angle: Math.PI * 0.0 }
+        { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "HEART", angle: Math.PI * 0.45 },
+        { id: 2, type: "bead", shape: "star", material: "metal", color: "#FACC15", sizeMm: 10, angle: Math.PI * 0.35 },
+        { id: 3, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.25 },
+        { id: 4, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.15 },
+        { id: 5, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.05 },
+        { id: 6, type: "spacer", shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, angle: -Math.PI * 0.05 }
       ],
       selectedId: 1
     };
 
-    let nextBeadId = 6;
+    let nextBeadId = 7;
 
     // ── UNDO / REDO HISTORY STACK ───────────────────────────────────────────
     const undoStack = [];
@@ -968,6 +981,84 @@
       } : { r: 240, g: 240, b: 240 };
     }
 
+    function normalizeInscription(raw) {
+      if (!raw) return "";
+      const s = String(raw).trim().toUpperCase();
+      if (s === "♥" || s === "❤" || s === "♡" || s === "HEART") return "HEART";
+      if (s === "✝" || s === "✚" || s === "†" || s === "CROSS") return "CROSS";
+      if (s === "☺" || s === "😊" || s === "🙂" || s === "SMILEY" || s === "SMILE") return "SMILEY";
+      if (s === "☮" || s === "PEACE") return "PEACE";
+      const first = s[0];
+      if (/^[A-Z0-9]$/.test(first)) return first;
+      return "";
+    }
+
+    function drawSymbol(ctx, symbolKey, cx, cy, color) {
+      ctx.fillStyle = color;
+      ctx.strokeStyle = color;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
+      if (symbolKey === "HEART") {
+        const w = 210;
+        const h = 200;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy + h * 0.48);
+        ctx.bezierCurveTo(cx - w * 0.55, cy + h * 0.15, cx - w * 0.55, cy - h * 0.35, cx - w * 0.25, cy - h * 0.35);
+        ctx.bezierCurveTo(cx - w * 0.08, cy - h * 0.35, cx, cy - h * 0.15, cx, cy - h * 0.08);
+        ctx.bezierCurveTo(cx, cy - h * 0.15, cx + w * 0.08, cy - h * 0.35, cx + w * 0.25, cy - h * 0.35);
+        ctx.bezierCurveTo(cx + w * 0.55, cy - h * 0.35, cx + w * 0.55, cy + h * 0.15, cx, cy + h * 0.48);
+        ctx.closePath();
+        ctx.fill();
+      } else if (symbolKey === "CROSS") {
+        const barW = 38;
+        const vH = 250;
+        const hW = 180;
+        const hY = cy - 35;
+        ctx.beginPath();
+        if (ctx.roundRect) {
+          ctx.roundRect(cx - barW / 2, cy - vH / 2, barW, vH, 6);
+          ctx.roundRect(cx - hW / 2, hY - barW / 2, hW, barW, 6);
+        } else {
+          ctx.rect(cx - barW / 2, cy - vH / 2, barW, vH);
+          ctx.rect(cx - hW / 2, hY - barW / 2, hW, barW);
+        }
+        ctx.fill();
+      } else if (symbolKey === "SMILEY") {
+        const r = 120;
+        ctx.lineWidth = 22;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(cx - 44, cy - 32, 14, 0, Math.PI * 2);
+        ctx.arc(cx + 44, cy - 32, 14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx, cy + 10, 65, 0.18 * Math.PI, 0.82 * Math.PI);
+        ctx.stroke();
+      } else if (symbolKey === "PEACE") {
+        const r = 120;
+        ctx.lineWidth = 22;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - r);
+        ctx.lineTo(cx, cy + r);
+        ctx.stroke();
+        const ang = 0.25 * Math.PI;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx - r * Math.cos(ang), cy + r * Math.sin(ang));
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + r * Math.cos(ang), cy + r * Math.sin(ang));
+        ctx.stroke();
+      }
+    }
+
     const textTextureCache = new Map();
 
     function createInscribedTexture(char, bgColorHex) {
@@ -994,18 +1085,25 @@
       ctx.lineWidth = 16;
       ctx.strokeRect(36, 36, 440, 440);
 
-      // Engraved typography
-      ctx.font = "bold 280px Georgia, 'Cinzel', serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+      if (["HEART", "CROSS", "SMILEY", "PEACE"].includes(char)) {
+        // 3D deboss shadow
+        drawSymbol(ctx, char, 256, 266, embossColor);
+        // Main crisp symbol
+        drawSymbol(ctx, char, 256, 256, fontColor);
+      } else {
+        // Engraved typography
+        ctx.font = "bold 280px Georgia, 'Cinzel', serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
 
-      // 3D deboss shadow
-      ctx.fillStyle = embossColor;
-      ctx.fillText(char, 256, 266);
+        // 3D deboss shadow
+        ctx.fillStyle = embossColor;
+        ctx.fillText(char, 256, 266);
 
-      // Main crisp letter/number
-      ctx.fillStyle = fontColor;
-      ctx.fillText(char, 256, 256);
+        // Main crisp letter/number
+        ctx.fillStyle = fontColor;
+        ctx.fillText(char, 256, 256);
+      }
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.anisotropy = 8;
@@ -1078,6 +1176,34 @@
         case "cube": {
           const s = radius * 1.65;
           return new THREE.BoxGeometry(s, s, s);
+        }
+        case "star": {
+          const outerR = radius * 1.18;
+          const innerR = radius * 0.52;
+          const shape = new THREE.Shape();
+          const numPoints = 5;
+          for (let i = 0; i < numPoints * 2; i++) {
+            const angle = (Math.PI / 2) - (i * Math.PI) / numPoints;
+            const r = i % 2 === 0 ? outerR : innerR;
+            const x = Math.cos(angle) * r;
+            const y = Math.sin(angle) * r;
+            if (i === 0) shape.moveTo(x, y);
+            else shape.lineTo(x, y);
+          }
+          shape.closePath();
+
+          const extrudeSettings = {
+            depth: radius * 0.65,
+            bevelEnabled: true,
+            bevelSegments: 3,
+            steps: 1,
+            bevelSize: radius * 0.10,
+            bevelThickness: radius * 0.10
+          };
+          const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+          geo.center();
+          geo.rotateY(Math.PI / 2);
+          return geo;
         }
         case "carved": {
           const group = new THREE.Group();
@@ -1255,8 +1381,8 @@
           const s = beadRadius * 1.65;
           const boxGeo = new THREE.BoxGeometry(s, s, s);
           const baseMat = getPBRMaterial(b.material, b.color);
-          if (b.text && b.text.trim()) {
-            const char = b.text.trim().toUpperCase()[0];
+          const char = normalizeInscription(b.text);
+          if (char) {
             const faceTex = createInscribedTexture(char, b.color);
             const faceMat = baseMat.clone();
             faceMat.color.setHex(0xFFFFFF);
@@ -1426,7 +1552,7 @@
         document.getElementById("slider-bead-size").value = selected.sizeMm;
 
         // Active bead shape in Properties Inspector
-        ["sphere", "faceted", "rondelle", "barrel", "cube"].forEach(s => {
+        ["sphere", "faceted", "rondelle", "barrel", "cube", "star"].forEach(s => {
           document.getElementById(`shape-${s}`)?.classList.toggle("active", selected.shape === s);
         });
 
@@ -1435,10 +1561,23 @@
         if (insSection) {
           insSection.style.display = isCube ? "block" : "none";
           if (isCube) {
-            const char = (selected.text || "").toUpperCase();
-            document.getElementById("input-cube-char").value = char;
-            document.getElementById("select-cube-char").value = char;
-            document.getElementById("char-preview-pill").textContent = char ? `"${char}" Engraved` : "Blank";
+            const normalized = normalizeInscription(selected.text);
+            const displayMap = {
+              HEART: "♥",
+              CROSS: "✝",
+              SMILEY: "☺",
+              PEACE: "☮"
+            };
+            const labelMap = {
+              HEART: '♥ Heart Engraved',
+              CROSS: '✝ Cross Engraved',
+              SMILEY: '☺ Smiley Engraved',
+              PEACE: '☮ Peace Engraved'
+            };
+            const inputVal = displayMap[normalized] || normalized;
+            document.getElementById("input-cube-char").value = inputVal;
+            document.getElementById("select-cube-char").value = normalized;
+            document.getElementById("char-preview-pill").textContent = normalized ? (labelMap[normalized] || `"${normalized}" Engraved`) : "Blank";
           }
         }
 
@@ -1506,7 +1645,8 @@
     document.getElementById("add-faceted").addEventListener("click", () => addBead("faceted", "quartz", "#F8FAFC", 10));
     document.getElementById("add-rondelle").addEventListener("click", () => addBead("rondelle", "stone", "#1E40AF", 8));
     document.getElementById("add-barrel").addEventListener("click", () => addBead("barrel", "wood", "#78350F", 12));
-    document.getElementById("add-cube").addEventListener("click", () => addBead("cube", "stone", "#F8FAFC", 10, false, "A"));
+    document.getElementById("add-cube").addEventListener("click", () => addBead("cube", "stone", "#F8FAFC", 10, false, "HEART"));
+    document.getElementById("add-star").addEventListener("click", () => addBead("star", "metal", "#FACC15", 10));
 
     document.getElementById("add-spacer-silver").addEventListener("click", () => addBead("rondelle", "metal", "#E2E8F0", 6, true));
     document.getElementById("add-spacer-gold").addEventListener("click", () => addBead("rondelle", "metal", "#FACC15", 6, true));
@@ -1529,14 +1669,14 @@
     });
 
     // Shape switcher in Properties Inspector
-    ["sphere", "faceted", "rondelle", "barrel", "cube"].forEach(s => {
+    ["sphere", "faceted", "rondelle", "barrel", "cube", "star"].forEach(s => {
       document.getElementById(`shape-${s}`)?.addEventListener("click", () => {
         change(d => {
           const bead = d.beads.find(b => b.id === d.selectedId);
           if (bead) {
             bead.shape = s;
-            if (s === "cube" && (bead.text === undefined || bead.text === null)) {
-              bead.text = "A";
+            if (s === "cube" && !bead.text) {
+              bead.text = "HEART";
             }
           }
         });
@@ -1545,10 +1685,7 @@
 
     // Inscription controls for Cube beads
     function setCubeChar(raw) {
-      let char = (raw || "").trim().toUpperCase();
-      if (char && !/^[A-Z0-9]$/.test(char)) {
-        char = "";
-      }
+      const char = normalizeInscription(raw);
       change(d => {
         const bead = d.beads.find(b => b.id === d.selectedId);
         if (bead && bead.shape === "cube") {
@@ -1651,11 +1788,16 @@
     // ── MATERIALS LIST SPEC SHEET GENERATION ────────────────────────────────
     document.getElementById("btn-list").addEventListener("click", () => {
       const counts = {};
+      const symNames = { HEART: "Heart", CROSS: "Cross", SMILEY: "Smiley", PEACE: "Peace" };
       doc.beads.forEach(b => {
-        const key = b.shape === "cube" && b.text ?
-          `${b.sizeMm}mm ${b.material.toUpperCase()} CUBE [Engraved "${b.text}"] (${b.color})` :
-          `${b.sizeMm}mm ${b.material.toUpperCase()} ${b.shape.toUpperCase()} (${b.color})`;
-        counts[key] = (counts[key] || 0) + 1;
+        let label = "";
+        if (b.shape === "cube" && b.text) {
+          const symStr = symNames[b.text] || b.text;
+          label = `${b.sizeMm}mm ${b.material.toUpperCase()} CUBE [Engraved "${symStr}"] (${b.color})`;
+        } else {
+          label = `${b.sizeMm}mm ${b.material.toUpperCase()} ${b.shape.toUpperCase()} (${b.color})`;
+        }
+        counts[label] = (counts[label] || 0) + 1;
       });
 
       let text = `========================================\n`;
