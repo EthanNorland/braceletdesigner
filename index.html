@@ -3,134 +3,741 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hello World</title>
-<meta name="description" content="A single-file creative HTML app.">
+<title>Bracelet Designer</title>
+<meta name="description" content="An interactive 3D studio for designing custom bracelets with realistic beads, spacers, and clasps.">
+<meta property="og:title" content="Bracelet Designer">
+<meta property="og:description" content="An interactive 3D studio for designing custom bracelets with realistic beads, spacers, and clasps.">
+<meta property="og:image" content="icon-512.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#0B0E14">
+
+<!-- Vendored Three.js and OrbitControls -->
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+
 <style>
   :root {
-    --bg: #0d0d0f;
-    --fg: #f5f5f7;
-    --accent: #f0a500;
-    --panel: #16161a;
-    --border: #242429;
-    --muted: #8a8a93;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --bg: #0B0E14;
+    --panel: #141923;
+    --panel-border: #1E2638;
+    --panel-hover: #1A2232;
+    --fg: #EDF2F7;
+    --fg-muted: #8E9BAE;
+    --accent-silver: #C0C7D0;
+    --accent-blue: #88A4C4;
+    --accent-gold: #D4AF37;
+    --ring: #88A4C4;
+    --serif: "Playfair Display", "Didot", "Bodoni MT", "Georgia", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "SF Mono", "ui-monospace", monospace;
   }
+
   * { box-sizing: border-box; }
   html, body {
     margin: 0;
     height: 100%;
     background: var(--bg);
     color: var(--fg);
+    font-family: var(--sans);
+    overflow: hidden;
+    user-select: none;
+  }
+
+  body {
+    display: grid;
+    grid-template-columns: 280px 1fr 300px;
+    grid-template-rows: 56px 1fr;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* Header Bar */
+  header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--panel-border);
+    z-index: 20;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .brand h1 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--fg);
+  }
+
+  .brand .tagline {
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn {
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--panel-border);
+    background: var(--panel-hover);
+    color: var(--fg);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+
+  .btn:hover {
+    background: #202B3F;
+    border-color: var(--accent-blue);
+    color: #FFFFFF;
+  }
+
+  .btn.primary {
+    background: var(--accent-blue);
+    color: #0B0E14;
+    border-color: var(--accent-blue);
+    font-weight: 600;
+  }
+
+  .btn.primary:hover {
+    background: #A0BBD8;
+  }
+
+  /* Left Sidebar: Element Palette */
+  #left-panel {
+    background: var(--panel);
+    border-right: 1px solid var(--panel-border);
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+  }
+
+  /* Center Stage: 3D Viewport */
+  #stage-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 45%, #151D2A 0%, #0B0E14 75%);
     overflow: hidden;
   }
-  body {
+
+  #stage-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  #stage-canvas:active {
+    cursor: grabbing;
+  }
+
+  /* Invitation Callout */
+  #invitation {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 25, 35, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--panel-border);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--accent-silver);
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    letter-spacing: 0.02em;
+    transition: opacity 0.5s ease;
+  }
+
+  /* Stage Bottom Action Bar */
+  #stage-actions {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: rgba(20, 25, 35, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  /* Right Sidebar: Properties & Settings */
+  #right-panel {
+    background: var(--panel);
+    border-left: 1px solid var(--panel-border);
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+  }
+
+  /* Section Styling in Panels */
+  .section-title {
+    font-size: 0.72rem;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg-muted);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .item-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .item-thumb {
+    aspect-ratio: 1;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    user-select: none;
-  }
-  main {
-    text-align: center;
-    padding: 32px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-    max-width: 480px;
-    width: 90%;
-  }
-  h1 {
-    margin: 0 0 12px 0;
-    font-size: 2.4rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    background: linear-gradient(135deg, #fff 30%, var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  p {
-    margin: 0 0 24px 0;
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  .pulse-btn {
-    background: var(--accent);
-    color: #111;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.7rem;
+    color: var(--fg-muted);
     cursor: pointer;
-    transition: transform 0.15s ease, filter 0.15s ease;
+    transition: all 0.15s ease;
+    padding: 4px;
+    text-align: center;
   }
-  .pulse-btn:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
+
+  .item-thumb:hover {
+    border-color: var(--accent-blue);
+    color: var(--fg);
+    background: var(--panel-hover);
   }
-  .pulse-btn:active {
-    transform: translateY(0);
+
+  .item-thumb.active {
+    border-color: var(--accent-blue);
+    background: #1C2638;
+    color: #FFFFFF;
+    box-shadow: 0 0 10px rgba(136, 164, 196, 0.2);
   }
-  #counter {
-    margin-top: 16px;
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-family: ui-monospace, monospace;
+
+  /* Sliders and Inputs */
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
   }
+
+  .control-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--fg);
+  }
+
+  .control-val {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent-silver);
+  }
+
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent-blue);
+    cursor: pointer;
+  }
+
+  /* Ring highlight for Help */
+  .ring {
+    outline: 2px solid var(--ring) !important;
+    outline-offset: 3px !important;
+    transition: outline 0.2s ease;
+  }
+
+  /* Version Chip */
   #chip {
     position: fixed;
     right: 14px;
-    bottom: 12px;
-    font: 11px ui-monospace, monospace;
-    color: var(--muted);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 4px 8px;
+    bottom: 10px;
+    font: 11px var(--mono);
+    color: var(--fg-muted);
+    background: rgba(11, 14, 20, 0.8);
+    border: 1px solid var(--panel-border);
+    padding: 3px 8px;
     border-radius: 4px;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.15s ease;
   }
+
   #chip:hover {
     color: var(--fg);
-    background: rgba(255,255,255,0.05);
+    border-color: var(--accent-blue);
+  }
+
+  /* Progress Bar */
+  #progress {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 3px;
+    background: var(--accent-blue);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+    z-index: 30;
+  }
+
+  /* Dialogs */
+  dialog {
+    background: var(--panel);
+    color: var(--fg);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  }
+
+  dialog::backdrop {
+    background: rgba(5, 7, 10, 0.75);
+    backdrop-filter: blur(4px);
+  }
+
+  dialog h2 {
+    margin-top: 0;
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--fg);
+  }
+
+  dialog p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--fg-muted);
+  }
+
+  dialog .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  /* Responsive Mobile/Tablet */
+  @media (max-width: 900px) {
+    body {
+      grid-template-columns: 1fr;
+      grid-template-rows: 56px 1fr auto;
+    }
+    #left-panel, #right-panel {
+      display: none; /* toggleable drawer in Phase 2 */
+    }
   }
 </style>
 </head>
 <body>
-  <main>
-    <h1>Hello World</h1>
-    <p>Your single-file creative HTML app is live on GitHub Pages.</p>
-    <button class="pulse-btn" id="pingBtn">Interact</button>
-    <div id="counter">Interactions: 0</div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <h1>Bracelet DESIGNER</h1>
+      <span class="tagline">Atelier Studio</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn" id="btn-save" title="Save your bracelet design in browser storage">Save</button>
+      <button class="btn" id="btn-export" title="Export high-resolution 3D preview render">Export PNG</button>
+      <button class="btn" id="btn-list" title="View itemized materials and dimensions spec sheet">Materials</button>
+      <button class="btn" id="btn-wrist" title="Preview bracelet draped on human wrist">Wrist View</button>
+      <button class="btn" id="btn-help" title="Searchable guide and tool walkthrough">Help</button>
+      <button class="btn" id="btn-about" title="About Bracelet Designer and credits">About</button>
+    </div>
+  </header>
+
+  <!-- Left Sidebar: Element Palette -->
+  <aside id="left-panel">
+    <div>
+      <div class="section-title">Bead Shapes</div>
+      <div class="item-grid">
+        <div class="item-thumb active" id="shape-sphere" title="Classic round spherical bead">● Sphere</div>
+        <div class="item-thumb" id="shape-faceted" title="Geometric faceted crystal bead">◆ Faceted</div>
+        <div class="item-thumb" id="shape-rondelle" title="Flattened circular rondelle bead">⬭ Rondelle</div>
+        <div class="item-thumb" id="shape-barrel" title="Cylindrical barrel bead">❚ Barrel</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Spacers</div>
+      <div class="item-grid">
+        <div class="item-thumb active" id="spacer-silver" title="Sterling silver disc spacer">Silver Disc</div>
+        <div class="item-thumb" id="spacer-gold" title="Polished gold disc spacer">Gold Disc</div>
+        <div class="item-thumb" id="spacer-carved" title="Ornate relief barrel spacer">Carved</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Clasps</div>
+      <div class="item-grid">
+        <div class="item-thumb active" id="clasp-magnetic" title="Smooth magnetic cylinder clasp">Magnetic</div>
+        <div class="item-thumb" id="clasp-lobster" title="Classic lobster claw trigger clasp">Lobster</div>
+        <div class="item-thumb" id="clasp-screw" title="Ribbed screw-in barrel clasp">Screw-in</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Center 3D Stage -->
+  <main id="stage-container">
+    <canvas id="stage-canvas"></canvas>
+    <div id="invitation">Pick a bead or slide to begin</div>
+    <div id="stage-actions">
+      <button class="btn" id="btn-undo" title="Undo last change (Cmd+Z)">↩ Undo</button>
+      <button class="btn" id="btn-redo" title="Redo last change (Cmd+Shift+Z)">↪ Redo</button>
+      <button class="btn" id="btn-duplicate" title="Duplicate selected bead on bracelet">⧉ Duplicate</button>
+      <button class="btn" id="btn-delete" title="Remove selected bead from bracelet">✕ Delete</button>
+    </div>
+    <div id="progress"></div>
   </main>
 
-  <button id="chip" title="Check for updates">v00000-001 ↻</button>
+  <!-- Right Sidebar: Properties -->
+  <aside id="right-panel">
+    <div class="card">
+      <div class="section-title">Selected Bead</div>
+      <div class="control-group">
+        <div class="control-label">
+          <span>Diameter</span>
+          <span class="control-val" id="val-bead-size">10 mm</span>
+        </div>
+        <input type="range" id="slider-bead-size" min="6" max="16" value="10" step="1" title="Adjust bead diameter in millimeters">
+      </div>
+
+      <div class="section-title" style="margin-top:10px;">Material</div>
+      <div class="item-grid">
+        <div class="item-thumb active" id="mat-glass" title="Translucent glass crystal">Glass</div>
+        <div class="item-thumb" id="mat-metal" title="Polished reflective metal">Metal</div>
+        <div class="item-thumb" id="mat-stone" title="Mottled lapis / gemstone">Stone</div>
+        <div class="item-thumb" id="mat-wood" title="Natural grain wood">Wood</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Bracelet Base</div>
+      <div class="control-group">
+        <div class="control-label">
+          <span>Wrist Fit</span>
+          <span class="control-val" id="val-wrist-size">175 mm (6.9")</span>
+        </div>
+        <input type="range" id="slider-wrist-size" min="140" max="220" value="175" step="5" title="Adjust wrist circumference in millimeters">
+      </div>
+
+      <div class="control-group">
+        <div class="control-label">
+          <span>Base Material</span>
+        </div>
+        <div class="item-grid">
+          <div class="item-thumb active" id="base-silver" title="Sterling silver chain">Silver</div>
+          <div class="item-thumb" id="base-gold" title="Gold link chain">Gold</div>
+          <div class="item-thumb" id="base-cord" title="Woven jewelry cord">Cord</div>
+          <div class="item-thumb" id="base-leather" title="Stitched leather cord">Leather</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Version Chip -->
+  <button id="chip" title="Check for a newer version">1.0.0 ↻</button>
+
+  <!-- Help Dialog -->
+  <dialog id="dlg-help">
+    <h2>Help & Quick Guide</h2>
+    <p>Welcome to <strong>Bracelet Designer</strong>, your tactile 3D jewelry workshop.</p>
+    <div style="display:flex; flex-direction:column; gap:10px; margin: 16px 0;">
+      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-canvas')">
+        <strong>Rotate & Inspect:</strong> Click and drag in the 3D viewport to spin the bracelet under studio lighting.
+      </div>
+      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#left-panel')">
+        <strong>Add Elements:</strong> Select beads, spacers, and clasps from the left palette to add them to your strand.
+      </div>
+      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#right-panel')">
+        <strong>Tailor Fit & Materials:</strong> Adjust wrist circumference and bead diameters in the right properties panel.
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn primary" onclick="document.getElementById('dlg-help').close()">Got it</button>
+    </div>
+  </dialog>
+
+  <!-- About Dialog -->
+  <dialog id="dlg-about">
+    <h2>Bracelet DESIGNER</h2>
+    <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
+    <p style="font-size:0.8rem; color:var(--fg-muted);">
+      Version: <strong style="color:var(--fg);" id="about-version">1.0.0</strong><br>
+      Created by <strong>Ethan Norland</strong>.<br>
+      Released under the <strong>MIT License</strong>. Powered by Three.js.<br>
+      Your work stays in this browser. Nothing is ever uploaded.
+    </p>
+    <div class="dialog-footer">
+      <button class="btn primary" onclick="document.getElementById('dlg-about').close()">Close</button>
+    </div>
+  </dialog>
 
   <script>
     "use strict";
+
+    // ── CONFIGURATION & CONSTANTS ───────────────────────────────────────────
     const APP = {
-      name: "Hello World",
-      id: "hello-world",
-      version: "v00000-001"
+      name: "Bracelet Designer",
+      id: "bracelet-designer",
+      version: "1.0.0",
+      author: "Ethan Norland",
+      repo: "https://github.com/EthanNorland/hello-world"
     };
 
-    let count = 0;
-    const btn = document.getElementById("pingBtn");
-    const counter = document.getElementById("counter");
+    document.getElementById("chip").textContent = APP.version + " ↻";
+    document.getElementById("about-version").textContent = APP.version;
+
+    // ── SCREEN CONTEXT FOR MARKUP REVIEWS (PART 10.4) ───────────────────────
+    window.__markupContext = () => ({
+      app: APP.name,
+      version: APP.version,
+      screen: "studio_3d",
+      helpOpen: document.getElementById("dlg-help").open,
+      aboutOpen: document.getElementById("dlg-about").open
+    });
+
+    // ── RING GLOW FOR HELP (PART 3.7) ───────────────────────────────────────
+    function ring(selector) {
+      const el = document.querySelector(selector);
+      if (!el) return;
+      el.scrollIntoView({ block: "nearest" });
+      el.classList.add("ring");
+      setTimeout(() => el.classList.remove("ring"), 1600);
+      document.getElementById("dlg-help").close();
+    }
+
+    // Modal dialog triggers
+    document.getElementById("btn-help").addEventListener("click", () => document.getElementById("dlg-help").showModal());
+    document.getElementById("btn-about").addEventListener("click", () => document.getElementById("dlg-about").showModal());
+
+    // ── THREE.JS 3D STAGE & SCENE SETUP ─────────────────────────────────────
+    const container = document.getElementById("stage-container");
+    const canvas = document.getElementById("stage-canvas");
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 14, 28);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+
+    const controls = new THREE.OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI * 0.85;
+    controls.minDistance = 10;
+    controls.maxDistance = 50;
+
+    // ── STUDIO LIGHTING ─────────────────────────────────────────────────────
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xfff5e6, 2.2);
+    keyLight.position.set(15, 25, 20);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0xc0d8ff, 1.4);
+    fillLight.position.set(-15, 10, -15);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.PointLight(0xd4af37, 1.5, 40);
+    rimLight.position.set(0, -10, 10);
+    scene.add(rimLight);
+
+    // ── BRACELET 3D MESH GROUP (WALKING SKELETON) ───────────────────────────
+    const braceletGroup = new THREE.Group();
+    scene.add(braceletGroup);
+
+    // Cord Loop Curve
+    const RADIUS = 7.5;
+    const cordGeo = new THREE.TorusGeometry(RADIUS, 0.14, 16, 100);
+    const cordMat = new THREE.MeshStandardMaterial({
+      color: 0x8A95A5,
+      metalness: 0.85,
+      roughness: 0.25
+    });
+    const cordMesh = new THREE.Mesh(cordGeo, cordMat);
+    cordMesh.rotation.x = Math.PI / 2;
+    braceletGroup.add(cordMesh);
+
+    // PBR Physical Materials for Beads & Clasps
+    const silverMat = new THREE.MeshStandardMaterial({
+      color: 0xE2E8F0,
+      metalness: 0.95,
+      roughness: 0.15
+    });
+
+    const goldMat = new THREE.MeshStandardMaterial({
+      color: 0xFACC15,
+      metalness: 0.9,
+      roughness: 0.2
+    });
+
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: 0x38BDF8,
+      metalness: 0.1,
+      roughness: 0.05,
+      transmission: 0.85,
+      thickness: 1.8,
+      transparent: true,
+      opacity: 0.95
+    });
+
+    const lapisMat = new THREE.MeshStandardMaterial({
+      color: 0x1E40AF,
+      metalness: 0.2,
+      roughness: 0.4
+    });
+
+    const quartzMat = new THREE.MeshPhysicalMaterial({
+      color: 0xF8FAFC,
+      metalness: 0.05,
+      roughness: 0.1,
+      transmission: 0.9,
+      thickness: 1.5,
+      transparent: true,
+      opacity: 0.9
+    });
+
+    // 1. Clasp Mesh (Magnetic cylinder at bottom: angle = -PI/2)
+    const claspGroup = new THREE.Group();
+    const claspCylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 1.4, 32), silverMat);
+    claspCylinder.rotation.z = Math.PI / 2;
+    claspGroup.add(claspCylinder);
+    claspGroup.position.set(0, 0, RADIUS);
+    braceletGroup.add(claspGroup);
+
+    // 2. Sample Starter Beads (The "First 10 Seconds" inviting state)
+    // Bead 1: Lapis Lazuli Sphere at -35 deg
+    const b1 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), lapisMat);
+    b1.position.set(Math.cos(Math.PI * 0.4) * RADIUS, 0, Math.sin(Math.PI * 0.4) * RADIUS);
+    braceletGroup.add(b1);
+
+    // Bead 2: Glass Crystal Sphere at -55 deg
+    const b2 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), glassMat);
+    b2.position.set(Math.cos(Math.PI * 0.3) * RADIUS, 0, Math.sin(Math.PI * 0.3) * RADIUS);
+    braceletGroup.add(b2);
+
+    // Bead 3: Crackle Quartz Sphere at -75 deg
+    const b3 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), quartzMat);
+    b3.position.set(Math.cos(Math.PI * 0.2) * RADIUS, 0, Math.sin(Math.PI * 0.2) * RADIUS);
+    braceletGroup.add(b3);
+
+    // Gentle Auto-Rotation (One thing moving on screen)
+    let autoRotate = true;
+    canvas.addEventListener("pointerdown", () => {
+      autoRotate = false;
+      const inv = document.getElementById("invitation");
+      if (inv) inv.style.opacity = "0";
+    });
+
+    // Render Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      if (autoRotate) {
+        braceletGroup.rotation.y += 0.004;
+      }
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Window Resize Handler
+    window.addEventListener("resize", () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    // ── PROGRESSIVE WEB APP (PWA) & SERVICE WORKER (PART 5.3) ───────────────
     const chip = document.getElementById("chip");
+    const SW_ON = "serviceWorker" in navigator && !["localhost", "127.0.0.1"].includes(location.hostname);
 
-    btn.addEventListener("click", () => {
-      count++;
-      counter.textContent = "Interactions: " + count;
-      btn.style.transform = "scale(0.96)";
-      setTimeout(() => btn.style.transform = "", 100);
-    });
+    if (SW_ON) {
+      const hadController = !!navigator.serviceWorker.controller;
+      navigator.serviceWorker.register("sw.js");
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (hadController) location.reload();
+      });
+    }
 
-    chip.textContent = APP.version + " ↻";
-    chip.addEventListener("click", () => {
-      alert("App version: " + APP.version + "\nEverything is up to date.");
-    });
+    async function checkForUpdate() {
+      const reg = SW_ON && await navigator.serviceWorker.getRegistration();
+      if (!reg) {
+        location.reload();
+        return;
+      }
+      try {
+        await reg.update();
+      } catch {
+        alert("Couldn't check for updates (offline?).");
+        return;
+      }
+      const w = reg.installing;
+      if (w) await new Promise(r => w.addEventListener("statechange", () => w.state !== "installing" && r()));
+      if (reg.waiting) {
+        reg.waiting.postMessage("SKIP_WAITING");
+      } else {
+        alert("You have the latest version: " + APP.version);
+      }
+    }
+    chip.onclick = checkForUpdate;
   </script>
 </body>
 </html>
