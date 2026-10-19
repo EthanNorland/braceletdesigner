@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.3.2](https://img.shields.io/badge/Version-1.3.2-lightgrey?style=flat-square)](#)
+[![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -29,6 +29,8 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 ---
 
 ## Key Features
+- **Continuous Autosave (IndexedDB):** All design changes, bead angles, colors, and cord lengths automatically persist in browser storage across tab reloads.
+- **Project Open & Drag-and-Drop:** Save and reopen `.bracelet` files via one-click file picker or drag-and-drop directly onto the 3D stage, backed by automatic format migration and undo protection.
 - **Direct 3D Raycasting ("Slide"):** Direct click-and-drag interaction allowing users to slide any bead or spacer along the 3D bracelet curve in real time.
 - **6 Bead Geometries:** Sphere, Faceted crystal, Rondelle, Barrel, Cube, and **Celestial Star** with smooth jeweler's bevels.
 - **Front Monogram & Symbol Engraving:** Engrave cube beads with custom capital letters (A–Z), digits (0–9), or iconic jewelry symbols (**Heart**, **Cross**, **Smiley Face**, **Peace Sign**, **Dash**) rendered with dynamic debossed typography and hallmark border.
@@ -37,7 +39,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Fit Calculator:** Real-time millimeter accumulator tracking bracelet fullness against wrist circumference (140mm–220mm).
 - **Studio Lighting & PMREM Reflections:** Multi-point studio lighting with high-contrast atelier backdrop.
 - **Full Undo/Redo & Quick Actions:** Robust history stack, duplicate (`D`), and delete actions.
-- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.3.2 ↻`).
+- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.4.0 ↻`).
 
 ---
 

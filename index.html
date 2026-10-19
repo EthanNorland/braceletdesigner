@@ -89,12 +89,106 @@
     font-family: var(--mono);
     text-transform: uppercase;
     letter-spacing: 0.12em;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .autosave-status {
+    font-size: 0.68rem;
+    color: var(--accent-silver);
+    opacity: 0.7;
+    margin-left: 8px;
+    font-family: var(--mono);
+    text-transform: none;
+    letter-spacing: 0.04em;
+    transition: opacity 0.3s ease, color 0.3s ease;
+  }
+  .autosave-status.saving {
+    color: #F59E0B;
+    opacity: 1;
+  }
+  .autosave-status.saved {
+    color: #10B981;
+    opacity: 1;
+  }
+
+  /* Atelier Toast Notification */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(30px);
+    background: rgba(14, 18, 26, 0.95);
+    border: 1px solid var(--accent-blue);
+    color: var(--fg);
+    padding: 10px 22px;
+    border-radius: 24px;
+    font-size: 0.85rem;
+    font-family: var(--sans);
+    letter-spacing: 0.02em;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    z-index: 1000;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  /* Drop overlay for .bracelet files on 3D stage */
+  #drop-overlay {
+    position: absolute;
+    inset: 12px;
+    border: 2px dashed var(--accent-blue);
+    border-radius: 12px;
+    background: rgba(11, 14, 20, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  #drop-overlay.drag-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .drop-overlay-box {
+    text-align: center;
+    color: var(--fg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .drop-overlay-box h3 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: var(--fg);
+  }
+  .drop-overlay-box p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--fg-muted);
   }
 
   .header-actions {
     display: flex;
     align-items: center;
     gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .header-actions::-webkit-scrollbar {
+    display: none;
   }
 
   .btn {
@@ -525,10 +619,13 @@
   <header>
     <div class="brand">
       <h1>Bracelet DESIGNER</h1>
-      <span class="tagline">Atelier Studio</span>
+      <span class="tagline">Atelier Studio <span id="autosave-status" class="autosave-status"></span></span>
     </div>
     <div class="header-actions">
-      <button class="btn" id="btn-save" title="Save your bracelet design in browser storage">Save</button>
+      <button class="btn" id="btn-new" title="Start a fresh blank or starter design">New</button>
+      <button class="btn" id="btn-open" title="Open a saved .bracelet project file (Cmd+O)">Open</button>
+      <input type="file" id="file-open" accept=".bracelet,application/json,.json" style="display:none">
+      <button class="btn" id="btn-save" title="Save your bracelet design file (.bracelet) (Cmd+S)">Save</button>
       <button class="btn" id="btn-export" title="Export high-resolution 3D preview render">Export PNG</button>
       <button class="btn" id="btn-list" title="View itemized materials and dimensions spec sheet">Materials</button>
       <button class="btn" id="btn-wrist" title="Preview bracelet draped on human wrist">Wrist View</button>
@@ -577,6 +674,15 @@
   <!-- Center 3D Stage -->
   <main id="stage-container">
     <canvas id="stage-canvas"></canvas>
+
+    <!-- Drop overlay for .bracelet files -->
+    <div id="drop-overlay">
+      <div class="drop-overlay-box">
+        <span style="font-size:2.2rem; color:var(--accent-blue);">✦</span>
+        <h3>Drop .bracelet file here</h3>
+        <p>Release to open design in the atelier studio</p>
+      </div>
+    </div>
 
     <div id="invitation">
       <span>✦</span> Drag any bead to slide it along the loop
@@ -754,7 +860,7 @@
   </aside>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.1.0 ↻</button>
+  <button id="chip" title="Check for a newer version">1.4.0 ↻</button>
 
   <!-- Materials List Dialog -->
   <dialog id="dlg-materials">
@@ -781,6 +887,12 @@
       <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#card-selected-bead')">
         <strong>Customize Material & Size:</strong> Select any bead to change its millimeter diameter, color, or material (Glass, Metal, Stone, Wood).
       </div>
+      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-open')">
+        <strong>Open & Save:</strong> Download your design as a <kbd>.bracelet</kbd> project file (<kbd>Cmd+S</kbd>) or drag any saved file directly onto the 3D stage (<kbd>Cmd+O</kbd>) to reopen it.
+      </div>
+      <div style="padding:10px; background:var(--bg); border-radius:6px;">
+        <strong>Continuous Autosave:</strong> Your workspace automatically persists in browser storage so you can close or reload anytime without losing your work.
+      </div>
       <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-actions')">
         <strong>Duplicate & Delete:</strong> Use the action bar or press <kbd>D</kbd> to duplicate and <kbd>Delete</kbd> to remove beads.
       </div>
@@ -795,7 +907,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.8rem; color:var(--fg-muted);">
-      Version: <strong style="color:var(--fg);" id="about-version">1.1.0</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.4.0</strong><br>
       Created by <strong>Ethan Norland</strong>.<br>
       Released under the <strong>MIT License</strong>. Powered by Three.js.<br>
       Your work stays in this browser. Nothing is ever uploaded.
@@ -805,6 +917,9 @@
     </div>
   </dialog>
 
+  <!-- Atelier Toast Notification -->
+  <div id="atelier-toast" class="toast"></div>
+
   <script>
     "use strict";
 
@@ -812,7 +927,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.3.2",
+      version: "1.4.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -843,6 +958,194 @@
 
     let nextBeadId = 7;
 
+    // ── INDEXEDDB PERSISTENCE & DEBOUNCED AUTOSAVE (PART 3.4) ───────────────
+    const IDB_NAME = "bracelet-designer-db";
+    const IDB_VERSION = 1;
+    const IDB_STORE = "session";
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        if (!window.indexedDB) {
+          return reject(new Error("IndexedDB not available"));
+        }
+        const req = indexedDB.open(IDB_NAME, IDB_VERSION);
+        req.onupgradeneeded = e => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(IDB_STORE)) {
+            db.createObjectStore(IDB_STORE, { keyPath: "key" });
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function idbSet(key, value) {
+      try {
+        const db = await openDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(IDB_STORE, "readwrite");
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.put({ key, value, timestamp: Date.now() });
+          req.onsuccess = () => resolve();
+          req.onerror = () => reject(req.error);
+        });
+      } catch {
+        try {
+          localStorage.setItem(IDB_NAME + "_" + key, JSON.stringify({ key, value, timestamp: Date.now() }));
+        } catch {}
+      }
+    }
+
+    async function idbGet(key) {
+      try {
+        const db = await openDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(IDB_STORE, "readonly");
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.get(key);
+          req.onsuccess = () => resolve(req.result ? req.result.value : null);
+          req.onerror = () => reject(req.error);
+        });
+      } catch {
+        try {
+          const item = localStorage.getItem(IDB_NAME + "_" + key);
+          return item ? JSON.parse(item).value : null;
+        } catch {
+          return null;
+        }
+      }
+    }
+
+    // Atelier Toast Notification
+    let toastTimer = null;
+    function showToast(msg, duration = 3200) {
+      const toast = document.getElementById("atelier-toast");
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, duration);
+    }
+
+    // Debounced Autosave
+    let autosaveTimer = null;
+    function scheduleAutosave() {
+      const statusEl = document.getElementById("autosave-status");
+      if (statusEl) {
+        statusEl.textContent = "• Saving…";
+        statusEl.classList.remove("saved");
+        statusEl.classList.add("saving");
+      }
+      clearTimeout(autosaveTimer);
+      autosaveTimer = setTimeout(async () => {
+        await idbSet("current_design", doc);
+        if (statusEl) {
+          statusEl.textContent = "• Saved";
+          statusEl.classList.remove("saving");
+          statusEl.classList.add("saved");
+          setTimeout(() => {
+            if (statusEl.classList.contains("saved")) {
+              statusEl.textContent = "";
+              statusEl.classList.remove("saved");
+            }
+          }, 1800);
+        }
+      }, 350);
+    }
+
+    // ── DATA FORMAT MIGRATION & VALIDATION (PART 3.4) ───────────────────────
+    function migrateAndValidateDoc(raw) {
+      if (!raw || typeof raw !== "object") {
+        throw new Error("Invalid project data: root must be an object.");
+      }
+
+      const validCordTypes = ["silver", "gold", "leather", "cord"];
+      const cordType = validCordTypes.includes(raw.cordType) ? raw.cordType : "silver";
+
+      let cordColor = "#1E293B";
+      if (typeof raw.cordColor === "string" && /^#[0-9a-fA-F]{3,8}$/.test(raw.cordColor)) {
+        cordColor = raw.cordColor;
+      } else if (cordType === "gold") {
+        cordColor = "#D4AF37";
+      } else if (cordType === "silver") {
+        cordColor = "#C0C7D0";
+      } else if (cordType === "leather") {
+        cordColor = "#3E2723";
+      }
+
+      let claspType = "lobster";
+      if (["magnetic", "lobster", "screw"].includes(raw.claspType)) {
+        claspType = raw.claspType;
+      } else if (raw.claspType === "screw-in") {
+        claspType = "screw";
+      }
+
+      const claspColor = ["silver", "gold"].includes(raw.claspColor) ? raw.claspColor : "gold";
+      const wristMm = (typeof raw.wristMm === "number" && !isNaN(raw.wristMm)) ?
+        Math.max(140, Math.min(220, Math.round(raw.wristMm))) : 175;
+
+      const validShapes = ["sphere", "faceted", "rondelle", "barrel", "cube", "star"];
+      const validMaterials = ["glass", "quartz", "stone", "metal", "wood"];
+      const rawBeads = Array.isArray(raw.beads) ? raw.beads : [];
+
+      const cleanBeads = [];
+      let maxId = 0;
+      const seenIds = new Set();
+
+      rawBeads.forEach((b, idx) => {
+        if (!b || typeof b !== "object") return;
+        let id = (typeof b.id === "number" && b.id > 0) ? Math.round(b.id) : (idx + 1);
+        while (seenIds.has(id)) {
+          id++;
+        }
+        seenIds.add(id);
+        if (id > maxId) maxId = id;
+
+        const shape = validShapes.includes(b.shape) ? b.shape : "sphere";
+        const isSpacer = b.type === "spacer" || b.isSpacer === true || (shape === "rondelle" && (b.sizeMm || 6) <= 6);
+        const type = isSpacer ? "spacer" : "bead";
+        const material = validMaterials.includes(b.material) ? b.material : (isSpacer ? "metal" : "stone");
+        const color = (typeof b.color === "string" && /^#[0-9a-fA-F]{3,8}$/.test(b.color)) ? b.color : "#F8FAFC";
+        const sizeMm = (typeof b.sizeMm === "number" && !isNaN(b.sizeMm)) ? Math.max(4, Math.min(20, Math.round(b.sizeMm))) : (isSpacer ? 6 : 10);
+        const angle = (typeof b.angle === "number" && !isNaN(b.angle)) ? b.angle : ((Math.PI * 0.45) - idx * 0.25);
+        const text = typeof b.text === "string" ? normalizeInscription(b.text) : "";
+
+        cleanBeads.push({
+          id,
+          type,
+          shape,
+          material,
+          color,
+          sizeMm,
+          angle,
+          text
+        });
+      });
+
+      const selectedId = cleanBeads.length > 0 ?
+        (cleanBeads.some(b => b.id === raw.selectedId) ? raw.selectedId : cleanBeads[0].id)
+        : null;
+
+      return {
+        doc: {
+          format: "bracelet-designer",
+          formatVersion: 1,
+          appVersion: APP.version,
+          wristMm,
+          cordType,
+          cordColor,
+          claspType,
+          claspColor,
+          beads: cleanBeads,
+          selectedId
+        },
+        maxId
+      };
+    }
+
     // ── UNDO / REDO HISTORY STACK ───────────────────────────────────────────
     const undoStack = [];
     const redoStack = [];
@@ -854,6 +1157,7 @@
       redoStack.length = 0;
       mutator(doc);
       updateApp();
+      scheduleAutosave();
     }
 
     function undo() {
@@ -861,6 +1165,7 @@
       redoStack.push(JSON.stringify(doc));
       doc = JSON.parse(undoStack.pop());
       updateApp();
+      scheduleAutosave();
     }
 
     function redo() {
@@ -868,6 +1173,7 @@
       undoStack.push(JSON.stringify(doc));
       doc = JSON.parse(redoStack.pop());
       updateApp();
+      scheduleAutosave();
     }
 
     // Keyboard Shortcuts
@@ -877,6 +1183,12 @@
       if (mod && e.key.toLowerCase() === "z") {
         e.preventDefault();
         e.shiftKey ? redo() : undo();
+      } else if (mod && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        document.getElementById("btn-save").click();
+      } else if (mod && e.key.toLowerCase() === "o") {
+        e.preventDefault();
+        document.getElementById("btn-open").click();
       } else if (e.key === "Delete" || e.key === "Backspace") {
         e.preventDefault();
         deleteSelected();
@@ -1530,6 +1842,7 @@
           redoStack.length = 0;
           dragStartSnapshot = null;
           updateAppUI();
+          scheduleAutosave();
         }
       }
     }
@@ -1911,10 +2224,119 @@
       const json = JSON.stringify(doc, null, 2);
       const blob = new Blob([json], { type: "application/json" });
       const a = document.createElement("a");
+      const filename = `bracelet-design-${Date.now()}.bracelet`;
       a.href = URL.createObjectURL(blob);
-      a.download = `bracelet-design-${Date.now()}.bracelet`;
+      a.download = filename;
       a.click();
       setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      showToast(`Saved ${filename}`);
+    });
+
+    // ── PROJECT OPEN (FILE PICKER & DRAG AND DROP) ──────────────────────────
+    function loadProject(parsed, sourceName = "design") {
+      try {
+        const { doc: validated, maxId } = migrateAndValidateDoc(parsed);
+        change(d => {
+          Object.assign(d, validated);
+          d.beads = validated.beads.map(b => ({ ...b }));
+        });
+        nextBeadId = Math.max(maxId, ...doc.beads.map(b => b.id || 0), 0) + 1;
+        updateApp();
+        showToast(`Loaded ${sourceName} successfully.`);
+      } catch (err) {
+        console.error("Failed to load project:", err);
+        alert(`Could not open project: ${err.message}`);
+      }
+    }
+
+    const fileOpenInput = document.getElementById("file-open");
+    document.getElementById("btn-open").addEventListener("click", () => {
+      fileOpenInput.value = "";
+      fileOpenInput.click();
+    });
+
+    fileOpenInput.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      readAndOpenProjectFile(file);
+    });
+
+    function readAndOpenProjectFile(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = evt => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          loadProject(parsed, file.name);
+        } catch (err) {
+          alert(`Invalid JSON in file "${file.name}": ${err.message}`);
+        }
+      };
+      reader.onerror = () => {
+        alert(`Failed to read file "${file.name}".`);
+      };
+      reader.readAsText(file);
+    }
+
+    // Drag and drop onto 3D stage container
+    const dropOverlay = document.getElementById("drop-overlay");
+    let dragCounter = 0;
+
+    container.addEventListener("dragenter", e => {
+      e.preventDefault();
+      dragCounter++;
+      dropOverlay.classList.add("drag-active");
+    });
+
+    container.addEventListener("dragover", e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "copy";
+    });
+
+    container.addEventListener("dragleave", e => {
+      e.preventDefault();
+      dragCounter--;
+      if (dragCounter <= 0) {
+        dragCounter = 0;
+        dropOverlay.classList.remove("drag-active");
+      }
+    });
+
+    container.addEventListener("drop", e => {
+      e.preventDefault();
+      dragCounter = 0;
+      dropOverlay.classList.remove("drag-active");
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        readAndOpenProjectFile(file);
+      }
+    });
+
+    // ── NEW / RESET DESIGN ──────────────────────────────────────────────────
+    document.getElementById("btn-new").addEventListener("click", () => {
+      if (doc.beads.length > 0) {
+        const confirmed = confirm("Start a fresh design? Your current workbench will be reset to a starter bracelet.");
+        if (!confirmed) return;
+      }
+      change(d => {
+        d.wristMm = 175;
+        d.cordType = "silver";
+        d.cordColor = "#1E293B";
+        d.claspType = "lobster";
+        d.claspColor = "gold";
+        d.beads = [
+          { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "DASH", angle: Math.PI * 0.45 },
+          { id: 2, type: "bead", shape: "star", material: "metal", color: "#FACC15", sizeMm: 10, angle: Math.PI * 0.35 },
+          { id: 3, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.25 },
+          { id: 4, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.15 },
+          { id: 5, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.05 },
+          { id: 6, type: "spacer", shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, angle: -Math.PI * 0.05 }
+        ];
+        d.selectedId = 1;
+      });
+      nextBeadId = 7;
+      updateApp();
+      showToast("Fresh atelier workbench ready.");
     });
 
     // ── RENDER LOOP ─────────────────────────────────────────────────────────
@@ -1932,8 +2354,24 @@
       renderer.setSize(container.clientWidth, container.clientHeight);
     });
 
-    // ── INITIAL BOOTSTRAP ───────────────────────────────────────────────────
+    // ── INITIAL BOOTSTRAP WITH SESSION RESTORE (PART 3.4) ───────────────────
     updateApp();
+
+    async function initSession() {
+      try {
+        const saved = await idbGet("current_design");
+        if (saved && Array.isArray(saved.beads) && saved.beads.length > 0) {
+          const { doc: restored, maxId } = migrateAndValidateDoc(saved);
+          doc = restored;
+          nextBeadId = Math.max(maxId, ...doc.beads.map(b => b.id || 0), 0) + 1;
+          updateApp();
+          showToast("Restored your active session from the atelier bench.");
+        }
+      } catch (e) {
+        console.warn("Could not restore session from IndexedDB:", e);
+      }
+    }
+    initSession();
 
     // ── SERVICE WORKER FOR OFFLINE & UPDATE CHIP ────────────────────────────
     const chip = document.getElementById("chip");

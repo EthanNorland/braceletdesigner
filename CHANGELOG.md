@@ -4,6 +4,21 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] - 2026-10-19
+
+### Added - Phase 3: Autosave (IndexedDB), Project Open & Drag-and-Drop
+- **Automatic Continuous Autosave (IndexedDB):** Implemented real-time background session persistence via an IndexedDB store (`bracelet-designer-db`) with graceful fallback to `localStorage`. Every bead slide, color change, diameter adjustment, and clasp toggle is automatically saved with debouncing.
+- **Session Restoration on Load:** Automatically restores the user's active bracelet session upon opening or reloading the application, with a quiet atelier notification (*"Restored your active session from the atelier bench"*).
+- **Atelier Autosave Status Indicator:** Added a subtle status indicator in the brand bar (`• Saving…` / `• Saved`) providing quiet visual assurance of persisted state.
+- **Project Open File Picker (`.bracelet` & `.json`):** Added an **Open** button in the header bar wired to a file picker dialog, supporting `.bracelet` and `.json` project files, with keyboard shortcut `Cmd+O` / `Ctrl+O`.
+- **Drag-and-Drop Project Import:** Added direct drag-and-drop file import onto the 3D stage viewport, complete with an atelier drop overlay (*"Drop .bracelet file here"*).
+- **Format Validation & Robust Migration:** Built a complete migration and validation engine (`migrateAndValidateDoc`) that inspects incoming project files, guarantees valid wrist measurements, cord types, cord colors, clasps, bead geometries, materials, colors, and symbol inscriptions, and assigns unique IDs.
+- **Undoable Project Loading:** Opening or resetting a project pushes a snapshot to the undo history stack, allowing users to safely undo (`Cmd+Z`) and restore their previous workbench.
+- **New / Reset Design Action:** Added a **New** button in the header bar allowing users to reset their workbench to a fresh starter bracelet with an undoable confirmation prompt.
+- **Keyboard Shortcuts:** Added `Cmd+S` / `Ctrl+S` to export `.bracelet` project files and `Cmd+O` / `Ctrl+O` to open saved projects.
+- **Atelier Toast Notification System:** Non-blocking floating toast notifications confirming autosaves, file loads, and file exports.
+- **Version 1.4.0 Bump:** Bumped app version and Service Worker cache key to `1.4.0`.
+
 ## [1.3.2] - 2026-10-19
 
 ### Added - Dash Inscription Option for Cube Beads
