@@ -23,12 +23,15 @@
     --panel: #141923;
     --panel-border: #1E2638;
     --panel-hover: #1A2232;
+    --panel-active: #202B3F;
     --fg: #EDF2F7;
     --fg-muted: #8E9BAE;
     --accent-silver: #C0C7D0;
     --accent-blue: #88A4C4;
     --accent-gold: #D4AF37;
+    --accent-glow: rgba(136, 164, 196, 0.4);
     --ring: #88A4C4;
+    --danger: #EF4444;
     --serif: "Playfair Display", "Didot", "Bodoni MT", "Georgia", serif;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --mono: "SF Mono", "ui-monospace", monospace;
@@ -47,7 +50,7 @@
 
   body {
     display: grid;
-    grid-template-columns: 280px 1fr 300px;
+    grid-template-columns: 280px 1fr 310px;
     grid-template-rows: 56px 1fr;
     height: 100vh;
     width: 100vw;
@@ -59,7 +62,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 18px;
+    padding: 0 20px;
     background: var(--panel);
     border-bottom: 1px solid var(--panel-border);
     z-index: 20;
@@ -68,24 +71,24 @@
   .brand {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 10px;
   }
 
   .brand h1 {
     margin: 0;
     font-family: var(--serif);
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     color: var(--fg);
   }
 
   .brand .tagline {
-    font-size: 0.75rem;
-    color: var(--fg-muted);
+    font-size: 0.72rem;
+    color: var(--accent-silver);
     font-family: var(--mono);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
   }
 
   .header-actions {
@@ -116,6 +119,13 @@
     color: #FFFFFF;
   }
 
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: var(--panel-border);
+    background: var(--panel);
+  }
+
   .btn.primary {
     background: var(--accent-blue);
     color: #0B0E14;
@@ -127,15 +137,20 @@
     background: #A0BBD8;
   }
 
+  .btn.danger:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+
   /* Left Sidebar: Element Palette */
   #left-panel {
     background: var(--panel);
     border-right: 1px solid var(--panel-border);
-    padding: 16px;
+    padding: 18px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
     z-index: 10;
   }
 
@@ -156,8 +171,8 @@
     touch-action: none;
   }
 
-  #stage-canvas:active {
-    cursor: grabbing;
+  #stage-canvas.dragging-bead {
+    cursor: ew-resize !important;
   }
 
   /* Invitation Callout */
@@ -166,45 +181,90 @@
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(20, 25, 35, 0.85);
+    background: rgba(20, 25, 35, 0.88);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--panel-border);
     padding: 8px 18px;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--accent-silver);
     pointer-events: none;
     box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     letter-spacing: 0.02em;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Fit Status Bar (Top Center) */
+  #fit-indicator {
+    position: absolute;
+    top: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(14, 18, 26, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.78rem;
+    font-family: var(--mono);
+    color: var(--fg-muted);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 5;
+  }
+
+  .fit-meter {
+    width: 90px;
+    height: 6px;
+    background: #1A2232;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .fit-meter-fill {
+    height: 100%;
+    background: var(--accent-blue);
+    width: 0%;
+    transition: width 0.2s ease, background 0.2s ease;
+  }
+
+  .fit-meter-fill.overflow {
+    background: #F59E0B;
   }
 
   /* Stage Bottom Action Bar */
   #stage-actions {
     position: absolute;
-    bottom: 20px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 8px;
-    background: rgba(20, 25, 35, 0.9);
+    background: rgba(20, 25, 35, 0.92);
     backdrop-filter: blur(8px);
     padding: 6px;
     border-radius: 8px;
     border: 1px solid var(--panel-border);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 10;
   }
 
-  /* Right Sidebar: Properties & Settings */
+  /* Right Sidebar: Properties */
   #right-panel {
     background: var(--panel);
     border-left: 1px solid var(--panel-border);
-    padding: 16px;
+    padding: 18px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
     z-index: 10;
   }
 
@@ -225,7 +285,7 @@
     background: var(--bg);
     border: 1px solid var(--panel-border);
     border-radius: 8px;
-    padding: 12px;
+    padding: 14px;
   }
 
   .item-grid {
@@ -234,8 +294,12 @@
     gap: 8px;
   }
 
+  .item-grid.cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .item-thumb {
-    aspect-ratio: 1;
+    aspect-ratio: 1.1;
     background: var(--panel);
     border: 1px solid var(--panel-border);
     border-radius: 6px;
@@ -243,11 +307,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     color: var(--fg-muted);
     cursor: pointer;
     transition: all 0.15s ease;
-    padding: 4px;
+    padding: 6px;
     text-align: center;
   }
 
@@ -259,9 +323,59 @@
 
   .item-thumb.active {
     border-color: var(--accent-blue);
-    background: #1C2638;
+    background: var(--panel-active);
     color: #FFFFFF;
-    box-shadow: 0 0 10px rgba(136, 164, 196, 0.2);
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(136, 164, 196, 0.25);
+  }
+
+  /* Palette Swatches & Color Picker */
+  .color-swatches {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--panel-border);
+    cursor: pointer;
+    transition: transform 0.1s ease, border-color 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .swatch:hover {
+    transform: scale(1.15);
+  }
+
+  .swatch.active {
+    border-color: var(--accent-blue);
+    transform: scale(1.18);
+    box-shadow: 0 0 8px rgba(136, 164, 196, 0.5);
+  }
+
+  input[type="color"] {
+    -webkit-appearance: none;
+    border: 1px solid var(--panel-border);
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+  }
+
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
   }
 
   /* Sliders and Inputs */
@@ -305,7 +419,7 @@
     bottom: 10px;
     font: 11px var(--mono);
     color: var(--fg-muted);
-    background: rgba(11, 14, 20, 0.8);
+    background: rgba(11, 14, 20, 0.85);
     border: 1px solid var(--panel-border);
     padding: 3px 8px;
     border-radius: 4px;
@@ -319,18 +433,6 @@
     border-color: var(--accent-blue);
   }
 
-  /* Progress Bar */
-  #progress {
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 3px;
-    background: var(--accent-blue);
-    transform-origin: left;
-    transform: scaleX(0);
-    transition: transform 0.2s ease;
-    z-index: 30;
-  }
-
   /* Dialogs */
   dialog {
     background: var(--panel);
@@ -338,9 +440,9 @@
     border: 1px solid var(--panel-border);
     border-radius: 12px;
     padding: 24px;
-    max-width: 500px;
+    max-width: 520px;
     width: 90%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
   }
 
   dialog::backdrop {
@@ -368,6 +470,20 @@
     margin-top: 20px;
   }
 
+  /* Spec Sheet Pre */
+  pre#spec-sheet-content {
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    padding: 12px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--accent-silver);
+    max-height: 260px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+
   /* Responsive Mobile/Tablet */
   @media (max-width: 900px) {
     body {
@@ -375,7 +491,7 @@
       grid-template-rows: 56px 1fr auto;
     }
     #left-panel, #right-panel {
-      display: none; /* toggleable drawer in Phase 2 */
+      display: none;
     }
   }
 </style>
@@ -401,30 +517,34 @@
   <!-- Left Sidebar: Element Palette -->
   <aside id="left-panel">
     <div>
-      <div class="section-title">Bead Shapes</div>
+      <div class="section-title">Add Bead Shapes</div>
       <div class="item-grid">
-        <div class="item-thumb active" id="shape-sphere" title="Classic round spherical bead">● Sphere</div>
-        <div class="item-thumb" id="shape-faceted" title="Geometric faceted crystal bead">◆ Faceted</div>
-        <div class="item-thumb" id="shape-rondelle" title="Flattened circular rondelle bead">⬭ Rondelle</div>
-        <div class="item-thumb" id="shape-barrel" title="Cylindrical barrel bead">❚ Barrel</div>
+        <div class="item-thumb" id="add-sphere" title="Add a classic spherical bead">● Sphere</div>
+        <div class="item-thumb" id="add-faceted" title="Add a geometric faceted crystal bead">◆ Faceted</div>
+        <div class="item-thumb" id="add-rondelle" title="Add a flattened circular rondelle bead">⬭ Rondelle</div>
+        <div class="item-thumb" id="add-barrel" title="Add a cylindrical barrel bead">❚ Barrel</div>
       </div>
     </div>
 
     <div>
-      <div class="section-title">Spacers</div>
+      <div class="section-title">Add Spacers</div>
       <div class="item-grid">
-        <div class="item-thumb active" id="spacer-silver" title="Sterling silver disc spacer">Silver Disc</div>
-        <div class="item-thumb" id="spacer-gold" title="Polished gold disc spacer">Gold Disc</div>
-        <div class="item-thumb" id="spacer-carved" title="Ornate relief barrel spacer">Carved</div>
+        <div class="item-thumb" id="add-spacer-silver" title="Add sterling silver disc spacer">Silver Disc</div>
+        <div class="item-thumb" id="add-spacer-gold" title="Add polished gold disc spacer">Gold Disc</div>
+        <div class="item-thumb" id="add-spacer-carved" title="Add ornate carved relief barrel">Carved</div>
       </div>
     </div>
 
     <div>
-      <div class="section-title">Clasps</div>
+      <div class="section-title">Bracelet Clasp</div>
       <div class="item-grid">
         <div class="item-thumb active" id="clasp-magnetic" title="Smooth magnetic cylinder clasp">Magnetic</div>
         <div class="item-thumb" id="clasp-lobster" title="Classic lobster claw trigger clasp">Lobster</div>
         <div class="item-thumb" id="clasp-screw" title="Ribbed screw-in barrel clasp">Screw-in</div>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn active" id="clasp-col-silver" style="flex:1;">Silver</button>
+        <button class="btn" id="clasp-col-gold" style="flex:1;">Gold</button>
       </div>
     </div>
   </aside>
@@ -432,77 +552,132 @@
   <!-- Center 3D Stage -->
   <main id="stage-container">
     <canvas id="stage-canvas"></canvas>
-    <div id="invitation">Pick a bead or slide to begin</div>
+
+    <div id="invitation">
+      <span>✦</span> Drag any bead to slide it along the loop
+    </div>
+
+    <div id="fit-indicator">
+      <span id="fit-text">Fit: 175 mm</span>
+      <div class="fit-meter">
+        <div class="fit-meter-fill" id="fit-fill"></div>
+      </div>
+      <span id="fit-remaining">Remaining: 24 mm</span>
+    </div>
+
     <div id="stage-actions">
       <button class="btn" id="btn-undo" title="Undo last change (Cmd+Z)">↩ Undo</button>
       <button class="btn" id="btn-redo" title="Redo last change (Cmd+Shift+Z)">↪ Redo</button>
-      <button class="btn" id="btn-duplicate" title="Duplicate selected bead on bracelet">⧉ Duplicate</button>
-      <button class="btn" id="btn-delete" title="Remove selected bead from bracelet">✕ Delete</button>
+      <div style="width:1px; height:20px; background:var(--panel-border); margin:auto 4px;"></div>
+      <button class="btn" id="btn-duplicate" title="Duplicate selected bead on bracelet (D)">⧉ Duplicate</button>
+      <button class="btn danger" id="btn-delete" title="Remove selected bead (Delete)">✕ Delete</button>
     </div>
-    <div id="progress"></div>
   </main>
 
   <!-- Right Sidebar: Properties -->
   <aside id="right-panel">
-    <div class="card">
-      <div class="section-title">Selected Bead</div>
+    <!-- Selected Bead Properties -->
+    <div class="card" id="card-selected-bead">
+      <div class="section-title">
+        <span>Selected Bead</span>
+        <span id="selected-index-badge" style="color:var(--accent-silver);">#1</span>
+      </div>
+
       <div class="control-group">
         <div class="control-label">
           <span>Diameter</span>
           <span class="control-val" id="val-bead-size">10 mm</span>
         </div>
-        <input type="range" id="slider-bead-size" min="6" max="16" value="10" step="1" title="Adjust bead diameter in millimeters">
+        <input type="range" id="slider-bead-size" min="6" max="16" value="10" step="1" title="Adjust selected bead diameter in millimeters">
       </div>
 
-      <div class="section-title" style="margin-top:10px;">Material</div>
-      <div class="item-grid">
+      <div class="section-title" style="margin-top:14px;">Material Type</div>
+      <div class="item-grid cols-2">
         <div class="item-thumb active" id="mat-glass" title="Translucent glass crystal">Glass</div>
+        <div class="item-thumb" id="mat-quartz" title="Crackle quartz crystal">Quartz</div>
+        <div class="item-thumb" id="mat-stone" title="Lapis / Turquoise stone">Stone</div>
         <div class="item-thumb" id="mat-metal" title="Polished reflective metal">Metal</div>
-        <div class="item-thumb" id="mat-stone" title="Mottled lapis / gemstone">Stone</div>
         <div class="item-thumb" id="mat-wood" title="Natural grain wood">Wood</div>
+      </div>
+
+      <div class="section-title" style="margin-top:14px;">Color</div>
+      <div class="color-swatches" id="bead-swatches">
+        <div class="swatch active" style="background:#38BDF8;" data-color="#38BDF8" title="Cyan / Turquoise"></div>
+        <div class="swatch" style="background:#1E40AF;" data-color="#1E40AF" title="Lapis Blue"></div>
+        <div class="swatch" style="background:#F8FAFC;" data-color="#F8FAFC" title="Crackle Crystal White"></div>
+        <div class="swatch" style="background:#E2E8F0;" data-color="#E2E8F0" title="Sterling Silver"></div>
+        <div class="swatch" style="background:#FACC15;" data-color="#FACC15" title="Gold"></div>
+        <div class="swatch" style="background:#A855F7;" data-color="#A855F7" title="Amethyst Purple"></div>
+        <div class="swatch" style="background:#10B981;" data-color="#10B981" title="Emerald Green"></div>
+        <div class="swatch" style="background:#EF4444;" data-color="#EF4444" title="Coral Red"></div>
+        <input type="color" id="picker-bead-color" value="#38BDF8" title="Custom color picker">
       </div>
     </div>
 
+    <!-- Bracelet Base Properties -->
     <div class="card">
-      <div class="section-title">Bracelet Base</div>
+      <div class="section-title">Bracelet Cord Base</div>
       <div class="control-group">
         <div class="control-label">
-          <span>Wrist Fit</span>
+          <span>Wrist Circumference</span>
           <span class="control-val" id="val-wrist-size">175 mm (6.9")</span>
         </div>
         <input type="range" id="slider-wrist-size" min="140" max="220" value="175" step="5" title="Adjust wrist circumference in millimeters">
       </div>
 
-      <div class="control-group">
-        <div class="control-label">
-          <span>Base Material</span>
+      <div class="section-title" style="margin-top:10px;">Base Type</div>
+      <div class="item-grid cols-2">
+        <div class="item-thumb active" id="base-silver" title="Sterling silver chain">Silver Chain</div>
+        <div class="item-thumb" id="base-gold" title="Gold link chain">Gold Chain</div>
+        <div class="item-thumb" id="base-cord" title="Woven jewelry cord">Woven Cord</div>
+        <div class="item-thumb" id="base-leather" title="Stitched leather cord">Leather</div>
+      </div>
+
+      <div id="cord-color-container" style="margin-top:12px; display:none;">
+        <div class="control-label" style="font-size:0.75rem; margin-bottom:6px;">
+          <span>Cord Color</span>
         </div>
-        <div class="item-grid">
-          <div class="item-thumb active" id="base-silver" title="Sterling silver chain">Silver</div>
-          <div class="item-thumb" id="base-gold" title="Gold link chain">Gold</div>
-          <div class="item-thumb" id="base-cord" title="Woven jewelry cord">Cord</div>
-          <div class="item-thumb" id="base-leather" title="Stitched leather cord">Leather</div>
+        <div class="color-swatches">
+          <div class="swatch active" style="background:#1E293B;" data-cord="#1E293B" title="Midnight Navy"></div>
+          <div class="swatch" style="background:#78350F;" data-cord="#78350F" title="Earthy Tan"></div>
+          <div class="swatch" style="background:#0F172A;" data-cord="#0F172A" title="Obsidian Black"></div>
+          <div class="swatch" style="background:#991B1B;" data-cord="#991B1B" title="Crimson Silk"></div>
+          <input type="color" id="picker-cord-color" value="#1E293B" title="Custom cord color">
         </div>
       </div>
     </div>
   </aside>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.0.0 ↻</button>
+  <button id="chip" title="Check for a newer version">1.1.0 ↻</button>
+
+  <!-- Materials List Dialog -->
+  <dialog id="dlg-materials">
+    <h2>Materials Spec Sheet</h2>
+    <p>Itemized recipe for jeweler or craft assembly:</p>
+    <pre id="spec-sheet-content"></pre>
+    <div class="dialog-footer">
+      <button class="btn" id="btn-copy-specs">Copy Text</button>
+      <button class="btn primary" onclick="document.getElementById('dlg-materials').close()">Done</button>
+    </div>
+  </dialog>
 
   <!-- Help Dialog -->
   <dialog id="dlg-help">
-    <h2>Help & Quick Guide</h2>
+    <h2>Help & Core Guide</h2>
     <p>Welcome to <strong>Bracelet Designer</strong>, your tactile 3D jewelry workshop.</p>
     <div style="display:flex; flex-direction:column; gap:10px; margin: 16px 0;">
       <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-canvas')">
-        <strong>Rotate & Inspect:</strong> Click and drag in the 3D viewport to spin the bracelet under studio lighting.
+        <strong>Slide & Arrange:</strong> Click directly on any bead in 3D and drag to slide it along the bracelet curve.
       </div>
       <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#left-panel')">
-        <strong>Add Elements:</strong> Select beads, spacers, and clasps from the left palette to add them to your strand.
+        <strong>String New Elements:</strong> Click beads, spacers, or clasps in the left palette to add them to your strand.
       </div>
-      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#right-panel')">
-        <strong>Tailor Fit & Materials:</strong> Adjust wrist circumference and bead diameters in the right properties panel.
+      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#card-selected-bead')">
+        <strong>Customize Material & Size:</strong> Select any bead to change its millimeter diameter, color, or material (Glass, Metal, Stone, Wood).
+      </div>
+      <div style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-actions')">
+        <strong>Duplicate & Delete:</strong> Use the action bar or press <kbd>D</kbd> to duplicate and <kbd>Delete</kbd> to remove beads.
       </div>
     </div>
     <div class="dialog-footer">
@@ -515,7 +690,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.8rem; color:var(--fg-muted);">
-      Version: <strong style="color:var(--fg);" id="about-version">1.0.0</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.1.0</strong><br>
       Created by <strong>Ethan Norland</strong>.<br>
       Released under the <strong>MIT License</strong>. Powered by Three.js.<br>
       Your work stays in this browser. Nothing is ever uploaded.
@@ -528,11 +703,11 @@
   <script>
     "use strict";
 
-    // ── CONFIGURATION & CONSTANTS ───────────────────────────────────────────
+    // ── APPLICATION CONFIGURATION ───────────────────────────────────────────
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.0.0",
+      version: "1.1.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -540,16 +715,86 @@
     document.getElementById("chip").textContent = APP.version + " ↻";
     document.getElementById("about-version").textContent = APP.version;
 
-    // ── SCREEN CONTEXT FOR MARKUP REVIEWS (PART 10.4) ───────────────────────
+    // ── DOCUMENT DATA MODEL (SINGLE SOURCE OF TRUTH - PART 3.4) ─────────────
+    let doc = {
+      format: "bracelet-designer",
+      formatVersion: 1,
+      appVersion: APP.version,
+      wristMm: 175,
+      cordType: "silver",
+      cordColor: "#1E293B",
+      claspType: "magnetic",
+      claspColor: "silver",
+      beads: [
+        { id: 1, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.4 },
+        { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.3 },
+        { id: 3, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.2 },
+        { id: 4, type: "spacer", shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, angle: Math.PI * 0.1 }
+      ],
+      selectedId: 1
+    };
+
+    let nextBeadId = 5;
+
+    // ── UNDO / REDO HISTORY STACK ───────────────────────────────────────────
+    const undoStack = [];
+    const redoStack = [];
+    const UNDO_LIMIT = 100;
+
+    function change(mutator) {
+      undoStack.push(JSON.stringify(doc));
+      if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+      redoStack.length = 0;
+      mutator(doc);
+      updateApp();
+    }
+
+    function undo() {
+      if (!undoStack.length) return;
+      redoStack.push(JSON.stringify(doc));
+      doc = JSON.parse(undoStack.pop());
+      updateApp();
+    }
+
+    function redo() {
+      if (!redoStack.length) return;
+      undoStack.push(JSON.stringify(doc));
+      doc = JSON.parse(redoStack.pop());
+      updateApp();
+    }
+
+    // Keyboard Shortcuts
+    window.addEventListener("keydown", e => {
+      if (e.target.matches("input, textarea")) return;
+      const mod = e.metaKey || e.ctrlKey;
+      if (mod && e.key.toLowerCase() === "z") {
+        e.preventDefault();
+        e.shiftKey ? redo() : undo();
+      } else if (e.key === "Delete" || e.key === "Backspace") {
+        e.preventDefault();
+        deleteSelected();
+      } else if (e.key.toLowerCase() === "d" && !mod) {
+        e.preventDefault();
+        duplicateSelected();
+      }
+    });
+
+    document.getElementById("btn-undo").addEventListener("click", undo);
+    document.getElementById("btn-redo").addEventListener("click", redo);
+
+    // ── SCREEN CONTEXT FOR MARKUP REVIEW TOOLS (PART 10.4) ──────────────────
     window.__markupContext = () => ({
       app: APP.name,
       version: APP.version,
-      screen: "studio_3d",
+      wristCircumference: doc.wristMm,
+      totalBeads: doc.beads.length,
+      selectedBead: doc.selectedId,
+      clasp: doc.claspType,
       helpOpen: document.getElementById("dlg-help").open,
       aboutOpen: document.getElementById("dlg-about").open
     });
 
-    // ── RING GLOW FOR HELP (PART 3.7) ───────────────────────────────────────
+    // Ring glow helper
     function ring(selector) {
       const el = document.querySelector(selector);
       if (!el) return;
@@ -559,153 +804,602 @@
       document.getElementById("dlg-help").close();
     }
 
-    // Modal dialog triggers
     document.getElementById("btn-help").addEventListener("click", () => document.getElementById("dlg-help").showModal());
     document.getElementById("btn-about").addEventListener("click", () => document.getElementById("dlg-about").showModal());
 
-    // ── THREE.JS 3D STAGE & SCENE SETUP ─────────────────────────────────────
+    // ── THREE.JS STAGE & SCENE SETUP ─────────────────────────────────────────
     const container = document.getElementById("stage-container");
     const canvas = document.getElementById("stage-canvas");
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 14, 28);
+    camera.position.set(0, 16, 26);
 
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.15;
 
     const controls = new THREE.OrbitControls(camera, canvas);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.maxPolarAngle = Math.PI * 0.85;
-    controls.minDistance = 10;
-    controls.maxDistance = 50;
+    controls.maxPolarAngle = Math.PI * 0.82;
+    controls.minDistance = 8;
+    controls.maxDistance = 45;
 
-    // ── STUDIO LIGHTING ─────────────────────────────────────────────────────
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    // Studio Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfff5e6, 2.2);
-    keyLight.position.set(15, 25, 20);
+    const keyLight = new THREE.DirectionalLight(0xfff5e6, 2.3);
+    keyLight.position.set(18, 28, 22);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xc0d8ff, 1.4);
-    fillLight.position.set(-15, 10, -15);
+    const fillLight = new THREE.DirectionalLight(0xc0d8ff, 1.5);
+    fillLight.position.set(-18, 12, -18);
     scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0xd4af37, 1.5, 40);
-    rimLight.position.set(0, -10, 10);
+    const rimLight = new THREE.PointLight(0xd4af37, 1.8, 45);
+    rimLight.position.set(0, -8, 12);
     scene.add(rimLight);
 
-    // ── BRACELET 3D MESH GROUP (WALKING SKELETON) ───────────────────────────
+    // 3D Groups
     const braceletGroup = new THREE.Group();
     scene.add(braceletGroup);
 
-    // Cord Loop Curve
-    const RADIUS = 7.5;
-    const cordGeo = new THREE.TorusGeometry(RADIUS, 0.14, 16, 100);
-    const cordMat = new THREE.MeshStandardMaterial({
-      color: 0x8A95A5,
-      metalness: 0.85,
-      roughness: 0.25
+    let cordMesh = null;
+    let claspMeshGroup = null;
+    let beadMeshes = new Map(); // id -> THREE.Mesh / Group
+    let selectionRingMesh = null;
+
+    // Selection Ring Visualizer
+    const selRingGeo = new THREE.TorusGeometry(1.2, 0.05, 16, 32);
+    const selRingMat = new THREE.MeshBasicMaterial({ color: 0x88A4C4, wireframe: false });
+    selectionRingMesh = new THREE.Mesh(selRingGeo, selRingMat);
+    selectionRingMesh.rotation.x = Math.PI / 2;
+    selectionRingMesh.visible = false;
+    scene.add(selectionRingMesh);
+
+    // ── MATERIAL GENERATORS ─────────────────────────────────────────────────
+    function getPBRMaterial(type, colorHex) {
+      const col = new THREE.Color(colorHex);
+      switch(type) {
+        case "glass":
+          return new THREE.MeshPhysicalMaterial({
+            color: col,
+            metalness: 0.05,
+            roughness: 0.06,
+            transmission: 0.88,
+            thickness: 2.2,
+            transparent: true,
+            opacity: 0.96
+          });
+        case "quartz":
+          return new THREE.MeshPhysicalMaterial({
+            color: col,
+            metalness: 0.05,
+            roughness: 0.18,
+            transmission: 0.82,
+            thickness: 2.5,
+            transparent: true,
+            opacity: 0.92
+          });
+        case "metal":
+          return new THREE.MeshStandardMaterial({
+            color: col,
+            metalness: 0.96,
+            roughness: 0.14
+          });
+        case "stone":
+          return new THREE.MeshStandardMaterial({
+            color: col,
+            metalness: 0.15,
+            roughness: 0.38
+          });
+        case "wood":
+          return new THREE.MeshStandardMaterial({
+            color: col,
+            metalness: 0.02,
+            roughness: 0.62
+          });
+        default:
+          return new THREE.MeshStandardMaterial({ color: col, metalness: 0.5, roughness: 0.5 });
+      }
+    }
+
+    // ── GEOMETRY GENERATORS ─────────────────────────────────────────────────
+    function createBeadGeometry(shape, radius) {
+      switch(shape) {
+        case "sphere":
+          return new THREE.SphereGeometry(radius, 32, 32);
+        case "faceted":
+          return new THREE.IcosahedronGeometry(radius, 1);
+        case "rondelle": {
+          const geo = new THREE.SphereGeometry(radius, 32, 32);
+          geo.scale(1, 0.55, 1);
+          return geo;
+        }
+        case "barrel":
+          return new THREE.CylinderGeometry(radius * 0.85, radius * 0.85, radius * 1.5, 32);
+        case "carved": {
+          const group = new THREE.Group();
+          return new THREE.CylinderGeometry(radius * 0.9, radius * 0.9, radius * 1.2, 24);
+        }
+        default:
+          return new THREE.SphereGeometry(radius, 32, 32);
+      }
+    }
+
+    function createClaspMesh(type, color) {
+      const group = new THREE.Group();
+      const mat = new THREE.MeshStandardMaterial({
+        color: color === "gold" ? 0xFACC15 : 0xE2E8F0,
+        metalness: 0.96,
+        roughness: 0.16
+      });
+
+      if (type === "magnetic") {
+        const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 1.4, 32), mat);
+        cyl.rotation.z = Math.PI / 2;
+        group.add(cyl);
+        const ring1 = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.08, 12, 24), mat);
+        ring1.position.x = -0.8;
+        group.add(ring1);
+        const ring2 = ring1.clone();
+        ring2.position.x = 0.8;
+        group.add(ring2);
+      } else if (type === "lobster") {
+        const body = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.22, 16, 24, Math.PI * 1.4), mat);
+        body.rotation.y = Math.PI / 2;
+        group.add(body);
+        const loop = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.08, 12, 24), mat);
+        loop.position.x = -0.7;
+        group.add(loop);
+      } else if (type === "screw") {
+        const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 1.6, 24), mat);
+        barrel.rotation.z = Math.PI / 2;
+        group.add(barrel);
+        const rib = new THREE.Mesh(new THREE.TorusGeometry(0.54, 0.06, 12, 24), mat);
+        rib.rotation.y = Math.PI / 2;
+        group.add(rib);
+      }
+      return group;
+    }
+
+    // Radius calculation from wrist circumference in mm (Scale: 1 Three unit = ~25mm)
+    function getRadius() {
+      return (doc.wristMm / (2 * Math.PI)) * 0.26;
+    }
+
+    // ── REBUILD 3D SCENE FROM DOC ───────────────────────────────────────────
+    function rebuild3DScene() {
+      const radius = getRadius();
+
+      // 1. Rebuild Cord Ring
+      if (cordMesh) braceletGroup.remove(cordMesh);
+      const cordColor = doc.cordType === "gold" ? 0xFACC15 :
+                        doc.cordType === "leather" ? 0x78350F :
+                        doc.cordType === "cord" ? new THREE.Color(doc.cordColor).getHex() :
+                        0xC0C7D0; // silver chain default
+      const cordGeo = new THREE.TorusGeometry(radius, 0.12, 16, 120);
+      const cordMat = new THREE.MeshStandardMaterial({
+        color: cordColor,
+        metalness: ["silver", "gold"].includes(doc.cordType) ? 0.9 : 0.1,
+        roughness: ["silver", "gold"].includes(doc.cordType) ? 0.2 : 0.7
+      });
+      cordMesh = new THREE.Mesh(cordGeo, cordMat);
+      cordMesh.rotation.x = Math.PI / 2;
+      braceletGroup.add(cordMesh);
+
+      // 2. Rebuild Clasp
+      if (claspMeshGroup) braceletGroup.remove(claspMeshGroup);
+      claspMeshGroup = createClaspMesh(doc.claspType, doc.claspColor);
+      claspMeshGroup.position.set(0, 0, radius);
+      braceletGroup.add(claspMeshGroup);
+
+      // 3. Rebuild Beads
+      beadMeshes.forEach(m => braceletGroup.remove(m));
+      beadMeshes.clear();
+
+      doc.beads.forEach(b => {
+        const beadRadius = (b.sizeMm / 10) * 0.75;
+        const geo = createBeadGeometry(b.shape, beadRadius);
+        const mat = getPBRMaterial(b.material, b.color);
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.userData = { id: b.id };
+
+        // Position on circle based on angle
+        mesh.position.set(
+          Math.cos(b.angle) * radius,
+          0,
+          Math.sin(b.angle) * radius
+        );
+        mesh.rotation.y = -b.angle;
+        braceletGroup.add(mesh);
+        beadMeshes.set(b.id, mesh);
+      });
+
+      updateSelectionIndicator();
+    }
+
+    // ── DIRECT RAYCASTING & 3D BEAD DRAGGING ("SLIDE") ─────────────────────
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const planeIntersect = new THREE.Vector3();
+
+    let isDraggingBead = false;
+    let draggedBeadId = null;
+    let dragStartSnapshot = null;
+
+    canvas.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+
+    function onPointerDown(e) {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const meshes = Array.from(beadMeshes.values());
+      const intersects = raycaster.intersectObjects(meshes, true);
+
+      if (intersects.length > 0) {
+        // Find bead root with userData.id
+        let target = intersects[0].object;
+        while (target && !target.userData.id && target.parent) {
+          target = target.parent;
+        }
+
+        if (target && target.userData.id) {
+          isDraggingBead = true;
+          draggedBeadId = target.userData.id;
+          controls.enabled = false;
+          canvas.classList.add("dragging-bead");
+
+          // Select this bead
+          doc.selectedId = draggedBeadId;
+          updateAppUI();
+
+          // Snapshot for undo step
+          dragStartSnapshot = JSON.stringify(doc);
+
+          // Hide invitation hint
+          const inv = document.getElementById("invitation");
+          if (inv) inv.style.opacity = "0";
+        }
+      }
+    }
+
+    function onPointerMove(e) {
+      if (!isDraggingBead) return;
+
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      if (raycaster.ray.intersectPlane(dragPlane, planeIntersect)) {
+        // Transform into braceletGroup local space
+        const localPt = braceletGroup.worldToLocal(planeIntersect.clone());
+        const angle = Math.atan2(localPt.z, localPt.x);
+
+        const bead = doc.beads.find(b => b.id === draggedBeadId);
+        if (bead) {
+          bead.angle = angle;
+          const radius = getRadius();
+          const mesh = beadMeshes.get(bead.id);
+          if (mesh) {
+            mesh.position.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
+            mesh.rotation.y = -angle;
+            updateSelectionIndicator();
+          }
+        }
+      }
+    }
+
+    function onPointerUp() {
+      if (isDraggingBead) {
+        isDraggingBead = false;
+        controls.enabled = true;
+        canvas.classList.remove("dragging-bead");
+
+        // Record single undo step for the drag
+        if (dragStartSnapshot) {
+          undoStack.push(dragStartSnapshot);
+          if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+          redoStack.length = 0;
+          dragStartSnapshot = null;
+          updateAppUI();
+        }
+      }
+    }
+
+    function updateSelectionIndicator() {
+      const selected = doc.beads.find(b => b.id === doc.selectedId);
+      if (selected && beadMeshes.has(selected.id)) {
+        const mesh = beadMeshes.get(selected.id);
+        selectionRingMesh.position.copy(mesh.position);
+        const beadRadius = (selected.sizeMm / 10) * 0.75;
+        selectionRingMesh.scale.set(beadRadius + 0.35, beadRadius + 0.35, beadRadius + 0.35);
+        selectionRingMesh.visible = true;
+      } else {
+        selectionRingMesh.visible = false;
+      }
+    }
+
+    // ── FIT CALCULATION ("CHECK FIT") ───────────────────────────────────────
+    function calculateFit() {
+      const claspLengthMm = 14; // Magnetic/lobster standard width
+      const beadsLengthMm = doc.beads.reduce((sum, b) => sum + Number(b.sizeMm), 0);
+      const totalUsedMm = Math.round(claspLengthMm + beadsLengthMm);
+      const remainingMm = Math.round(doc.wristMm - totalUsedMm);
+      const pct = Math.min(100, Math.max(0, (totalUsedMm / doc.wristMm) * 100));
+
+      document.getElementById("fit-text").textContent = `Used: ${totalUsedMm} mm / ${doc.wristMm} mm`;
+      document.getElementById("fit-remaining").textContent = remainingMm >= 0 ?
+        `Remaining: ${remainingMm} mm` : `Over by: ${Math.abs(remainingMm)} mm`;
+
+      const fill = document.getElementById("fit-fill");
+      fill.style.width = pct + "%";
+      fill.classList.toggle("overflow", remainingMm < 0);
+    }
+
+    // ── UI SYNCHRONIZATION WITH STATE ───────────────────────────────────────
+    function updateAppUI() {
+      document.getElementById("btn-undo").disabled = undoStack.length === 0;
+      document.getElementById("btn-redo").disabled = redoStack.length === 0;
+
+      const selected = doc.beads.find(b => b.id === doc.selectedId) || doc.beads[0];
+      if (selected) {
+        doc.selectedId = selected.id;
+        document.getElementById("selected-index-badge").textContent = `ID #${selected.id} (${selected.shape})`;
+        document.getElementById("val-bead-size").textContent = `${selected.sizeMm} mm`;
+        document.getElementById("slider-bead-size").value = selected.sizeMm;
+
+        // Active material thumb
+        ["glass", "quartz", "stone", "metal", "wood"].forEach(m => {
+          document.getElementById(`mat-${m}`)?.classList.toggle("active", selected.material === m);
+        });
+
+        // Active color swatch
+        document.querySelectorAll("#bead-swatches .swatch").forEach(sw => {
+          sw.classList.toggle("active", sw.dataset.color.toLowerCase() === selected.color.toLowerCase());
+        });
+        document.getElementById("picker-bead-color").value = selected.color;
+      }
+
+      // Wrist Circumference
+      document.getElementById("val-wrist-size").textContent = `${doc.wristMm} mm (${(doc.wristMm / 25.4).toFixed(1)}")`;
+      document.getElementById("slider-wrist-size").value = doc.wristMm;
+
+      // Base material thumb
+      ["silver", "gold", "cord", "leather"].forEach(b => {
+        document.getElementById(`base-${b}`)?.classList.toggle("active", doc.cordType === b);
+      });
+      document.getElementById("cord-color-container").style.display = doc.cordType === "cord" ? "block" : "none";
+
+      // Clasp options
+      ["magnetic", "lobster", "screw"].forEach(c => {
+        document.getElementById(`clasp-${c}`)?.classList.toggle("active", doc.claspType === c);
+      });
+      document.getElementById("clasp-col-silver").classList.toggle("active", doc.claspColor === "silver");
+      document.getElementById("clasp-col-gold").classList.toggle("active", doc.claspColor === "gold");
+
+      calculateFit();
+      updateSelectionIndicator();
+    }
+
+    function updateApp() {
+      rebuild3DScene();
+      updateAppUI();
+    }
+
+    // ── ELEMENT PALETTE ACTIONS (ADD BEADS & SPACERS) ───────────────────────
+    function addBead(shape, material = "glass", color = "#38BDF8", sizeMm = 10, isSpacer = false) {
+      change(d => {
+        // Find next open angle around the circle
+        const lastAngle = d.beads.length > 0 ? d.beads[d.beads.length - 1].angle : Math.PI * 0.5;
+        const newAngle = (lastAngle - 0.28 + Math.PI * 2) % (Math.PI * 2);
+        const newId = ++nextBeadId;
+
+        d.beads.push({
+          id: newId,
+          type: isSpacer ? "spacer" : "bead",
+          shape: shape,
+          material: material,
+          color: color,
+          sizeMm: sizeMm,
+          angle: newAngle
+        });
+        d.selectedId = newId;
+      });
+    }
+
+    document.getElementById("add-sphere").addEventListener("click", () => addBead("sphere", "glass", "#38BDF8", 10));
+    document.getElementById("add-faceted").addEventListener("click", () => addBead("faceted", "quartz", "#F8FAFC", 10));
+    document.getElementById("add-rondelle").addEventListener("click", () => addBead("rondelle", "stone", "#1E40AF", 8));
+    document.getElementById("add-barrel").addEventListener("click", () => addBead("barrel", "wood", "#78350F", 12));
+
+    document.getElementById("add-spacer-silver").addEventListener("click", () => addBead("rondelle", "metal", "#E2E8F0", 6, true));
+    document.getElementById("add-spacer-gold").addEventListener("click", () => addBead("rondelle", "metal", "#FACC15", 6, true));
+    document.getElementById("add-spacer-carved").addEventListener("click", () => addBead("barrel", "metal", "#E2E8F0", 8, true));
+
+    // Clasp controls
+    document.getElementById("clasp-magnetic").addEventListener("click", () => change(d => d.claspType = "magnetic"));
+    document.getElementById("clasp-lobster").addEventListener("click", () => change(d => d.claspType = "lobster"));
+    document.getElementById("clasp-screw").addEventListener("click", () => change(d => d.claspType = "screw"));
+    document.getElementById("clasp-col-silver").addEventListener("click", () => change(d => d.claspColor = "silver"));
+    document.getElementById("clasp-col-gold").addEventListener("click", () => change(d => d.claspColor = "gold"));
+
+    // ── SELECTED BEAD CONTROLS ──────────────────────────────────────────────
+    document.getElementById("slider-bead-size").addEventListener("input", e => {
+      const val = parseInt(e.target.value);
+      change(d => {
+        const bead = d.beads.find(b => b.id === d.selectedId);
+        if (bead) bead.sizeMm = val;
+      });
     });
-    const cordMesh = new THREE.Mesh(cordGeo, cordMat);
-    cordMesh.rotation.x = Math.PI / 2;
-    braceletGroup.add(cordMesh);
 
-    // PBR Physical Materials for Beads & Clasps
-    const silverMat = new THREE.MeshStandardMaterial({
-      color: 0xE2E8F0,
-      metalness: 0.95,
-      roughness: 0.15
+    ["glass", "quartz", "stone", "metal", "wood"].forEach(m => {
+      document.getElementById(`mat-${m}`)?.addEventListener("click", () => {
+        change(d => {
+          const bead = d.beads.find(b => b.id === d.selectedId);
+          if (bead) bead.material = m;
+        });
+      });
     });
 
-    const goldMat = new THREE.MeshStandardMaterial({
-      color: 0xFACC15,
-      metalness: 0.9,
-      roughness: 0.2
+    document.querySelectorAll("#bead-swatches .swatch").forEach(sw => {
+      sw.addEventListener("click", () => {
+        const col = sw.dataset.color;
+        change(d => {
+          const bead = d.beads.find(b => b.id === d.selectedId);
+          if (bead) bead.color = col;
+        });
+      });
     });
 
-    const glassMat = new THREE.MeshPhysicalMaterial({
-      color: 0x38BDF8,
-      metalness: 0.1,
-      roughness: 0.05,
-      transmission: 0.85,
-      thickness: 1.8,
-      transparent: true,
-      opacity: 0.95
+    document.getElementById("picker-bead-color").addEventListener("input", e => {
+      const col = e.target.value;
+      change(d => {
+        const bead = d.beads.find(b => b.id === d.selectedId);
+        if (bead) bead.color = col;
+      });
     });
 
-    const lapisMat = new THREE.MeshStandardMaterial({
-      color: 0x1E40AF,
-      metalness: 0.2,
-      roughness: 0.4
+    // ── BRACELET BASE CONTROLS ──────────────────────────────────────────────
+    document.getElementById("slider-wrist-size").addEventListener("input", e => {
+      const val = parseInt(e.target.value);
+      change(d => d.wristMm = val);
     });
 
-    const quartzMat = new THREE.MeshPhysicalMaterial({
-      color: 0xF8FAFC,
-      metalness: 0.05,
-      roughness: 0.1,
-      transmission: 0.9,
-      thickness: 1.5,
-      transparent: true,
-      opacity: 0.9
+    ["silver", "gold", "cord", "leather"].forEach(b => {
+      document.getElementById(`base-${b}`)?.addEventListener("click", () => {
+        change(d => d.cordType = b);
+      });
     });
 
-    // 1. Clasp Mesh (Magnetic cylinder at bottom: angle = -PI/2)
-    const claspGroup = new THREE.Group();
-    const claspCylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 1.4, 32), silverMat);
-    claspCylinder.rotation.z = Math.PI / 2;
-    claspGroup.add(claspCylinder);
-    claspGroup.position.set(0, 0, RADIUS);
-    braceletGroup.add(claspGroup);
-
-    // 2. Sample Starter Beads (The "First 10 Seconds" inviting state)
-    // Bead 1: Lapis Lazuli Sphere at -35 deg
-    const b1 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), lapisMat);
-    b1.position.set(Math.cos(Math.PI * 0.4) * RADIUS, 0, Math.sin(Math.PI * 0.4) * RADIUS);
-    braceletGroup.add(b1);
-
-    // Bead 2: Glass Crystal Sphere at -55 deg
-    const b2 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), glassMat);
-    b2.position.set(Math.cos(Math.PI * 0.3) * RADIUS, 0, Math.sin(Math.PI * 0.3) * RADIUS);
-    braceletGroup.add(b2);
-
-    // Bead 3: Crackle Quartz Sphere at -75 deg
-    const b3 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), quartzMat);
-    b3.position.set(Math.cos(Math.PI * 0.2) * RADIUS, 0, Math.sin(Math.PI * 0.2) * RADIUS);
-    braceletGroup.add(b3);
-
-    // Gentle Auto-Rotation (One thing moving on screen)
-    let autoRotate = true;
-    canvas.addEventListener("pointerdown", () => {
-      autoRotate = false;
-      const inv = document.getElementById("invitation");
-      if (inv) inv.style.opacity = "0";
+    document.querySelectorAll("[data-cord]").forEach(sw => {
+      sw.addEventListener("click", () => {
+        const col = sw.dataset.cord;
+        change(d => d.cordColor = col);
+      });
     });
 
-    // Render Loop
+    document.getElementById("picker-cord-color").addEventListener("input", e => {
+      const col = e.target.value;
+      change(d => d.cordColor = col);
+    });
+
+    // ── DUPLICATE & DELETE BEAD ACTIONS ─────────────────────────────────────
+    function duplicateSelected() {
+      const selected = doc.beads.find(b => b.id === doc.selectedId);
+      if (!selected) return;
+      change(d => {
+        const copy = { ...selected, id: ++nextBeadId, angle: selected.angle - 0.22 };
+        d.beads.push(copy);
+        d.selectedId = copy.id;
+      });
+    }
+
+    function deleteSelected() {
+      if (doc.beads.length <= 1) {
+        alert("Your bracelet needs at least one bead.");
+        return;
+      }
+      change(d => {
+        const idx = d.beads.findIndex(b => b.id === d.selectedId);
+        if (idx !== -1) {
+          d.beads.splice(idx, 1);
+          d.selectedId = d.beads[Math.max(0, idx - 1)].id;
+        }
+      });
+    }
+
+    document.getElementById("btn-duplicate").addEventListener("click", duplicateSelected);
+    document.getElementById("btn-delete").addEventListener("click", deleteSelected);
+
+    // ── MATERIALS LIST SPEC SHEET GENERATION ────────────────────────────────
+    document.getElementById("btn-list").addEventListener("click", () => {
+      const counts = {};
+      doc.beads.forEach(b => {
+        const key = `${b.sizeMm}mm ${b.material.toUpperCase()} ${b.shape} (${b.color})`;
+        counts[key] = (counts[key] || 0) + 1;
+      });
+
+      let text = `========================================\n`;
+      text += `BRACELET DESIGNER — MATERIALS SPEC SHEET\n`;
+      text += `========================================\n\n`;
+      text += `• Wrist Circumference: ${doc.wristMm} mm (${(doc.wristMm / 25.4).toFixed(1)} inches)\n`;
+      text += `• Bracelet Cord:       ${doc.cordType.toUpperCase()} ${doc.cordType === 'cord' ? '(' + doc.cordColor + ')' : ''}\n`;
+      text += `• Clasp Type:          ${doc.claspType.toUpperCase()} (${doc.claspColor.toUpperCase()})\n`;
+      text += `• Total Beads/Spacers: ${doc.beads.length} items\n\n`;
+      text += `PARTS BREAKDOWN:\n`;
+      text += `----------------------------------------\n`;
+      Object.entries(counts).forEach(([item, qty], i) => {
+        text += `${i + 1}. [Qty: ${qty}]  ${item}\n`;
+      });
+      text += `----------------------------------------\n`;
+      text += `Ready to assemble by hand or order from artisan.`;
+
+      document.getElementById("spec-sheet-content").textContent = text;
+      document.getElementById("dlg-materials").showModal();
+    });
+
+    document.getElementById("btn-copy-specs").addEventListener("click", () => {
+      const content = document.getElementById("spec-sheet-content").textContent;
+      navigator.clipboard.writeText(content).then(() => {
+        const b = document.getElementById("btn-copy-specs");
+        b.textContent = "Copied ✓";
+        setTimeout(() => b.textContent = "Copy Text", 1500);
+      });
+    });
+
+    // ── EXPORT PNG BEAUTY SHOT ──────────────────────────────────────────────
+    document.getElementById("btn-export").addEventListener("click", () => {
+      selectionRingMesh.visible = false;
+      renderer.render(scene, camera);
+      const dataUrl = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = `bracelet-${Date.now()}.png`;
+      a.click();
+      updateSelectionIndicator();
+    });
+
+    // ── SAVE PROJECT (LOCAL & DOWNLOAD) ─────────────────────────────────────
+    document.getElementById("btn-save").addEventListener("click", () => {
+      const json = JSON.stringify(doc, null, 2);
+      const blob = new Blob([json], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `bracelet-design-${Date.now()}.bracelet`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    });
+
+    // ── RENDER LOOP ─────────────────────────────────────────────────────────
     function animate() {
       requestAnimationFrame(animate);
-      if (autoRotate) {
-        braceletGroup.rotation.y += 0.004;
-      }
       controls.update();
       renderer.render(scene, camera);
     }
     animate();
 
-    // Window Resize Handler
+    // Resize Handler
     window.addEventListener("resize", () => {
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(container.clientWidth, container.clientHeight);
     });
 
-    // ── PROGRESSIVE WEB APP (PWA) & SERVICE WORKER (PART 5.3) ───────────────
+    // ── INITIAL BOOTSTRAP ───────────────────────────────────────────────────
+    updateApp();
+
+    // ── SERVICE WORKER FOR OFFLINE & UPDATE CHIP ────────────────────────────
     const chip = document.getElementById("chip");
     const SW_ON = "serviceWorker" in navigator && !["localhost", "127.0.0.1"].includes(location.hostname);
 
