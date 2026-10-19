@@ -4,6 +4,12 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.5.3] - 2026-10-19
+
+### Fixed - Smoothed Forearm Surface & Crease Elimination
+- **Eliminated Lateral Forearm Creases:** Identified alternating in-and-out radial vertex offsets on the lateral wrist rim (verts 14–20). Applied cyclical perimeter ring smoothing to the relative offsets, mathematically transforming the sawtooth accordion into a smooth organic curve and eliminating the 2 vertical creases running down the outside of the arm.
+- **Deep-Linking Camera Expansion:** Added support for `&cam=side` in `index.html` allowing instant lateral view inspection.
+
 ## [1.5.2] - 2026-10-19
 
 ### Fixed - Watertight Arm Capping & Anterior Surface Cleanup

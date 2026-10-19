@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.5.2`
-- **Phase:** Realistic Anatomical Arm & Wrist Mode with Watertight Dome Capping and Clean Anterior Surface deployed to GitHub Pages.
+- **Version:** `1.5.3`
+- **Phase:** Realistic Anatomical Arm & Wrist Mode with Watertight Dome Capping, Smoothed Forearm Contour, and Crease Elimination deployed to GitHub Pages.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -31,14 +31,15 @@
   - **3D Preview on Wrist Mode (`btn-wrist`):** Instant toggle between Studio View and Wrist View draping the active bracelet around a realistic anatomical human arm and posed resting hand (`models/arm_wrist.glb`) with natural forearm musculature, ulnar styloid bone bump, carpal wrist recess, and relaxed fingers.
   - **Watertight Proximal Dome Cap:** Proximal end of the arm is cleanly capped with a smooth dome apex fan, preventing users from seeing inside the hollow arm cylinder when viewing from the top down.
   - **Clean Anterior Surface (No Hanging Flaps):** Boundary loop sliced cleanly at planar threshold ($Z > 0.41$) removing non-manifold vertices; completely eliminates the excess skin flap and seam on the anterior arm surface.
+  - **Smoothed Lateral Arm Surface (Creases Eliminated):** Cyclically smoothed relative perimeter offsets along the wrist-to-forearm boundary, replacing alternating in-and-out vertex pleats with a smooth organic curve to eliminate the two vertical creases on the outside of the arm.
   - **Dynamic Anatomical Fit Scaling:** Arm geometry dynamically scales in real time in unison with the wrist circumference slider (140mm–220mm) using calibrated ratio `(wristRadius * 0.76) / 1.95`.
   - **Calibrated Studio Lighting in Wrist Mode:** Shading balanced (`keyLight: 1.30`, `fillLight: 0.50`, `ambientLight: 0.60`, `rimLight: 0.35`) to prevent palm/forearm highlight burnout.
   - **Skin Tone Swatches:** 4 realistic skin tone presets (Fair `#F4D0BA`, Natural `#D8A684`, Warm Tan `#A66D44`, Deep Rich `#5C3826`) in a floating control banner (`#wrist-banner`) with real-time material updates and dedicated Exit button.
   - **Brand Mark in Header:** Embedded brand logo (`icon.svg`) directly into the header brand block with balanced vertical centering.
   - **Custom Logo in About Dialog:** Embedded high-resolution brand mark (`reference/bracelet designer logo.jpg`) within a shadowed editorial card in `dlg-about`, with complete Three.js engine and Antigravity pair programming credits.
   - **Searchable Help Dialog:** Instant keyword filter (`#help-search`) in `dlg-help` with real-time guide matching and workbench ring highlighting.
-  - **Deep Linking Query Parameters:** Support for `?view=wrist&tone=...&cam=top`, `?dialog=about`, and `?dialog=help&q=...`.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.5.2 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+  - **Deep Linking Query Parameters:** Support for `?view=wrist&tone=...&cam=top` and `&cam=side`, `?dialog=about`, and `?dialog=help&q=...`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.5.3 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 

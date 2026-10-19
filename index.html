@@ -920,7 +920,7 @@
   </aside>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.5.2 ↻</button>
+  <button id="chip" title="Check for a newer version">1.5.3 ↻</button>
 
   <!-- Materials List Dialog -->
   <dialog id="dlg-materials">
@@ -988,7 +988,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.5.2</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.5.3</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1008,7 +1008,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.5.2",
+      version: "1.5.3",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2695,6 +2695,10 @@
         if (urlParams.get("cam") === "top") {
           camera.position.set(0, 42, 6);
           controls.target.set(0, 10, 0);
+          controls.update();
+        } else if (urlParams.get("cam") === "side") {
+          camera.position.set(45, 6, 0);
+          controls.target.set(0, -9, 0);
           controls.update();
         }
       }
