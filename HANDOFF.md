@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.7.3`
-- **Phase:** Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`) completed; AudioContext Asynchronous Resume & Multi-Gesture Activation Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.7.4`
+- **Phase:** Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`) completed; Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -64,7 +64,13 @@
   - **Plaintext Spec Sheet:** Formatted text recipe with complete parts breakdown and dimensions for jeweler ordering.
   - **1-Click CSV Recipe Export (`btn-export-csv`):** Downloads `bracelet-materials-spec-[timestamp].csv` with itemized part names, quantities, sizes, materials, and colors.
   - **Deep Linking:** Added `?dialog=materials` to open the Materials Spec Sheet on load.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.3 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- Phase 7 Universal Mobile & iPhone Responsive Studio Architecture:
+  - **Bottom Drawer System:** `#left-panel` and `#right-panel` smoothly animate upward as touch sheets on viewports $\le 900$px with drag handles and close buttons (`✕`).
+  - **Mobile Navigation Dock:** Fixed bottom dock (`#mobile-dock`) with 1-tap thumb controls for Palette, Properties, Undo, and Redo.
+  - **Compact Header & Overflow Menu:** Condenses desktop header into visible quick buttons and sleek `⋯` dropdown for Templates, Open, Save, Export PNG, Materials, Help, and About.
+  - **Safe Area & Dynamic Viewport:** `100dvh` and `viewport-fit=cover` with `env(safe-area-inset-*)` support.
+  - **100% Desktop Preservation:** Zero visual or functional changes on desktop viewports ($> 900$px).
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.4 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 

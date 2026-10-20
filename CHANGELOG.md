@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.4] - 2026-10-20
+
+### Added - Universal Mobile & iPhone Responsive Studio Architecture
+- **Responsive Bottom-Drawer Panels:** Replaced the mobile hidden panels rule (`display: none`) with an atelier bottom-drawer sheet architecture. On mobile viewports ($\le 900$px), the Left Palette (`#left-panel`) and Right Properties (`#right-panel`) slide up smoothly as gesture-friendly sheets with grab handles and close buttons (`✕`).
+- **Mobile Bottom Navigation Dock (`#mobile-dock`):** Added a thumb-friendly dock fixed above the iOS Home Indicator with dedicated triggers for `[✦ Palette]`, `[⚙ Properties]`, `[↩ Undo]`, and `[↪ Redo]`.
+- **Compact Header & Overflow Menu (`#mobile-menu-dropdown`):** Condenses the 10 header actions into visible primary quick buttons (`Wrist`, `🔊 Sound`) and a sleek `⋯` more menu dropdown providing instant access to Templates, Open, Save, Export PNG, Materials, Help, and About.
+- **Dynamic Viewport Height & Safe Area Insets:** Configured `height: 100dvh`, `overflow: hidden`, and `viewport-fit=cover` with `env(safe-area-inset-*)` support, eliminating vertical scroll bounce and honoring the iPhone Dynamic Island, notch, and home bar.
+- **100% Desktop Preservation:** All desktop layouts ($> 900$px) remain 100% identical and untouched with the standard 3-column workstation grid, pinned sidebars, and full header action bar.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.7.4`.
+
 ## [1.7.3] - 2026-10-20
 
 ### Changed - Clean Materials Spec Sheet & Parts Breakdown

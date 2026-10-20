@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bracelet Designer</title>
 <meta name="description" content="An interactive 3D studio for designing custom bracelets with realistic beads, spacers, and clasps.">
 <meta property="og:title" content="Bracelet Designer">
@@ -54,7 +54,9 @@
     grid-template-columns: 280px 1fr 310px;
     grid-template-rows: 56px 1fr;
     height: 100vh;
+    height: 100dvh;
     width: 100vw;
+    overflow: hidden;
   }
 
   /* Header Bar */
@@ -876,14 +878,288 @@
     margin: 6px 0;
   }
 
-  /* Responsive Mobile/Tablet */
+  /* Mobile UI Elements (Hidden on Desktop) */
+  #mobile-dock,
+  #mobile-drawer-backdrop,
+  #btn-mobile-menu,
+  #mobile-menu-dropdown,
+  .mobile-drawer-header {
+    display: none !important;
+  }
+
+  /* Responsive Mobile/Tablet Breakpoint (Screens <= 900px) */
   @media (max-width: 900px) {
     body {
       grid-template-columns: 1fr;
-      grid-template-rows: 56px 1fr auto;
+      grid-template-rows: 52px 1fr;
+      height: 100vh;
+      height: 100dvh;
+      width: 100vw;
+      overflow: hidden;
     }
-    #left-panel, #right-panel {
+
+    header {
+      padding: 0 10px;
+      height: 52px;
+      padding-top: env(safe-area-inset-top);
+    }
+
+    .brand h1 {
+      font-size: 1.05rem;
+    }
+
+    .brand .tagline {
       display: none;
+    }
+
+    /* Hide desktop secondary buttons in header on mobile */
+    #btn-new, #btn-open, #btn-save, #btn-export, #btn-list, #btn-help, #btn-about {
+      display: none !important;
+    }
+
+    #btn-wrist {
+      padding: 5px 8px;
+      font-size: 0.78rem;
+    }
+
+    #btn-sound {
+      padding: 5px 8px;
+      font-size: 0.78rem;
+    }
+
+    #btn-mobile-menu {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 10px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      height: 32px;
+      min-width: 36px;
+    }
+
+    .mobile-menu-dropdown {
+      position: fixed;
+      top: 56px;
+      right: 10px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75);
+      z-index: 100;
+      min-width: 220px;
+      padding: 6px 0;
+      animation: fadeIn 0.15s ease;
+    }
+    .mobile-menu-item {
+      padding: 11px 16px;
+      font-size: 0.85rem;
+      color: var(--fg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .mobile-menu-item:active {
+      background: var(--panel-active);
+      color: var(--accent-blue);
+    }
+    .mobile-menu-divider {
+      height: 1px;
+      background: var(--panel-border);
+      margin: 4px 0;
+    }
+
+    /* Transform Left & Right panels into Mobile Bottom Drawers */
+    #left-panel, #right-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100vw;
+      max-height: 72dvh;
+      height: auto;
+      background: var(--panel);
+      border-top: 2px solid var(--accent-blue);
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.7);
+      z-index: 60;
+      padding: 12px 16px;
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      transform: translateY(105%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex !important;
+      flex-direction: column;
+      gap: 14px;
+      box-sizing: border-box;
+    }
+
+    #left-panel.mobile-drawer-open, #right-panel.mobile-drawer-open {
+      transform: translateY(0);
+    }
+
+    .mobile-drawer-header {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 4px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--panel-border);
+    }
+    .mobile-drawer-handle {
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--accent-silver);
+      opacity: 0.4;
+      margin-bottom: 8px;
+    }
+    .mobile-drawer-title-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mobile-drawer-title-row h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      font-family: var(--serif);
+      color: var(--fg);
+      letter-spacing: 0.02em;
+    }
+    .btn-close-drawer {
+      background: var(--bg);
+      border: 1px solid var(--panel-border);
+      color: var(--fg-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    /* Mobile Backdrop Overlay */
+    #mobile-drawer-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      z-index: 55;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    #mobile-drawer-backdrop.active {
+      display: block !important;
+      opacity: 1;
+    }
+
+    /* Mobile Bottom Dock */
+    #mobile-dock {
+      display: flex !important;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      background: rgba(20, 25, 35, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--panel-border);
+      z-index: 45;
+      padding: 4px 10px;
+      padding-bottom: max(4px, env(safe-area-inset-bottom));
+      align-items: center;
+      justify-content: space-around;
+      box-sizing: content-box;
+    }
+    .mobile-dock-btn {
+      background: transparent;
+      border: none;
+      color: var(--fg-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 0.68rem;
+      font-family: var(--sans);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .mobile-dock-btn .dock-icon {
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+    .mobile-dock-btn:active, .mobile-dock-btn.active {
+      color: var(--accent-blue);
+      background: rgba(136, 164, 196, 0.14);
+    }
+    .dock-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--panel-border);
+    }
+
+    /* Floating UI Adjustments for Mobile */
+    #fit-indicator {
+      top: 58px;
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      gap: 8px;
+      max-width: 90%;
+    }
+    #stage-actions {
+      bottom: 68px;
+      padding: 5px 10px;
+      gap: 6px;
+    }
+    #stage-actions .btn {
+      padding: 4px 8px;
+      font-size: 0.75rem;
+    }
+    #invitation {
+      bottom: 110px;
+      font-size: 0.72rem;
+      padding: 5px 12px;
+      max-width: 85%;
+    }
+    #wrist-banner {
+      top: 94px;
+      font-size: 0.72rem;
+      padding: 5px 10px;
+      gap: 6px;
+    }
+
+    /* Dialogs on Mobile */
+    dialog {
+      max-width: 94vw !important;
+      width: 94vw !important;
+      max-height: 85dvh !important;
+      padding: 18px 14px !important;
+      border-radius: 12px !important;
+    }
+    .templates-grid {
+      grid-template-columns: 1fr !important;
     }
   }
 </style>
@@ -908,11 +1184,19 @@
       <button class="btn active" id="btn-sound" title="Toggle tactile sound effects">🔊 Sound</button>
       <button class="btn" id="btn-help" title="Searchable guide and tool walkthrough">Help</button>
       <button class="btn" id="btn-about" title="About Bracelet Designer and credits">About</button>
+      <button class="btn" id="btn-mobile-menu" title="More options" aria-label="Open menu">⋯</button>
     </div>
   </header>
 
   <!-- Left Sidebar: Element Palette -->
   <aside id="left-panel">
+    <div class="mobile-drawer-header">
+      <div class="mobile-drawer-handle"></div>
+      <div class="mobile-drawer-title-row">
+        <h3>Add Beads & Spacers</h3>
+        <button type="button" class="btn btn-close-drawer" aria-label="Close drawer">✕</button>
+      </div>
+    </div>
     <div>
       <div class="section-title">Add Bead Shapes</div>
       <div class="item-grid">
@@ -999,6 +1283,13 @@
 
   <!-- Right Sidebar: Properties -->
   <aside id="right-panel">
+    <div class="mobile-drawer-header">
+      <div class="mobile-drawer-handle"></div>
+      <div class="mobile-drawer-title-row">
+        <h3>Bead & Base Properties</h3>
+        <button type="button" class="btn btn-close-drawer" aria-label="Close drawer">✕</button>
+      </div>
+    </div>
     <!-- Selected Bead Properties -->
     <div class="card" id="card-selected-bead">
       <div class="section-title">
@@ -1151,8 +1442,44 @@
     </div>
   </aside>
 
+  <!-- Mobile More Menu Dropdown (Active on screens <= 900px) -->
+  <div id="mobile-menu-dropdown" class="mobile-menu-dropdown" style="display:none;">
+    <div class="mobile-menu-item" id="m-menu-new">✦ Starter Templates</div>
+    <div class="mobile-menu-item" id="m-menu-open">📂 Open .bracelet File</div>
+    <div class="mobile-menu-item" id="m-menu-save">💾 Save .bracelet File</div>
+    <div class="mobile-menu-item" id="m-menu-export">📸 Export PNG Preview</div>
+    <div class="mobile-menu-item" id="m-menu-materials">📋 Materials Spec Sheet</div>
+    <div class="mobile-menu-divider"></div>
+    <div class="mobile-menu-item" id="m-menu-help">❓ Searchable Help Guide</div>
+    <div class="mobile-menu-item" id="m-menu-about">ℹ️ About Bracelet Designer</div>
+  </div>
+
+  <!-- Mobile Bottom Dock Bar (Active on screens <= 900px) -->
+  <nav id="mobile-dock" role="navigation" aria-label="Mobile workspace navigation">
+    <button type="button" class="mobile-dock-btn" id="btn-dock-palette">
+      <span class="dock-icon">✦</span>
+      <span class="dock-label">Palette</span>
+    </button>
+    <button type="button" class="mobile-dock-btn" id="btn-dock-props">
+      <span class="dock-icon">⚙</span>
+      <span class="dock-label">Properties</span>
+    </button>
+    <div class="dock-divider"></div>
+    <button type="button" class="mobile-dock-btn" id="btn-dock-undo" title="Undo (Cmd+Z)">
+      <span class="dock-icon">↩</span>
+      <span class="dock-label">Undo</span>
+    </button>
+    <button type="button" class="mobile-dock-btn" id="btn-dock-redo" title="Redo (Cmd+Shift+Z)">
+      <span class="dock-icon">↪</span>
+      <span class="dock-label">Redo</span>
+    </button>
+  </nav>
+
+  <!-- Mobile Drawer Backdrop Overlay -->
+  <div id="mobile-drawer-backdrop"></div>
+
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.7.1 ↻</button>
+  <button id="chip" title="Check for a newer version">1.7.4 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1289,7 +1616,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.7.3",
+      version: "1.7.4",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3815,6 +4142,116 @@
         setSoundEnabled(s === "1" || s === "true", false);
       }
     } catch {}
+
+    // ── MOBILE RESPONSIVE DRAWER & MENU INTERACTIONS ────────────────────────
+    function closeMobileDrawers() {
+      const leftPanel = document.getElementById("left-panel");
+      const rightPanel = document.getElementById("right-panel");
+      const backdrop = document.getElementById("mobile-drawer-backdrop");
+      const dockPalette = document.getElementById("btn-dock-palette");
+      const dockProps = document.getElementById("btn-dock-props");
+
+      if (leftPanel) leftPanel.classList.remove("mobile-drawer-open");
+      if (rightPanel) rightPanel.classList.remove("mobile-drawer-open");
+      if (backdrop) backdrop.classList.remove("active");
+      if (dockPalette) dockPalette.classList.remove("active");
+      if (dockProps) dockProps.classList.remove("active");
+    }
+
+    function toggleMobileDrawer(type) {
+      const leftPanel = document.getElementById("left-panel");
+      const rightPanel = document.getElementById("right-panel");
+      const backdrop = document.getElementById("mobile-drawer-backdrop");
+      const dockPalette = document.getElementById("btn-dock-palette");
+      const dockProps = document.getElementById("btn-dock-props");
+
+      if (type === "palette") {
+        const isOpen = leftPanel?.classList.contains("mobile-drawer-open");
+        closeMobileDrawers();
+        if (!isOpen && leftPanel) {
+          leftPanel.classList.add("mobile-drawer-open");
+          backdrop?.classList.add("active");
+          dockPalette?.classList.add("active");
+          audioPlaySelect();
+        }
+      } else if (type === "props") {
+        const isOpen = rightPanel?.classList.contains("mobile-drawer-open");
+        closeMobileDrawers();
+        if (!isOpen && rightPanel) {
+          rightPanel.classList.add("mobile-drawer-open");
+          backdrop?.classList.add("active");
+          dockProps?.classList.add("active");
+          audioPlaySelect();
+        }
+      }
+    }
+
+    document.getElementById("btn-dock-palette")?.addEventListener("click", () => toggleMobileDrawer("palette"));
+    document.getElementById("btn-dock-props")?.addEventListener("click", () => toggleMobileDrawer("props"));
+    document.getElementById("btn-dock-undo")?.addEventListener("click", () => {
+      document.getElementById("btn-undo")?.click();
+    });
+    document.getElementById("btn-dock-redo")?.addEventListener("click", () => {
+      document.getElementById("btn-redo")?.click();
+    });
+
+    document.getElementById("mobile-drawer-backdrop")?.addEventListener("click", closeMobileDrawers);
+    document.querySelectorAll(".btn-close-drawer").forEach(btn => {
+      btn.addEventListener("click", closeMobileDrawers);
+    });
+
+    // Mobile More Menu Dropdown
+    const btnMobileMenu = document.getElementById("btn-mobile-menu");
+    const mobileMenuDropdown = document.getElementById("mobile-menu-dropdown");
+
+    function toggleMobileMenu(e) {
+      if (e) e.stopPropagation();
+      if (!mobileMenuDropdown) return;
+      const isOpen = mobileMenuDropdown.style.display !== "none";
+      mobileMenuDropdown.style.display = isOpen ? "none" : "block";
+      if (!isOpen) audioPlaySelect();
+    }
+
+    btnMobileMenu?.addEventListener("click", toggleMobileMenu);
+
+    document.addEventListener("click", e => {
+      if (mobileMenuDropdown && mobileMenuDropdown.style.display !== "none") {
+        if (!mobileMenuDropdown.contains(e.target) && e.target !== btnMobileMenu) {
+          mobileMenuDropdown.style.display = "none";
+        }
+      }
+    });
+
+    // Wire Mobile Menu items
+    document.getElementById("m-menu-new")?.addEventListener("click", () => {
+      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      document.getElementById("btn-new")?.click();
+    });
+    document.getElementById("m-menu-open")?.addEventListener("click", () => {
+      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      document.getElementById("btn-open")?.click();
+    });
+    document.getElementById("m-menu-save")?.addEventListener("click", () => {
+      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      document.getElementById("btn-save")?.click();
+    });
+    document.getElementById("m-menu-export")?.addEventListener("click", () => {
+      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      document.getElementById("btn-export")?.click();
+    });
+    document.getElementById("m-menu-materials")?.addEventListener("click", () => {
+      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      document.getElementById("btn-list")?.click();
+    });
+    document.getElementById("m-menu-help")?.addEventListener("click", () => {
+      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      document.getElementById("btn-help")?.click();
+    });
+    document.getElementById("m-menu-about")?.addEventListener("click", () => {
+      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      document.getElementById("dlg-about")?.showModal();
+      audioPlaySelect();
+    });
 
     // ── SERVICE WORKER FOR OFFLINE & UPDATE CHIP ────────────────────────────
     const chip = document.getElementById("chip");
