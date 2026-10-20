@@ -879,12 +879,14 @@
   }
 
   /* Mobile UI Elements (Hidden on Desktop) */
-  #mobile-dock,
-  #mobile-drawer-backdrop,
-  #btn-mobile-menu,
-  #mobile-menu-dropdown,
-  .mobile-drawer-header {
-    display: none !important;
+  @media (min-width: 901px) {
+    #mobile-dock,
+    #mobile-drawer-backdrop,
+    #btn-mobile-menu,
+    #mobile-menu-dropdown,
+    .mobile-drawer-header {
+      display: none !important;
+    }
   }
 
   /* Responsive Mobile/Tablet Breakpoint (Screens <= 900px) */
@@ -951,6 +953,10 @@
       min-width: 220px;
       padding: 6px 0;
       animation: fadeIn 0.15s ease;
+      display: none;
+    }
+    .mobile-menu-dropdown.open {
+      display: block !important;
     }
     .mobile-menu-item {
       padding: 11px 16px;
@@ -1443,7 +1449,7 @@
   </aside>
 
   <!-- Mobile More Menu Dropdown (Active on screens <= 900px) -->
-  <div id="mobile-menu-dropdown" class="mobile-menu-dropdown" style="display:none;">
+  <div id="mobile-menu-dropdown" class="mobile-menu-dropdown">
     <div class="mobile-menu-item" id="m-menu-new">✦ Starter Templates</div>
     <div class="mobile-menu-item" id="m-menu-open">📂 Open .bracelet File</div>
     <div class="mobile-menu-item" id="m-menu-save">💾 Save .bracelet File</div>
@@ -1479,7 +1485,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.7.4 ↻</button>
+  <button id="chip" title="Check for a newer version">1.7.5 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1616,7 +1622,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.7.4",
+      version: "1.7.5",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -4205,50 +4211,57 @@
     const mobileMenuDropdown = document.getElementById("mobile-menu-dropdown");
 
     function toggleMobileMenu(e) {
-      if (e) e.stopPropagation();
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       if (!mobileMenuDropdown) return;
-      const isOpen = mobileMenuDropdown.style.display !== "none";
-      mobileMenuDropdown.style.display = isOpen ? "none" : "block";
-      if (!isOpen) audioPlaySelect();
+      const isOpen = mobileMenuDropdown.classList.contains("open");
+      if (isOpen) {
+        mobileMenuDropdown.classList.remove("open");
+      } else {
+        mobileMenuDropdown.classList.add("open");
+        audioPlaySelect();
+      }
     }
 
     btnMobileMenu?.addEventListener("click", toggleMobileMenu);
 
     document.addEventListener("click", e => {
-      if (mobileMenuDropdown && mobileMenuDropdown.style.display !== "none") {
-        if (!mobileMenuDropdown.contains(e.target) && e.target !== btnMobileMenu) {
-          mobileMenuDropdown.style.display = "none";
+      if (mobileMenuDropdown && mobileMenuDropdown.classList.contains("open")) {
+        if (!mobileMenuDropdown.contains(e.target) && e.target !== btnMobileMenu && !btnMobileMenu?.contains(e.target)) {
+          mobileMenuDropdown.classList.remove("open");
         }
       }
     });
 
     // Wire Mobile Menu items
     document.getElementById("m-menu-new")?.addEventListener("click", () => {
-      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      mobileMenuDropdown?.classList.remove("open");
       document.getElementById("btn-new")?.click();
     });
     document.getElementById("m-menu-open")?.addEventListener("click", () => {
-      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      mobileMenuDropdown?.classList.remove("open");
       document.getElementById("btn-open")?.click();
     });
     document.getElementById("m-menu-save")?.addEventListener("click", () => {
-      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      mobileMenuDropdown?.classList.remove("open");
       document.getElementById("btn-save")?.click();
     });
     document.getElementById("m-menu-export")?.addEventListener("click", () => {
-      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      mobileMenuDropdown?.classList.remove("open");
       document.getElementById("btn-export")?.click();
     });
     document.getElementById("m-menu-materials")?.addEventListener("click", () => {
-      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      mobileMenuDropdown?.classList.remove("open");
       document.getElementById("btn-list")?.click();
     });
     document.getElementById("m-menu-help")?.addEventListener("click", () => {
-      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      mobileMenuDropdown?.classList.remove("open");
       document.getElementById("btn-help")?.click();
     });
     document.getElementById("m-menu-about")?.addEventListener("click", () => {
-      if (mobileMenuDropdown) mobileMenuDropdown.style.display = "none";
+      mobileMenuDropdown?.classList.remove("open");
       document.getElementById("dlg-about")?.showModal();
       audioPlaySelect();
     });

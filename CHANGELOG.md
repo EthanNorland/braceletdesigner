@@ -4,6 +4,13 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.5] - 2026-10-20
+
+### Fixed - Mobile Overflow Menu Display Specificity & Tap Toggle
+- **Resolved CSS Specificity Conflict:** Fixed an author CSS rule where `#mobile-menu-dropdown` had an unqualified `display: none !important;` that overrode inline JavaScript attempts to display the dropdown on mobile. Scoped the desktop-hidden rule strictly inside `@media (min-width: 901px)` and added `.mobile-menu-dropdown.open { display: block !important; }`.
+- **Enhanced Touch Event Handling:** Added `e.preventDefault()` and `e.stopPropagation()` to the `⋯` menu button ([`#btn-mobile-menu`](file:///Users/ethannorland/hello-world/index.html#L1187)) to ensure responsive tap toggling across iOS Safari and mobile browsers.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.7.5`.
+
 ## [1.7.4] - 2026-10-20
 
 ### Added - Universal Mobile & iPhone Responsive Studio Architecture
