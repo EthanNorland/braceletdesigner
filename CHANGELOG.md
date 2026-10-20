@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.6] - 2026-10-20
+
+### Fixed - Safari WebKit CSS Grid Auto-Placement & Three.js Canvas Sizing
+- **WebKit CSS Grid Auto-Placement Bug:** Resolved an issue where Safari (iOS and macOS WebKit) failed to exclude `position: fixed` elements (`#left-panel` and `#right-panel`) from grid cell auto-placement in mobile view (`@media (max-width: 900px)`), pushing `#stage-container` to an implicit row with `0px` height. Explicitly locked `header` to `grid-row: 1; grid-column: 1;` and `#stage-container` to `grid-row: 2 !important; grid-column: 1 !important; width: 100vw; height: 100%;`.
+- **Three.js Initial Viewport Fallback:** Added safe fallback dimensions (`Math.max(container.clientWidth || 0, window.innerWidth || 390)`) during camera and renderer initialization, preventing `camera.aspect` from computing as `NaN` (`0 / 0`) prior to WebKit's initial layout pass.
+- **Dynamic Render Buffer Synchronization:** Added a lightweight layout check within the `animate()` render loop to instantly update `camera.aspect` and `renderer.setSize()` whenever WebKit completes or updates container dimensions.
+- **Gesture Event Capture (`touch-action: none`):** Added `touch-action: none` to `#stage-container` in addition to `#stage-canvas`, preventing Safari's native page bounce/overscroll gestures from blocking OrbitControls manipulation.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.7.6`.
+
 ## [1.7.5] - 2026-10-20
 
 ### Fixed - Mobile Overflow Menu Display Specificity & Tap Toggle

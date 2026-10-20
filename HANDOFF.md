@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.7.5`
-- **Phase:** Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.7.6`
+- **Phase:** Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -70,7 +70,7 @@
   - **Compact Header & Overflow Menu:** Condenses desktop header into visible quick buttons and sleek `⋯` dropdown for Templates, Open, Save, Export PNG, Materials, Help, and About.
   - **Safe Area & Dynamic Viewport:** `100dvh` and `viewport-fit=cover` with `env(safe-area-inset-*)` support.
   - **100% Desktop Preservation:** Zero visual or functional changes on desktop viewports ($> 900$px).
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.5 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.6 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
@@ -79,6 +79,8 @@
 - Solicit end-user feedback on tactile audio sweet spot across various mobile devices.
 
 ## Rules Learned & Project Constraints
+- Safari WebKit CSS Grid bug: `position: fixed` elements inside a CSS Grid are still counted during grid auto-placement unless explicit `grid-row` / `grid-column` are assigned to grid children; always explicitly anchor `#stage-container` to `grid-row: 2; grid-column: 1;`.
+- Three.js camera initialization must guard against `0` dimensions (`Math.max(container.clientWidth || 0, window.innerWidth)`) to avoid `NaN` aspect ratios before WebKit completes its initial layout pass.
 - Web Audio synthesis must resume or initialize on user interaction (`pointerdown`, `keydown`) to satisfy browser autoplay policies.
 - Always use non-zero start and stop levels (e.g. `0.001` or `0.0001`) with `exponentialRampToValueAtTime` to avoid DOMExceptions.
 - Raycast pointer dragging fires at high frequency (60Hz–120Hz); sliding audio must be throttled with both time interval and angular displacement thresholds.
