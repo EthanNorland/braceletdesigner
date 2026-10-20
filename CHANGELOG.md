@@ -4,6 +4,21 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.1] - 2026-10-20
+
+### Added - Supply Catalog Export Links & Materials Spec Sourcing (Phase 6.2)
+- **1-Click Supply Catalog Sourcing Links:** Integrated targeted search URLs for every component (chains, cords, clasps, gemstone beads, metal stars, carved spacers, and monogram cubes) to three leading jewelry supply distributors:
+  - **Fire Mountain Gems & Beads:** Leading US distributor for beads and jeweler findings (`firemountaingems.com`).
+  - **Rio Grande Jewelry Supply:** Benchmark supplier for precious metals, chains, and clasps (`riogrande.com`).
+  - **Etsy Artisan Supplies:** Marketplace for rare natural gemstones, artisan cabochons, and craft supplies (`etsy.com`).
+- **Interactive Sourcing View in `#dlg-materials`:** Redesigned the Materials dialog with tabbed views:
+  - **Catalog Links (Interactive):** Displays itemized parts list with component quantities, color swatches, search keywords, and color-coded 1-click catalog search badges (`🔥 Fire Mtn`, `💎 Rio Grande`, `🛒 Etsy`).
+  - **Plaintext Spec Sheet:** Full recipe formatted with complete direct sourcing URLs for copy/pasting into jeweler inquiry emails.
+- **CSV Recipe Export (`#btn-export-csv`):** 1-click export of `bracelet-materials-sourcing-[timestamp].csv` with itemized part names, categories, quantities, millimeter dimensions, and full catalog search links for spreadsheet tracking in Excel, Numbers, or Google Sheets.
+- **Deep Linking Query Parameter:** Added `?dialog=materials` to automatically open the Materials Spec Sheet on page launch.
+- **Searchable Help:** Updated the Materials Spec Sheet guide item in `dlg-help` with keywords for supplier sourcing and CSV export.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.7.1`.
+
 ## [1.7.0] - 2026-10-20
 
 ### Added - Phase 6: Curated Starter Design Templates

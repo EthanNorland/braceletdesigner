@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.7.0](https://img.shields.io/badge/Version-1.7.0-lightgrey?style=flat-square)](#)
+[![Version: 1.7.1](https://img.shields.io/badge/Version-1.7.1-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -44,7 +44,8 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Fit Calculator:** Real-time millimeter accumulator tracking bracelet fullness against wrist circumference (140mm–220mm).
 - **Studio Lighting & PMREM Reflections:** Multi-point studio lighting with high-contrast atelier backdrop.
 - **Full Undo/Redo & Quick Actions:** Robust history stack, duplicate (`D`), and delete actions.
-- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.7.0 ↻`).
+- **Materials Spec Sheet & Supply Sourcing (Phase 6.2):** Itemized parts recipe with direct 1-click supply catalog search links to **Fire Mountain Gems & Beads**, **Rio Grande Jewelry Supply**, and **Etsy Artisan Supplies**, plus 1-click **CSV Recipe Export** and tabbed plaintext copy for jeweled craft assembly.
+- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.7.1 ↻`).
 
 ---
 
