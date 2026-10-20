@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.5.3`
-- **Phase:** Realistic Anatomical Arm & Wrist Mode with Watertight Dome Capping, Smoothed Forearm Contour, and Crease Elimination deployed to GitHub Pages.
+- **Version:** `1.6.0`
+- **Phase:** Procedural Tactile Audio Synthesis Engine (Phase 5) deployed with material-differentiated sound, throttled sliding clatter, mechanical clasp snaps, and header sound toggle.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -38,17 +38,27 @@
   - **Brand Mark in Header:** Embedded brand logo (`icon.svg`) directly into the header brand block with balanced vertical centering.
   - **Custom Logo in About Dialog:** Embedded high-resolution brand mark (`reference/bracelet designer logo.jpg`) within a shadowed editorial card in `dlg-about`, with complete Three.js engine and Antigravity pair programming credits.
   - **Searchable Help Dialog:** Instant keyword filter (`#help-search`) in `dlg-help` with real-time guide matching and workbench ring highlighting.
-  - **Deep Linking Query Parameters:** Support for `?view=wrist&tone=...&cam=top` and `&cam=side`, `?dialog=about`, and `?dialog=help&q=...`.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.5.3 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+  - **Deep Linking Query Parameters:** Support for `?view=wrist&tone=...&cam=top` and `&cam=side`, `?dialog=about`, `?dialog=help&q=...`, and `?sound=1` / `?sound=0`.
+- Phase 5 Procedural Tactile Audio Synthesis Engine:
+  - **100% Procedural Synthesis:** Zero external audio files or network latency; uses Web Audio API oscillators, exponential gain ramps, and harmonic overtones.
+  - **Material Signatures:** Unique acoustic timbres for glass (clear ping), quartz (crystalline chime with shimmer), metal (harmonic ping), stone (dense mineral knock), and wood (warm triangle marimba).
+  - **Sliding Cadence:** Throttled micro-ticks ($\ge 65$ms and $\Delta\theta > 0.035$ rad) when beads are dragged in 3D.
+  - **Mechanical Clasps:** Dual-snap magnetic latch, spring-loaded lobster claw click, and double-thread screw-in lock.
+  - **Tactile UI Actions:** Subtle ticks for 3D selection, spawn chimes for duplication, unstring pop for deletion, and directional ticks for undo/redo.
+  - **Header Sound Toggle & Persistence:** `#btn-sound` (`🔊 Sound` / `🔇 Mute`) with user preference saved to `localStorage` (`bracelet_sound_enabled`).
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.6.0 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
-## What's Next (Phase 5: User Testing & Sensory Immersion)
-- Solicit end-user and jeweler feedback on bead sliding fluidity and wrist preview lighting across various screen resolutions.
-- Optional sensory enhancements: subtle tactile audio feedback (soft bead clicks on collision/slide, clasp click) with mute toggle.
-- Extended starter template presets (e.g. Minimalist Gold, Bohemian Stone, Chakra Healer).
+## What's Next (Phase 6: Presets, Custom Patterns & Jewelers Spec Export)
+- Curated Starter Patterns / Presets (e.g. Bohemian Lapis, Minimalist 18K Gold, Crystal Chakra).
+- Enhanced materials spec export with estimated physical weight and supply catalog links.
+- Solicit end-user feedback on tactile audio sweet spot across various mobile devices.
 
 ## Rules Learned & Project Constraints
+- Web Audio synthesis must resume or initialize on user interaction (`pointerdown`, `keydown`) to satisfy browser autoplay policies.
+- Always use non-zero start and stop levels (e.g. `0.001` or `0.0001`) with `exponentialRampToValueAtTime` to avoid DOMExceptions.
+- Raycast pointer dragging fires at high frequency (60Hz–120Hz); sliding audio must be throttled with both time interval and angular displacement thresholds.
 - Dragging a bead records ONE undo step (pointerdown snapshot, pointerup commit).
 - Direct manipulation in 3D must temporarily disable OrbitControls during raycast pointermove.
 - Selection indicator ring follows the active 3D bead position and scales with bead diameter.

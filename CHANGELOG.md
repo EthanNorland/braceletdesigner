@@ -4,6 +4,34 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.0] - 2026-10-20
+
+### Added - Phase 5: Procedural Tactile Audio Synthesis Engine
+- **Procedural Web Audio Synthesis Engine:** Built a 100% client-side, zero-latency physical audio synthesis engine using the Web Audio API with zero external audio file downloads or CDN requests (100% offline-ready PWA).
+- **Material-Differentiated Acoustic Signatures:**
+  - **Glass:** High-clear resonant ping (880 Hz down to 520 Hz) with natural decay.
+  - **Quartz:** Crystalline bell chime (1150 Hz down to 780 Hz) layered with a subtle overtone shimmer at 2300 Hz.
+  - **Metal:** Bright metallic ping (1400 Hz down to 900 Hz) with high harmonic resonance (2800 Hz).
+  - **Stone:** Deep, dense mineral drop (650 Hz down to 380 Hz) with short decay.
+  - **Wood:** Warm acoustic marimba knock (460 Hz down to 280 Hz) using warm triangle harmonic synthesis.
+- **Throttled 3D Bead Sliding Cadence:** Synthesized tactile micro-ticks tailored by bead material when dragging along the 3D loop, throttled at 65ms intervals and angular step threshold ($\Delta\theta > 0.035$ rad) to create an organic bead-to-bead clatter without audio stutter.
+- **Realistic Clasp Fastening Mechanics:**
+  - **Magnetic Clasp:** Crisp dual-impulse snap (1800 Hz micro-contact ping followed by 1200 Hz $\to$ 800 Hz magnetic latch).
+  - **Lobster Claw Clasp:** Spring-loaded mechanical click (1600 Hz lever release followed by 2200 Hz $\to$ 1300 Hz latch snap).
+  - **Screw-in Clasp:** Dual-notch thread ratchet click (980 Hz followed by 1350 Hz lock notch).
+- **Atelier Tactile Feedback:**
+  - **3D Bead Selection:** Ultra-subtle tactile tick (1600 Hz, 15ms, gain 0.08).
+  - **Duplicate Action:** Pleasant ascending two-tone spawn chime (720 Hz $\to$ 1080 Hz).
+  - **Delete Action:** Soft descending unstring pop (580 Hz $\to$ 220 Hz).
+  - **Undo / Redo:** Directional tactile micro-clicks (Undo: 580 Hz $\to$ 420 Hz; Redo: 420 Hz $\to$ 580 Hz).
+- **Header Sound Toggle & Persistence:**
+  - Added `#btn-sound` in the header bar (`🔊 Sound` / `🔇 Mute`) with user preference persisted in `localStorage` (`bracelet_sound_enabled`).
+  - Tactile sound feedback and toast confirmation when toggling mute state.
+- **Searchable Help & Deep Linking:**
+  - Integrated Tactile Audio Engine guide item into `dlg-help` with instant search filter keywords (`sound`, `audio`, `tactile`, `mute`, `chime`) and interactive button ring targeting.
+  - Deep linking query parameters `?sound=1` (force audio active) and `?sound=0` (force audio muted).
+- **PWA Precache Bump:** Bumped cache manifest in `sw.js` and application version to `1.6.0`.
+
 ## [1.5.3] - 2026-10-19
 
 ### Fixed - Smoothed Forearm Surface & Crease Elimination

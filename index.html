@@ -214,6 +214,13 @@
     color: #FFFFFF;
   }
 
+  .btn.active {
+    background: var(--panel-active);
+    border-color: var(--accent-blue);
+    color: #FFFFFF;
+    font-weight: 600;
+  }
+
   .btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
@@ -674,6 +681,7 @@
       <button class="btn" id="btn-export" title="Export high-resolution 3D preview render">Export PNG</button>
       <button class="btn" id="btn-list" title="View itemized materials and dimensions spec sheet">Materials</button>
       <button class="btn" id="btn-wrist" title="Preview bracelet draped on human wrist">Wrist View</button>
+      <button class="btn active" id="btn-sound" title="Toggle tactile sound effects">🔊 Sound</button>
       <button class="btn" id="btn-help" title="Searchable guide and tool walkthrough">Help</button>
       <button class="btn" id="btn-about" title="About Bracelet Designer and credits">About</button>
     </div>
@@ -920,7 +928,7 @@
   </aside>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.5.3 ↻</button>
+  <button id="chip" title="Check for a newer version">1.6.0 ↻</button>
 
   <!-- Materials List Dialog -->
   <dialog id="dlg-materials">
@@ -943,6 +951,9 @@
     <div id="help-items-container" style="display:flex; flex-direction:column; gap:10px; margin: 10px 0; max-height:360px; overflow-y:auto; padding-right:4px;">
       <div class="help-item" data-keywords="wrist view preview drape arm skin tone fit size cylinder anatomy realistic hand" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-wrist')">
         <strong>Preview on Wrist:</strong> Toggle <em>Wrist View</em> in the header to drape your bracelet onto a realistic anatomical human arm and posed hand with 4 skin tones.
+      </div>
+      <div class="help-item" data-keywords="sound audio tactile click clack mute volume effect chime synthesis web audio resonance" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-sound')">
+        <strong>Tactile Audio Engine:</strong> Toggle <em>Sound</em> in the header for real-time procedural Web Audio synthesis that resonates according to bead material (glass, quartz, metal, stone, wood), sliding collisions, and clasp latching.
       </div>
       <div class="help-item" data-keywords="slide arrange move drag angle circle interactive" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-canvas')">
         <strong>Slide & Arrange:</strong> Click directly on any bead in 3D and drag to slide it along the bracelet curve.
@@ -988,7 +999,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.5.3</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.6.0</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1008,13 +1019,351 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.5.3",
+      version: "1.6.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
 
     document.getElementById("chip").textContent = APP.version + " ↻";
     document.getElementById("about-version").textContent = APP.version;
+
+    // ── TACTILE AUDIO SYNTHESIS ENGINE (PART 5) ──────────────────────────────
+    let audioCtx = null;
+    let soundEnabled = true;
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("sound")) {
+        const s = urlParams.get("sound");
+        soundEnabled = s === "1" || s === "true";
+      } else {
+        const savedSound = localStorage.getItem("bracelet_sound_enabled");
+        if (savedSound !== null) soundEnabled = savedSound === "true";
+      }
+    } catch {}
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+          audioCtx = new AudioCtx();
+        }
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    function unlockAudio() {
+      getAudioContext();
+    }
+    window.addEventListener("pointerdown", unlockAudio, { passive: true });
+    window.addEventListener("keydown", unlockAudio, { passive: true });
+
+    function updateSoundButtonUI() {
+      const btn = document.getElementById("btn-sound");
+      if (!btn) return;
+      btn.textContent = soundEnabled ? "🔊 Sound" : "🔇 Mute";
+      btn.title = soundEnabled ? "Tactile audio synthesis active (Click to mute)" : "Tactile audio synthesis muted (Click to enable)";
+      btn.classList.toggle("active", soundEnabled);
+    }
+
+    function setSoundEnabled(val, showFeedback = true) {
+      soundEnabled = !!val;
+      try {
+        localStorage.setItem("bracelet_sound_enabled", soundEnabled);
+      } catch {}
+      updateSoundButtonUI();
+      if (showFeedback) {
+        showToast(soundEnabled ? "Tactile sound effects enabled 🔊" : "Tactile sound effects muted 🔇", 2200);
+        if (soundEnabled) {
+          audioPlayAdd("glass");
+        }
+      }
+    }
+
+    document.getElementById("btn-sound")?.addEventListener("click", () => {
+      setSoundEnabled(!soundEnabled);
+    });
+    updateSoundButtonUI();
+
+    function audioPlayAdd(material = "glass") {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      let baseFreq = 880;
+      let endFreq = 520;
+      let decay = 0.09;
+      let peakGain = 0.18;
+      let oscType = "sine";
+
+      if (material === "metal") {
+        baseFreq = 1400; endFreq = 900; decay = 0.09; peakGain = 0.16;
+        const hOsc = ctx.createOscillator();
+        const hGain = ctx.createGain();
+        hOsc.type = "sine";
+        hOsc.frequency.setValueAtTime(2800, now);
+        hGain.gain.setValueAtTime(0.001, now);
+        hGain.gain.linearRampToValueAtTime(0.08, now + 0.002);
+        hGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+        hOsc.connect(hGain);
+        hGain.connect(ctx.destination);
+        hOsc.start(now);
+        hOsc.stop(now + 0.07);
+      } else if (material === "quartz") {
+        baseFreq = 1150; endFreq = 780; decay = 0.11; peakGain = 0.16;
+        const qOsc = ctx.createOscillator();
+        const qGain = ctx.createGain();
+        qOsc.type = "sine";
+        qOsc.frequency.setValueAtTime(2300, now);
+        qGain.gain.setValueAtTime(0.001, now);
+        qGain.gain.linearRampToValueAtTime(0.05, now + 0.002);
+        qGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+        qOsc.connect(qGain);
+        qGain.connect(ctx.destination);
+        qOsc.start(now);
+        qOsc.stop(now + 0.09);
+      } else if (material === "stone") {
+        baseFreq = 650; endFreq = 380; decay = 0.06; peakGain = 0.20;
+      } else if (material === "wood") {
+        baseFreq = 460; endFreq = 280; decay = 0.05; peakGain = 0.22;
+        oscType = "triangle";
+      }
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = oscType;
+      osc.frequency.setValueAtTime(baseFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(endFreq, now + decay);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(peakGain, now + 0.003);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + decay);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + decay + 0.01);
+    }
+
+    function audioPlaySlide(material = "glass") {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      let freq = 2100;
+      let decay = 0.024;
+      let peakGain = 0.11;
+      let oscType = "sine";
+
+      if (material === "metal") { freq = 2800; decay = 0.028; peakGain = 0.12; }
+      else if (material === "quartz") { freq = 2400; decay = 0.024; peakGain = 0.11; }
+      else if (material === "stone") { freq = 850; decay = 0.020; peakGain = 0.13; }
+      else if (material === "wood") { freq = 520; decay = 0.022; peakGain = 0.14; oscType = "triangle"; }
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = oscType;
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.7, now + decay);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(peakGain, now + 0.002);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + decay);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + decay + 0.01);
+    }
+
+    function audioPlayClasp(type = "magnetic") {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      if (type === "magnetic") {
+        const osc1 = ctx.createOscillator();
+        const g1 = ctx.createGain();
+        osc1.type = "sine";
+        osc1.frequency.setValueAtTime(1800, now);
+        g1.gain.setValueAtTime(0.001, now);
+        g1.gain.linearRampToValueAtTime(0.10, now + 0.001);
+        g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.012);
+        osc1.connect(g1);
+        g1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.015);
+
+        const osc2 = ctx.createOscillator();
+        const g2 = ctx.createGain();
+        osc2.type = "sine";
+        const t2 = now + 0.016;
+        osc2.frequency.setValueAtTime(1200, t2);
+        osc2.frequency.exponentialRampToValueAtTime(800, t2 + 0.06);
+        g2.gain.setValueAtTime(0.001, t2);
+        g2.gain.linearRampToValueAtTime(0.22, t2 + 0.002);
+        g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.065);
+        osc2.connect(g2);
+        g2.connect(ctx.destination);
+        osc2.start(t2);
+        osc2.stop(t2 + 0.07);
+      } else if (type === "lobster") {
+        const osc1 = ctx.createOscillator();
+        const g1 = ctx.createGain();
+        osc1.type = "sine";
+        osc1.frequency.setValueAtTime(1600, now);
+        g1.gain.setValueAtTime(0.001, now);
+        g1.gain.linearRampToValueAtTime(0.12, now + 0.001);
+        g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
+        osc1.connect(g1);
+        g1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.016);
+
+        const osc2 = ctx.createOscillator();
+        const g2 = ctx.createGain();
+        osc2.type = "triangle";
+        const t2 = now + 0.022;
+        osc2.frequency.setValueAtTime(2200, t2);
+        osc2.frequency.exponentialRampToValueAtTime(1300, t2 + 0.05);
+        g2.gain.setValueAtTime(0.001, t2);
+        g2.gain.linearRampToValueAtTime(0.20, t2 + 0.002);
+        g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.05);
+        osc2.connect(g2);
+        g2.connect(ctx.destination);
+        osc2.start(t2);
+        osc2.stop(t2 + 0.055);
+      } else if (type === "screw") {
+        const osc1 = ctx.createOscillator();
+        const g1 = ctx.createGain();
+        osc1.type = "sine";
+        osc1.frequency.setValueAtTime(980, now);
+        g1.gain.setValueAtTime(0.001, now);
+        g1.gain.linearRampToValueAtTime(0.14, now + 0.001);
+        g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.016);
+        osc1.connect(g1);
+        g1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.018);
+
+        const osc2 = ctx.createOscillator();
+        const g2 = ctx.createGain();
+        osc2.type = "sine";
+        const t2 = now + 0.028;
+        osc2.frequency.setValueAtTime(1350, t2);
+        g2.gain.setValueAtTime(0.001, t2);
+        g2.gain.linearRampToValueAtTime(0.16, t2 + 0.002);
+        g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.02);
+        osc2.connect(g2);
+        g2.connect(ctx.destination);
+        osc2.start(t2);
+        osc2.stop(t2 + 0.025);
+      }
+    }
+
+    function audioPlaySelect() {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(1600, now);
+      g.gain.setValueAtTime(0.001, now);
+      g.gain.linearRampToValueAtTime(0.08, now + 0.001);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.015);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.018);
+    }
+
+    function audioPlayDuplicate() {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc1 = ctx.createOscillator();
+      const g1 = ctx.createGain();
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(720, now);
+      g1.gain.setValueAtTime(0.001, now);
+      g1.gain.linearRampToValueAtTime(0.12, now + 0.002);
+      g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+      osc1.connect(g1);
+      g1.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.045);
+
+      const osc2 = ctx.createOscillator();
+      const g2 = ctx.createGain();
+      osc2.type = "sine";
+      const t2 = now + 0.035;
+      osc2.frequency.setValueAtTime(1080, t2);
+      g2.gain.setValueAtTime(0.001, t2);
+      g2.gain.linearRampToValueAtTime(0.14, t2 + 0.002);
+      g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.06);
+      osc2.connect(g2);
+      g2.connect(ctx.destination);
+      osc2.start(t2);
+      osc2.stop(t2 + 0.065);
+    }
+
+    function audioPlayDelete() {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(580, now);
+      osc.frequency.exponentialRampToValueAtTime(220, now + 0.06);
+      g.gain.setValueAtTime(0.001, now);
+      g.gain.linearRampToValueAtTime(0.16, now + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.07);
+    }
+
+    function audioPlayUndo() {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(580, now);
+      osc.frequency.exponentialRampToValueAtTime(420, now + 0.035);
+      g.gain.setValueAtTime(0.001, now);
+      g.gain.linearRampToValueAtTime(0.09, now + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    }
+
+    function audioPlayRedo() {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(420, now);
+      osc.frequency.exponentialRampToValueAtTime(580, now + 0.035);
+      g.gain.setValueAtTime(0.001, now);
+      g.gain.linearRampToValueAtTime(0.09, now + 0.002);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    }
 
     // ── DOCUMENT DATA MODEL (SINGLE SOURCE OF TRUTH - PART 3.4) ─────────────
     let doc = {
@@ -1247,6 +1596,7 @@
       doc = JSON.parse(undoStack.pop());
       updateApp();
       scheduleAutosave();
+      audioPlayUndo();
     }
 
     function redo() {
@@ -1255,6 +1605,7 @@
       doc = JSON.parse(redoStack.pop());
       updateApp();
       scheduleAutosave();
+      audioPlayRedo();
     }
 
     // Keyboard Shortcuts
@@ -2052,6 +2403,8 @@
     let isDraggingBead = false;
     let draggedBeadId = null;
     let dragStartSnapshot = null;
+    let lastSlideAngle = null;
+    let lastSlideSoundTime = 0;
 
     canvas.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove);
@@ -2082,6 +2435,11 @@
           // Select this bead
           doc.selectedId = draggedBeadId;
           updateAppUI();
+          audioPlaySelect();
+
+          const selectedBead = doc.beads.find(b => b.id === draggedBeadId);
+          lastSlideAngle = selectedBead ? selectedBead.angle : null;
+          lastSlideSoundTime = performance.now();
 
           // Snapshot for undo step
           dragStartSnapshot = JSON.stringify(doc);
@@ -2108,6 +2466,19 @@
 
         const bead = doc.beads.find(b => b.id === draggedBeadId);
         if (bead) {
+          if (lastSlideAngle !== null) {
+            let dAngle = Math.abs(angle - lastSlideAngle);
+            if (dAngle > Math.PI) dAngle = 2 * Math.PI - dAngle;
+            const nowMs = performance.now();
+            if (nowMs - lastSlideSoundTime > 65 && dAngle > 0.035) {
+              audioPlaySlide(bead.material || "glass");
+              lastSlideSoundTime = nowMs;
+              lastSlideAngle = angle;
+            }
+          } else {
+            lastSlideAngle = angle;
+          }
+
           bead.angle = angle;
           const radius = getRadius();
           const mesh = beadMeshes.get(bead.id);
@@ -2276,6 +2647,7 @@
         });
         d.selectedId = newId;
       });
+      audioPlayAdd(material);
     }
 
     document.getElementById("add-sphere").addEventListener("click", () => addBead("sphere", "glass", "#38BDF8", 10));
@@ -2290,11 +2662,26 @@
     document.getElementById("add-spacer-carved").addEventListener("click", () => addBead("barrel", "metal", "#E2E8F0", 8, true));
 
     // Clasp controls
-    document.getElementById("clasp-magnetic").addEventListener("click", () => change(d => d.claspType = "magnetic"));
-    document.getElementById("clasp-lobster").addEventListener("click", () => change(d => d.claspType = "lobster"));
-    document.getElementById("clasp-screw").addEventListener("click", () => change(d => d.claspType = "screw"));
-    document.getElementById("clasp-col-silver").addEventListener("click", () => change(d => d.claspColor = "silver"));
-    document.getElementById("clasp-col-gold").addEventListener("click", () => change(d => d.claspColor = "gold"));
+    document.getElementById("clasp-magnetic").addEventListener("click", () => {
+      change(d => d.claspType = "magnetic");
+      audioPlayClasp("magnetic");
+    });
+    document.getElementById("clasp-lobster").addEventListener("click", () => {
+      change(d => d.claspType = "lobster");
+      audioPlayClasp("lobster");
+    });
+    document.getElementById("clasp-screw").addEventListener("click", () => {
+      change(d => d.claspType = "screw");
+      audioPlayClasp("screw");
+    });
+    document.getElementById("clasp-col-silver").addEventListener("click", () => {
+      change(d => d.claspColor = "silver");
+      audioPlayAdd("metal");
+    });
+    document.getElementById("clasp-col-gold").addEventListener("click", () => {
+      change(d => d.claspColor = "gold");
+      audioPlayAdd("metal");
+    });
 
     // ── SELECTED BEAD CONTROLS ──────────────────────────────────────────────
     document.getElementById("slider-bead-size").addEventListener("input", e => {
@@ -2317,6 +2704,7 @@
             }
           }
         });
+        audioPlaySelect();
       });
     });
 
@@ -2349,6 +2737,7 @@
           const bead = d.beads.find(b => b.id === d.selectedId);
           if (bead) bead.material = m;
         });
+        audioPlayAdd(m);
       });
     });
 
@@ -2393,6 +2782,11 @@
     ["silver", "gold", "cord", "leather"].forEach(b => {
       document.getElementById(`base-${b}`)?.addEventListener("click", () => {
         change(d => d.cordType = b);
+        if (b === "silver" || b === "gold") {
+          audioPlayAdd("metal");
+        } else {
+          audioPlayAdd("wood");
+        }
       });
     });
 
@@ -2409,8 +2803,14 @@
     });
 
     // ── WRIST VIEW CONTROLS & SKIN TONES (PART 4) ───────────────────────────
-    document.getElementById("btn-wrist").addEventListener("click", () => toggleWristView());
-    document.getElementById("btn-wrist-close")?.addEventListener("click", () => toggleWristView(false));
+    document.getElementById("btn-wrist").addEventListener("click", () => {
+      toggleWristView();
+      audioPlaySelect();
+    });
+    document.getElementById("btn-wrist-close")?.addEventListener("click", () => {
+      toggleWristView(false);
+      audioPlaySelect();
+    });
 
     document.querySelectorAll("#wrist-skin-tones .tone-btn").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -2433,6 +2833,7 @@
         d.beads.push(copy);
         d.selectedId = copy.id;
       });
+      audioPlayDuplicate();
     }
 
     function deleteSelected() {
@@ -2447,6 +2848,7 @@
           d.selectedId = d.beads[Math.max(0, idx - 1)].id;
         }
       });
+      audioPlayDelete();
     }
 
     document.getElementById("btn-duplicate").addEventListener("click", duplicateSelected);
@@ -2712,6 +3114,10 @@
           helpSearchInput.value = q;
           helpSearchInput.dispatchEvent(new Event("input"));
         }
+      }
+      if (urlParams.has("sound")) {
+        const s = urlParams.get("sound");
+        setSoundEnabled(s === "1" || s === "true", false);
       }
     } catch {}
 
