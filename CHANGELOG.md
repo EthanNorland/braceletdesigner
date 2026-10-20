@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.3] - 2026-10-20
+
+### Changed - Clean Materials Spec Sheet & Parts Breakdown
+- **Removed Third-Party Catalog Links:** Eliminated broken and empty search query links to Fire Mountain Gems, Rio Grande, and Etsy from the Materials Spec Sheet modal and exported formats.
+- **Refined Parts List View:** Replaced external search buttons with clean, high-contrast jeweler tags (`Category`, `Dimensions`) alongside color swatches, item names, and component quantities.
+- **Clean Plaintext Spec Sheet:** Updated the formatted recipe to display clean itemized component counts, wrist circumference, base cord, clasp mechanism, and beads without search URL clutter.
+- **Streamlined CSV Bill of Materials:** Cleaned up `#btn-export-csv` to export a spreadsheet with `Item #`, `Category`, `Part Description`, `Quantity`, `Target Size (mm)`, `Material`, and `Color`.
+- **Searchable Help Update:** Refreshed the Materials Spec Sheet entry in `#dlg-help` to reflect the refined parts recipe and dimensions breakdown.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.7.3`.
+
 ## [1.7.2] - 2026-10-20
 
 ### Fixed - AudioContext Asynchronous Resume & Multi-Gesture Activation

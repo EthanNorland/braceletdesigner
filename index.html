@@ -772,9 +772,9 @@
     font-weight: 600;
   }
 
-  /* Materials Spec Sheet & Sourcing Dialog (Phase 6.2) */
+  /* Materials Spec Sheet Dialog */
   #dlg-materials {
-    max-width: 820px;
+    max-width: 680px;
     width: 92%;
     max-height: 88vh;
     padding: 24px;
@@ -838,57 +838,26 @@
     line-height: 1.35;
     word-break: break-word;
   }
-  .sourcing-actions {
+  .sourcing-meta {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
   }
-  .catalog-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+  .part-badge {
     font-size: 0.72rem;
-    font-weight: 600;
-    padding: 5px 9px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: all 0.15s ease;
+    background: var(--panel-active);
     border: 1px solid var(--panel-border);
-    background: var(--panel);
-    color: var(--fg);
+    color: var(--accent-silver);
+    padding: 2px 8px;
+    border-radius: 4px;
     white-space: nowrap;
   }
-  .catalog-link:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-  .catalog-link.fmg {
-    border-color: rgba(239, 68, 68, 0.4);
-    color: #FCA5A5;
-  }
-  .catalog-link.fmg:hover {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: #EF4444;
-    color: #FEE2E2;
-  }
-  .catalog-link.rio {
-    border-color: rgba(59, 130, 246, 0.4);
-    color: #93C5FD;
-  }
-  .catalog-link.rio:hover {
-    background: rgba(59, 130, 246, 0.15);
-    border-color: #3B82F6;
-    color: #DBEAFE;
-  }
-  .catalog-link.etsy {
-    border-color: rgba(245, 158, 11, 0.4);
-    color: #FCD34D;
-  }
-  .catalog-link.etsy:hover {
-    background: rgba(245, 158, 11, 0.15);
-    border-color: #F59E0B;
-    color: #FEF3C7;
+  .part-size {
+    font-size: 0.75rem;
+    font-family: var(--mono);
+    color: var(--fg-muted);
+    white-space: nowrap;
   }
 
   /* Spec Sheet Pre */
@@ -1207,22 +1176,22 @@
     </div>
   </dialog>
 
-  <!-- Materials List Dialog (Phase 6.2 Sourcing Links) -->
+  <!-- Materials List Dialog -->
   <dialog id="dlg-materials">
     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:12px;">
       <div>
-        <h2 style="margin:0 0 4px 0;">Materials Spec Sheet &amp; Sourcing</h2>
-        <p style="margin:0; font-size:0.85rem; color:var(--fg-muted);">Itemized recipe with 1-click supply catalog links to Fire Mountain Gems, Rio Grande, and Etsy.</p>
+        <h2 style="margin:0 0 4px 0;">Materials Spec Sheet</h2>
+        <p style="margin:0; font-size:0.85rem; color:var(--fg-muted);">Itemized recipe and dimensions for jeweler or craft assembly.</p>
       </div>
       <div style="display:flex; gap:6px;">
-        <button class="btn active" id="tab-btn-sourcing" style="font-size:0.8rem; padding:6px 12px;">Catalog Links</button>
+        <button class="btn active" id="tab-btn-sourcing" style="font-size:0.8rem; padding:6px 12px;">Parts List</button>
         <button class="btn" id="tab-btn-raw" style="font-size:0.8rem; padding:6px 12px;">Plaintext</button>
       </div>
     </div>
 
-    <!-- Tab 1: Interactive Sourcing Table -->
+    <!-- Tab 1: Interactive Parts Table -->
     <div id="materials-sourcing-view" style="overflow-y:auto; flex:1; max-height:420px; padding-right:4px;">
-      <div id="materials-sourcing-list" class="sourcing-list" role="region" aria-label="Itemized parts and supply catalog links"></div>
+      <div id="materials-sourcing-list" class="sourcing-list" role="region" aria-label="Itemized parts list"></div>
     </div>
 
     <!-- Tab 2: Raw Spec Sheet (Text) -->
@@ -1233,7 +1202,7 @@
     <div class="dialog-footer" style="margin-top:14px; padding-top:12px; border-top:1px solid var(--panel-border); display:flex; justify-content:space-between; align-items:center;">
       <div style="display:flex; gap:8px;">
         <button class="btn" id="btn-copy-specs">Copy Spec Sheet</button>
-        <button class="btn" id="btn-export-csv" title="Download itemized CSV spreadsheet with supply links">Export CSV</button>
+        <button class="btn" id="btn-export-csv" title="Download itemized CSV spreadsheet">Export CSV</button>
       </div>
       <button class="btn primary" onclick="document.getElementById('dlg-materials').close()">Done</button>
     </div>
@@ -1277,8 +1246,8 @@
       <div class="help-item" data-keywords="duplicate delete remove hotkey d key backspace action" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#stage-actions')">
         <strong>Duplicate & Delete:</strong> Use the action bar or press <kbd>D</kbd> to duplicate and <kbd>Delete</kbd> to remove beads.
       </div>
-      <div class="help-item" data-keywords="materials spec sheet recipe jeweler dimensions list breakdown supply sourcing catalog links fire mountain rio grande etsy csv export parts order" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-list')">
-        <strong>Materials Spec Sheet &amp; Supply Links:</strong> View an itemized recipe with direct 1-click catalog search links to Fire Mountain Gems, Rio Grande, and Etsy, plus CSV export for jeweler ordering.
+      <div class="help-item" data-keywords="materials spec sheet recipe jeweler dimensions list breakdown parts csv export order bom" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-list')">
+        <strong>Materials Spec Sheet:</strong> View an itemized recipe with dimensions, material finishes, and quantities for jeweler or craft assembly, plus CSV export.
       </div>
       <div class="help-item" data-keywords="export png image snapshot render resolution photo" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-export')">
         <strong>Export High-Res PNG:</strong> Capture a crisp studio render of your bracelet without UI overlays.
@@ -1320,7 +1289,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.7.2",
+      version: "1.7.3",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3193,71 +3162,6 @@
       return names[norm] || hex;
     }
 
-    function getSupplyQuery(item) {
-      if (item.type === "base") {
-        const baseMap = {
-          silver: "Sterling silver jewelry chain",
-          gold: "Gold link jewelry chain",
-          leather: "Braided leather cord 2mm",
-          cord: "Woven nylon beading cord 1mm"
-        };
-        return baseMap[item.cordType] || "jewelry cord chain";
-      }
-      if (item.type === "clasp") {
-        const finish = item.claspColor === "gold" ? "Gold" : "Sterling silver";
-        const claspMap = {
-          lobster: "lobster claw clasp",
-          magnetic: "magnetic cylinder clasp",
-          screw: "screw barrel clasp"
-        };
-        return `${finish} ${claspMap[item.claspType] || "jewelry clasp"}`;
-      }
-      if (item.type === "bead") {
-        const shapeMap = {
-          sphere: "round beads",
-          faceted: "faceted beads",
-          rondelle: "rondelle spacer beads",
-          barrel: "barrel beads",
-          cube: "cube beads",
-          star: "star beads"
-        };
-        const sName = shapeMap[item.shape] || "beads";
-        if (item.text) {
-          return `${item.sizeMm}mm alphabet letter cube beads`;
-        }
-        const mat = item.material;
-        const color = (item.color || "").toUpperCase();
-        const stoneNames = {
-          "#1E3A8A": "lapis lazuli",
-          "#1E40AF": "lapis lazuli",
-          "#0D9488": "turquoise",
-          "#16A34A": "jade",
-          "#DC2626": "red jasper",
-          "#EA580C": "carnelian",
-          "#D97706": "sandstone",
-          "#9333EA": "amethyst"
-        };
-        if (mat === "stone" && stoneNames[color]) {
-          return `${item.sizeMm}mm ${stoneNames[color]} ${sName}`;
-        }
-        if (mat === "wood") {
-          return `${item.sizeMm}mm sandalwood wood ${sName}`;
-        }
-        if (mat === "quartz") {
-          return `${item.sizeMm}mm clear quartz crystal ${sName}`;
-        }
-        if (mat === "glass") {
-          return `${item.sizeMm}mm glass ${sName}`;
-        }
-        if (mat === "metal") {
-          const met = ["#FACC15", "#FDE047", "#EAB308"].includes(color) ? "gold" : "silver";
-          return `${item.sizeMm}mm ${met} ${sName}`;
-        }
-        return `${item.sizeMm}mm ${mat} ${sName}`;
-      }
-      return "jewelry making supplies";
-    }
-
     let activeMaterialsData = [];
 
     function buildMaterialsData() {
@@ -3272,18 +3176,14 @@
         leather: "Stitched Leather Cord"
       };
       const baseName = `${baseTypeNames[doc.cordType] || doc.cordType.toUpperCase()} (~${doc.wristMm}mm length)`;
-      const baseQuery = getSupplyQuery({ type: "base", cordType: doc.cordType });
       items.push({
         type: "base",
         category: "Base Cord",
         name: baseName,
         qty: 1,
         size: `${doc.wristMm}mm`,
-        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#FACC15" : "#E2E8F0") : doc.cordColor,
-        query: baseQuery,
-        fmgUrl: `https://www.firemountaingems.com/search?keywords=${encodeURIComponent(baseQuery)}`,
-        rioUrl: `https://www.riogrande.com/search?q=${encodeURIComponent(baseQuery)}`,
-        etsyUrl: `https://www.etsy.com/search?q=${encodeURIComponent(baseQuery + " craft supplies")}`
+        material: doc.cordType,
+        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#FACC15" : "#E2E8F0") : doc.cordColor
       });
 
       // 2. Clasp
@@ -3294,18 +3194,14 @@
       };
       const claspMat = doc.claspColor === "gold" ? "Polished Gold" : "Sterling Silver";
       const claspLabel = `${claspMat} ${claspNames[doc.claspType] || doc.claspType.toUpperCase()}`;
-      const claspQuery = getSupplyQuery({ type: "clasp", claspType: doc.claspType, claspColor: doc.claspColor });
       items.push({
         type: "clasp",
         category: "Clasp Mechanism",
         name: claspLabel,
         qty: 1,
         size: "Standard",
-        color: doc.claspColor === "gold" ? "#FACC15" : "#E2E8F0",
-        query: claspQuery,
-        fmgUrl: `https://www.firemountaingems.com/search?keywords=${encodeURIComponent(claspQuery)}`,
-        rioUrl: `https://www.riogrande.com/search?q=${encodeURIComponent(claspQuery)}`,
-        etsyUrl: `https://www.etsy.com/search?q=${encodeURIComponent(claspQuery + " craft supplies")}`
+        material: doc.claspType,
+        color: doc.claspColor === "gold" ? "#FACC15" : "#E2E8F0"
       });
 
       // 3. Beads & Spacers
@@ -3328,7 +3224,6 @@
           label = `${b.sizeMm}mm ${b.material.toUpperCase()} ${b.shape.toUpperCase()} (${colName})`;
         }
         const isSpacer = b.shape === "rondelle" && b.sizeMm <= 6;
-        const bQuery = getSupplyQuery({ type: "bead", shape: b.shape, material: b.material, color: b.color, sizeMm: b.sizeMm, text: b.text });
         items.push({
           type: "bead",
           category: isSpacer ? "Spacers" : "Beads",
@@ -3338,11 +3233,7 @@
           color: b.color,
           shape: b.shape,
           material: b.material,
-          text: b.text,
-          query: bQuery,
-          fmgUrl: `https://www.firemountaingems.com/search?keywords=${encodeURIComponent(bQuery)}`,
-          rioUrl: `https://www.riogrande.com/search?q=${encodeURIComponent(bQuery)}`,
-          etsyUrl: `https://www.etsy.com/search?q=${encodeURIComponent(bQuery + " craft supplies")}`
+          text: b.text
         });
       });
 
@@ -3358,42 +3249,50 @@
             <div class="sourcing-info">
               <span class="sourcing-qty">Qty: ${item.qty}</span>
               <span class="sourcing-dot" style="background:${item.color || '#C0C7D0'};" title="${item.color}"></span>
-              <div>
-                <div class="sourcing-label"><strong>${item.name}</strong></div>
-                <div style="font-size:0.75rem; color:var(--fg-muted);">Search query: <em>"${item.query}"</em></div>
-              </div>
+              <div class="sourcing-label"><strong>${item.name}</strong></div>
             </div>
-            <div class="sourcing-actions">
-              <a href="${item.fmgUrl}" target="_blank" rel="noopener noreferrer" class="catalog-link fmg" title="Search Fire Mountain Gems & Beads Catalog">
-                🔥 Fire Mtn
-              </a>
-              <a href="${item.rioUrl}" target="_blank" rel="noopener noreferrer" class="catalog-link rio" title="Search Rio Grande Jewelry Supply Catalog">
-                💎 Rio Grande
-              </a>
-              <a href="${item.etsyUrl}" target="_blank" rel="noopener noreferrer" class="catalog-link etsy" title="Search Etsy Artisan Craft Supplies">
-                🛒 Etsy
-              </a>
+            <div class="sourcing-meta">
+              <span class="part-badge">${item.category}</span>
+              <span class="part-size">${item.size}</span>
             </div>
           </div>
         `).join("");
       }
 
-      // Plaintext Spec Sheet with full URLs
+      // Plaintext Spec Sheet
+      const baseTypeNames = {
+        silver: "Sterling Silver Chain",
+        gold: "Gold Link Chain",
+        cord: `Woven Jewelry Cord (${doc.cordColor})`,
+        leather: "Stitched Leather Cord"
+      };
+      const claspNames = {
+        magnetic: "Magnetic Cylinder Clasp",
+        lobster: "Lobster Claw Clasp",
+        screw: "Screw-in Barrel Clasp"
+      };
+      const claspMat = doc.claspColor === "gold" ? "Polished Gold" : "Sterling Silver";
+      const claspLabel = `${claspMat} ${claspNames[doc.claspType] || doc.claspType.toUpperCase()}`;
+      const baseName = `${baseTypeNames[doc.cordType] || doc.cordType.toUpperCase()} (~${doc.wristMm}mm length)`;
+
       let text = `============================================================\n`;
-      text += `BRACELET DESIGNER — MATERIALS SPEC SHEET & SOURCING GUIDE\n`;
+      text += `BRACELET DESIGNER — MATERIALS SPEC SHEET\n`;
       text += `============================================================\n\n`;
       text += `• Wrist Circumference: ${doc.wristMm} mm (${(doc.wristMm / 25.4).toFixed(1)} inches)\n`;
-      text += `• Total Components:    ${doc.beads.length + 2} items (Base, Clasp, ${doc.beads.length} Beads/Spacers)\n\n`;
-      text += `PARTS BREAKDOWN & SUPPLY CATALOG SEARCH LINKS:\n`;
+      text += `• Bracelet Base Type:  ${baseTypeNames[doc.cordType] || doc.cordType.toUpperCase()}\n`;
+      text += `• Clasp Mechanism:     ${claspLabel}\n`;
+      text += `• Total Beads/Spacers: ${doc.beads.length} items\n`;
+      text += `• Total Components:    ${doc.beads.length + 2} items\n\n`;
+      text += `PARTS BREAKDOWN:\n`;
       text += `------------------------------------------------------------\n`;
-      activeMaterialsData.forEach((item, idx) => {
-        text += `${idx + 1}. [Qty: ${item.qty}] ${item.name}\n`;
-        text += `   • Fire Mountain: ${item.fmgUrl}\n`;
-        text += `   • Rio Grande:    ${item.rioUrl}\n`;
-        text += `   • Etsy Supplies: ${item.etsyUrl}\n\n`;
+      let itemIdx = 1;
+      text += `${itemIdx++}. [Qty: 1]  Bracelet Base: ${baseName}\n`;
+      text += `${itemIdx++}. [Qty: 1]  Clasp: ${claspLabel}\n`;
+      activeMaterialsData.filter(i => i.type === "bead").forEach(item => {
+        text += `${itemIdx++}. [Qty: ${item.qty}]  ${item.name}\n`;
       });
       text += `------------------------------------------------------------\n`;
-      text += `Ready to assemble by hand or order directly from supply catalogs.`;
+      text += `Ready to assemble by hand or order from artisan/jeweler.`;
 
       document.getElementById("spec-sheet-content").textContent = text;
     }
@@ -3431,7 +3330,7 @@
       navigator.clipboard.writeText(content).then(() => {
         const b = document.getElementById("btn-copy-specs");
         b.textContent = "Copied ✓";
-        showToast("Copied spec sheet and catalog links to clipboard.");
+        showToast("Copied spec sheet to clipboard.");
         setTimeout(() => b.textContent = "Copy Spec Sheet", 1500);
       });
     });
@@ -3441,20 +3340,20 @@
       if (!activeMaterialsData || activeMaterialsData.length === 0) {
         activeMaterialsData = buildMaterialsData();
       }
-      let csv = "Item #,Category,Part Description,Quantity,Target Size (mm),Fire Mountain Gems Search URL,Rio Grande Search URL,Etsy Supplies Search URL\n";
+      let csv = "Item #,Category,Part Description,Quantity,Target Size (mm),Material,Color\n";
       activeMaterialsData.forEach((item, idx) => {
         const esc = str => `"${(str || '').toString().replace(/"/g, '""')}"`;
-        csv += `${idx + 1},${esc(item.category)},${esc(item.name)},${item.qty},${esc(item.size)},${esc(item.fmgUrl)},${esc(item.rioUrl)},${esc(item.etsyUrl)}\n`;
+        csv += `${idx + 1},${esc(item.category)},${esc(item.name)},${item.qty},${esc(item.size)},${esc(item.material || '')},${esc(item.color || '')}\n`;
       });
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `bracelet-materials-sourcing-${Date.now()}.csv`;
+      a.download = `bracelet-materials-spec-${Date.now()}.csv`;
       a.click();
       URL.revokeObjectURL(url);
       audioPlayDuplicate();
-      showToast("Exported materials CSV spreadsheet with supply links.");
+      showToast("Exported materials CSV spreadsheet.");
     });
 
     // ── EXPORT PNG BEAUTY SHOT ──────────────────────────────────────────────

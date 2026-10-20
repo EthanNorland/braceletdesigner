@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.7.2`
-- **Phase:** AudioContext Asynchronous Resume & Multi-Gesture Activation Patch (`v1.7.2`); Supply Catalog Export Links & CSV Recipe in Materials Spec Sheet (Phase 6.2) completed; Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.7.3`
+- **Phase:** Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`) completed; AudioContext Asynchronous Resume & Multi-Gesture Activation Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -59,16 +59,12 @@
   - **Precise Arc-Spacing Math:** Adjacent beads touch naturally with exact physical arc calculations ($\Delta\theta = \pi(d_i + d_{i+1}) / \text{wristMm}$).
   - **Full Undo Protection:** Template loading automatically snapshots previous design to `undoStack`, allowing instant undo via <kbd>Cmd+Z</kbd>.
   - **Deep Linking:** Full support for `?template=signature`, `?template=gold`, `?template=boho`, `?template=chakra`, `?template=keepsake`, `?template=blank`.
-- Phase 6.2 Supply Catalog Export Links & Materials Spec Sheet Sourcing:
-  - **1-Click Supply Catalog Links:** Generated targeted search URLs for every component (base, clasp, beads, spacers) to three leading suppliers:
-    - **Fire Mountain Gems & Beads** (`firemountaingems.com`)
-    - **Rio Grande Jewelry Supply** (`riogrande.com`)
-    - **Etsy Artisan Supplies** (`etsy.com`)
-  - **Interactive Sourcing View:** Tabbed modal view inside `#dlg-materials` with item quantities, color dots, component names, and direct catalog search badges.
-  - **Plaintext Spec Sheet with Sourcing URLs:** Formatted text view with complete supply search URLs for jeweler ordering.
-  - **1-Click CSV Recipe Export (`btn-export-csv`):** Downloads `bracelet-materials-sourcing-[timestamp].csv` with itemized part names, quantities, sizes, and direct catalog URLs.
-  - **Deep Linking:** Added `?dialog=materials` to open the Materials Sourcing Sheet on load.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.2 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- Phase 6.2 Materials Spec Sheet & Parts Recipe:
+  - **Itemized Parts Breakdown:** Tabbed modal view inside `#dlg-materials` with item quantities, color dots, component names, category tags, and dimensions.
+  - **Plaintext Spec Sheet:** Formatted text recipe with complete parts breakdown and dimensions for jeweler ordering.
+  - **1-Click CSV Recipe Export (`btn-export-csv`):** Downloads `bracelet-materials-spec-[timestamp].csv` with itemized part names, quantities, sizes, materials, and colors.
+  - **Deep Linking:** Added `?dialog=materials` to open the Materials Spec Sheet on load.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.3 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
