@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.6.0`
-- **Phase:** Procedural Tactile Audio Synthesis Engine (Phase 5) deployed with material-differentiated sound, throttled sliding clatter, mechanical clasp snaps, and header sound toggle.
+- **Version:** `1.6.1`
+- **Phase:** Realistic Anatomical Arm Top Cap Fix (`v1.6.1`) completed with a 100% watertight, planar mannequin cut cap and smooth beveled rim; Procedural Tactile Audio Synthesis Engine (`v1.6.0`) fully operational; ready for Phase 6 Design Templates.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -29,7 +29,7 @@
   - **Atelier Feedback:** Unobtrusive brand bar saving indicator (`• Saving…` / `• Saved`) and floating toast notifications.
 - Phase 4 Visual Identity, Custom Logo & Realistic Anatomical Arm:
   - **3D Preview on Wrist Mode (`btn-wrist`):** Instant toggle between Studio View and Wrist View draping the active bracelet around a realistic anatomical human arm and posed resting hand (`models/arm_wrist.glb`) with natural forearm musculature, ulnar styloid bone bump, carpal wrist recess, and relaxed fingers.
-  - **Watertight Proximal Dome Cap:** Proximal end of the arm is cleanly capped with a smooth dome apex fan, preventing users from seeing inside the hollow arm cylinder when viewing from the top down.
+  - **Watertight Solid Planar Arm Cap (v1.6.1):** Truncated the forearm at natural display height ($Z \approx 14.6$) with a 100% watertight, solid planar horizontal cutoff and smooth beveled perimeter rim. Mesh contains 0 boundary edges. `wristSkinMat` configured with `side: THREE.DoubleSide` to prevent interior hollow voids under any orbit or clipping angle.
   - **Clean Anterior Surface (No Hanging Flaps):** Boundary loop sliced cleanly at planar threshold ($Z > 0.41$) removing non-manifold vertices; completely eliminates the excess skin flap and seam on the anterior arm surface.
   - **Smoothed Lateral Arm Surface (Creases Eliminated):** Cyclically smoothed relative perimeter offsets along the wrist-to-forearm boundary, replacing alternating in-and-out vertex pleats with a smooth organic curve to eliminate the two vertical creases on the outside of the arm.
   - **Dynamic Anatomical Fit Scaling:** Arm geometry dynamically scales in real time in unison with the wrist circumference slider (140mm–220mm) using calibrated ratio `(wristRadius * 0.76) / 1.95`.
@@ -46,12 +46,12 @@
   - **Mechanical Clasps:** Dual-snap magnetic latch, spring-loaded lobster claw click, and double-thread screw-in lock.
   - **Tactile UI Actions:** Subtle ticks for 3D selection, spawn chimes for duplication, unstring pop for deletion, and directional ticks for undo/redo.
   - **Header Sound Toggle & Persistence:** `#btn-sound` (`🔊 Sound` / `🔇 Mute`) with user preference saved to `localStorage` (`bracelet_sound_enabled`).
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.6.0 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.6.1 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
-## What's Next (Phase 6: Presets, Custom Patterns & Jewelers Spec Export)
-- Curated Starter Patterns / Presets (e.g. Bohemian Lapis, Minimalist 18K Gold, Crystal Chakra).
+## What's Next (Phase 6: Design Templates / Curated Starter Presets)
+- Curated Starter Patterns / Presets gallery (Signature Atelier, Minimalist 18K Heirloom, Bohemian Earth, Chakra Spectrum, Monogram Keepsake, Blank Canvas).
 - Enhanced materials spec export with estimated physical weight and supply catalog links.
 - Solicit end-user feedback on tactile audio sweet spot across various mobile devices.
 

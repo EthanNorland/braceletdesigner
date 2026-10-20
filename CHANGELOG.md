@@ -4,6 +4,14 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.6.1] - 2026-10-20
+
+### Fixed - Watertight Solid Arm Top Cap in Wrist View
+- **Watertight Solid Planar Arm Cap:** Truncated the proximal forearm in `models/arm_wrist.glb` at a natural mannequin display height ($Z \approx 14.6$) with a 100% solid, planar, watertight horizontal cap and smooth beveled rim. Replaced the previous 23-unit dome apex fan extrusion that exhibited pinched starburst normals.
+- **Double-Sided Material Rendering:** Added `side: THREE.DoubleSide` to `wristSkinMat` in Three.js, completely eliminating any interior transparent/hollow voids when orbiting the camera down from top-down or steep angles.
+- **Organic Forearm Perimeter Smoothing:** Healed UV seam splits with tight double removal ($0.0005$) and applied perimeter offset smoothing to eliminate lateral vertex pleats and vertical creases.
+- **PWA Precache & Cache Manifest:** Bumped application version and service worker cache to `1.6.1`.
+
 ## [1.6.0] - 2026-10-20
 
 ### Added - Phase 5: Procedural Tactile Audio Synthesis Engine
