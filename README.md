@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.6.1](https://img.shields.io/badge/Version-1.6.1-lightgrey?style=flat-square)](#)
+[![Version: 1.7.0](https://img.shields.io/badge/Version-1.7.0-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -29,6 +29,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 ---
 
 ## Key Features
+- **Curated Starter Design Templates (Phase 6):** An atelier gallery modal accessible via **New** featuring 6 professionally balanced designs—*The Signature Atelier* (evil eye & lapis), *Minimalist 18K Heirloom* (gold & celestial star), *Bohemian Earth & Sandalwood* (desert solstice), *Chakra Resonance Spectrum* (7 energy centers), *Monogram Keepsake* ("LOVE" cubes & gold stars), and a pristine *Blank Canvas*—all with instant sequence visualizers, tactile loading chime, and full undo protection.
 - **Procedural Tactile Audio Synthesis Engine:** 100% client-side Web Audio synthesis providing real-time acoustic resonance tailored by physical bead material (Glass, Quartz, Metal, Stone, Wood), throttled micro-tick clatter during 3D sliding, realistic dual-action clasp clicks (Magnetic, Lobster Claw, Screw-in), and subtle tactile feedback for selection, duplicate, and delete.
 - **3D Preview on Wrist Mode:** Toggle between Studio View and Wrist View to drape your custom bracelet onto an anatomically realistic human arm and gracefully posed hand, featuring 4 skin tone presets (Fair, Natural, Warm Tan, Deep Rich) and dynamic scaling matching your exact wrist circumference.
 - **Searchable Help & Tool Walkthrough:** Real-time keyword filter in the Help dialog with direct links to ring corresponding workbench controls.
@@ -43,7 +44,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Fit Calculator:** Real-time millimeter accumulator tracking bracelet fullness against wrist circumference (140mm–220mm).
 - **Studio Lighting & PMREM Reflections:** Multi-point studio lighting with high-contrast atelier backdrop.
 - **Full Undo/Redo & Quick Actions:** Robust history stack, duplicate (`D`), and delete actions.
-- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.6.1 ↻`).
+- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.7.0 ↻`).
 
 ---
 

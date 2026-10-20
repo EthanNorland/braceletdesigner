@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.6.1`
-- **Phase:** Realistic Anatomical Arm Top Cap Fix (`v1.6.1`) completed with a 100% watertight, planar mannequin cut cap and smooth beveled rim; Procedural Tactile Audio Synthesis Engine (`v1.6.0`) fully operational; ready for Phase 6 Design Templates.
+- **Version:** `1.7.0`
+- **Phase:** Curated Starter Design Templates (Phase 6) completed and operational; Procedural Tactile Audio Synthesis Engine (`v1.6.0`) and Realistic Anatomical Arm Display (`v1.6.1`) fully verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -38,7 +38,7 @@
   - **Brand Mark in Header:** Embedded brand logo (`icon.svg`) directly into the header brand block with balanced vertical centering.
   - **Custom Logo in About Dialog:** Embedded high-resolution brand mark (`reference/bracelet designer logo.jpg`) within a shadowed editorial card in `dlg-about`, with complete Three.js engine and Antigravity pair programming credits.
   - **Searchable Help Dialog:** Instant keyword filter (`#help-search`) in `dlg-help` with real-time guide matching and workbench ring highlighting.
-  - **Deep Linking Query Parameters:** Support for `?view=wrist&tone=...&cam=top` and `&cam=side`, `?dialog=about`, `?dialog=help&q=...`, and `?sound=1` / `?sound=0`.
+  - **Deep Linking Query Parameters:** Support for `?view=wrist&tone=...&cam=top` and `&cam=side`, `?dialog=about`, `?dialog=help&q=...`, `?dialog=templates`, `?template=...`, and `?sound=1` / `?sound=0`.
 - Phase 5 Procedural Tactile Audio Synthesis Engine:
   - **100% Procedural Synthesis:** Zero external audio files or network latency; uses Web Audio API oscillators, exponential gain ramps, and harmonic overtones.
   - **Material Signatures:** Unique acoustic timbres for glass (clear ping), quartz (crystalline chime with shimmer), metal (harmonic ping), stone (dense mineral knock), and wood (warm triangle marimba).
@@ -46,12 +46,24 @@
   - **Mechanical Clasps:** Dual-snap magnetic latch, spring-loaded lobster claw click, and double-thread screw-in lock.
   - **Tactile UI Actions:** Subtle ticks for 3D selection, spawn chimes for duplication, unstring pop for deletion, and directional ticks for undo/redo.
   - **Header Sound Toggle & Persistence:** `#btn-sound` (`🔊 Sound` / `🔇 Mute`) with user preference saved to `localStorage` (`bracelet_sound_enabled`).
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.6.1 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- Phase 6 Curated Starter Design Templates:
+  - **Atelier Templates Gallery (`dlg-templates`):** Replaced plain browser reset confirm with a 6-card curated gallery accessible via **New** button in the header bar or `?dialog=templates`.
+  - **6 Curated Iconic Presets:**
+    1. *The Signature Atelier* (Evil eye & royal lapis talisman)
+    2. *Minimalist 18K Heirloom* (Pure polished gold with celestial star focal)
+    3. *Bohemian Earth & Sandalwood* (Desert solstice with sandalwood & raw turquoise)
+    4. *Chakra Resonance Spectrum* (Complete 7 energy center alignment)
+    5. *Monogram Keepsake* ("LOVE" monogram cubes framed by gold stars & quartz)
+    6. *Blank Canvas* (Clean unadorned cord ready for freeform stringing)
+  - **Instant Sequence Visualizer:** Each card renders an interactive visual pill preview of every bead with shape geometry, color swatch, and tooltip.
+  - **Precise Arc-Spacing Math:** Adjacent beads touch naturally with exact physical arc calculations ($\Delta\theta = \pi(d_i + d_{i+1}) / \text{wristMm}$).
+  - **Full Undo Protection:** Template loading automatically snapshots previous design to `undoStack`, allowing instant undo via <kbd>Cmd+Z</kbd>.
+  - **Deep Linking:** Full support for `?template=signature`, `?template=gold`, `?template=boho`, `?template=chakra`, `?template=keepsake`, `?template=blank`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.0 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
-## What's Next (Phase 6: Design Templates / Curated Starter Presets)
-- Curated Starter Patterns / Presets gallery (Signature Atelier, Minimalist 18K Heirloom, Bohemian Earth, Chakra Spectrum, Monogram Keepsake, Blank Canvas).
+## What's Next
 - Enhanced materials spec export with estimated physical weight and supply catalog links.
 - Solicit end-user feedback on tactile audio sweet spot across various mobile devices.
 

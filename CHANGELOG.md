@@ -4,6 +4,24 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.0] - 2026-10-20
+
+### Added - Phase 6: Curated Starter Design Templates
+- **Atelier Starter Templates Gallery (`#dlg-templates`):** Replaced plain browser reset confirm dialog with an atelier template gallery modal accessible via the **New** button in the header bar or `?dialog=templates`.
+- **6 Curated Iconic Jewelry Presets:**
+  - **The Signature Atelier:** Inspired by the original atelier talisman reference piece with evil eye, royal lapis lazuli, crackle quartz crystal, cyan glass, and sterling silver spacers.
+  - **Minimalist 18K Heirloom:** Polished yellow gold spheres, faceted crystal cuts, and an upright celestial star focal bead with quiet luxury symmetry.
+  - **Bohemian Earth & Sandalwood:** Warm natural sandalwood barrels, raw turquoise stones, and gold spacers strung on stitched leather cord.
+  - **Chakra Resonance Spectrum:** Complete 7-chakra spectrum aligned along an obsidian cord with sterling silver disc spacers (Quartz, Amethyst, Lapis, Jade, Amber, Carnelian, Jasper).
+  - **Monogram Keepsake:** Personalized keepsake featuring engraved "L-O-V-E" stone cubes framed by gold celestial stars and faceted quartz.
+  - **Blank Canvas:** Pristine unadorned cord ready for freeform bespoke stringing from scratch.
+- **Dynamic Sequence Visualizer:** Each template card displays an interactive horizontal pill preview reflecting each bead's exact shape (sphere, faceted, cube, star, rondelle, barrel), physical color swatch, dimension tooltip, and engraved monogram letter.
+- **Jeweler's Arc-Spacing Math:** Automatic physical arc spacing ($\Delta\theta = \pi(d_i + d_{i+1}) / \text{wristMm}$) ensuring all adjacent beads sit flush without collision or artificial gaps.
+- **Full Undo Protection & Audio Cues:** Loading a template automatically snapshots the current document into the `undoStack` (instant <kbd>Cmd+Z</kbd> restoration), triggers ascending tactile duplicate audio synthesis, and displays atelier toast feedback.
+- **Deep Linking Query Parameters:** Direct template loading via `?template=signature`, `?template=gold`, `?template=boho`, `?template=chakra`, `?template=keepsake`, `?template=blank`.
+- **Searchable Help Integration:** Added Starter Templates guide item into `dlg-help` with search keywords and direct action triggers.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.7.0`.
+
 ## [1.6.1] - 2026-10-20
 
 ### Fixed - Watertight Solid Arm Top Cap in Wrist View

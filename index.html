@@ -638,6 +638,140 @@
     margin-top: 20px;
   }
 
+  /* Starter Templates Modal & Cards (Phase 6) */
+  #dlg-templates {
+    max-width: 860px;
+    width: 92%;
+    max-height: 88vh;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  #dlg-templates[open] {
+    display: flex;
+    flex-direction: column;
+  }
+  #dlg-templates:not([open]) {
+    display: none;
+  }
+  .templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+    gap: 14px;
+    overflow-y: auto;
+    padding: 4px 2px 14px 2px;
+    margin-top: 14px;
+    flex: 1;
+  }
+  .template-card {
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.18s ease;
+    cursor: pointer;
+    outline: none;
+  }
+  .template-card:hover, .template-card:focus-visible {
+    border-color: var(--accent-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  }
+  .template-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .template-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0;
+    line-height: 1.3;
+  }
+  .template-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .template-desc {
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+    line-height: 1.45;
+    margin: 0 0 12px 0;
+    flex: 1;
+  }
+  .template-preview-strip {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    overflow-x: auto;
+    margin-bottom: 12px;
+    min-height: 38px;
+  }
+  .template-bead-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    font-size: 9px;
+    font-weight: bold;
+    color: #0B0E14;
+    user-select: none;
+  }
+  .template-bead-pill.cube {
+    border-radius: 3px;
+  }
+  .template-bead-pill.star {
+    border-radius: 2px;
+    font-size: 11px;
+    line-height: 1;
+  }
+  .template-bead-pill.blank-indicator {
+    width: 100%;
+    color: var(--fg-muted);
+    font-size: 0.75rem;
+    font-style: italic;
+    box-shadow: none;
+    border-radius: 0;
+    justify-content: flex-start;
+  }
+  .template-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--fg-muted);
+    margin-bottom: 14px;
+  }
+  .template-meta-chip {
+    background: var(--panel-active);
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid var(--panel-border);
+  }
+  .template-btn {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
   /* Spec Sheet Pre */
   pre#spec-sheet-content {
     background: var(--bg);
@@ -928,7 +1062,29 @@
   </aside>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.6.1 ↻</button>
+  <button id="chip" title="Check for a newer version">1.7.0 ↻</button>
+
+  <!-- Starter Design Templates Dialog (Phase 6) -->
+  <dialog id="dlg-templates">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:4px;">
+      <div>
+        <h2 style="margin:0 0 4px 0;">Curated Starter Templates</h2>
+        <p style="margin:0; font-size:0.85rem; color:var(--fg-muted);">Choose an atelier design to inspire your creation, or start with a clean cord.</p>
+      </div>
+      <button class="btn" id="btn-quick-blank" title="Start with a blank cord (0 beads)" style="white-space:nowrap; border-color:var(--panel-border); font-size:0.8rem; padding:6px 12px;">
+        ✦ Clean Canvas
+      </button>
+    </div>
+
+    <div id="templates-grid" class="templates-grid" role="region" aria-label="Curated starter template cards">
+      <!-- Dynamically populated by renderTemplatesGallery() -->
+    </div>
+
+    <div class="dialog-footer" style="margin-top:14px; padding-top:12px; border-top:1px solid var(--panel-border); display:flex; justify-content:space-between; align-items:center;">
+      <span style="font-size:0.75rem; color:var(--fg-muted);">Tip: Press <kbd style="background:var(--bg); padding:2px 5px; border-radius:3px; border:1px solid var(--panel-border);">Cmd+Z</kbd> anytime to undo a template load.</span>
+      <button class="btn primary" onclick="document.getElementById('dlg-templates').close()">Cancel</button>
+    </div>
+  </dialog>
 
   <!-- Materials List Dialog -->
   <dialog id="dlg-materials">
@@ -949,6 +1105,9 @@
       <input type="search" id="help-search" placeholder="Search guides, tools, shortcuts (e.g. wrist, slide, export)..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; background: var(--bg); border: 1px solid var(--panel-border); border-radius: 6px; color: var(--fg); font-family: var(--sans); font-size: 0.85rem;" autocomplete="off">
     </div>
     <div id="help-items-container" style="display:flex; flex-direction:column; gap:10px; margin: 10px 0; max-height:360px; overflow-y:auto; padding-right:4px;">
+      <div class="help-item" data-keywords="templates starter preset patterns signature gold heirloom boho earth sandalwood chakra keepsakes monogram blank new design" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="document.getElementById('dlg-help').close(); renderTemplatesGallery(); document.getElementById('dlg-templates').showModal(); ring('#btn-new')">
+        <strong>Starter Templates &amp; Presets:</strong> Click <em>New</em> in the header to browse curated atelier templates (The Signature Atelier, Minimalist 18K Heirloom, Bohemian Earth, Chakra Spectrum, Monogram Keepsake) or start with a clean cord.
+      </div>
       <div class="help-item" data-keywords="wrist view preview drape arm skin tone fit size cylinder anatomy realistic hand" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="ring('#btn-wrist')">
         <strong>Preview on Wrist:</strong> Toggle <em>Wrist View</em> in the header to drape your bracelet onto a realistic anatomical human arm and posed hand with 4 skin tones.
       </div>
@@ -999,7 +1158,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.6.1</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.7.0</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1019,7 +1178,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.6.1",
+      version: "1.7.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3022,31 +3181,275 @@
       }
     });
 
-    // ── NEW / RESET DESIGN ──────────────────────────────────────────────────
-    document.getElementById("btn-new").addEventListener("click", () => {
-      if (doc.beads.length > 0) {
-        const confirmed = confirm("Start a fresh design? Your current workbench will be reset to a starter bracelet.");
-        if (!confirmed) return;
+    // ── STARTER DESIGN TEMPLATES (PHASE 6) ──────────────────────────────────
+    const TEMPLATES = [
+      {
+        id: "signature",
+        name: "The Signature Atelier",
+        tag: "Signature",
+        tagColor: "#88A4C4",
+        desc: "Mediterranean protective talisman featuring royal lapis lazuli, crackle quartz, and vibrant cyan glass.",
+        wristMm: 175,
+        cordType: "silver",
+        cordColor: "#1E293B",
+        claspType: "lobster",
+        claspColor: "silver",
+        beads: [
+          { shape: "sphere", material: "stone", color: "#1E3A8A", sizeMm: 10 },
+          { shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, type: "spacer" },
+          { shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10 },
+          { shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 12 },
+          { shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, type: "spacer" },
+          { shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10 },
+          { shape: "sphere", material: "stone", color: "#1E3A8A", sizeMm: 10 },
+          { shape: "barrel", material: "metal", color: "#E2E8F0", sizeMm: 8, type: "spacer" }
+        ]
+      },
+      {
+        id: "gold",
+        name: "Minimalist 18K Heirloom",
+        tag: "Quiet Luxury",
+        tagColor: "#D4AF37",
+        desc: "Warm, understated luxury featuring polished gold spheres, faceted crystals, and a celestial star focal.",
+        wristMm: 165,
+        cordType: "gold",
+        cordColor: "#78590F",
+        claspType: "magnetic",
+        claspColor: "gold",
+        beads: [
+          { shape: "sphere", material: "metal", color: "#FACC15", sizeMm: 8 },
+          { shape: "faceted", material: "metal", color: "#FDE047", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#FACC15", sizeMm: 6, type: "spacer" },
+          { shape: "star", material: "metal", color: "#FACC15", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#FACC15", sizeMm: 6, type: "spacer" },
+          { shape: "faceted", material: "metal", color: "#FDE047", sizeMm: 10 },
+          { shape: "sphere", material: "metal", color: "#FACC15", sizeMm: 8 },
+          { shape: "barrel", material: "metal", color: "#EAB308", sizeMm: 10 }
+        ]
+      },
+      {
+        id: "boho",
+        name: "Bohemian Earth & Sandalwood",
+        tag: "Boho Artisan",
+        tagColor: "#F59E0B",
+        desc: "Organic desert textures blending fragrant sandalwood, raw turquoise mineral stone, and stitched leather.",
+        wristMm: 180,
+        cordType: "leather",
+        cordColor: "#451A03",
+        claspType: "screw",
+        claspColor: "gold",
+        beads: [
+          { shape: "sphere", material: "stone", color: "#0D9488", sizeMm: 10 },
+          { shape: "sphere", material: "stone", color: "#D97706", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#FACC15", sizeMm: 6, type: "spacer" },
+          { shape: "faceted", material: "wood", color: "#92400E", sizeMm: 10 },
+          { shape: "barrel", material: "wood", color: "#78350F", sizeMm: 12 },
+          { shape: "faceted", material: "wood", color: "#92400E", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#FACC15", sizeMm: 6, type: "spacer" },
+          { shape: "sphere", material: "stone", color: "#D97706", sizeMm: 10 },
+          { shape: "sphere", material: "stone", color: "#0D9488", sizeMm: 10 }
+        ]
+      },
+      {
+        id: "chakra",
+        name: "Chakra Resonance Spectrum",
+        tag: "Spiritual",
+        tagColor: "#A855F7",
+        desc: "Harmonized 7-chakra spectrum aligned along obsidian cord with sterling silver disc spacers.",
+        wristMm: 175,
+        cordType: "cord",
+        cordColor: "#0F172A",
+        claspType: "magnetic",
+        claspColor: "silver",
+        beads: [
+          { shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, type: "spacer" },
+          { shape: "sphere", material: "glass", color: "#9333EA", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, type: "spacer" },
+          { shape: "sphere", material: "stone", color: "#2563EB", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, type: "spacer" },
+          { shape: "sphere", material: "stone", color: "#16A34A", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, type: "spacer" },
+          { shape: "sphere", material: "glass", color: "#EAB308", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, type: "spacer" },
+          { shape: "sphere", material: "stone", color: "#EA580C", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, type: "spacer" },
+          { shape: "sphere", material: "stone", color: "#DC2626", sizeMm: 10 }
+        ]
+      },
+      {
+        id: "keepsake",
+        name: "Monogram Keepsake",
+        tag: "Bespoke",
+        tagColor: "#EC4899",
+        desc: "Personalized keepsake featuring engraved 'LOVE' monogram cubes framed by gold celestial stars and quartz.",
+        wristMm: 170,
+        cordType: "silver",
+        cordColor: "#1E293B",
+        claspType: "lobster",
+        claspColor: "gold",
+        beads: [
+          { shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10 },
+          { shape: "star", material: "metal", color: "#FACC15", sizeMm: 10 },
+          { shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "L" },
+          { shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "O" },
+          { shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "V" },
+          { shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "E" },
+          { shape: "star", material: "metal", color: "#FACC15", sizeMm: 10 },
+          { shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10 }
+        ]
+      },
+      {
+        id: "blank",
+        name: "Blank Canvas",
+        tag: "Workbench",
+        tagColor: "#94A3B8",
+        desc: "A clean, unadorned cord ready for freeform bespoke stringing from scratch.",
+        wristMm: 175,
+        cordType: "silver",
+        cordColor: "#1E293B",
+        claspType: "lobster",
+        claspColor: "silver",
+        beads: []
       }
-      change(d => {
-        d.wristMm = 175;
-        d.cordType = "silver";
-        d.cordColor = "#1E293B";
-        d.claspType = "lobster";
-        d.claspColor = "gold";
-        d.beads = [
-          { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "DASH", angle: Math.PI * 0.45 },
-          { id: 2, type: "bead", shape: "star", material: "metal", color: "#FACC15", sizeMm: 10, angle: Math.PI * 0.35 },
-          { id: 3, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.25 },
-          { id: 4, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.15 },
-          { id: 5, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.05 },
-          { id: 6, type: "spacer", shape: "rondelle", material: "metal", color: "#E2E8F0", sizeMm: 6, angle: -Math.PI * 0.05 }
-        ];
-        d.selectedId = 1;
+    ];
+
+    function layoutTemplateAngles(beads, wristMm) {
+      if (!beads || beads.length === 0) return [];
+      const startAngle = 1.35;
+      const angles = [startAngle];
+      for (let i = 1; i < beads.length; i++) {
+        const prevSize = beads[i - 1].sizeMm || 10;
+        const currSize = beads[i].sizeMm || 10;
+        const dTheta = Math.PI * (prevSize + currSize) / wristMm;
+        angles.push(angles[angles.length - 1] - dTheta);
+      }
+      return angles;
+    }
+
+    function renderTemplatesGallery() {
+      const grid = document.getElementById("templates-grid");
+      if (!grid) return;
+      grid.innerHTML = "";
+
+      TEMPLATES.forEach(t => {
+        const card = document.createElement("div");
+        card.className = "template-card";
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", `Load template ${t.name}`);
+
+        let stripHtml = "";
+        if (t.beads.length === 0) {
+          stripHtml = `<span class="template-bead-pill blank-indicator">✦ Clean unadorned cord (0 beads)</span>`;
+        } else {
+          stripHtml = t.beads.map(b => {
+            let shapeClass = "";
+            let innerText = "";
+            const size = Math.round((b.sizeMm / 10) * 14);
+            let style = `background:${b.color}; width:${size}px; height:${size}px;`;
+
+            if (b.shape === "star") {
+              shapeClass = "star";
+              innerText = "★";
+              style += " color:#0B0E14;";
+            } else if (b.shape === "cube") {
+              shapeClass = "cube";
+              innerText = b.text || "";
+            } else if (b.shape === "rondelle") {
+              style += ` border-radius: 4px; width:${Math.max(size * 0.55, 6)}px;`;
+            }
+            if (["#F8FAFC", "#FFFFFF", "#E2E8F0"].includes(b.color)) {
+              style += " border: 1px solid rgba(0,0,0,0.35);";
+            } else {
+              style += " border: 1px solid rgba(255,255,255,0.25);";
+            }
+            const tip = `${b.sizeMm}mm ${b.material} ${b.shape}${b.text ? ' "' + b.text + '"' : ''}`;
+            return `<span class="template-bead-pill ${shapeClass}" style="${style}" title="${tip}">${innerText}</span>`;
+          }).join("");
+        }
+
+        const claspName = t.claspType.charAt(0).toUpperCase() + t.claspType.slice(1);
+        const claspFin = t.claspColor.charAt(0).toUpperCase() + t.claspColor.slice(1);
+        const cordName = t.cordType.charAt(0).toUpperCase() + t.cordType.slice(1);
+
+        card.innerHTML = `
+          <div>
+            <div class="template-card-header">
+              <h3 class="template-title">${t.name}</h3>
+              <span class="template-tag" style="background:${t.tagColor}22; color:${t.tagColor}; border:1px solid ${t.tagColor}55;">${t.tag}</span>
+            </div>
+            <p class="template-desc">${t.desc}</p>
+            <div class="template-preview-strip" title="Strand sequence preview">
+              ${stripHtml}
+            </div>
+            <div class="template-meta-row">
+              <span class="template-meta-chip"><strong>${t.beads.length}</strong> ${t.beads.length === 1 ? 'element' : 'elements'}</span>
+              <span class="template-meta-chip">${t.wristMm} mm</span>
+              <span class="template-meta-chip">${claspName} (${claspFin})</span>
+              <span class="template-meta-chip">${cordName}</span>
+            </div>
+          </div>
+          <button class="btn primary template-btn">Use This Template</button>
+        `;
+
+        const apply = () => loadTemplate(t.id);
+        card.addEventListener("click", apply);
+        card.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            apply();
+          }
+        });
+
+        grid.appendChild(card);
       });
-      nextBeadId = 7;
-      updateApp();
-      showToast("Fresh atelier workbench ready.");
+    }
+
+    function loadTemplate(templateId) {
+      const template = TEMPLATES.find(t => t.id === templateId);
+      if (!template) return;
+
+      const angles = layoutTemplateAngles(template.beads, template.wristMm);
+      const loadedBeads = template.beads.map((b, idx) => ({
+        id: idx + 1,
+        type: b.type || (b.shape === "rondelle" && b.sizeMm <= 6 ? "spacer" : "bead"),
+        shape: b.shape,
+        material: b.material,
+        color: b.color,
+        sizeMm: b.sizeMm,
+        angle: angles[idx],
+        text: b.text || (b.shape === "cube" ? "A" : undefined)
+      }));
+
+      change(d => {
+        d.wristMm = template.wristMm;
+        d.cordType = template.cordType;
+        d.cordColor = template.cordColor;
+        d.claspType = template.claspType;
+        d.claspColor = template.claspColor;
+        d.beads = loadedBeads;
+        d.selectedId = loadedBeads.length > 0 ? loadedBeads[0].id : null;
+      });
+
+      nextBeadId = loadedBeads.length + 1;
+      audioPlayDuplicate();
+      showToast(`Loaded "${template.name}" into workbench.`);
+
+      const dlg = document.getElementById("dlg-templates");
+      if (dlg && dlg.open) dlg.close();
+    }
+
+    document.getElementById("btn-new").addEventListener("click", () => {
+      renderTemplatesGallery();
+      document.getElementById("dlg-templates").showModal();
+      audioPlaySelect();
+    });
+
+    document.getElementById("btn-quick-blank")?.addEventListener("click", () => {
+      loadTemplate("blank");
     });
 
     // ── RENDER LOOP ─────────────────────────────────────────────────────────
@@ -3066,6 +3469,7 @@
 
     // ── INITIAL BOOTSTRAP WITH SESSION RESTORE (PART 3.4) ───────────────────
     updateApp();
+    renderTemplatesGallery();
 
     async function initSession() {
       try {
@@ -3107,6 +3511,13 @@
       }
       if (urlParams.get("dialog") === "about") {
         document.getElementById("dlg-about").showModal();
+      }
+      if (urlParams.get("dialog") === "templates") {
+        renderTemplatesGallery();
+        document.getElementById("dlg-templates").showModal();
+      }
+      if (urlParams.get("template")) {
+        loadTemplate(urlParams.get("template"));
       }
       if (urlParams.get("dialog") === "help") {
         document.getElementById("btn-help").click();
