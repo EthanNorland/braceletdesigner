@@ -4,6 +4,14 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.7.2] - 2026-10-20
+
+### Fixed - AudioContext Asynchronous Resume & Multi-Gesture Activation
+- **Asynchronous AudioContext Resume Guard (`playWithContext`):** Fixed browser race condition where tones scheduled while `AudioContext` was in a `suspended` state would compute `now = ctx.currentTime` as 0 before `audioCtx.resume()` completed, causing the audio schedule to expire before the audio thread started. All 8 procedural synthesis functions (`audioPlayAdd`, `audioPlaySlide`, `audioPlayClasp`, `audioPlaySelect`, `audioPlayDuplicate`, `audioPlayDelete`, `audioPlayUndo`, `audioPlayRedo`) now safely await context resumption before calculating sample timestamps.
+- **Multi-Event Browser Gesture Unlock:** Added comprehensive passive event listeners for `["click", "pointerdown", "touchstart", "touchend", "keydown"]` to guarantee instant AudioContext wake on iOS Safari, Android Chrome, and desktop browsers without requiring repeated clicks.
+- **Sound Button UI Clarification:** Updated `#btn-sound` text to explicitly display `🔊 Sound` when active and `🔇 Muted` when sound is disabled, providing immediate visual feedback on the audio engine state.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.7.2`.
+
 ## [1.7.1] - 2026-10-20
 
 ### Added - Supply Catalog Export Links & Materials Spec Sourcing (Phase 6.2)

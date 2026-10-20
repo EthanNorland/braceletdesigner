@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.7.1`
-- **Phase:** Supply Catalog Export Links & CSV Recipe in Materials Spec Sheet (Phase 6.2) completed; Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.7.2`
+- **Phase:** AudioContext Asynchronous Resume & Multi-Gesture Activation Patch (`v1.7.2`); Supply Catalog Export Links & CSV Recipe in Materials Spec Sheet (Phase 6.2) completed; Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -68,7 +68,7 @@
   - **Plaintext Spec Sheet with Sourcing URLs:** Formatted text view with complete supply search URLs for jeweler ordering.
   - **1-Click CSV Recipe Export (`btn-export-csv`):** Downloads `bracelet-materials-sourcing-[timestamp].csv` with itemized part names, quantities, sizes, and direct catalog URLs.
   - **Deep Linking:** Added `?dialog=materials` to open the Materials Sourcing Sheet on load.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.1 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.2 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 

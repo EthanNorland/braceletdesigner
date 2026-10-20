@@ -1320,7 +1320,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.7.1",
+      version: "1.7.2",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -1356,16 +1356,33 @@
     }
 
     function unlockAudio() {
-      getAudioContext();
+      const ctx = getAudioContext();
+      if (ctx && ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+      }
     }
-    window.addEventListener("pointerdown", unlockAudio, { passive: true });
-    window.addEventListener("keydown", unlockAudio, { passive: true });
+    ["click", "pointerdown", "touchstart", "touchend", "keydown"].forEach(evt => {
+      window.addEventListener(evt, unlockAudio, { passive: true });
+    });
+
+    function playWithContext(fn) {
+      if (!soundEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      if (ctx.state === "suspended") {
+        ctx.resume().then(() => {
+          if (ctx.state === "running") fn(ctx);
+        }).catch(() => {});
+      } else {
+        fn(ctx);
+      }
+    }
 
     function updateSoundButtonUI() {
       const btn = document.getElementById("btn-sound");
       if (!btn) return;
-      btn.textContent = soundEnabled ? "🔊 Sound" : "🔇 Mute";
-      btn.title = soundEnabled ? "Tactile audio synthesis active (Click to mute)" : "Tactile audio synthesis muted (Click to enable)";
+      btn.textContent = soundEnabled ? "🔊 Sound" : "🔇 Muted";
+      btn.title = soundEnabled ? "Tactile audio synthesis active (Click to mute)" : "Tactile audio synthesis muted (Click to enable sound)";
       btn.classList.toggle("active", soundEnabled);
     }
 
@@ -1389,281 +1406,273 @@
     updateSoundButtonUI();
 
     function audioPlayAdd(material = "glass") {
-      if (!soundEnabled) return;
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      let baseFreq = 880;
-      let endFreq = 520;
-      let decay = 0.09;
-      let peakGain = 0.18;
-      let oscType = "sine";
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        let baseFreq = 880;
+        let endFreq = 520;
+        let decay = 0.09;
+        let peakGain = 0.18;
+        let oscType = "sine";
 
-      if (material === "metal") {
-        baseFreq = 1400; endFreq = 900; decay = 0.09; peakGain = 0.16;
-        const hOsc = ctx.createOscillator();
-        const hGain = ctx.createGain();
-        hOsc.type = "sine";
-        hOsc.frequency.setValueAtTime(2800, now);
-        hGain.gain.setValueAtTime(0.001, now);
-        hGain.gain.linearRampToValueAtTime(0.08, now + 0.002);
-        hGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
-        hOsc.connect(hGain);
-        hGain.connect(ctx.destination);
-        hOsc.start(now);
-        hOsc.stop(now + 0.07);
-      } else if (material === "quartz") {
-        baseFreq = 1150; endFreq = 780; decay = 0.11; peakGain = 0.16;
-        const qOsc = ctx.createOscillator();
-        const qGain = ctx.createGain();
-        qOsc.type = "sine";
-        qOsc.frequency.setValueAtTime(2300, now);
-        qGain.gain.setValueAtTime(0.001, now);
-        qGain.gain.linearRampToValueAtTime(0.05, now + 0.002);
-        qGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
-        qOsc.connect(qGain);
-        qGain.connect(ctx.destination);
-        qOsc.start(now);
-        qOsc.stop(now + 0.09);
-      } else if (material === "stone") {
-        baseFreq = 650; endFreq = 380; decay = 0.06; peakGain = 0.20;
-      } else if (material === "wood") {
-        baseFreq = 460; endFreq = 280; decay = 0.05; peakGain = 0.22;
-        oscType = "triangle";
-      }
+        if (material === "metal") {
+          baseFreq = 1400; endFreq = 900; decay = 0.09; peakGain = 0.16;
+          const hOsc = ctx.createOscillator();
+          const hGain = ctx.createGain();
+          hOsc.type = "sine";
+          hOsc.frequency.setValueAtTime(2800, now);
+          hGain.gain.setValueAtTime(0.001, now);
+          hGain.gain.linearRampToValueAtTime(0.08, now + 0.002);
+          hGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+          hOsc.connect(hGain);
+          hGain.connect(ctx.destination);
+          hOsc.start(now);
+          hOsc.stop(now + 0.07);
+        } else if (material === "quartz") {
+          baseFreq = 1150; endFreq = 780; decay = 0.11; peakGain = 0.16;
+          const qOsc = ctx.createOscillator();
+          const qGain = ctx.createGain();
+          qOsc.type = "sine";
+          qOsc.frequency.setValueAtTime(2300, now);
+          qGain.gain.setValueAtTime(0.001, now);
+          qGain.gain.linearRampToValueAtTime(0.05, now + 0.002);
+          qGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+          qOsc.connect(qGain);
+          qGain.connect(ctx.destination);
+          qOsc.start(now);
+          qOsc.stop(now + 0.09);
+        } else if (material === "stone") {
+          baseFreq = 650; endFreq = 380; decay = 0.06; peakGain = 0.20;
+        } else if (material === "wood") {
+          baseFreq = 460; endFreq = 280; decay = 0.05; peakGain = 0.22;
+          oscType = "triangle";
+        }
 
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = oscType;
-      osc.frequency.setValueAtTime(baseFreq, now);
-      osc.frequency.exponentialRampToValueAtTime(endFreq, now + decay);
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(peakGain, now + 0.003);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + decay);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + decay + 0.01);
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = oscType;
+        osc.frequency.setValueAtTime(baseFreq, now);
+        osc.frequency.exponentialRampToValueAtTime(endFreq, now + decay);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(peakGain, now + 0.003);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + decay);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + decay + 0.01);
+      });
     }
 
     function audioPlaySlide(material = "glass") {
-      if (!soundEnabled) return;
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      let freq = 2100;
-      let decay = 0.024;
-      let peakGain = 0.11;
-      let oscType = "sine";
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        let freq = 2100;
+        let decay = 0.024;
+        let peakGain = 0.11;
+        let oscType = "sine";
 
-      if (material === "metal") { freq = 2800; decay = 0.028; peakGain = 0.12; }
-      else if (material === "quartz") { freq = 2400; decay = 0.024; peakGain = 0.11; }
-      else if (material === "stone") { freq = 850; decay = 0.020; peakGain = 0.13; }
-      else if (material === "wood") { freq = 520; decay = 0.022; peakGain = 0.14; oscType = "triangle"; }
+        if (material === "metal") { freq = 2800; decay = 0.028; peakGain = 0.12; }
+        else if (material === "quartz") { freq = 2400; decay = 0.024; peakGain = 0.11; }
+        else if (material === "stone") { freq = 850; decay = 0.020; peakGain = 0.13; }
+        else if (material === "wood") { freq = 520; decay = 0.022; peakGain = 0.14; oscType = "triangle"; }
 
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = oscType;
-      osc.frequency.setValueAtTime(freq, now);
-      osc.frequency.exponentialRampToValueAtTime(freq * 0.7, now + decay);
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(peakGain, now + 0.002);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + decay);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + decay + 0.01);
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = oscType;
+        osc.frequency.setValueAtTime(freq, now);
+        osc.frequency.exponentialRampToValueAtTime(freq * 0.7, now + decay);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(peakGain, now + 0.002);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + decay);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + decay + 0.01);
+      });
     }
 
     function audioPlayClasp(type = "magnetic") {
-      if (!soundEnabled) return;
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      if (type === "magnetic") {
-        const osc1 = ctx.createOscillator();
-        const g1 = ctx.createGain();
-        osc1.type = "sine";
-        osc1.frequency.setValueAtTime(1800, now);
-        g1.gain.setValueAtTime(0.001, now);
-        g1.gain.linearRampToValueAtTime(0.10, now + 0.001);
-        g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.012);
-        osc1.connect(g1);
-        g1.connect(ctx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.015);
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        if (type === "magnetic") {
+          const osc1 = ctx.createOscillator();
+          const g1 = ctx.createGain();
+          osc1.type = "sine";
+          osc1.frequency.setValueAtTime(1800, now);
+          g1.gain.setValueAtTime(0.001, now);
+          g1.gain.linearRampToValueAtTime(0.10, now + 0.001);
+          g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.012);
+          osc1.connect(g1);
+          g1.connect(ctx.destination);
+          osc1.start(now);
+          osc1.stop(now + 0.015);
 
-        const osc2 = ctx.createOscillator();
-        const g2 = ctx.createGain();
-        osc2.type = "sine";
-        const t2 = now + 0.016;
-        osc2.frequency.setValueAtTime(1200, t2);
-        osc2.frequency.exponentialRampToValueAtTime(800, t2 + 0.06);
-        g2.gain.setValueAtTime(0.001, t2);
-        g2.gain.linearRampToValueAtTime(0.22, t2 + 0.002);
-        g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.065);
-        osc2.connect(g2);
-        g2.connect(ctx.destination);
-        osc2.start(t2);
-        osc2.stop(t2 + 0.07);
-      } else if (type === "lobster") {
-        const osc1 = ctx.createOscillator();
-        const g1 = ctx.createGain();
-        osc1.type = "sine";
-        osc1.frequency.setValueAtTime(1600, now);
-        g1.gain.setValueAtTime(0.001, now);
-        g1.gain.linearRampToValueAtTime(0.12, now + 0.001);
-        g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
-        osc1.connect(g1);
-        g1.connect(ctx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.016);
+          const osc2 = ctx.createOscillator();
+          const g2 = ctx.createGain();
+          osc2.type = "sine";
+          const t2 = now + 0.016;
+          osc2.frequency.setValueAtTime(1200, t2);
+          osc2.frequency.exponentialRampToValueAtTime(800, t2 + 0.06);
+          g2.gain.setValueAtTime(0.001, t2);
+          g2.gain.linearRampToValueAtTime(0.22, t2 + 0.002);
+          g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.065);
+          osc2.connect(g2);
+          g2.connect(ctx.destination);
+          osc2.start(t2);
+          osc2.stop(t2 + 0.07);
+        } else if (type === "lobster") {
+          const osc1 = ctx.createOscillator();
+          const g1 = ctx.createGain();
+          osc1.type = "sine";
+          osc1.frequency.setValueAtTime(1600, now);
+          g1.gain.setValueAtTime(0.001, now);
+          g1.gain.linearRampToValueAtTime(0.12, now + 0.001);
+          g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
+          osc1.connect(g1);
+          g1.connect(ctx.destination);
+          osc1.start(now);
+          osc1.stop(now + 0.016);
 
-        const osc2 = ctx.createOscillator();
-        const g2 = ctx.createGain();
-        osc2.type = "triangle";
-        const t2 = now + 0.022;
-        osc2.frequency.setValueAtTime(2200, t2);
-        osc2.frequency.exponentialRampToValueAtTime(1300, t2 + 0.05);
-        g2.gain.setValueAtTime(0.001, t2);
-        g2.gain.linearRampToValueAtTime(0.20, t2 + 0.002);
-        g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.05);
-        osc2.connect(g2);
-        g2.connect(ctx.destination);
-        osc2.start(t2);
-        osc2.stop(t2 + 0.055);
-      } else if (type === "screw") {
-        const osc1 = ctx.createOscillator();
-        const g1 = ctx.createGain();
-        osc1.type = "sine";
-        osc1.frequency.setValueAtTime(980, now);
-        g1.gain.setValueAtTime(0.001, now);
-        g1.gain.linearRampToValueAtTime(0.14, now + 0.001);
-        g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.016);
-        osc1.connect(g1);
-        g1.connect(ctx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.018);
+          const osc2 = ctx.createOscillator();
+          const g2 = ctx.createGain();
+          osc2.type = "triangle";
+          const t2 = now + 0.022;
+          osc2.frequency.setValueAtTime(2200, t2);
+          osc2.frequency.exponentialRampToValueAtTime(1300, t2 + 0.05);
+          g2.gain.setValueAtTime(0.001, t2);
+          g2.gain.linearRampToValueAtTime(0.20, t2 + 0.002);
+          g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.05);
+          osc2.connect(g2);
+          g2.connect(ctx.destination);
+          osc2.start(t2);
+          osc2.stop(t2 + 0.055);
+        } else if (type === "screw") {
+          const osc1 = ctx.createOscillator();
+          const g1 = ctx.createGain();
+          osc1.type = "sine";
+          osc1.frequency.setValueAtTime(980, now);
+          g1.gain.setValueAtTime(0.001, now);
+          g1.gain.linearRampToValueAtTime(0.14, now + 0.001);
+          g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.016);
+          osc1.connect(g1);
+          g1.connect(ctx.destination);
+          osc1.start(now);
+          osc1.stop(now + 0.018);
 
-        const osc2 = ctx.createOscillator();
-        const g2 = ctx.createGain();
-        osc2.type = "sine";
-        const t2 = now + 0.028;
-        osc2.frequency.setValueAtTime(1350, t2);
-        g2.gain.setValueAtTime(0.001, t2);
-        g2.gain.linearRampToValueAtTime(0.16, t2 + 0.002);
-        g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.02);
-        osc2.connect(g2);
-        g2.connect(ctx.destination);
-        osc2.start(t2);
-        osc2.stop(t2 + 0.025);
-      }
+          const osc2 = ctx.createOscillator();
+          const g2 = ctx.createGain();
+          osc2.type = "sine";
+          const t2 = now + 0.028;
+          osc2.frequency.setValueAtTime(1350, t2);
+          g2.gain.setValueAtTime(0.001, t2);
+          g2.gain.linearRampToValueAtTime(0.16, t2 + 0.002);
+          g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.02);
+          osc2.connect(g2);
+          g2.connect(ctx.destination);
+          osc2.start(t2);
+          osc2.stop(t2 + 0.025);
+        }
+      });
     }
 
     function audioPlaySelect() {
-      if (!soundEnabled) return;
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(1600, now);
-      g.gain.setValueAtTime(0.001, now);
-      g.gain.linearRampToValueAtTime(0.08, now + 0.001);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.015);
-      osc.connect(g);
-      g.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.018);
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(1600, now);
+        g.gain.setValueAtTime(0.001, now);
+        g.gain.linearRampToValueAtTime(0.08, now + 0.001);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.015);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.018);
+      });
     }
 
     function audioPlayDuplicate() {
-      if (!soundEnabled) return;
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      const osc1 = ctx.createOscillator();
-      const g1 = ctx.createGain();
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(720, now);
-      g1.gain.setValueAtTime(0.001, now);
-      g1.gain.linearRampToValueAtTime(0.12, now + 0.002);
-      g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
-      osc1.connect(g1);
-      g1.connect(ctx.destination);
-      osc1.start(now);
-      osc1.stop(now + 0.045);
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        const osc1 = ctx.createOscillator();
+        const g1 = ctx.createGain();
+        osc1.type = "sine";
+        osc1.frequency.setValueAtTime(720, now);
+        g1.gain.setValueAtTime(0.001, now);
+        g1.gain.linearRampToValueAtTime(0.12, now + 0.002);
+        g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+        osc1.connect(g1);
+        g1.connect(ctx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.045);
 
-      const osc2 = ctx.createOscillator();
-      const g2 = ctx.createGain();
-      osc2.type = "sine";
-      const t2 = now + 0.035;
-      osc2.frequency.setValueAtTime(1080, t2);
-      g2.gain.setValueAtTime(0.001, t2);
-      g2.gain.linearRampToValueAtTime(0.14, t2 + 0.002);
-      g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.06);
-      osc2.connect(g2);
-      g2.connect(ctx.destination);
-      osc2.start(t2);
-      osc2.stop(t2 + 0.065);
+        const osc2 = ctx.createOscillator();
+        const g2 = ctx.createGain();
+        osc2.type = "sine";
+        const t2 = now + 0.035;
+        osc2.frequency.setValueAtTime(1080, t2);
+        g2.gain.setValueAtTime(0.001, t2);
+        g2.gain.linearRampToValueAtTime(0.14, t2 + 0.002);
+        g2.gain.exponentialRampToValueAtTime(0.0001, t2 + 0.06);
+        osc2.connect(g2);
+        g2.connect(ctx.destination);
+        osc2.start(t2);
+        osc2.stop(t2 + 0.065);
+      });
     }
 
     function audioPlayDelete() {
-      if (!soundEnabled) return;
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(580, now);
-      osc.frequency.exponentialRampToValueAtTime(220, now + 0.06);
-      g.gain.setValueAtTime(0.001, now);
-      g.gain.linearRampToValueAtTime(0.16, now + 0.002);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
-      osc.connect(g);
-      g.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.07);
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(580, now);
+        osc.frequency.exponentialRampToValueAtTime(220, now + 0.06);
+        g.gain.setValueAtTime(0.001, now);
+        g.gain.linearRampToValueAtTime(0.16, now + 0.002);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.07);
+      });
     }
 
     function audioPlayUndo() {
-      if (!soundEnabled) return;
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(580, now);
-      osc.frequency.exponentialRampToValueAtTime(420, now + 0.035);
-      g.gain.setValueAtTime(0.001, now);
-      g.gain.linearRampToValueAtTime(0.09, now + 0.002);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
-      osc.connect(g);
-      g.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.04);
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(580, now);
+        osc.frequency.exponentialRampToValueAtTime(420, now + 0.035);
+        g.gain.setValueAtTime(0.001, now);
+        g.gain.linearRampToValueAtTime(0.09, now + 0.002);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.04);
+      });
     }
 
     function audioPlayRedo() {
-      if (!soundEnabled) return;
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(420, now);
-      osc.frequency.exponentialRampToValueAtTime(580, now + 0.035);
-      g.gain.setValueAtTime(0.001, now);
-      g.gain.linearRampToValueAtTime(0.09, now + 0.002);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
-      osc.connect(g);
-      g.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.04);
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(580, now + 0.035);
+        g.gain.setValueAtTime(0.001, now);
+        g.gain.linearRampToValueAtTime(0.09, now + 0.002);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.04);
+      });
     }
 
     // ── DOCUMENT DATA MODEL (SINGLE SOURCE OF TRUTH - PART 3.4) ─────────────
