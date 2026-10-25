@@ -4,6 +4,13 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.25] - 2026-10-25
+
+### Changed - Alphabetical Ordering of Inspiration & Credits
+- **Alphabetized Credits Panel ([`index.html#L1732`](file:///Users/ethannorland/hello-world/index.html#L1732)):**
+  - Sorted all 10 inspiration and credit entries into alphabetical order: Banter, Beadmod, Bracelet Designer, Etsy, Fire Mountain Gems, JewDIY, Pantone, Phillip Renato, Textures.com, and Three.js Community.
+- **PWA Bump:** Bumped service worker cache version to `1.8.25`.
+
 ## [1.8.24] - 2026-10-25
 
 ### Changed - Credit Link Update for Beadmod
