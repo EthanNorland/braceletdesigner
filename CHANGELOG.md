@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.7] - 2026-10-24
+
+### Changed - Deep Dark Antique Leather Tone Recalibration
+- **Dark Antique Leather Color Palette ([`createLeatherTexture()`](file:///Users/ethannorland/hello-world/index.html#L3459)):**
+  - Recalibrated the procedural 2D Hermite spline noise color ramp to render rich, dark antique cowhide leather matching the dark pixels in `reference/Leather Bracelet.png`.
+  - Shifted highlight from light cognac (`#915C30`) down to subtle dark chestnut (`#64402A`, RGB `[100, 64, 42]`).
+  - Shifted midtone from amber saddle (`#663C1E`) down to rich dark chocolate / antique saddle (`#42281A`, RGB `[66, 40, 26]`).
+  - Shifted crevice depth from medium brown (`#3A2212`) down to deep espresso / burnished shadow (`#22120C`, RGB `[34, 18, 12]`).
+- **PBR Specular & Environment Balancing ([`createCordBaseMesh()`](file:///Users/ethannorland/hello-world/index.html#L3557)):**
+  - Adjusted `roughness: 0.72` and reduced `envMapIntensity` from `0.45` to `0.28`, preventing studio light reflections from washing out the deep dark leather tones while preserving subtle satin highlight roll-off.
+  - Linked swatch indicator in [Materials Spec Sheet](file:///Users/ethannorland/hello-world/index.html#L4229) to `#3E2723` for leather base cords.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.7`.
+
 ## [1.8.6] - 2026-10-24
 
 ### Added - Authentic 3D Base Types Matching Desktop Reference Photos

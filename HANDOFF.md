@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.8.6`
-- **Phase:** Authentic 3D Base Types Matching Desktop Reference Photos (`v1.8.6`); Neutral Pure White Studio Lighting (`v1.8.5`); Rich Darker Gold & Silver Shading for Stone & Wood (`v1.8.4`); Harmonized Gold & Silver Shader Engine (`v1.8.3`); Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.8.7`
+- **Phase:** Deep Dark Antique Leather Recalibration (`v1.8.7`); Authentic 3D Base Types Matching Desktop Reference Photos (`v1.8.6`); Neutral Pure White Studio Lighting (`v1.8.5`); Rich Darker Gold & Silver Shading for Stone & Wood (`v1.8.4`); Harmonized Gold & Silver Shader Engine (`v1.8.3`); Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -77,6 +77,10 @@
   - **Chamfered Drilled Rims:** Applied realistic jeweler's chamfer steps around bead hole openings to capture specular highlights and prevent polygon edge artifacts.
   - **Double-Sided PBR Interior Shading:** Configured `side: THREE.DoubleSide` across all PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`), allowing light to illuminate the inner cylindrical drill walls and rendering realistic refractive air tunnels in translucent glass and crystalline quartz.
   - **Hollow Inscribed Cube Beads:** Adapted monogram and symbol engravings on cube beads with synchronized double-sided overlays on outward-facing (+X) and inward-facing (-X) faces.
+- Phase 11 Deep Dark Antique Leather Recalibration (v1.8.7):
+  - **Dark Antique Leather Color Ramp:** Recalibrated the procedural 2D Hermite spline noise color ramp to render rich, dark antique cowhide leather matching the darkest tones in `reference/Leather Bracelet.png`. Shifted highlight from light cognac (`#915C30`) down to subtle dark chestnut (`[100, 64, 42]`), midtone down to rich dark chocolate / antique saddle (`[66, 40, 26]`), and crevice depth down to deep espresso (`[34, 18, 12]`).
+  - **Specular & Environment Balancing:** Adjusted `roughness: 0.72` and reduced `envMapIntensity` from `0.45` to `0.28`, preventing studio light reflections from washing out the deep dark leather tones while preserving subtle satin highlight roll-off.
+  - **Materials Spec Sheet Swatch Sync:** Configured leather base swatch indicator in [Materials Spec Sheet](file:///Users/ethannorland/hello-world/index.html#L4229) to `#3E2723` (dark espresso).
 - Phase 10 Authentic 3D Base Types Matching Desktop Reference Photos (v1.8.6):
   - **Sterling Silver & 18K Gold Snake Chains:** Generated procedural PBR textures encoding ~128 tightly packed, interlocking, slanted metal links wrapping seamlessly horizontally and vertically around the tube. Deep dark ambient occlusion joint seams between adjacent links with convex rounded crowns and micro-bevels. Specular roughness maps (`0.14` on crests, `0.35` in crevices) and bump maps (`bumpScale: 0.026`), glinting with realistic metallic reflections under studio lighting. Includes polished tapered metal end-cap ferrules flanking the clasp.
   - **Two-Tone Braided Diamond Woven Cord:** Continuous interlacing twill braid with micro-fiber yarn striations, primary cord color inheritance (with new *Tangerine Blaze* `#EA580C` swatch matching `Woven Cord Bracelet.png`), and contrasting deep charcoal-black (`#181A20`) strands. Tactile textile bump mapping (`bumpScale: 0.045`), matte fabric roughness (`0.82`), and sleek ferrule sleeves adjacent to the clasp.
@@ -89,7 +93,7 @@
   - **Unified Cook-Torrance BRDF Shading:** Harmonized metal shader parameters across clasps, beads, base chains, and spacers: `metalness: 0.90`, `roughness: 0.18`, `envMapIntensity: 1.2`, and `side: THREE.DoubleSide`. This guarantees 100% visual consistency between clasps, beads, and spacers.
   - **Darker Gold & Silver Shading on Stone & Wood (v1.8.4):** Calibrated deep antique gold mineral stone (`#7D5A18`), silver hematite slate (`#4A4D53`), golden teak wood (`#744E14`), and weathered silver driftwood (`#46494F`), eliminating diffuse chalk/white artifacts when gold or silver is selected on stone or wood beads while maintaining the user's material choice.
   - **Engraved Cube Bead PBR Transparency:** Rendered inscriptions with transparent canvas backgrounds (`createInscribedTexture`) layered over solid 3D metal geometries with `depthWrite: false`, ensuring engraved gold cubes display authentic gold metallic luster without white specular sheen.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.5 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.7 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 

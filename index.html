@@ -1497,7 +1497,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.6 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.7 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1614,7 +1614,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.6</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.7</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1634,7 +1634,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.6",
+      version: "1.8.7",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3456,21 +3456,21 @@
 
           const val = Math.max(0.0, Math.min(1.0, grain + micro - burnish));
 
-          // Rich vintage cowhide tones matching Leather Bracelet.png:
-          // Cognac highlight: [145, 92, 48]
-          // Saddle midtone: [102, 60, 30]
-          // Deep espresso: [58, 34, 18]
+          // Deep dark vintage cowhide tones matching dark leather reference:
+          // Subtle dark chestnut highlight: [100, 64, 42]
+          // Rich dark chocolate / antique saddle midtone: [66, 40, 26]
+          // Deep dark espresso crevice: [34, 18, 12]
           let r, g, b;
           if (val > 0.5) {
             const t = (val - 0.5) / 0.5;
-            r = Math.round(102 + (145 - 102) * t);
-            g = Math.round(60 + (92 - 60) * t);
-            b = Math.round(30 + (48 - 30) * t);
+            r = Math.round(66 + (100 - 66) * t);
+            g = Math.round(40 + (64 - 40) * t);
+            b = Math.round(26 + (42 - 26) * t);
           } else {
             const t = val / 0.5;
-            r = Math.round(58 + (102 - 58) * t);
-            g = Math.round(34 + (60 - 34) * t);
-            b = Math.round(18 + (30 - 18) * t);
+            r = Math.round(34 + (66 - 34) * t);
+            g = Math.round(18 + (40 - 18) * t);
+            b = Math.round(12 + (26 - 12) * t);
           }
 
           imgData.data[idx] = r;
@@ -3559,8 +3559,8 @@
           bumpMap: textures.bumpMap,
           bumpScale: 0.022,
           metalness: 0.04,
-          roughness: 0.68,
-          envMapIntensity: 0.45,
+          roughness: 0.72,
+          envMapIntensity: 0.28,
           side: THREE.DoubleSide
         });
       }
@@ -4226,7 +4226,7 @@
         qty: 1,
         size: `${doc.wristMm}mm`,
         material: doc.cordType,
-        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#D2AC4C" : "#A8A9AC") : doc.cordColor
+        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#D2AC4C" : "#A8A9AC") : (doc.cordType === "leather" ? "#3E2723" : doc.cordColor)
       });
 
       // 2. Clasp
