@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.13] - 2026-10-25
+
+### Added - Reference-Calibrated Polished Wood & Brushed Satin Metal Textures
+- **Polished Natural Wood Grain Calibration ([`getWoodTextures()`](file:///Users/ethannorland/hello-world/index.html#L3300)):**
+  - Modeled the natural bamboo, teak, and sandalwood grain directly after desktop 3D reference `reference/woodtexture.png`.
+  - Engineered 512x512 multi-harmonic growth ring bands ($18\pi$ and $42\pi$ frequencies) with longitudinal micro-fiber striations and subtle wood pore indentations.
+  - Derived smooth normal and bump maps (`bumpScale: 0.018`, `normalScale: [0.65, 0.65]`) with clearcoat lacquer glaze (`clearcoat: 0.32`, `clearcoatRoughness: 0.10`, `roughness: 0.44`) that enhances amber sandalwood, teak, and silver driftwood tones.
+- **Brushed Satin Jeweler's Metal Calibration ([`getMetalTextures()`](file:///Users/ethannorland/hello-world/index.html#L3220)):**
+  - Modeled the spun/lathe hairline brushed metal finish directly after desktop 3D reference `reference/metaltexture.png`.
+  - Synthesized high-frequency horizontal lathe/spun brushing hairline tracks ($192\pi$ and $384\pi$) with anisotropic normal filtering (`normalScale: [0.85, 0.45]`, `bumpScale: 0.012`).
+  - Achieved authentic anisotropic directional specular elongation across gold, silver, clasps, spacers, and metal beads (`metalness: 0.92`, `roughness: 0.22`, `envMapIntensity: 1.35`).
+- **Complete 5-Material Studio Suite:** All 5 core materials (`Glass`, `Quartz`, `Metal`, `Stone`, `Wood`) now possess reference-calibrated PBR textures and normal maps matching desktop standards.
+- **PWA Precache Bump:** Added `woodtexture.png` and `metaltexture.png` to service worker precache, and bumped version to `1.8.13`.
+
 ## [1.8.12] - 2026-10-25
 
 ### Added - Reference-Calibrated Crystalline Quartz & Natural Stone Textures

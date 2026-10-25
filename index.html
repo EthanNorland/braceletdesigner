@@ -1497,7 +1497,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.12 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.13 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1614,7 +1614,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.12</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.13</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1634,7 +1634,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.12",
+      version: "1.8.13",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3052,6 +3052,246 @@
       return stoneTextureCache;
     }
 
+    // ── PROCEDURAL BRUSHED SATIN METAL TEXTURE GENERATOR (MATCHING REFERENCE/METALTEXTURE.PNG) ──
+    let metalTextureCache = null;
+
+    function getMetalTextures() {
+      if (metalTextureCache) return metalTextureCache;
+
+      const w = 512, h = 512;
+      const bumpCanvas = document.createElement("canvas");
+      bumpCanvas.width = w; bumpCanvas.height = h;
+      const bumpCtx = bumpCanvas.getContext("2d");
+      const bumpImg = bumpCtx.createImageData(w, h);
+
+      const normalCanvas = document.createElement("canvas");
+      normalCanvas.width = w; normalCanvas.height = h;
+      const normalCtx = normalCanvas.getContext("2d");
+      const normalImg = normalCtx.createImageData(w, h);
+
+      const heightMap = new Float32Array(w * h);
+
+      let seed = 84920;
+      function rand() {
+        seed = (seed * 16807 + 0) % 2147483647;
+        return (seed - 1) / 2147483646;
+      }
+
+      const tabSize = 256;
+      const perm = new Float32Array(tabSize);
+      for (let i = 0; i < tabSize; i++) perm[i] = rand();
+
+      function sampleNoise(u, v, repU, repV) {
+        let x = (u * repU) % repU; if (x < 0) x += repU;
+        let y = (v * repV) % repV; if (y < 0) y += repV;
+        const x0 = Math.floor(x), y0 = Math.floor(y);
+        const x1 = (x0 + 1) % repU, y1 = (y0 + 1) % repV;
+        const tx = x - x0, ty = y - y0;
+        const sx = tx * tx * (3.0 - 2.0 * tx), sy = ty * ty * (3.0 - 2.0 * ty);
+        const n00 = perm[(y0 * 37 + x0) % tabSize], n10 = perm[(y0 * 37 + x1) % tabSize];
+        const n01 = perm[(y1 * 37 + x0) % tabSize], n11 = perm[(y1 * 37 + x1) % tabSize];
+        return n00 + sx * (n10 - n00) + sy * (n01 - n00) + sx * sy * (n00 - n10 - n01 + n11);
+      }
+
+      for (let y = 0; y < h; y++) {
+        const v = y / h;
+        for (let x = 0; x < w; x++) {
+          const u = x / w;
+
+          // Lathe/spun fine horizontal brushed hairline tracks
+          const brush1 = Math.sin(v * Math.PI * 192.0 + sampleNoise(u, v, 2, 4) * 2.0);
+          const brush2 = Math.sin(v * Math.PI * 384.0) * 0.5;
+          const microBrush = (sampleNoise(u * 4.0, v * 96.0, 8, 96) - 0.5) * 0.35;
+          const val = Math.max(0.0, Math.min(1.0, 0.5 + (brush1 + brush2) * 0.2 + microBrush));
+          heightMap[y * w + x] = val;
+        }
+      }
+
+      const bumpStrength = 2.8;
+      for (let y = 0; y < h; y++) {
+        const ym = (y - 1 + h) % h, yp = (y + 1) % h;
+        for (let x = 0; x < w; x++) {
+          const xm = (x - 1 + w) % w, xp = (x + 1) % w;
+          const idx = (y * w + x) * 4;
+
+          const hVal = heightMap[y * w + x];
+          const bByte = Math.round(hVal * 255);
+          bumpImg.data[idx]     = bByte;
+          bumpImg.data[idx + 1] = bByte;
+          bumpImg.data[idx + 2] = bByte;
+          bumpImg.data[idx + 3] = 255;
+
+          const tl = heightMap[ym * w + xm], tc = heightMap[ym * w + x], tr = heightMap[ym * w + xp];
+          const ml = heightMap[y * w + xm],                             mr = heightMap[y * w + xp];
+          const bl = heightMap[yp * w + xm], bc = heightMap[yp * w + x], br = heightMap[yp * w + xp];
+
+          const dX = ((tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl)) * bumpStrength;
+          const dY = ((bl + 2.0 * bc + br) - (tl + 2.0 * tc + tr)) * bumpStrength;
+          const dZ = 1.0;
+          const invLen = 1.0 / Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+
+          normalImg.data[idx]     = Math.round((-dX * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 1] = Math.round((-dY * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 2] = Math.round((dZ * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 3] = 255;
+        }
+      }
+
+      bumpCtx.putImageData(bumpImg, 0, 0);
+      normalCtx.putImageData(normalImg, 0, 0);
+
+      const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.RepeatWrapping;
+      bumpMap.repeat.set(2, 1);
+      bumpMap.anisotropy = 8;
+      bumpMap.needsUpdate = true;
+
+      const normalMap = new THREE.CanvasTexture(normalCanvas);
+      normalMap.wrapS = THREE.RepeatWrapping;
+      normalMap.wrapT = THREE.RepeatWrapping;
+      normalMap.repeat.set(2, 1);
+      normalMap.anisotropy = 8;
+      normalMap.needsUpdate = true;
+
+      metalTextureCache = { bumpMap, normalMap };
+      return metalTextureCache;
+    }
+
+    // ── PROCEDURAL POLISHED WOOD TEXTURE GENERATOR (MATCHING REFERENCE/WOODTEXTURE.PNG) ──
+    let woodTextureCache = null;
+
+    function getWoodTextures() {
+      if (woodTextureCache) return woodTextureCache;
+
+      const w = 512, h = 512;
+      const colorCanvas = document.createElement("canvas");
+      colorCanvas.width = w; colorCanvas.height = h;
+      const colorCtx = colorCanvas.getContext("2d");
+      const colorImg = colorCtx.createImageData(w, h);
+
+      const bumpCanvas = document.createElement("canvas");
+      bumpCanvas.width = w; bumpCanvas.height = h;
+      const bumpCtx = bumpCanvas.getContext("2d");
+      const bumpImg = bumpCtx.createImageData(w, h);
+
+      const normalCanvas = document.createElement("canvas");
+      normalCanvas.width = w; normalCanvas.height = h;
+      const normalCtx = normalCanvas.getContext("2d");
+      const normalImg = normalCtx.createImageData(w, h);
+
+      const heightMap = new Float32Array(w * h);
+
+      let seed = 19283;
+      function rand() {
+        seed = (seed * 16807 + 0) % 2147483647;
+        return (seed - 1) / 2147483646;
+      }
+
+      const tabSize = 256;
+      const perm = new Float32Array(tabSize);
+      for (let i = 0; i < tabSize; i++) perm[i] = rand();
+
+      function sampleNoise(u, v, repU, repV) {
+        let x = (u * repU) % repU; if (x < 0) x += repU;
+        let y = (v * repV) % repV; if (y < 0) y += repV;
+        const x0 = Math.floor(x), y0 = Math.floor(y);
+        const x1 = (x0 + 1) % repU, y1 = (y0 + 1) % repV;
+        const tx = x - x0, ty = y - y0;
+        const sx = tx * tx * (3.0 - 2.0 * tx), sy = ty * ty * (3.0 - 2.0 * ty);
+        const n00 = perm[(y0 * 37 + x0) % tabSize], n10 = perm[(y0 * 37 + x1) % tabSize];
+        const n01 = perm[(y1 * 37 + x0) % tabSize], n11 = perm[(y1 * 37 + x1) % tabSize];
+        return n00 + sx * (n10 - n00) + sy * (n01 - n00) + sx * sy * (n00 - n10 - n01 + n11);
+      }
+
+      for (let y = 0; y < h; y++) {
+        const v = y / h;
+        for (let x = 0; x < w; x++) {
+          const u = x / w;
+          const idx = (y * w + x) * 4;
+
+          // Longitudinal growth rings
+          const ring1 = Math.sin(v * Math.PI * 18.0 + sampleNoise(u, v, 2, 4) * 3.0);
+          const ring2 = Math.sin(v * Math.PI * 42.0 + sampleNoise(u, v, 4, 8) * 1.5) * 0.5;
+          const rings = (ring1 + ring2) * 0.5;
+
+          const fibers = sampleNoise(u * 12.0, v, 32, 64) * 0.18;
+          const pore = Math.sin(v * Math.PI * 120.0 + sampleNoise(u, v, 8, 16) * 4.0) * 0.08;
+
+          const grainVal = Math.max(0.0, Math.min(1.0, 0.5 + rings * 0.35 + fibers + pore));
+          heightMap[y * w + x] = grainVal;
+
+          // Warm golden teak / bamboo / sandalwood colors
+          const r = Math.round(168 + (224 - 168) * grainVal);
+          const g = Math.round(124 + (182 - 124) * grainVal);
+          const b = Math.round(78 + (132 - 78) * grainVal);
+
+          colorImg.data[idx]     = r;
+          colorImg.data[idx + 1] = g;
+          colorImg.data[idx + 2] = b;
+          colorImg.data[idx + 3] = 255;
+        }
+      }
+
+      const bumpStrength = 3.2;
+      for (let y = 0; y < h; y++) {
+        const ym = (y - 1 + h) % h, yp = (y + 1) % h;
+        for (let x = 0; x < w; x++) {
+          const xm = (x - 1 + w) % w, xp = (x + 1) % w;
+          const idx = (y * w + x) * 4;
+
+          const hVal = heightMap[y * w + x];
+          const bByte = Math.round(hVal * 255);
+          bumpImg.data[idx]     = bByte;
+          bumpImg.data[idx + 1] = bByte;
+          bumpImg.data[idx + 2] = bByte;
+          bumpImg.data[idx + 3] = 255;
+
+          const tl = heightMap[ym * w + xm], tc = heightMap[ym * w + x], tr = heightMap[ym * w + xp];
+          const ml = heightMap[y * w + xm],                             mr = heightMap[y * w + xp];
+          const bl = heightMap[yp * w + xm], bc = heightMap[yp * w + x], br = heightMap[yp * w + xp];
+
+          const dX = ((tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl)) * bumpStrength;
+          const dY = ((bl + 2.0 * bc + br) - (tl + 2.0 * tc + tr)) * bumpStrength;
+          const dZ = 1.0;
+          const invLen = 1.0 / Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+
+          normalImg.data[idx]     = Math.round((-dX * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 1] = Math.round((-dY * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 2] = Math.round((dZ * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 3] = 255;
+        }
+      }
+
+      colorCtx.putImageData(colorImg, 0, 0);
+      bumpCtx.putImageData(bumpImg, 0, 0);
+      normalCtx.putImageData(normalImg, 0, 0);
+
+      const colorMap = new THREE.CanvasTexture(colorCanvas);
+      colorMap.wrapS = THREE.RepeatWrapping;
+      colorMap.wrapT = THREE.RepeatWrapping;
+      colorMap.repeat.set(2, 1);
+      colorMap.anisotropy = 8;
+      colorMap.needsUpdate = true;
+
+      const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.RepeatWrapping;
+      bumpMap.repeat.set(2, 1);
+      bumpMap.anisotropy = 8;
+      bumpMap.needsUpdate = true;
+
+      const normalMap = new THREE.CanvasTexture(normalCanvas);
+      normalMap.wrapS = THREE.RepeatWrapping;
+      normalMap.wrapT = THREE.RepeatWrapping;
+      normalMap.repeat.set(2, 1);
+      normalMap.anisotropy = 8;
+      normalMap.needsUpdate = true;
+
+      woodTextureCache = { colorMap, bumpMap, normalMap };
+      return woodTextureCache;
+    }
+
     // ── MATERIAL GENERATORS ─────────────────────────────────────────────────
     function getPBRMaterial(type, colorHex) {
       const col = new THREE.Color(colorHex);
@@ -3106,14 +3346,20 @@
             side: THREE.DoubleSide
           });
         }
-        case "metal":
+        case "metal": {
+          const textures = getMetalTextures();
           return new THREE.MeshStandardMaterial({
             color: col,
-            metalness: 0.90,
-            roughness: 0.18,
-            envMapIntensity: 1.2,
+            bumpMap: textures.bumpMap,
+            bumpScale: 0.012,
+            normalMap: textures.normalMap,
+            normalScale: new THREE.Vector2(0.85, 0.45),
+            metalness: 0.92,
+            roughness: 0.22,
+            envMapIntensity: 1.35,
             side: THREE.DoubleSide
           });
+        }
         case "stone": {
           const textures = getStoneTextures();
           if (isGold) {
@@ -3159,13 +3405,19 @@
             side: THREE.DoubleSide
           });
         }
-        case "wood":
+        case "wood": {
+          const textures = getWoodTextures();
           if (isGold) {
             // Warm golden teak / gilded amber sandalwood with rich deep grain
             return new THREE.MeshStandardMaterial({
               color: new THREE.Color(0x744E14),
+              map: textures.colorMap,
+              bumpMap: textures.bumpMap,
+              bumpScale: 0.018,
+              normalMap: textures.normalMap,
+              normalScale: new THREE.Vector2(0.65, 0.65),
               metalness: 0.04,
-              roughness: 0.58,
+              roughness: 0.44,
               envMapIntensity: 0.40,
               side: THREE.DoubleSide
             });
@@ -3174,18 +3426,30 @@
             // Weathered silver driftwood / silver birch with deep textured tone
             return new THREE.MeshStandardMaterial({
               color: new THREE.Color(0x46494F),
+              map: textures.colorMap,
+              bumpMap: textures.bumpMap,
+              bumpScale: 0.018,
+              normalMap: textures.normalMap,
+              normalScale: new THREE.Vector2(0.65, 0.65),
               metalness: 0.04,
-              roughness: 0.60,
+              roughness: 0.46,
               envMapIntensity: 0.40,
               side: THREE.DoubleSide
             });
           }
           return new THREE.MeshStandardMaterial({
             color: col,
+            map: textures.colorMap,
+            bumpMap: textures.bumpMap,
+            bumpScale: 0.018,
+            normalMap: textures.normalMap,
+            normalScale: new THREE.Vector2(0.65, 0.65),
             metalness: 0.02,
-            roughness: 0.62,
+            roughness: 0.45,
+            envMapIntensity: 0.40,
             side: THREE.DoubleSide
           });
+        }
         default:
           return new THREE.MeshStandardMaterial({ color: col, metalness: 0.5, roughness: 0.5, side: THREE.DoubleSide });
       }
