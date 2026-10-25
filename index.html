@@ -1497,7 +1497,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.9 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.10 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1614,7 +1614,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.9</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.10</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1634,7 +1634,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.9",
+      version: "1.8.10",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2127,7 +2127,7 @@
       } else if (cordType === "silver") {
         cordColor = "#A8A9AC";
       } else if (cordType === "leather") {
-        cordColor = "#7C553B";
+        cordColor = "#3C2416";
       }
 
       let claspType = "lobster";
@@ -3456,22 +3456,21 @@
 
           const val = Math.max(0.0, Math.min(1.0, grain + micro - burnish));
 
-          // Master reference calibration directly matching reference/leathercolor.png:
-          // ColorSync sRGB: [124, 85, 59] (#7C553B) / Display P3: [118, 87, 63] (#76573F)
-          // Soft weathered highlight: [148, 106, 76]
-          // Core leather body (exact reference match): [124, 85, 59]
-          // Deep burnished crevice:   [96, 62, 42]
+          // Rich deep dark brown leather:
+          // Weathered highlight: [86, 54, 34] (#563622)
+          // Core dark brown body: [60, 36, 22] (#3C2416)
+          // Deep burnished crevice: [36, 20, 12] (#24140C)
           let r, g, b;
           if (val > 0.5) {
             const t = (val - 0.5) / 0.5;
-            r = Math.round(124 + (148 - 124) * t);
-            g = Math.round(85 + (106 - 85) * t);
-            b = Math.round(59 + (76 - 59) * t);
+            r = Math.round(60 + (86 - 60) * t);
+            g = Math.round(36 + (54 - 36) * t);
+            b = Math.round(22 + (34 - 22) * t);
           } else {
             const t = val / 0.5;
-            r = Math.round(96 + (124 - 96) * t);
-            g = Math.round(62 + (85 - 62) * t);
-            b = Math.round(42 + (59 - 42) * t);
+            r = Math.round(36 + (60 - 36) * t);
+            g = Math.round(20 + (36 - 20) * t);
+            b = Math.round(12 + (22 - 12) * t);
           }
 
           imgData.data[idx] = r;
@@ -3558,10 +3557,10 @@
         cordMat = new THREE.MeshStandardMaterial({
           map: textures.colorMap,
           bumpMap: textures.bumpMap,
-          bumpScale: 0.022,
-          metalness: 0.03,
-          roughness: 0.68,
-          envMapIntensity: 0.35,
+          bumpScale: 0.024,
+          metalness: 0.02,
+          roughness: 0.74,
+          envMapIntensity: 0.22,
           side: THREE.DoubleSide
         });
       }
@@ -4201,6 +4200,7 @@
         "#78350F": "Dark Sandalwood",
         "#0B0E14": "Obsidian Black",
         "#0F172A": "Midnight Obsidian",
+        "#3C2416": "Dark Brown Leather",
         "#7C553B": "Warm Bolo Leather",
         "#76573F": "Warm Bolo Leather",
         "#451A03": "Antique Saddle Leather"
@@ -4229,7 +4229,7 @@
         qty: 1,
         size: `${doc.wristMm}mm`,
         material: doc.cordType,
-        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#D2AC4C" : "#A8A9AC") : (doc.cordType === "leather" ? "#7C553B" : doc.cordColor)
+        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#D2AC4C" : "#A8A9AC") : (doc.cordType === "leather" ? "#3C2416" : doc.cordColor)
       });
 
       // 2. Clasp
@@ -4563,7 +4563,7 @@
         desc: "Organic desert textures blending fragrant sandalwood, raw turquoise mineral stone, and stitched leather.",
         wristMm: 180,
         cordType: "leather",
-        cordColor: "#7C553B",
+        cordColor: "#3C2416",
         claspType: "screw",
         claspColor: "gold",
         beads: [

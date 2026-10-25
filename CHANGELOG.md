@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.10] - 2026-10-25
+
+### Changed - Deep Dark Brown Leather Tone Recalibration
+- **Dark Brown Leather Color Ramp ([`createLeatherTexture()`](file:///Users/ethannorland/hello-world/index.html#L3459)):**
+  - Recalibrated the procedural 2D Hermite spline noise color ramp to render a rich, deep, dark chocolate / walnut leather brown under Three.js multi-light studio illumination.
+  - Set core dark brown body ($val = 0.5$) to `[60, 36, 22]` (`#3C2416`), weathered curvature highlights ($val = 1.0$) to `[86, 54, 34]` (`#563622`), and deep rolled crevice seams ($val = 0.0$) to `[36, 20, 12]` (`#24140C`).
+  - Preserved natural warm leather undertones while eliminating washed-out caramel/tan highlights caused by studio key and ambient lighting.
+- **PBR Specular & Studio Balancing ([`createCordBaseMesh()`](file:///Users/ethannorland/hello-world/index.html#L3558)):**
+  - Increased `roughness` to `0.74` and tuned `envMapIntensity` to `0.22` with `metalness: 0.02` and `bumpScale: 0.024`, preventing white specular environment washout and ensuring deep satin leather light roll-off.
+  - Updated leather base swatch indicator in [`migrateAndValidateDoc()`](file:///Users/ethannorland/hello-world/index.html#L2130), [`buildMaterialsData()`](file:///Users/ethannorland/hello-world/index.html#L4232), [`getColorName()`](file:///Users/ethannorland/hello-world/index.html#L4203), and starter template `Bohemian Earth & Sandalwood` to `#3C2416`.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.10`.
+
 ## [1.8.9] - 2026-10-24
 
 ### Changed - Exact Match to Desktop Reference Swatch "leather color" (`leathercolor.png`)
