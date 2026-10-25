@@ -1496,7 +1496,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.7.6 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.0 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1613,7 +1613,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.7.6</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.0</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1633,7 +1633,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.7.6",
+      version: "1.8.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2551,7 +2551,8 @@
             transmission: 0.88,
             thickness: 2.2,
             transparent: true,
-            opacity: 0.96
+            opacity: 0.96,
+            side: THREE.DoubleSide
           });
         case "quartz":
           return new THREE.MeshPhysicalMaterial({
@@ -2561,83 +2562,265 @@
             transmission: 0.82,
             thickness: 2.5,
             transparent: true,
-            opacity: 0.92
+            opacity: 0.92,
+            side: THREE.DoubleSide
           });
         case "metal":
           return new THREE.MeshStandardMaterial({
             color: col,
             metalness: 0.96,
-            roughness: 0.14
+            roughness: 0.14,
+            side: THREE.DoubleSide
           });
         case "stone":
           return new THREE.MeshStandardMaterial({
             color: col,
             metalness: 0.15,
-            roughness: 0.38
+            roughness: 0.38,
+            side: THREE.DoubleSide
           });
         case "wood":
           return new THREE.MeshStandardMaterial({
             color: col,
             metalness: 0.02,
-            roughness: 0.62
+            roughness: 0.62,
+            side: THREE.DoubleSide
           });
         default:
-          return new THREE.MeshStandardMaterial({ color: col, metalness: 0.5, roughness: 0.5 });
+          return new THREE.MeshStandardMaterial({ color: col, metalness: 0.5, roughness: 0.5, side: THREE.DoubleSide });
       }
     }
 
-    // ── GEOMETRY GENERATORS ─────────────────────────────────────────────────
+    // ── GEOMETRY GENERATORS WITH ENLARGED BEAD HOLES & VISIBLE CORD CLEARANCE
+    function getBeadHoleRadius(beadRadius) {
+      // Provides an enlarged drilled bead hole (diameter ~0.40mm - 0.60mm relative)
+      // leaving a clearly visible gap/space around the bracelet cord base (diameter 0.18)
+      return Math.max(0.19, Math.min(0.30, 0.14 + beadRadius * 0.13));
+    }
+
+    function createHollowSphereGeometry(radius, holeRadius) {
+      const points = [];
+      const yMax = Math.sqrt(Math.max(0.001, radius * radius - holeRadius * holeRadius));
+      const chamfer = 0.035;
+      const numArc = 20;
+
+      // Bottom beveled rim
+      points.push(new THREE.Vector2(holeRadius, -yMax));
+      points.push(new THREE.Vector2(holeRadius + chamfer, -yMax + chamfer * 0.5));
+
+      // Outer spherical contour
+      for (let i = 1; i < numArc; i++) {
+        const t = i / numArc;
+        const y = (-yMax + chamfer * 0.5) + (2 * yMax - chamfer) * t;
+        const x = Math.sqrt(Math.max(0, radius * radius - y * y));
+        points.push(new THREE.Vector2(x, y));
+      }
+
+      // Top beveled rim
+      points.push(new THREE.Vector2(holeRadius + chamfer, yMax - chamfer * 0.5));
+      points.push(new THREE.Vector2(holeRadius, yMax));
+
+      // Inner hollow drill cylinder wall
+      const numInner = 6;
+      for (let j = 1; j < numInner; j++) {
+        const t = j / numInner;
+        const y = yMax - 2 * yMax * t;
+        points.push(new THREE.Vector2(holeRadius, y));
+      }
+
+      const geo = new THREE.LatheGeometry(points, 32);
+      geo.rotateX(Math.PI / 2); // Orient hole along tangential cord axis (Z)
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    function createHollowRondelleGeometry(radius, holeRadius) {
+      const points = [];
+      const yMax = Math.sqrt(Math.max(0.001, radius * radius - holeRadius * holeRadius)) * 0.55;
+      const chamfer = 0.025;
+      const numArc = 16;
+
+      points.push(new THREE.Vector2(holeRadius, -yMax));
+      points.push(new THREE.Vector2(holeRadius + chamfer, -yMax + chamfer * 0.4));
+
+      for (let i = 1; i < numArc; i++) {
+        const t = i / numArc;
+        const yNorm = -1 + 2 * t;
+        const y = yMax * yNorm;
+        const x = Math.sqrt(Math.max(holeRadius * holeRadius, radius * radius - (yNorm * yNorm * (radius * radius - (holeRadius + chamfer) * (holeRadius + chamfer)))));
+        points.push(new THREE.Vector2(x, y));
+      }
+
+      points.push(new THREE.Vector2(holeRadius + chamfer, yMax - chamfer * 0.4));
+      points.push(new THREE.Vector2(holeRadius, yMax));
+
+      const numInner = 6;
+      for (let j = 1; j < numInner; j++) {
+        const t = j / numInner;
+        const y = yMax - 2 * yMax * t;
+        points.push(new THREE.Vector2(holeRadius, y));
+      }
+
+      const geo = new THREE.LatheGeometry(points, 32);
+      geo.rotateX(Math.PI / 2);
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    function createHollowBarrelGeometry(radius, holeRadius, isCarved) {
+      const points = [];
+      const h = radius * (isCarved ? 1.3 : 1.5);
+      const halfH = h / 2;
+      const rEnd = radius * 0.85;
+      const numSteps = isCarved ? 24 : 16;
+
+      points.push(new THREE.Vector2(holeRadius, -halfH));
+      points.push(new THREE.Vector2(rEnd, -halfH));
+
+      for (let i = 1; i < numSteps; i++) {
+        const t = i / numSteps;
+        const y = -halfH + h * t;
+        const norm = (y / halfH);
+        let x = rEnd + (radius - rEnd) * (1 - norm * norm);
+        if (isCarved) {
+          const rib = Math.sin(t * Math.PI * 6) * (radius * 0.06);
+          x += Math.max(0, rib);
+        }
+        points.push(new THREE.Vector2(x, y));
+      }
+
+      points.push(new THREE.Vector2(rEnd, halfH));
+      points.push(new THREE.Vector2(holeRadius, halfH));
+
+      const numInner = 6;
+      for (let j = 1; j < numInner; j++) {
+        const t = j / numInner;
+        const y = halfH - h * t;
+        points.push(new THREE.Vector2(holeRadius, y));
+      }
+
+      const geo = new THREE.LatheGeometry(points, 32);
+      geo.rotateX(Math.PI / 2);
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    function createHollowFacetedGeometry(radius, holeRadius) {
+      const points = [];
+      const yMax = Math.sqrt(Math.max(0.001, radius * radius - holeRadius * holeRadius));
+      const chamfer = 0.025;
+      const steps = 3;
+
+      points.push(new THREE.Vector2(holeRadius, -yMax));
+      points.push(new THREE.Vector2(holeRadius + chamfer, -yMax + chamfer * 0.5));
+
+      for (let i = 1; i <= steps; i++) {
+        const t = i / steps;
+        const y = (-yMax + chamfer * 0.5) + (yMax - chamfer * 0.5) * t;
+        const x = (holeRadius + chamfer) + (radius - (holeRadius + chamfer)) * Math.sin(t * Math.PI * 0.5);
+        points.push(new THREE.Vector2(x, y));
+      }
+      for (let i = 1; i < steps; i++) {
+        const t = i / steps;
+        const y = (yMax - chamfer * 0.5) * t;
+        const x = radius - (radius - (holeRadius + chamfer)) * (1 - Math.cos(t * Math.PI * 0.5));
+        points.push(new THREE.Vector2(x, y));
+      }
+
+      points.push(new THREE.Vector2(holeRadius + chamfer, yMax - chamfer * 0.5));
+      points.push(new THREE.Vector2(holeRadius, yMax));
+
+      const numInner = 4;
+      for (let j = 1; j < numInner; j++) {
+        const t = j / numInner;
+        const y = yMax - 2 * yMax * t;
+        points.push(new THREE.Vector2(holeRadius, y));
+      }
+
+      const geo = new THREE.LatheGeometry(points, 8);
+      geo.rotateX(Math.PI / 2);
+      const nonIndexed = geo.toNonIndexed();
+      nonIndexed.computeVertexNormals();
+      return nonIndexed;
+    }
+
+    function createHollowCubeGeometry(radius, holeRadius) {
+      const s = radius * 1.65;
+      const half = s / 2;
+      const shape = new THREE.Shape();
+      shape.moveTo(-half, -half);
+      shape.lineTo(half, -half);
+      shape.lineTo(half, half);
+      shape.lineTo(-half, half);
+      shape.closePath();
+
+      const hole = new THREE.Path();
+      hole.absarc(0, 0, holeRadius, 0, Math.PI * 2, true);
+      shape.holes.push(hole);
+
+      const geo = new THREE.ExtrudeGeometry(shape, {
+        depth: s,
+        bevelEnabled: false,
+        curveSegments: 24
+      });
+      geo.center();
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    function createHollowStarGeometry(radius, holeRadius) {
+      const outerR = radius * 1.18;
+      const innerR = radius * 0.52;
+      const shape = new THREE.Shape();
+      const numPoints = 5;
+      for (let i = 0; i < numPoints * 2; i++) {
+        const angle = (Math.PI / 2) - (i * Math.PI) / numPoints;
+        const r = i % 2 === 0 ? outerR : innerR;
+        const x = Math.cos(angle) * r;
+        const y = Math.sin(angle) * r;
+        if (i === 0) shape.moveTo(x, y);
+        else shape.lineTo(x, y);
+      }
+      shape.closePath();
+
+      const hole = new THREE.Path();
+      hole.absarc(0, 0, holeRadius, 0, Math.PI * 2, true);
+      shape.holes.push(hole);
+
+      const extrudeSettings = {
+        depth: radius * 0.65,
+        bevelEnabled: true,
+        bevelSegments: 2,
+        steps: 1,
+        bevelSize: radius * 0.08,
+        bevelThickness: radius * 0.08,
+        curveSegments: 24
+      };
+      const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      geo.center();
+      geo.computeVertexNormals();
+      return geo;
+    }
+
     function createBeadGeometry(shape, radius) {
+      const holeRadius = getBeadHoleRadius(radius);
       switch(shape) {
         case "sphere":
-          return new THREE.SphereGeometry(radius, 32, 32);
+          return createHollowSphereGeometry(radius, holeRadius);
         case "faceted":
-          return new THREE.IcosahedronGeometry(radius, 1);
-        case "rondelle": {
-          const geo = new THREE.SphereGeometry(radius, 32, 32);
-          geo.scale(1, 0.55, 1);
-          return geo;
-        }
+          return createHollowFacetedGeometry(radius, holeRadius);
+        case "rondelle":
+          return createHollowRondelleGeometry(radius, holeRadius);
         case "barrel":
-          return new THREE.CylinderGeometry(radius * 0.85, radius * 0.85, radius * 1.5, 32);
-        case "cube": {
-          const s = radius * 1.65;
-          return new THREE.BoxGeometry(s, s, s);
-        }
-        case "star": {
-          const outerR = radius * 1.18;
-          const innerR = radius * 0.52;
-          const shape = new THREE.Shape();
-          const numPoints = 5;
-          for (let i = 0; i < numPoints * 2; i++) {
-            const angle = (Math.PI / 2) - (i * Math.PI) / numPoints;
-            const r = i % 2 === 0 ? outerR : innerR;
-            const x = Math.cos(angle) * r;
-            const y = Math.sin(angle) * r;
-            if (i === 0) shape.moveTo(x, y);
-            else shape.lineTo(x, y);
-          }
-          shape.closePath();
-
-          const extrudeSettings = {
-            depth: radius * 0.65,
-            bevelEnabled: true,
-            bevelSegments: 3,
-            steps: 1,
-            bevelSize: radius * 0.10,
-            bevelThickness: radius * 0.10
-          };
-          const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-          geo.center();
-          geo.rotateY(Math.PI / 2);
-          return geo;
-        }
-        case "carved": {
-          const group = new THREE.Group();
-          return new THREE.CylinderGeometry(radius * 0.9, radius * 0.9, radius * 1.2, 24);
-        }
+          return createHollowBarrelGeometry(radius, holeRadius, false);
+        case "carved":
+          return createHollowBarrelGeometry(radius, holeRadius, true);
+        case "cube":
+          return createHollowCubeGeometry(radius, holeRadius);
+        case "star":
+          return createHollowStarGeometry(radius, holeRadius);
         default:
-          return new THREE.SphereGeometry(radius, 32, 32);
+          return createHollowSphereGeometry(radius, holeRadius);
       }
     }
 
@@ -2958,7 +3141,7 @@
                         doc.cordType === "leather" ? 0x78350F :
                         doc.cordType === "cord" ? new THREE.Color(doc.cordColor).getHex() :
                         0xC0C7D0; // silver chain default
-      const cordGeo = new THREE.TorusGeometry(radius, 0.12, 16, 120);
+      const cordGeo = new THREE.TorusGeometry(radius, 0.09, 16, 120);
       const cordMat = new THREE.MeshStandardMaterial({
         color: cordColor,
         metalness: ["silver", "gold"].includes(doc.cordType) ? 0.9 : 0.1,
@@ -2980,27 +3163,44 @@
 
       doc.beads.forEach(b => {
         const beadRadius = (b.sizeMm / 10) * 0.75;
+        const baseMat = getPBRMaterial(b.material, b.color);
         let mesh;
         if (b.shape === "cube") {
           const s = beadRadius * 1.65;
-          const boxGeo = new THREE.BoxGeometry(s, s, s);
-          const baseMat = getPBRMaterial(b.material, b.color);
           const char = normalizeInscription(b.text);
+          const cubeGeo = createBeadGeometry("cube", beadRadius);
           if (char) {
+            const group = new THREE.Group();
+            const bodyMesh = new THREE.Mesh(cubeGeo, baseMat);
+            group.add(bodyMesh);
+
             const faceTex = createInscribedTexture(char, b.color);
             const faceMat = baseMat.clone();
             faceMat.color.setHex(0xFFFFFF);
             faceMat.map = faceTex;
             faceMat.needsUpdate = true;
-            // Face 0 is +X (radially outward towards user); Face 1 is -X (inward)
-            mesh = new THREE.Mesh(boxGeo, [faceMat, faceMat, baseMat, baseMat, baseMat, baseMat]);
+            faceMat.side = THREE.DoubleSide;
+
+            const faceGeo = new THREE.PlaneGeometry(s * 0.96, s * 0.96);
+            // Front face (+X radially outward toward user)
+            const frontMesh = new THREE.Mesh(faceGeo, faceMat);
+            frontMesh.position.set(s / 2 + 0.002, 0, 0);
+            frontMesh.rotation.y = Math.PI / 2;
+            group.add(frontMesh);
+
+            // Back face (-X radially inward)
+            const backMesh = new THREE.Mesh(faceGeo, faceMat);
+            backMesh.position.set(-s / 2 - 0.002, 0, 0);
+            backMesh.rotation.y = -Math.PI / 2;
+            group.add(backMesh);
+
+            mesh = group;
           } else {
-            mesh = new THREE.Mesh(boxGeo, baseMat);
+            mesh = new THREE.Mesh(cubeGeo, baseMat);
           }
         } else {
           const geo = createBeadGeometry(b.shape, beadRadius);
-          const mat = getPBRMaterial(b.material, b.color);
-          mesh = new THREE.Mesh(geo, mat);
+          mesh = new THREE.Mesh(geo, baseMat);
         }
         mesh.userData = { id: b.id };
 

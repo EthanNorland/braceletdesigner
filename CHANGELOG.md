@@ -4,6 +4,17 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.0] - 2026-10-24
+
+### Added - Enlarged Drilled Bead Holes with Visible Cord Clearance
+- **Enlarged Bead Holes & Visible Clearance:** Redesigned all 6 bead geometries (`Sphere`, `Faceted`, `Rondelle`, `Barrel`, `Cube`, `Star`) and metal/carved spacers to feature realistic drilled hollow apertures along the tangential cord axis (local Z).
+- **Dynamic Hole Sizing (`getBeadHoleRadius`):** Bead hole diameters dynamically calibrate from ~0.40 to 0.60 relative units across sizes (4mm–20mm), ensuring beads maintain substantial, realistic wall thickness while displaying open apertures.
+- **Refined Cord Base Proportions:** Refined base cord/chain tube radius to `0.09` (diameter `0.18`), creating a clear, visible annular daylight gap (`0.11`–`0.19` clearance on all sides) between the base cord and the bead hole.
+- **Chamfered Drilled Rims:** Applied realistic jeweler's chamfer steps around bead hole openings to capture specular highlights and prevent polygon edge artifacts.
+- **Double-Sided PBR Interior Shading:** Configured `side: THREE.DoubleSide` across all PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`), allowing light to illuminate the inner cylindrical drill walls and rendering realistic refractive air tunnels in translucent glass and crystalline quartz.
+- **Hollow Inscribed Cube Beads:** Adapted monogram and symbol engravings on cube beads with synchronized double-sided overlays on outward-facing (+X) and inward-facing (-X) faces.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.0`.
+
 ## [1.7.6] - 2026-10-20
 
 ### Fixed - Safari WebKit CSS Grid Auto-Placement & Three.js Canvas Sizing

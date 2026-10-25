@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.7.6`
-- **Phase:** Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.8.0`
+- **Phase:** Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -70,7 +70,14 @@
   - **Compact Header & Overflow Menu:** Condenses desktop header into visible quick buttons and sleek `⋯` dropdown for Templates, Open, Save, Export PNG, Materials, Help, and About.
   - **Safe Area & Dynamic Viewport:** `100dvh` and `viewport-fit=cover` with `env(safe-area-inset-*)` support.
   - **100% Desktop Preservation:** Zero visual or functional changes on desktop viewports ($> 900$px).
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.7.6 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- Phase 8 Enlarged Drilled Bead Holes with Visible Base Clearance (v1.8.0):
+  - **Hollow Drilled Bead Geometries:** Replaced solid bead meshes with realistic drilled hollow geometries across all 6 bead shapes (`Sphere`, `Faceted`, `Rondelle`, `Barrel`, `Cube`, `Star`) and carved/disc spacers.
+  - **Dynamic Hole Radius (`getBeadHoleRadius`):** Bead hole diameters dynamically calibrate from ~0.40 to 0.60 relative units across sizes (4mm–20mm), ensuring beads maintain substantial, realistic wall thickness while displaying open apertures.
+  - **Refined Cord Base Proportions:** Refined base cord/chain tube radius to `0.09` (diameter `0.18`), creating a clear, visible annular daylight gap (`0.11`–`0.19` clearance on all sides) between the base cord and the bead hole.
+  - **Chamfered Drilled Rims:** Applied realistic jeweler's chamfer steps around bead hole openings to capture specular highlights and prevent polygon edge artifacts.
+  - **Double-Sided PBR Interior Shading:** Configured `side: THREE.DoubleSide` across all PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`), allowing light to illuminate the inner cylindrical drill walls and rendering realistic refractive air tunnels in translucent glass and crystalline quartz.
+  - **Hollow Inscribed Cube Beads:** Adapted monogram and symbol engravings on cube beads with synchronized double-sided overlays on outward-facing (+X) and inward-facing (-X) faces.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.0 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
@@ -79,6 +86,7 @@
 - Solicit end-user feedback on tactile audio sweet spot across various mobile devices.
 
 ## Rules Learned & Project Constraints
+- Bead holes: Beads strung on a bracelet cord must be modeled with through-holes along the tangential cord axis (local Z). Sizing the hole diameter to ~0.40–0.60 (relative to a 0.18 cord) provides a visible annular gap/space while maintaining robust wall thickness.
 - Safari WebKit CSS Grid bug: `position: fixed` elements inside a CSS Grid are still counted during grid auto-placement unless explicit `grid-row` / `grid-column` are assigned to grid children; always explicitly anchor `#stage-container` to `grid-row: 2; grid-column: 1;`.
 - Three.js camera initialization must guard against `0` dimensions (`Math.max(container.clientWidth || 0, window.innerWidth)`) to avoid `NaN` aspect ratios before WebKit completes its initial layout pass.
 - Web Audio synthesis must resume or initialize on user interaction (`pointerdown`, `keydown`) to satisfy browser autoplay policies.
