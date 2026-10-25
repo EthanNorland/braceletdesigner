@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.1] - 2026-10-24
+
+### Changed - Calibrate Gold & Silver Metal Hues from Reference Samples
+- **Authentic 18K Gold Calibration (`#CCAD5C`):** Replaced harsh neon yellow tones (`#FACC15`, `#F5C542`) with rich, warm jeweler's gold (`#CCAD5C`, rgb(204, 173, 92)) sampled directly from the user's `reference/gold.png` master swatch.
+- **Sterling Silver Calibration (`#A8A9AC`):** Replaced pale cool-white tones (`#E2E8F0`, `#C0C7D0`) with genuine polished sterling silver (`#A8A9AC`, rgb(168, 169, 172)) sampled directly from the user's `reference/silver.png` master swatch.
+- **Universal Atelier Synchronization:** Calibrated tones seamlessly across:
+  - 3D Bracelet Clasps (`Magnetic`, `Lobster Claw`, `Screw-in`) in [`createClaspMesh()`](file:///Users/ethannorland/hello-world/index.html#L2828).
+  - 3D Base Link Chains (`Gold Chain`, `Silver Chain`) in [`rebuild3DScene()`](file:///Users/ethannorland/hello-world/index.html#L3138).
+  - Properties Panel quick action buttons (`Silver`, `Gold`) and active state detectors in [`updateAppUI()`](file:///Users/ethannorland/hello-world/index.html#L3426).
+  - Color palette swatch buttons, default star bead, and metal spacer elements in the Left Palette.
+  - Curated Starter Design Templates and visual pill previews in [`TEMPLATES`](file:///Users/ethannorland/hello-world/index.html#L4025).
+  - Materials Spec Sheet itemization and CSV export definitions.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.1`.
+
 ## [1.8.0] - 2026-10-24
 
 ### Added - Enlarged Drilled Bead Holes with Visible Cord Clearance
