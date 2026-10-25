@@ -4,6 +4,24 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.0] - 2026-10-25
+
+### Added - Interactive Feature Demo & Guided Tour
+- **Interactive Feature Demo System ([`index.html#L6010`](file:///Users/ethannorland/hello-world/index.html#L6010)):**
+  - Designed and implemented an interactive walkthrough modal ([`#dlg-demo`](file:///Users/ethannorland/hello-world/index.html#L2068)) that opens automatically upon app launch to show users the major features of Bracelet Designer.
+  - Features 6 comprehensive guided steps covering:
+    1. *Direct 3D Studio & Bead Sliding* (360° orbit, raycasting drag, tactile acoustic ticks, live mm fit gauge).
+    2. *Bead Geometries, Spacers & Clasps* (6 shapes, celestial star, silver/gold/carved spacers, 3 clasp types).
+    3. *PBR Materials & Jewel-Tone Colors* (Glass, Quartz, Stone, Metal, Painted Wood, linear tone mapping, drilled holes).
+    4. *Personalized Monograms & Engravings* (Cube bead inscriptions, letters A–Z, numbers 0–9, Heart, Cross, Smiley, Peace, Dash).
+    5. *Realistic 3D Wrist Mode* (anatomical human arm, dynamic wrist scaling 140mm–220mm, 4 natural skin tones).
+    6. *Materials Spec Sheet & Project Exports* (itemized recipe, 1-click CSV export, high-res PNG render, .bracelet save/load).
+  - Prominent top-right `✕` close button and footer "Close Demo" button for returning users who have used the app before.
+  - "Don't show demo automatically when opening the app" preference checkbox persisted to `localStorage`.
+  - Step navigation with interactive progress dots, previous/next controls, and optional 6.5s auto-play progression.
+  - Quick launch triggers in the header bar (`🎬 Demo`), mobile overflow menu (`m-menu-demo`), Help dialog, and query parameters (`?demo=1`, `?tour=1`, `?dialog=demo`).
+- **PWA Bump:** Bumped service worker cache version to `1.9.0`.
+
 ## [1.8.26] - 2026-10-25
 
 ### Added - GitHub Added to Inspiration & Credits

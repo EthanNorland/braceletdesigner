@@ -738,6 +738,253 @@
     color: var(--fg);
   }
 
+  /* Interactive Feature Demo Modal (Phase 28) */
+  #dlg-demo {
+    max-width: 680px;
+    width: 92%;
+    max-height: 90vh;
+    padding: 0;
+    border-radius: 14px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(136, 164, 196, 0.15);
+    overflow: hidden;
+    color: var(--fg);
+  }
+  #dlg-demo[open] {
+    display: flex;
+    flex-direction: column;
+  }
+  #dlg-demo:not([open]) {
+    display: none;
+  }
+  .demo-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 22px 14px 22px;
+    border-bottom: 1px solid var(--panel-border);
+    background: rgba(11, 14, 20, 0.6);
+  }
+  .demo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    font-family: var(--mono);
+  }
+  .demo-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow: 0 0 8px var(--accent-gold);
+    animation: demoPulse 2s infinite ease-in-out;
+  }
+  @keyframes demoPulse {
+    0%, 100% { opacity: 0.6; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+  .demo-close-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--fg-muted);
+    font-size: 1.25rem;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .demo-close-btn:hover {
+    color: var(--fg);
+    background: var(--panel-hover);
+    border-color: var(--panel-border);
+  }
+  .demo-body {
+    padding: 22px 24px;
+    overflow-y: auto;
+    max-height: 58vh;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+  }
+  .demo-body::-webkit-scrollbar {
+    width: 6px;
+  }
+  .demo-body::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  .demo-body::-webkit-scrollbar-thumb {
+    background: var(--panel-border);
+    border-radius: 3px;
+  }
+  .demo-step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .demo-step-icon {
+    font-size: 2.2rem;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(136, 164, 196, 0.12);
+    border: 1px solid rgba(136, 164, 196, 0.25);
+    flex-shrink: 0;
+  }
+  .demo-step-title {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    margin: 0 0 4px 0;
+    color: var(--fg);
+    line-height: 1.25;
+  }
+  .demo-step-subtitle {
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    margin: 0;
+    line-height: 1.4;
+  }
+  .demo-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+  }
+  .demo-feature-card {
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 13px 15px;
+    transition: border-color 0.15s ease;
+  }
+  .demo-feature-card:hover {
+    border-color: var(--accent-blue);
+  }
+  .demo-feature-title {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--fg);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .demo-feature-desc {
+    font-size: 0.80rem;
+    color: var(--fg-muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+  .demo-visual-showcase {
+    background: linear-gradient(135deg, rgba(20, 25, 35, 0.8), rgba(11, 14, 20, 0.9));
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .demo-showcase-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .demo-tag-pill {
+    font-size: 0.74rem;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--panel-border);
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .demo-action-btn {
+    font-size: 0.78rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(136, 164, 196, 0.12);
+    border: 1px solid var(--accent-blue);
+    color: var(--fg);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .demo-action-btn:hover {
+    background: rgba(136, 164, 196, 0.25);
+  }
+  .demo-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 22px;
+    border-top: 1px solid var(--panel-border);
+    background: rgba(11, 14, 20, 0.6);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .demo-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .demo-step-indicators {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .demo-step-dot {
+    width: 20px;
+    height: 7px;
+    border-radius: 4px;
+    background: var(--panel-border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .demo-step-dot.active {
+    width: 32px;
+    background: var(--accent-blue);
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+  .demo-footer-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .demo-modal-subfooter {
+    padding: 8px 22px 10px 22px;
+    background: rgba(11, 14, 20, 0.85);
+    border-top: 1px solid rgba(30, 38, 56, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .demo-checkbox-label {
+    font-size: 0.76rem;
+    color: var(--fg-muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   /* Starter Templates Modal & Cards (Phase 6) */
   #dlg-templates {
     max-width: 860px;
@@ -1023,7 +1270,7 @@
     }
 
     /* Hide desktop secondary buttons in header on mobile */
-    #btn-new, #btn-open, #btn-save, #btn-export, #btn-list, #btn-help, #btn-about {
+    #btn-new, #btn-open, #btn-save, #btn-export, #btn-list, #btn-help, #btn-about, #btn-demo {
       display: none !important;
     }
 
@@ -1296,6 +1543,7 @@
       <button class="btn" id="btn-list" title="View itemized materials and dimensions spec sheet">Materials</button>
       <button class="btn" id="btn-wrist" title="Preview bracelet draped on human wrist">Wrist View</button>
       <button class="btn active" id="btn-sound" title="Toggle tactile sound effects">🔊 Sound</button>
+      <button class="btn" id="btn-demo" title="Interactive tour showing major features of the studio">🎬 Demo</button>
       <button class="btn" id="btn-help" title="Searchable guide and tool walkthrough">Help</button>
       <button class="btn" id="btn-about" title="About Bracelet Designer and credits">About</button>
       <button class="btn" id="btn-mobile-menu" title="More options" aria-label="Open menu">⋯</button>
@@ -1568,6 +1816,7 @@
     <div class="mobile-menu-item" id="m-menu-export">📸 Export PNG Preview</div>
     <div class="mobile-menu-item" id="m-menu-materials">📋 Materials Spec Sheet</div>
     <div class="mobile-menu-divider"></div>
+    <div class="mobile-menu-item" id="m-menu-demo">🎬 Interactive Feature Demo</div>
     <div class="mobile-menu-item" id="m-menu-help">❓ Searchable Help Guide</div>
     <div class="mobile-menu-item" id="m-menu-about">ℹ️ About Bracelet Designer</div>
   </div>
@@ -1597,7 +1846,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.26 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.0 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1660,6 +1909,9 @@
     <div style="margin: 14px 0 12px 0;">
       <input type="search" id="help-search" placeholder="Search guides, tools, shortcuts (e.g. wrist, slide, export)..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; background: var(--bg); border: 1px solid var(--panel-border); border-radius: 6px; color: var(--fg); font-family: var(--sans); font-size: 0.85rem;" autocomplete="off">
     </div>
+    <button type="button" class="btn primary" onclick="document.getElementById('dlg-help').close(); openDemo(0);" style="width:100%; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:8px; font-weight:600;">
+      🎬 Launch Interactive Feature Demo
+    </button>
     <div id="help-items-container" style="display:flex; flex-direction:column; gap:10px; margin: 10px 0; max-height:360px; overflow-y:auto; padding-right:4px;">
       <div class="help-item" data-keywords="templates starter preset patterns signature gold heirloom boho earth sandalwood chakra keepsakes monogram blank new design" style="padding:10px; background:var(--bg); border-radius:6px; cursor:pointer;" onclick="document.getElementById('dlg-help').close(); renderTemplatesGallery(); document.getElementById('dlg-templates').showModal(); ring('#btn-new')">
         <strong>Starter Templates &amp; Presets:</strong> Click <em>New</em> in the header to browse curated atelier templates (The Signature Atelier, Minimalist 18K Heirloom, Bohemian Earth, Chakra Spectrum, Monogram Keepsake) or start with a clean cord.
@@ -1714,7 +1966,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.26</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.0</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1814,6 +2066,41 @@
     </div>
   </dialog>
 
+  <!-- Interactive Feature Demo Dialog (Phase 28) -->
+  <dialog id="dlg-demo">
+    <div class="demo-modal-header">
+      <div class="demo-badge">
+        <span class="demo-badge-dot"></span>
+        <span>ATELIER FEATURE TOUR</span>
+      </div>
+      <button type="button" class="demo-close-btn" id="btn-demo-close" title="Close demo (Esc)" aria-label="Close demo">✕</button>
+    </div>
+
+    <!-- Active Step Content Area -->
+    <div id="demo-step-content" class="demo-body"></div>
+
+    <!-- Demo Modal Footer -->
+    <div class="demo-modal-footer">
+      <div class="demo-footer-left">
+        <div class="demo-step-indicators" id="demo-step-dots"></div>
+        <button type="button" class="btn" id="btn-demo-autoplay" title="Toggle automatic step progression" style="font-size:0.78rem; padding:5px 10px;">
+          <span id="demo-autoplay-icon">▶</span> <span id="demo-autoplay-text">Auto-Play</span>
+        </button>
+      </div>
+      <div class="demo-footer-right">
+        <button type="button" class="btn" id="btn-demo-prev" style="display:none;">← Back</button>
+        <button type="button" class="btn primary" id="btn-demo-next">Next →</button>
+        <button type="button" class="btn" id="btn-demo-skip" style="color:var(--fg-muted);">Close Demo</button>
+      </div>
+    </div>
+
+    <div class="demo-modal-subfooter">
+      <label class="demo-checkbox-label">
+        <input type="checkbox" id="chk-demo-skip-startup"> Don't show demo automatically when opening the app
+      </label>
+    </div>
+  </dialog>
+
   <!-- Atelier Toast Notification -->
   <div id="atelier-toast" class="toast"></div>
 
@@ -1824,7 +2111,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.26",
+      version: "1.9.0",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2462,7 +2749,8 @@
       selectedBead: doc.selectedId,
       clasp: doc.claspType,
       helpOpen: document.getElementById("dlg-help").open,
-      aboutOpen: document.getElementById("dlg-about").open
+      aboutOpen: document.getElementById("dlg-about").open,
+      demoOpen: document.getElementById("dlg-demo")?.open || false
     });
 
     // Ring glow helper
@@ -5719,6 +6007,337 @@
       loadTemplate("blank");
     });
 
+    // ── INTERACTIVE FEATURE DEMO SYSTEM (PHASE 28) ──────────────────────────
+    const DEMO_STEPS = [
+      {
+        icon: "💎",
+        badge: "DIRECT 3D STUDIO",
+        title: "Direct 3D Studio & Bead Sliding",
+        subtitle: "Inspect and manipulate your bracelet in real-time 3D space",
+        cards: [
+          {
+            title: "360° Studio Lighting",
+            desc: "Click and drag anywhere on the stage to rotate the turntable freely under neutral-white studio lighting. Scroll or pinch to zoom in on micro-details."
+          },
+          {
+            title: "Direct Raycast Bead Sliding",
+            desc: "Click and drag any bead or spacer directly along the cord in 3D to slide it smoothly into place with tactile acoustic micro-ticks."
+          },
+          {
+            title: "Live Millimeter Fit Gauge",
+            desc: "The live accumulator at top-right tracks total millimeter circumference vs. your wrist size (140mm–220mm) and warns of overflow."
+          }
+        ],
+        tags: ["360° Orbit", "Direct Raycast", "Tactile Audio", "Live mm Sizing"],
+        actionText: "Highlight 3D Stage ✨",
+        action: () => ring("#stage-container")
+      },
+      {
+        icon: "⭐",
+        badge: "ELEMENT PALETTE",
+        title: "Bead Geometries, Spacers & Clasps",
+        subtitle: "Choose from 6 bead shapes, jewelry spacers, and authentic closures",
+        cards: [
+          {
+            title: "6 Bead Geometries",
+            desc: "Select Sphere, Faceted Crystal, Rondelle, Barrel, Cube, and upright Celestial Star beads with smooth jeweler's chamfers."
+          },
+          {
+            title: "Spacers & Accents",
+            desc: "Insert polished Silver, 18K Gold, and carved spacers to create rhythm, separation, and visual contrast along your strand."
+          },
+          {
+            title: "3 Mechanical Clasps",
+            desc: "Interchangeable dual-magnet Magnetic snap, spring-loaded Lobster Claw, and threaded Screw-in barrel clasps in polished Gold or Silver."
+          }
+        ],
+        tags: ["Sphere", "Faceted", "Rondelle", "Barrel", "Cube", "Star Bead", "Spacers", "Clasps"],
+        actionText: "Highlight Palette ✨",
+        action: () => ring("#left-panel")
+      },
+      {
+        icon: "🎨",
+        badge: "PBR MATERIALS",
+        title: "PBR Materials & Jewel-Tone Colors",
+        subtitle: "Calibrated physically based materials and true-to-selection colors",
+        cards: [
+          {
+            title: "5 Realistic PBR Materials",
+            desc: "Translucent Hammered Glass, Sparkling Crystalline Quartz, Honed Limestone & Slate Rock, Mirror-Polished Metal, and Satin Painted Wood."
+          },
+          {
+            title: "True-to-Selection Color Engine",
+            desc: "Linear tone mapping and balanced studio lighting ensure what you pick in the 2D palette matches your 3D beads without highlight bleaching."
+          },
+          {
+            title: "Drilled Bead Holes & Clearance",
+            desc: "Beads feature realistic drilled through-holes with visible daylight clearance around snake chains, bolo leather, and woven cords."
+          }
+        ],
+        tags: ["Glass", "Quartz", "Stone", "Metal", "Painted Wood", "Linear Tone Mapping"],
+        actionText: "Highlight Properties ✨",
+        action: () => ring("#right-panel")
+      },
+      {
+        icon: "🔤",
+        badge: "PERSONALIZATION",
+        title: "Monograms, Symbols & Engravings",
+        subtitle: "Stamp personalized initials, numbers, and hallmarks into Cube beads",
+        cards: [
+          {
+            title: "Cube Bead Inscriptions",
+            desc: "Select any Cube bead to open the dedicated inscription editor on the right panel with live 3D preview."
+          },
+          {
+            title: "Symbols & Hallmark Library",
+            desc: "Engrave capital letters (A–Z), lucky numbers (0–9), or iconic hallmarks: Heart (♥), Cross (✝), Smiley (☺), Peace (☮), and Dash (—)."
+          },
+          {
+            title: "Procedural PBR Debossing",
+            desc: "Dynamic canvas normal mapping carves deep tactile engraved shadows directly into the metal, stone, or crystal surface."
+          }
+        ],
+        tags: ["Heart ♥", "Cross ✝", "Smiley ☺", "Peace ☮", "Initials A–Z", "Digits 0–9"],
+        actionText: "Highlight Inscriptions ✨",
+        action: () => ring("#cube-inscription-section")
+      },
+      {
+        icon: "🖐️",
+        badge: "3D WRIST VIEW",
+        title: "Realistic 3D Wrist Mode",
+        subtitle: "Preview your finished bracelet draped onto a human forearm and hand",
+        cards: [
+          {
+            title: "Instant 3D Wrist Mode",
+            desc: "Click 'Wrist View' in the header to transition from tabletop studio to an anatomically realistic human forearm and gracefully posed hand."
+          },
+          {
+            title: "Dynamic Fit Proportion",
+            desc: "The 3D arm automatically resizes in unison with the wrist circumference slider (140mm–220mm) for accurate anatomical proportions."
+          },
+          {
+            title: "4 Natural Skin Tones",
+            desc: "Switch effortlessly between Fair, Natural, Warm Tan, and Deep Rich tones with balanced studio lighting and quick camera presets."
+          }
+        ],
+        tags: ["Watertight 3D Mesh", "Fair", "Natural", "Warm Tan", "Deep Rich", "Dynamic Scaling"],
+        actionText: "Highlight Wrist View ✨",
+        action: () => ring("#btn-wrist")
+      },
+      {
+        icon: "📋",
+        badge: "MATERIALS & EXPORTS",
+        title: "Materials Recipe, CSV & Project Export",
+        subtitle: "Everything needed to assemble and order physical jewelry supplies",
+        cards: [
+          {
+            title: "Itemized Recipe (Materials)",
+            desc: "Click 'Materials' to view exact bead counts, millimeter dimensions, base cord type, and clasp mechanisms formatted for ordering."
+          },
+          {
+            title: "1-Click CSV Export",
+            desc: "Download a structured spreadsheet parts recipe with physical specifications for your jeweler or craft workbench."
+          },
+          {
+            title: "High-Res PNG & Project Save",
+            desc: "Capture crisp 3D beauty renders with 'Export PNG', or save/reopen your work with .bracelet project files and full undo/redo (Cmd+Z)."
+          }
+        ],
+        tags: ["CSV Recipe", "High-Res PNG", ".bracelet Save/Load", "IndexedDB Autosave", "Full Undo/Redo"],
+        actionText: "Highlight Materials & Export ✨",
+        action: () => {
+          ring("#btn-list");
+          setTimeout(() => ring("#btn-export"), 400);
+        }
+      }
+    ];
+
+    let demoStep = 0;
+    let demoAutoplayTimer = null;
+    let isDemoAutoplay = false;
+
+    function renderDemoStep() {
+      const step = DEMO_STEPS[demoStep];
+      const container = document.getElementById("demo-step-content");
+      if (!container || !step) return;
+
+      const cardsHtml = step.cards.map(c => `
+        <div class="demo-feature-card">
+          <div class="demo-feature-title">
+            <span style="color:var(--accent-gold);">✦</span> ${c.title}
+          </div>
+          <p class="demo-feature-desc">${c.desc}</p>
+        </div>
+      `).join("");
+
+      const tagsHtml = step.tags.map(t => `<span class="demo-tag-pill">${t}</span>`).join("");
+
+      container.innerHTML = `
+        <div class="demo-step-header">
+          <div class="demo-step-icon">${step.icon}</div>
+          <div style="flex:1;">
+            <div style="font-size:0.72rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent-blue); font-family:var(--mono); margin-bottom:4px;">
+              ${step.badge} • STEP ${demoStep + 1} OF ${DEMO_STEPS.length}
+            </div>
+            <h2 class="demo-step-title">${step.title}</h2>
+            <p class="demo-step-subtitle">${step.subtitle}</p>
+          </div>
+        </div>
+
+        <div class="demo-cards-grid">
+          ${cardsHtml}
+        </div>
+
+        <div class="demo-visual-showcase">
+          <div class="demo-showcase-tags">
+            ${tagsHtml}
+          </div>
+          <button type="button" class="demo-action-btn" id="btn-demo-action">${step.actionText}</button>
+        </div>
+      `;
+
+      document.getElementById("btn-demo-action")?.addEventListener("click", () => {
+        step.action();
+        audioPlaySelect();
+      });
+
+      // Update dots
+      const dotsContainer = document.getElementById("demo-step-dots");
+      if (dotsContainer) {
+        dotsContainer.innerHTML = DEMO_STEPS.map((_, i) => `
+          <div class="demo-step-dot ${i === demoStep ? "active" : ""}" title="Step ${i + 1}: ${DEMO_STEPS[i].title}" onclick="openDemo(${i})"></div>
+        `).join("");
+      }
+
+      // Update Prev / Next buttons
+      const prevBtn = document.getElementById("btn-demo-prev");
+      const nextBtn = document.getElementById("btn-demo-next");
+      if (prevBtn) {
+        prevBtn.style.display = demoStep > 0 ? "inline-flex" : "none";
+      }
+      if (nextBtn) {
+        if (demoStep === DEMO_STEPS.length - 1) {
+          nextBtn.textContent = "Start Designing ✦";
+          nextBtn.classList.add("active");
+        } else {
+          nextBtn.textContent = "Next →";
+          nextBtn.classList.remove("active");
+        }
+      }
+    }
+
+    function openDemo(step = 0) {
+      demoStep = Math.max(0, Math.min(step, DEMO_STEPS.length - 1));
+      const dlg = document.getElementById("dlg-demo");
+      if (!dlg) return;
+      renderDemoStep();
+      const chk = document.getElementById("chk-demo-skip-startup");
+      if (chk) {
+        chk.checked = localStorage.getItem("bracelet_demo_skip_startup") === "true";
+      }
+      if (!dlg.open) {
+        dlg.showModal();
+        audioPlaySelect();
+      }
+    }
+
+    function closeDemo() {
+      const dlg = document.getElementById("dlg-demo");
+      if (dlg && dlg.open) {
+        dlg.close();
+        audioPlayTick();
+      }
+      stopDemoAutoplay();
+      const chk = document.getElementById("chk-demo-skip-startup");
+      if (chk && chk.checked) {
+        localStorage.setItem("bracelet_demo_skip_startup", "true");
+      } else {
+        localStorage.removeItem("bracelet_demo_skip_startup");
+      }
+    }
+
+    function nextDemoStep() {
+      if (demoStep < DEMO_STEPS.length - 1) {
+        demoStep++;
+        renderDemoStep();
+        audioPlayTick();
+      } else {
+        closeDemo();
+        showToast("Enjoy designing in the atelier!");
+      }
+    }
+
+    function prevDemoStep() {
+      if (demoStep > 0) {
+        demoStep--;
+        renderDemoStep();
+        audioPlayTick();
+      }
+    }
+
+    function toggleDemoAutoplay() {
+      if (isDemoAutoplay) {
+        stopDemoAutoplay();
+      } else {
+        startDemoAutoplay();
+      }
+    }
+
+    function startDemoAutoplay() {
+      isDemoAutoplay = true;
+      updateAutoplayButton();
+      if (demoAutoplayTimer) clearInterval(demoAutoplayTimer);
+      demoAutoplayTimer = setInterval(() => {
+        if (demoStep < DEMO_STEPS.length - 1) {
+          demoStep++;
+          renderDemoStep();
+        } else {
+          demoStep = 0;
+          renderDemoStep();
+        }
+      }, 6500);
+    }
+
+    function stopDemoAutoplay() {
+      isDemoAutoplay = false;
+      if (demoAutoplayTimer) {
+        clearInterval(demoAutoplayTimer);
+        demoAutoplayTimer = null;
+      }
+      updateAutoplayButton();
+    }
+
+    function updateAutoplayButton() {
+      const icon = document.getElementById("demo-autoplay-icon");
+      const text = document.getElementById("demo-autoplay-text");
+      const btn = document.getElementById("btn-demo-autoplay");
+      if (icon && text && btn) {
+        if (isDemoAutoplay) {
+          icon.textContent = "⏸";
+          text.textContent = "Pause";
+          btn.classList.add("active");
+        } else {
+          icon.textContent = "▶";
+          text.textContent = "Auto-Play";
+          btn.classList.remove("active");
+        }
+      }
+    }
+
+    document.getElementById("btn-demo")?.addEventListener("click", () => openDemo(0));
+    document.getElementById("btn-demo-close")?.addEventListener("click", closeDemo);
+    document.getElementById("btn-demo-skip")?.addEventListener("click", closeDemo);
+    document.getElementById("btn-demo-next")?.addEventListener("click", nextDemoStep);
+    document.getElementById("btn-demo-prev")?.addEventListener("click", prevDemoStep);
+    document.getElementById("btn-demo-autoplay")?.addEventListener("click", toggleDemoAutoplay);
+    document.getElementById("dlg-demo")?.addEventListener("close", () => {
+      stopDemoAutoplay();
+      const chk = document.getElementById("chk-demo-skip-startup");
+      if (chk && chk.checked) {
+        localStorage.setItem("bracelet_demo_skip_startup", "true");
+      }
+    });
+
     // ── RENDER LOOP ─────────────────────────────────────────────────────────
     function animate() {
       requestAnimationFrame(animate);
@@ -5768,12 +6387,24 @@
       } catch (e) {
         console.warn("Could not restore session from IndexedDB:", e);
       }
+
+      // Auto-launch feature demo as soon as the app is opened (unless user previously skipped)
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const skipStartup = localStorage.getItem("bracelet_demo_skip_startup") === "true";
+        if (!skipStartup || urlParams.get("demo") === "1" || urlParams.get("tour") === "1" || urlParams.get("dialog") === "demo") {
+          setTimeout(() => openDemo(0), 300);
+        }
+      } catch {}
     }
     initSession();
 
     // ── DEEP LINKING & VIEW PARAMETERS (PART 4) ─────────────────────────────
     try {
       const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("dialog") === "demo" || urlParams.get("demo") === "1" || urlParams.get("tour") === "1") {
+        openDemo(0);
+      }
       if (urlParams.get("view") === "wrist") {
         const tone = urlParams.get("tone");
         if (tone) {
@@ -5926,6 +6557,10 @@
     document.getElementById("m-menu-materials")?.addEventListener("click", () => {
       mobileMenuDropdown?.classList.remove("open");
       document.getElementById("btn-list")?.click();
+    });
+    document.getElementById("m-menu-demo")?.addEventListener("click", () => {
+      mobileMenuDropdown?.classList.remove("open");
+      openDemo(0);
     });
     document.getElementById("m-menu-help")?.addEventListener("click", () => {
       mobileMenuDropdown?.classList.remove("open");
