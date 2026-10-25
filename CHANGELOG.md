@@ -4,6 +4,31 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.6] - 2026-10-24
+
+### Added - Authentic 3D Base Types Matching Desktop Reference Photos
+- **Sterling Silver & 18K Gold Snake Chains ([`createSnakeChainTexture()`](file:///Users/ethannorland/hello-world/index.html), [`createCordBaseMesh()`](file:///Users/ethannorland/hello-world/index.html)):**
+  - Modeled faithfully after `reference/silver chain bracelet.png` and `reference/gold chain bracelet.png` (symlinked on Desktop via `DROP_BRACELET_PHOTO_HERE`).
+  - Generated procedural PBR textures encoding ~128 tightly packed, interlocking, slanted metal links wrapping seamlessly horizontally and vertically around the tube.
+  - Deep dark ambient occlusion joint seams between adjacent links with convex rounded crowns and micro-bevels.
+  - Coupled with dynamic specular roughness maps (`0.14` on crests, `0.35` in crevices) and bump maps (`bumpScale: 0.026`), glinting with realistic metallic reflections under studio lighting.
+  - Added polished tapered metal end-cap ferrules flanking the clasp, providing authentic jewelry termination.
+- **Two-Tone Braided Diamond Woven Cord ([`createWovenCordTexture()`](file:///Users/ethannorland/hello-world/index.html)):**
+  - Modeled faithfully after `reference/Woven Cord Bracelet.png`.
+  - Procedural diamond twill braid generator producing continuous interlacing diagonal strand ribbons with over-under weave depth.
+  - High-frequency micro-fiber striations running along each strand axis to capture twisted textile yarn filaments.
+  - Primary strand inherits user-selected cord color (with new *Tangerine Blaze* `#EA580C` swatch matching reference photo), interwoven with contrasting deep charcoal-black (`#181A20`) or silver-slate.
+  - Tactile textile bump mapping (`bumpScale: 0.045`), matte fabric roughness (`0.82`), and sleek ferrule sleeves adjacent to the clasp.
+- **Vintage Round Bolo Leather Cord ([`createLeatherTexture()`](file:///Users/ethannorland/hello-world/index.html)):**
+  - Modeled faithfully after `reference/Leather Bracelet.png`.
+  - True round bolo cord (cylindrical cowhide leather cord) rendered via multi-octave continuous 2D periodic noise with quintic Hermite spline interpolation.
+  - Organic natural cowhide mottling blending warm cognac highlights (`#915C30`), saddle midtones (`#663C1E`), and deep antique espresso brown (`#3A2212`).
+  - Subtle longitudinal rolled burnished seam and micro-pore surface grain with satin leather sheen (`roughness: 0.68`, `metalness: 0.04`, `bumpScale: 0.022`).
+  - Brushed metallic ferrule collars flanking the clasp.
+- **Preserved Bead Threading Clearance:** Base cord core radius maintained at `0.092` (diameter `0.184`), ensuring clear visible clearance inside bead holes (`0.19`–`0.30` radius) with zero clipping during 3D sliding.
+- **Updated Materials Spec Sheet & UI:** Plaintext spec sheet, materials breakdown, and UI button titles updated to reflect authentic base names ("Sterling Silver Snake Chain", "18K Gold Snake Chain", "Braided Diamond Woven Cord", "Vintage Round Bolo Leather Cord").
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.6`.
+
 ## [1.8.5] - 2026-10-24
 
 ### Changed - Neutral Pure White Studio Lighting on Silver, Stone & Wood Beads

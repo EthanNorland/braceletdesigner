@@ -1438,10 +1438,10 @@
 
       <div class="section-title" style="margin-top:10px;">Base Type</div>
       <div class="item-grid cols-2">
-        <div class="item-thumb active" id="base-silver" title="Sterling silver chain">Silver Chain</div>
-        <div class="item-thumb" id="base-gold" title="Gold link chain">Gold Chain</div>
-        <div class="item-thumb" id="base-cord" title="Woven jewelry cord">Woven Cord</div>
-        <div class="item-thumb" id="base-leather" title="Stitched leather cord">Leather</div>
+        <div class="item-thumb active" id="base-silver" title="Polished sterling silver snake chain">Silver Chain</div>
+        <div class="item-thumb" id="base-gold" title="18K yellow gold snake chain">Gold Chain</div>
+        <div class="item-thumb" id="base-cord" title="Two-tone braided diamond woven cord">Woven Cord</div>
+        <div class="item-thumb" id="base-leather" title="Vintage round bolo leather cord">Leather</div>
       </div>
 
       <div id="cord-color-container" style="margin-top:12px; display:none;">
@@ -1450,9 +1450,10 @@
         </div>
         <div class="color-swatches">
           <div class="swatch active" style="background:#1E293B;" data-cord="#1E293B" title="Midnight Navy"></div>
+          <div class="swatch" style="background:#EA580C;" data-cord="#EA580C" title="Tangerine Blaze (Reference Match)"></div>
+          <div class="swatch" style="background:#991B1B;" data-cord="#991B1B" title="Crimson Silk"></div>
           <div class="swatch" style="background:#78350F;" data-cord="#78350F" title="Earthy Tan"></div>
           <div class="swatch" style="background:#0F172A;" data-cord="#0F172A" title="Obsidian Black"></div>
-          <div class="swatch" style="background:#991B1B;" data-cord="#991B1B" title="Crimson Silk"></div>
           <input type="color" id="picker-cord-color" value="#1E293B" title="Custom cord color">
         </div>
       </div>
@@ -1496,7 +1497,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.5 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.6 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1613,7 +1614,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.5</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.6</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1633,7 +1634,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.5",
+      version: "1.8.6",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3183,27 +3184,428 @@
       renderer.render(scene, camera);
     }
 
+    // ── PROCEDURAL BASE GENERATORS (SNAKE CHAIN, WOVEN CORD, BOLO LEATHER) ─
+    let baseTextureCache = new Map();
+
+    function createSnakeChainTexture(isGold) {
+      const key = isGold ? "snake_gold" : "snake_silver";
+      if (baseTextureCache.has(key)) return baseTextureCache.get(key);
+
+      const w = 512, h = 128;
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+
+      const bumpCanvas = document.createElement("canvas");
+      bumpCanvas.width = w; bumpCanvas.height = h;
+      const bumpCtx = bumpCanvas.getContext("2d");
+
+      const roughCanvas = document.createElement("canvas");
+      roughCanvas.width = w; roughCanvas.height = h;
+      const roughCtx = roughCanvas.getContext("2d");
+
+      const imgData = ctx.createImageData(w, h);
+      const bumpData = bumpCtx.createImageData(w, h);
+      const roughData = roughCtx.createImageData(w, h);
+
+      const numLinks = 16;
+      const linkW = w / numLinks; // 32 px
+      const shear = linkW; // 32 px seamless wrapping across 128 px height
+
+      // Calibrated metal tones matching desktop reference photos
+      const baseCol = isGold ? [210, 172, 76] : [184, 186, 190];
+      const darkCol = isGold ? [96, 72, 26]   : [68, 70, 75];
+
+      for (let y = 0; y < h; y++) {
+        const v = y / h;
+        for (let x = 0; x < w; x++) {
+          const idx = (y * w + x) * 4;
+          const xSlanted = (x - v * shear + linkW * 100) % linkW;
+          const t = xSlanted / linkW;
+
+          let r, g, b, hVal, roughVal;
+          if (t < 0.10) {
+            // Joint crevice seam between interlocking links
+            r = darkCol[0]; g = darkCol[1]; b = darkCol[2];
+            hVal = 35;
+            roughVal = 85;
+          } else {
+            // Convex curved link plate
+            const rt = (t - 0.10) / 0.90;
+            const prof = Math.sin(rt * Math.PI);
+            const profCurve = Math.pow(prof, 0.75);
+            const vHlight = Math.sin(v * Math.PI) * 0.12;
+            const f = Math.min(1.0, profCurve + vHlight);
+
+            r = Math.min(255, Math.round(baseCol[0] * (0.75 + 0.45 * f)));
+            g = Math.min(255, Math.round(baseCol[1] * (0.75 + 0.45 * f)));
+            b = Math.min(255, Math.round(baseCol[2] * (0.75 + 0.45 * f)));
+
+            hVal = Math.min(255, Math.round(35 + 220 * profCurve));
+            roughVal = Math.round(35 + 25 * (1 - profCurve));
+          }
+
+          imgData.data[idx] = r;
+          imgData.data[idx + 1] = g;
+          imgData.data[idx + 2] = b;
+          imgData.data[idx + 3] = 255;
+
+          bumpData.data[idx] = hVal;
+          bumpData.data[idx + 1] = hVal;
+          bumpData.data[idx + 2] = hVal;
+          bumpData.data[idx + 3] = 255;
+
+          roughData.data[idx] = roughVal;
+          roughData.data[idx + 1] = roughVal;
+          roughData.data[idx + 2] = roughVal;
+          roughData.data[idx + 3] = 255;
+        }
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+      bumpCtx.putImageData(bumpData, 0, 0);
+      roughCtx.putImageData(roughData, 0, 0);
+
+      const colorMap = new THREE.CanvasTexture(canvas);
+      colorMap.wrapS = THREE.RepeatWrapping;
+      colorMap.wrapT = THREE.RepeatWrapping;
+      colorMap.anisotropy = 8;
+      colorMap.needsUpdate = true;
+
+      const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.RepeatWrapping;
+      bumpMap.anisotropy = 8;
+      bumpMap.needsUpdate = true;
+
+      const roughnessMap = new THREE.CanvasTexture(roughCanvas);
+      roughnessMap.wrapS = THREE.RepeatWrapping;
+      roughnessMap.wrapT = THREE.RepeatWrapping;
+      roughnessMap.anisotropy = 8;
+      roughnessMap.needsUpdate = true;
+
+      const textures = { colorMap, bumpMap, roughnessMap };
+      baseTextureCache.set(key, textures);
+      return textures;
+    }
+
+    function createWovenCordTexture(hexColor) {
+      const key = "cord_" + (hexColor || "#1E293B");
+      if (baseTextureCache.has(key)) return baseTextureCache.get(key);
+
+      const w = 512, h = 128;
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+
+      const bumpCanvas = document.createElement("canvas");
+      bumpCanvas.width = w; bumpCanvas.height = h;
+      const bumpCtx = bumpCanvas.getContext("2d");
+
+      const imgData = ctx.createImageData(w, h);
+      const bumpData = bumpCtx.createImageData(w, h);
+
+      const Ku = 16;
+      const Kv = 4;
+
+      const priColorObj = new THREE.Color(hexColor || "#1E293B");
+      const priR = Math.round(priColorObj.r * 255);
+      const priG = Math.round(priColorObj.g * 255);
+      const priB = Math.round(priColorObj.b * 255);
+
+      // Contrast intertwining strand:
+      // For colorful cords, deep rich charcoal/black creates the striking diamond weave seen in Woven Cord Bracelet.png
+      // For very dark cords, a complementary slate gray provides crisp contrast
+      const lum = 0.299 * priR + 0.587 * priG + 0.114 * priB;
+      let secR, secG, secB;
+      if (lum < 50) {
+        secR = 85; secG = 95; secB = 110; // contrasting slate
+      } else {
+        secR = 24; secG = 26; secB = 32;  // deep charcoal black
+      }
+
+      for (let y = 0; y < h; y++) {
+        const v = y / h;
+        for (let x = 0; x < w; x++) {
+          const u = x / w;
+          const idx = (y * w + x) * 4;
+
+          const a1 = u * Ku + v * Kv;
+          const a2 = u * Ku - v * Kv;
+
+          const s1Idx = Math.floor(a1);
+          const s2Idx = Math.floor(a2);
+
+          const f1 = (a1 - s1Idx) - 0.5;
+          const f2 = (a2 - s2Idx) - 0.5;
+
+          const strand1OnTop = ((s1Idx + s2Idx) % 2 + 2) % 2 === 0;
+
+          const activeD = Math.abs(strand1OnTop ? f1 : f2) * 2.0;
+          const baseR = strand1OnTop ? priR : secR;
+          const baseG = strand1OnTop ? priG : secG;
+          const baseB = strand1OnTop ? priB : secB;
+
+          // Micro-fiber striations parallel to strand
+          const axisCoord = strand1OnTop ? a1 : a2;
+          const fiber = Math.cos(axisCoord * Math.PI * 12.0) * 0.12;
+
+          // Raised strand crown
+          const hump = Math.cos(Math.min(1.0, activeD) * Math.PI * 0.5);
+          let edgeShadow = 1.0;
+          if (activeD > 0.75) {
+            edgeShadow = Math.max(0.32, 1.0 - (activeD - 0.75) / 0.25 * 0.68);
+          }
+
+          const totalH = Math.max(0.0, hump * edgeShadow + fiber);
+          const shade = 0.52 + 0.62 * totalH;
+
+          imgData.data[idx] = Math.min(255, Math.round(baseR * shade));
+          imgData.data[idx + 1] = Math.min(255, Math.round(baseG * shade));
+          imgData.data[idx + 2] = Math.min(255, Math.round(baseB * shade));
+          imgData.data[idx + 3] = 255;
+
+          const hVal = Math.min(255, Math.max(0, Math.round(totalH * 220 + 35)));
+          bumpData.data[idx] = hVal;
+          bumpData.data[idx + 1] = hVal;
+          bumpData.data[idx + 2] = hVal;
+          bumpData.data[idx + 3] = 255;
+        }
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+      bumpCtx.putImageData(bumpData, 0, 0);
+
+      const colorMap = new THREE.CanvasTexture(canvas);
+      colorMap.wrapS = THREE.RepeatWrapping;
+      colorMap.wrapT = THREE.RepeatWrapping;
+      colorMap.anisotropy = 8;
+      colorMap.needsUpdate = true;
+
+      const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.RepeatWrapping;
+      bumpMap.anisotropy = 8;
+      bumpMap.needsUpdate = true;
+
+      const textures = { colorMap, bumpMap };
+      baseTextureCache.set(key, textures);
+      return textures;
+    }
+
+    function createLeatherTexture() {
+      const key = "leather_texture";
+      if (baseTextureCache.has(key)) return baseTextureCache.get(key);
+
+      const w = 512, h = 128;
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+
+      const bumpCanvas = document.createElement("canvas");
+      bumpCanvas.width = w; bumpCanvas.height = h;
+      const bumpCtx = bumpCanvas.getContext("2d");
+
+      const imgData = ctx.createImageData(w, h);
+      const bumpData = bumpCtx.createImageData(w, h);
+
+      // Precomputed permutation table for fast, smooth 2D periodic noise
+      const tabSize = 256;
+      const perm = new Float32Array(tabSize);
+      for (let i = 0; i < tabSize; i++) {
+        perm[i] = Math.abs(Math.sin(i * 12.9898 + 78.233) * 43758.5453) % 1.0;
+      }
+
+      function sampleNoise(u, v, repU, repV) {
+        const x = (u * repU) % repU;
+        const y = (v * repV) % repV;
+        const x0 = Math.floor(x);
+        const y0 = Math.floor(y);
+        const x1 = (x0 + 1) % repU;
+        const y1 = (y0 + 1) % repV;
+        const tx = x - x0;
+        const ty = y - y0;
+        const sx = tx * tx * tx * (tx * (tx * 6 - 15) + 10);
+        const sy = ty * ty * ty * (ty * (ty * 6 - 15) + 10);
+
+        const n00 = perm[(y0 * 31 + x0) % tabSize];
+        const n10 = perm[(y0 * 31 + x1) % tabSize];
+        const n01 = perm[(y1 * 31 + x0) % tabSize];
+        const n11 = perm[(y1 * 31 + x1) % tabSize];
+
+        const nx0 = n00 + sx * (n10 - n00);
+        const nx1 = n01 + sx * (n11 - n01);
+        return nx0 + sy * (nx1 - nx0);
+      }
+
+      for (let y = 0; y < h; y++) {
+        const v = y / h;
+        for (let x = 0; x < w; x++) {
+          const u = x / w;
+          const idx = (y * w + x) * 4;
+
+          const oct1 = sampleNoise(u, v, 4, 2);
+          const oct2 = sampleNoise(u, v, 8, 4) * 0.5;
+          const oct3 = sampleNoise(u, v, 16, 8) * 0.25;
+          const oct4 = sampleNoise(u, v, 32, 16) * 0.125;
+          const grain = (oct1 + oct2 + oct3 + oct4) / 1.875;
+
+          const seamDist = Math.abs(v - 0.5);
+          const burnish = Math.exp(-seamDist * seamDist * 50.0) * 0.15;
+          const micro = sampleNoise(u, v, 64, 32) * 0.1;
+
+          const val = Math.max(0.0, Math.min(1.0, grain + micro - burnish));
+
+          // Rich vintage cowhide tones matching Leather Bracelet.png:
+          // Cognac highlight: [145, 92, 48]
+          // Saddle midtone: [102, 60, 30]
+          // Deep espresso: [58, 34, 18]
+          let r, g, b;
+          if (val > 0.5) {
+            const t = (val - 0.5) / 0.5;
+            r = Math.round(102 + (145 - 102) * t);
+            g = Math.round(60 + (92 - 60) * t);
+            b = Math.round(30 + (48 - 30) * t);
+          } else {
+            const t = val / 0.5;
+            r = Math.round(58 + (102 - 58) * t);
+            g = Math.round(34 + (60 - 34) * t);
+            b = Math.round(18 + (30 - 18) * t);
+          }
+
+          imgData.data[idx] = r;
+          imgData.data[idx + 1] = g;
+          imgData.data[idx + 2] = b;
+          imgData.data[idx + 3] = 255;
+
+          const hVal = Math.round(val * 255);
+          bumpData.data[idx] = hVal;
+          bumpData.data[idx + 1] = hVal;
+          bumpData.data[idx + 2] = hVal;
+          bumpData.data[idx + 3] = 255;
+        }
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+      bumpCtx.putImageData(bumpData, 0, 0);
+
+      const colorMap = new THREE.CanvasTexture(canvas);
+      colorMap.wrapS = THREE.RepeatWrapping;
+      colorMap.wrapT = THREE.RepeatWrapping;
+      colorMap.anisotropy = 8;
+      colorMap.needsUpdate = true;
+
+      const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.RepeatWrapping;
+      bumpMap.anisotropy = 8;
+      bumpMap.needsUpdate = true;
+
+      const textures = { colorMap, bumpMap };
+      baseTextureCache.set(key, textures);
+      return textures;
+    }
+
+    function createCordBaseMesh(cordType, radius, cordColorHex, claspColor) {
+      const baseGroup = new THREE.Group();
+      // Cord core tube radius: 0.092 (leaves ample visible clearance inside 0.19-0.30 bead holes)
+      const cordRadius = 0.092;
+      const cordGeo = new THREE.TorusGeometry(radius, cordRadius, 32, 200);
+      let cordMat;
+
+      if (cordType === "silver" || cordType === "gold") {
+        const isGold = cordType === "gold";
+        const textures = createSnakeChainTexture(isGold);
+        // Repeat texture so links match authentic snake chain link density (~120 links)
+        const repeats = Math.max(6, Math.round(radius * 1.45));
+        textures.colorMap.repeat.set(repeats, 1);
+        textures.bumpMap.repeat.set(repeats, 1);
+        textures.roughnessMap.repeat.set(repeats, 1);
+
+        cordMat = new THREE.MeshStandardMaterial({
+          map: textures.colorMap,
+          bumpMap: textures.bumpMap,
+          bumpScale: 0.026,
+          roughnessMap: textures.roughnessMap,
+          metalness: 0.92,
+          roughness: 0.18,
+          envMapIntensity: 1.35,
+          side: THREE.DoubleSide
+        });
+      } else if (cordType === "cord") {
+        const textures = createWovenCordTexture(cordColorHex);
+        const repeats = Math.max(4, Math.round(radius * 1.1));
+        textures.colorMap.repeat.set(repeats, 1);
+        textures.bumpMap.repeat.set(repeats, 1);
+
+        cordMat = new THREE.MeshStandardMaterial({
+          map: textures.colorMap,
+          bumpMap: textures.bumpMap,
+          bumpScale: 0.045,
+          metalness: 0.02,
+          roughness: 0.82,
+          envMapIntensity: 0.30,
+          side: THREE.DoubleSide
+        });
+      } else {
+        // leather
+        const textures = createLeatherTexture();
+        const repeats = Math.max(4, Math.round(radius * 1.1));
+        textures.colorMap.repeat.set(repeats, 1);
+        textures.bumpMap.repeat.set(repeats, 1);
+
+        cordMat = new THREE.MeshStandardMaterial({
+          map: textures.colorMap,
+          bumpMap: textures.bumpMap,
+          bumpScale: 0.022,
+          metalness: 0.04,
+          roughness: 0.68,
+          envMapIntensity: 0.45,
+          side: THREE.DoubleSide
+        });
+      }
+
+      const ringMesh = new THREE.Mesh(cordGeo, cordMat);
+      ringMesh.rotation.x = Math.PI / 2;
+      baseGroup.add(ringMesh);
+
+      // Sleek tapered metal end-cap ferrules flanking the clasp (faithful to reference photos)
+      const capColorHex = (cordType === "gold") ? "#D2AC4C" :
+                          (cordType === "silver") ? "#A8A9AC" :
+                          (claspColor === "gold" ? "#D2AC4C" : "#A8A9AC");
+      const capMat = getPBRMaterial("metal", capColorHex);
+      const claspOffsetAngle = 1.05 / radius; // aligns precisely adjacent to clasp jump rings
+
+      // Left end cap (x < 0, angle = pi/2 + claspOffsetAngle)
+      // Tangent points away from clasp; narrow end at +Z (away), wider bell at -Z (toward clasp)
+      const leftCapGeo = new THREE.CylinderGeometry(0.098, 0.12, 0.42, 24);
+      leftCapGeo.rotateX(Math.PI / 2);
+      const leftCap = new THREE.Mesh(leftCapGeo, capMat);
+      const leftAngle = Math.PI / 2 + claspOffsetAngle;
+      leftCap.position.set(radius * Math.cos(leftAngle), 0, radius * Math.sin(leftAngle));
+      leftCap.rotation.y = -leftAngle;
+      baseGroup.add(leftCap);
+
+      // Right end cap (x > 0, angle = pi/2 - claspOffsetAngle)
+      // Tangent points toward clasp; wider bell at +Z (toward clasp), narrow end at -Z (away)
+      const rightCapGeo = new THREE.CylinderGeometry(0.12, 0.098, 0.42, 24);
+      rightCapGeo.rotateX(Math.PI / 2);
+      const rightCap = new THREE.Mesh(rightCapGeo, capMat);
+      const rightAngle = Math.PI / 2 - claspOffsetAngle;
+      rightCap.position.set(radius * Math.cos(rightAngle), 0, radius * Math.sin(rightAngle));
+      rightCap.rotation.y = -rightAngle;
+      baseGroup.add(rightCap);
+
+      return baseGroup;
+    }
+
     // ── REBUILD 3D SCENE FROM DOC ───────────────────────────────────────────
     function rebuild3DScene() {
       const radius = getRadius();
 
-      // 1. Rebuild Cord Ring
+      // 1. Rebuild Cord Base Ring & End Caps
       if (cordMesh) braceletGroup.remove(cordMesh);
-      const cordColor = doc.cordType === "gold" ? 0xD2AC4C :
-                        doc.cordType === "leather" ? 0x78350F :
-                        doc.cordType === "cord" ? new THREE.Color(doc.cordColor).getHex() :
-                        0xA8A9AC; // silver chain default
-      const cordGeo = new THREE.TorusGeometry(radius, 0.09, 16, 120);
-      const isMetalCord = ["silver", "gold"].includes(doc.cordType);
-      const cordMat = new THREE.MeshStandardMaterial({
-        color: cordColor,
-        metalness: isMetalCord ? 0.90 : 0.1,
-        roughness: isMetalCord ? 0.18 : 0.7,
-        envMapIntensity: isMetalCord ? 1.2 : 0.5,
-        side: THREE.DoubleSide
-      });
-      cordMesh = new THREE.Mesh(cordGeo, cordMat);
-      cordMesh.rotation.x = Math.PI / 2;
+      cordMesh = createCordBaseMesh(doc.cordType, radius, doc.cordColor, doc.claspColor);
       braceletGroup.add(cordMesh);
 
       // 2. Rebuild Clasp
@@ -3811,10 +4213,10 @@
 
       // 1. Base Cord
       const baseTypeNames = {
-        silver: "Sterling Silver Chain",
-        gold: "Gold Link Chain",
-        cord: `Woven Jewelry Cord (${doc.cordColor})`,
-        leather: "Stitched Leather Cord"
+        silver: "Sterling Silver Snake Chain",
+        gold: "18K Gold Snake Chain",
+        cord: `Braided Diamond Woven Cord (${doc.cordColor})`,
+        leather: "Vintage Round Bolo Leather Cord"
       };
       const baseName = `${baseTypeNames[doc.cordType] || doc.cordType.toUpperCase()} (~${doc.wristMm}mm length)`;
       items.push({
@@ -3902,10 +4304,10 @@
 
       // Plaintext Spec Sheet
       const baseTypeNames = {
-        silver: "Sterling Silver Chain",
-        gold: "Gold Link Chain",
-        cord: `Woven Jewelry Cord (${doc.cordColor})`,
-        leather: "Stitched Leather Cord"
+        silver: "Sterling Silver Snake Chain",
+        gold: "18K Gold Snake Chain",
+        cord: `Braided Diamond Woven Cord (${doc.cordColor})`,
+        leather: "Vintage Round Bolo Leather Cord"
       };
       const claspNames = {
         magnetic: "Magnetic Cylinder Clasp",
