@@ -1500,7 +1500,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.18 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.19 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1617,7 +1617,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.18</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.19</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1637,7 +1637,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.18",
+      version: "1.8.19",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3164,14 +3164,13 @@
           const grainVal = Math.max(0.0, Math.min(1.0, 0.5 + rings * 0.35 + fibers + pore));
           heightMap[y * w + x] = grainVal;
 
-          // Warm golden teak / bamboo / sandalwood colors
-          const r = Math.round(168 + (224 - 168) * grainVal);
-          const g = Math.round(124 + (182 - 124) * grainVal);
-          const b = Math.round(78 + (132 - 78) * grainVal);
+          // Painted wood grain texture: clean neutral high-key map (240-255)
+          // Preserves 94% to 100% of chosen paint color while providing authentic wood grain depth
+          const grainByte = Math.round(240 + 15 * grainVal);
 
-          colorImg.data[idx]     = r;
-          colorImg.data[idx + 1] = g;
-          colorImg.data[idx + 2] = b;
+          colorImg.data[idx]     = grainByte;
+          colorImg.data[idx + 1] = grainByte;
+          colorImg.data[idx + 2] = grainByte;
           colorImg.data[idx + 3] = 255;
         }
       }
@@ -3363,46 +3362,19 @@
         }
         case "wood": {
           const textures = getWoodTextures();
-          if (isGold) {
-            // Warm golden teak / gilded amber sandalwood with rich deep grain
-            return new THREE.MeshStandardMaterial({
-              color: new THREE.Color(0x744E14),
-              map: textures.colorMap,
-              bumpMap: textures.bumpMap,
-              bumpScale: 0.018,
-              normalMap: textures.normalMap,
-              normalScale: new THREE.Vector2(0.65, 0.65),
-              metalness: 0.04,
-              roughness: 0.44,
-              envMapIntensity: 0.40,
-              side: THREE.DoubleSide
-            });
-          }
-          if (isSilver) {
-            // Weathered silver driftwood / silver birch with deep textured tone
-            return new THREE.MeshStandardMaterial({
-              color: new THREE.Color(0x46494F),
-              map: textures.colorMap,
-              bumpMap: textures.bumpMap,
-              bumpScale: 0.018,
-              normalMap: textures.normalMap,
-              normalScale: new THREE.Vector2(0.65, 0.65),
-              metalness: 0.04,
-              roughness: 0.46,
-              envMapIntensity: 0.40,
-              side: THREE.DoubleSide
-            });
-          }
-          return new THREE.MeshStandardMaterial({
+          const isMetallicPaint = isGold || isSilver;
+          return new THREE.MeshPhysicalMaterial({
             color: col,
             map: textures.colorMap,
             bumpMap: textures.bumpMap,
-            bumpScale: 0.018,
+            bumpScale: 0.016,
             normalMap: textures.normalMap,
-            normalScale: new THREE.Vector2(0.65, 0.65),
-            metalness: 0.02,
-            roughness: 0.45,
-            envMapIntensity: 0.40,
+            normalScale: new THREE.Vector2(0.60, 0.60),
+            metalness: isMetallicPaint ? 0.30 : 0.0,
+            roughness: isMetallicPaint ? 0.30 : 0.38,
+            clearcoat: 0.28,
+            clearcoatRoughness: 0.16,
+            envMapIntensity: isMetallicPaint ? 0.90 : 0.65,
             side: THREE.DoubleSide
           });
         }

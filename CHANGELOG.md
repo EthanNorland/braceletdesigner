@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.19] - 2026-10-25
+
+### Changed - Painted Wood Beads with Selected Palette Color & Tactile Grain
+- **Painted Wood Texture Generator ([`getWoodTextures()`](file:///Users/ethannorland/hello-world/index.html#L3107)):**
+  - Replaced hard-coded golden brown teak diffuse pixels (`[168–224, 124–182, 78–132]`) with a neutral, high-key wood grain texture map (`240–255` luminance).
+  - Eliminates muddy brown/olive discoloration when selecting blues, cyans, reds, whites, purples, or greens, preserving 94%–100% of the user's selected paint color while retaining natural tonal grain variation.
+  - Preserved longitudinal growth rings, wood fiber striations, and end-grain pores in tangent normal and bump maps.
+- **Satin Painted Wood PBR Shader ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3363)):**
+  - Switched wood bead shader to `MeshPhysicalMaterial` with a smooth satin jewelry lacquer glaze (`clearcoat: 0.28`, `clearcoatRoughness: 0.16`, `roughness: 0.38`).
+  - Directly maps the user's chosen color (`color: col`), accurately rendering painted turquoise, painted red, painted navy, painted white, or natural sandalwood/teak.
+  - Added soft metallic luster support (`metalness: 0.30`, `roughness: 0.30`) for painted gold and silver metallic finishes.
+- **PWA Bump:** Bumped service worker cache version to `1.8.19`.
+
 ## [1.8.18] - 2026-10-25
 
 ### Changed - Luminous Vibrant Jewel-Tone Colors on Glass & Crystalline Quartz
