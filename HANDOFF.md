@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.8.3`
-- **Phase:** Harmonized Gold & Silver Shader Engine (`v1.8.3`); Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.8.4`
+- **Phase:** Rich Darker Gold & Silver Shading for Stone & Wood (`v1.8.4`); Harmonized Gold & Silver Shader Engine (`v1.8.3`); Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -77,12 +77,12 @@
   - **Chamfered Drilled Rims:** Applied realistic jeweler's chamfer steps around bead hole openings to capture specular highlights and prevent polygon edge artifacts.
   - **Double-Sided PBR Interior Shading:** Configured `side: THREE.DoubleSide` across all PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`), allowing light to illuminate the inner cylindrical drill walls and rendering realistic refractive air tunnels in translucent glass and crystalline quartz.
   - **Hollow Inscribed Cube Beads:** Adapted monogram and symbol engravings on cube beads with synchronized double-sided overlays on outward-facing (+X) and inward-facing (-X) faces.
-- Phase 9 Reference-Calibrated Gold & Silver Metals & Universal Shader Engine (v1.8.1–v1.8.3):
+- Phase 9 Reference-Calibrated Gold & Silver Metals & Universal Shader Engine (v1.8.1–v1.8.4):
   - **Master Reference Calibration (`#D2AC4C`):** Calibrated warm 18K yellow gold directly from `reference/gold.png` via macOS ColorSync Display P3-to-sRGB profile translation (`#D2AC4C`, rgb(210, 172, 76)) and sterling silver from `reference/silver.png` (`#A8A9AC`, rgb(168, 169, 172)).
   - **Unified Cook-Torrance BRDF Shading:** Harmonized metal shader parameters across clasps, beads, base chains, and spacers: `metalness: 0.90`, `roughness: 0.18`, `envMapIntensity: 1.2`, and `side: THREE.DoubleSide`. This guarantees 100% visual consistency between clasps, beads, and spacers.
+  - **Darker Gold & Silver Shading on Stone & Wood (v1.8.4):** Calibrated deep antique gold mineral stone (`#7D5A18`), silver hematite slate (`#4A4D53`), golden teak wood (`#744E14`), and weathered silver driftwood (`#46494F`), eliminating diffuse chalk/white artifacts when gold or silver is selected on stone or wood beads while maintaining the user's material choice.
   - **Engraved Cube Bead PBR Transparency:** Rendered inscriptions with transparent canvas backgrounds (`createInscribedTexture`) layered over solid 3D metal geometries with `depthWrite: false`, ensuring engraved gold cubes display authentic gold metallic luster without white specular sheen.
-  - **Universal Smart Material Switching:** Selecting gold or silver in swatches, quick buttons, or the native color picker automatically sets `bead.material = "metal"`, preventing diffuse chalk artifacts on previously stone/wood beads.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.3 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.4 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 

@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.4] - 2026-10-24
+
+### Changed - Rich Darker Gold & Silver Shading for Stone & Wood Beads
+- **Darker Gold & Silver Shading on Stone & Wood:** Calibrated authentic dark gold and dark silver mineral/organic shades in [`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L2549) when `stone` or `wood` is selected with gold or silver hues:
+  - **Gold Stone:** Renders with rich, deep antique gold mineral tones (`#7D5A18`), `metalness: 0.22`, `roughness: 0.35`, and `envMapIntensity: 0.65` (pyrite / bronzite / tiger's eye), preventing the diffuse highlight from blowing out to pale chalk/cream.
+  - **Silver Stone:** Renders with deep lustrous silver mineral tones (`#4A4D53`), `metalness: 0.26`, `roughness: 0.32`, and `envMapIntensity: 0.65` (polished hematite / silver slate).
+  - **Gold Wood:** Renders with warm golden teak and gilded amber sandalwood tones (`#744E14`), `metalness: 0.04`, `roughness: 0.58`, and `envMapIntensity: 0.40`.
+  - **Silver Wood:** Renders with deep weathered silver driftwood and silver birch tones (`#46494F`), `metalness: 0.04`, `roughness: 0.60`, and `envMapIntensity: 0.40`.
+- **Preserved Material Intent on Swatch & Quick Button Clicks:** Removed forced metal overrides when beads are already `stone` or `wood`. Clicking gold or silver swatches, the native color picker, or the `#bead-col-gold` and `#bead-col-silver` quick buttons now preserves the user's `stone` or `wood` selection while applying the darker gold or silver palette.
+- **Session Restoration Integrity:** Updated [`migrateAndValidateDoc()`](file:///Users/ethannorland/hello-world/index.html#L2121) to ensure beads intentionally chosen as `stone` or `wood` with gold or silver colors persist faithfully across browser reloads without being coerced to `metal`.
+- **Descriptive Materials Spec Sheet Breakdown:** Updated [`getColorName()`](file:///Users/ethannorland/hello-world/index.html#L3774) in the Materials Spec Sheet to clearly distinguish *"Deep Gold Stone (Pyrite / Bronzite)"*, *"Silver Hematite Stone"*, *"Golden Teak Wood"*, and *"Weathered Silver Driftwood"*.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.4`.
+
 ## [1.8.3] - 2026-10-24
 
 ### Changed - Full Atelier Gold & Silver Shader Harmonization across Beads, Clasps & Spacers

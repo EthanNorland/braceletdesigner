@@ -1496,7 +1496,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.3 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.4 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1613,7 +1613,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.3</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.4</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1633,7 +1633,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.3",
+      version: "1.8.4",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2165,7 +2165,7 @@
         if (color.toUpperCase() === "#CCAD5C" || color.toUpperCase() === "#FACC15") {
           color = "#D2AC4C";
         }
-        if (["#D2AC4C", "#A8A9AC"].includes(color.toUpperCase()) && (isSpacer || material === "stone" || material === "wood")) {
+        if (isSpacer) {
           material = "metal";
         }
         const sizeMm = (typeof b.sizeMm === "number" && !isNaN(b.sizeMm)) ? Math.max(4, Math.min(20, Math.round(b.sizeMm))) : (isSpacer ? 6 : 10);
@@ -2548,6 +2548,10 @@
     // ── MATERIAL GENERATORS ─────────────────────────────────────────────────
     function getPBRMaterial(type, colorHex) {
       const col = new THREE.Color(colorHex);
+      const hexUpper = (typeof colorHex === "string" ? colorHex : ("#" + col.getHexString())).toUpperCase();
+      const isGold = ["#D2AC4C", "#CCAD5C", "#FACC15", "#FDE047", "#EAB308", "#D4B565", "#C8A959"].includes(hexUpper);
+      const isSilver = ["#A8A9AC", "#E2E8F0", "#C0C7D0", "#CBD5E1", "#94A3B8"].includes(hexUpper);
+
       switch(type) {
         case "glass":
           return new THREE.MeshPhysicalMaterial({
@@ -2580,6 +2584,26 @@
             side: THREE.DoubleSide
           });
         case "stone":
+          if (isGold) {
+            // Rich deep antique gold mineral stone (pyrite / bronzite / tiger's eye)
+            return new THREE.MeshStandardMaterial({
+              color: new THREE.Color(0x7D5A18),
+              metalness: 0.22,
+              roughness: 0.35,
+              envMapIntensity: 0.65,
+              side: THREE.DoubleSide
+            });
+          }
+          if (isSilver) {
+            // Deep lustrous silver mineral stone (polished hematite / silver slate)
+            return new THREE.MeshStandardMaterial({
+              color: new THREE.Color(0x4A4D53),
+              metalness: 0.26,
+              roughness: 0.32,
+              envMapIntensity: 0.65,
+              side: THREE.DoubleSide
+            });
+          }
           return new THREE.MeshStandardMaterial({
             color: col,
             metalness: 0.15,
@@ -2587,6 +2611,26 @@
             side: THREE.DoubleSide
           });
         case "wood":
+          if (isGold) {
+            // Warm golden teak / gilded amber sandalwood with rich deep grain
+            return new THREE.MeshStandardMaterial({
+              color: new THREE.Color(0x744E14),
+              metalness: 0.04,
+              roughness: 0.58,
+              envMapIntensity: 0.40,
+              side: THREE.DoubleSide
+            });
+          }
+          if (isSilver) {
+            // Weathered silver driftwood / silver birch with deep textured tone
+            return new THREE.MeshStandardMaterial({
+              color: new THREE.Color(0x46494F),
+              metalness: 0.04,
+              roughness: 0.60,
+              envMapIntensity: 0.40,
+              side: THREE.DoubleSide
+            });
+          }
           return new THREE.MeshStandardMaterial({
             color: col,
             metalness: 0.02,
@@ -3590,7 +3634,9 @@
             bead.color = col;
             const normCol = col.toUpperCase();
             if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15"].includes(normCol)) {
-              bead.material = "metal";
+              if (bead.material !== "stone" && bead.material !== "wood") {
+                bead.material = "metal";
+              }
             }
           }
         });
@@ -3605,32 +3651,42 @@
           bead.color = col;
           const normCol = col.toUpperCase();
           if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15"].includes(normCol)) {
-            bead.material = "metal";
+            if (bead.material !== "stone" && bead.material !== "wood") {
+              bead.material = "metal";
+            }
           }
         }
       });
     });
 
     document.getElementById("bead-col-silver")?.addEventListener("click", () => {
+      let activeMat = "metal";
       change(d => {
         const bead = d.beads.find(b => b.id === d.selectedId);
         if (bead) {
           bead.color = "#A8A9AC";
-          bead.material = "metal";
+          if (bead.material !== "stone" && bead.material !== "wood") {
+            bead.material = "metal";
+          }
+          activeMat = bead.material;
         }
       });
-      audioPlayAdd("metal");
+      audioPlayAdd(activeMat);
     });
 
     document.getElementById("bead-col-gold")?.addEventListener("click", () => {
+      let activeMat = "metal";
       change(d => {
         const bead = d.beads.find(b => b.id === d.selectedId);
         if (bead) {
           bead.color = "#D2AC4C";
-          bead.material = "metal";
+          if (bead.material !== "stone" && bead.material !== "wood") {
+            bead.material = "metal";
+          }
+          activeMat = bead.material;
         }
       });
-      audioPlayAdd("metal");
+      audioPlayAdd(activeMat);
     });
 
     // ── BRACELET BASE CONTROLS ──────────────────────────────────────────────
@@ -3717,19 +3773,21 @@
     // ── MATERIALS SPEC SHEET & SUPPLY SOURCING (PHASE 6.2) ──────────────────
     function getColorName(hex, material) {
       const norm = (hex || "").toUpperCase();
+      if (["#D2AC4C", "#CCAD5C", "#FACC15", "#FDE047", "#EAB308", "#D4B565", "#C8A959"].includes(norm)) {
+        if (material === "stone") return "Deep Gold Stone (Pyrite / Bronzite)";
+        if (material === "wood") return "Golden Teak Wood";
+        return "18K Yellow Gold";
+      }
+      if (["#A8A9AC", "#E2E8F0", "#C0C7D0", "#CBD5E1", "#94A3B8"].includes(norm)) {
+        if (material === "stone") return "Silver Hematite Stone";
+        if (material === "wood") return "Weathered Silver Driftwood";
+        return "Sterling Silver";
+      }
       const names = {
         "#1E3A8A": "Royal Lapis Lazuli",
         "#1E40AF": "Deep Lapis Lazuli",
         "#38BDF8": "Cyan Glass",
         "#F8FAFC": material === "quartz" ? "Crackle Quartz" : "Alabaster White",
-        "#CCAD5C": "18K Yellow Gold",
-        "#D2AC4C": "18K Yellow Gold",
-        "#A8A9AC": "Sterling Silver",
-        "#FACC15": "18K Yellow Gold",
-        "#FDE047": "Bright Gold",
-        "#EAB308": "Polished Gold",
-        "#E2E8F0": "Sterling Silver",
-        "#C0C7D0": "Silver",
         "#0D9488": "Turquoise Stone",
         "#16A34A": "Imperial Jade",
         "#9333EA": "Amethyst Glass",
