@@ -4,6 +4,26 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.1] - 2026-10-25
+
+### Added - Animated Feature Walkthrough Video Engine
+- **Procedural 60fps Demo Video Player ([`index.html#L6110`](file:///Users/ethannorland/hello-world/index.html#L6110)):**
+  - Upgraded the interactive demo modal ([`#dlg-demo`](file:///Users/ethannorland/hello-world/index.html#L2124)) into a high-definition 16:9 widescreen animated video player (`720x405`) rendered directly via an HTML5 procedural canvas engine without external video dependencies, cookie banners, or network latency.
+  - Divided into 6 seamless chapters demonstrating the studio's primary features:
+    1. **0:00–0:13:** *3D Stage & Bead Sliding* — 3D turntable orbit, interactive raycast sliding of beads along cord with live mm fit accumulator gauge.
+    2. **0:13–0:26:** *Bead Geometries, Spacers & Clasps* — 6 bead geometries (Sphere, Faceted, Rondelle, Barrel, Cube, Celestial Star), spacers, and interchangeable mechanical clasps.
+    3. **0:26–0:39:** *PBR Materials & Jewel-Tone Colors* — Physical shader simulation across Glass, Crystalline Quartz, Honed Limestone, High-Polish Metal, and Painted Wood with real-time palette selection.
+    4. **0:39–0:52:** *Personalized Monograms & Debossed Inscriptions* — Custom cube bead debossing featuring letters A–Z, numbers 0–9, and hallmark symbols (Heart, Cross, Smiley, Peace).
+    5. **0:52–1:05:** *Realistic 3D Wrist Mode & Skin Tones* — Draping onto an anatomical 3D arm and hand with Fair, Natural, Warm Tan, and Deep Rich skin tones and circumference scaling.
+    6. **1:05–1:18:** *Materials Spec Sheet & Project Exports* — Itemized jeweler's parts recipe, 1-click CSV order spreadsheet export, and high-resolution PNG render downloads.
+  - Full suite of video player controls: Play/Pause button (`▶` / `⏸`), interactive scrubber track with draggable thumb and progress fill, time counter (`0:00 / 1:18`), Mute/Unmute audio toggle (`🔊` / `🔇`), and Restart button (`↺`).
+  - 6 interactive Chapter pills allowing instant seeking to any feature with visual active states.
+  - Synced lower-third explanatory captions, animated mouse cursor paths, click ripples, and synchronized Web Audio acoustic cues for each feature transition.
+  - Accessible keyboard shortcuts (<kbd>Space</kbd> for play/pause, <kbd>←</kbd> and <kbd>→</kbd> for 5s seek).
+  - Immediate dismissal: prominent top-right `✕` button and footer "Close Demo & Start Designing ✦" button allowing returning users to dismiss the video instantly.
+  - Automatic startup launch on app load with persistent *"Don't show video automatically when opening the app"* checkbox stored in `localStorage` (`bracelet_demo_skip_startup`).
+- **PWA Bump:** Bumped service worker cache version to `1.9.1`.
+
 ## [1.9.0] - 2026-10-25
 
 ### Added - Interactive Feature Demo & Guided Tour
