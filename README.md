@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.8.1](https://img.shields.io/badge/Version-1.8.1-lightgrey?style=flat-square)](#)
+[![Version: 1.8.2](https://img.shields.io/badge/Version-1.8.2-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -48,7 +48,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Universal Mobile & iPhone Adaptation (Phase 7):** Responsive bottom-drawer architecture (`#left-panel` and `#right-panel` slide up smoothly on mobile), thumb-friendly navigation dock, compact header with `⋯ Menu`, Dynamic Island/Notch safe-area support, and dynamic viewport height (`100dvh`), while preserving 100% of the desktop 3-column studio layout.
 - **Reference-Calibrated Gold & Silver Metals (v1.8.1):** 18K warm gold (`#CCAD5C`) and sterling silver (`#A8A9AC`) calibrated directly against master physical reference swatches across clasps, chains, and beads.
 - **Enlarged Drilled Bead Holes with Visible Base Clearance (v1.8.0):** Realistic drilled hollow bead geometries across all 6 shapes with chamfered rims, double-sided PBR lighting, and a clearly visible clearance gap around the base cord/chain.
-- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.8.1 ↻`).
+- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.8.2 ↻`).
 
 ---
 

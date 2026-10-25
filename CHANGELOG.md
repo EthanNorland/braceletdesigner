@@ -4,6 +4,13 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.2] - 2026-10-24
+
+### Changed - Auto-Switch Bead Material to Metal on Silver & Gold Swatch Selection
+- **Smart Metal Material Auto-Switch:** When clicking either the **Sterling Silver** (`#A8A9AC`) or **Gold** (`#CCAD5C`) circular color swatch in the Properties panel, the selected bead's `material` automatically switches to `metal`.
+- **Eliminated Matte White/Chalk Artifact on Stone & Wood:** Resolved the issue where stone or wood beads assigned a silver hue rendered as diffuse matte white/chalky plaster due to low dielectric metalness (`0.15` and `0.02`). The bead now immediately receives full metallic reflectivity (`metalness: 0.96`, `roughness: 0.14`), rendering with genuine polished sterling silver shine.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.2`.
+
 ## [1.8.1] - 2026-10-24
 
 ### Changed - Calibrate Gold & Silver Metal Hues from Reference Samples

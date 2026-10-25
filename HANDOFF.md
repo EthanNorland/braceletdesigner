@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.8.1`
-- **Phase:** Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.8.2`
+- **Phase:** Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -77,10 +77,11 @@
   - **Chamfered Drilled Rims:** Applied realistic jeweler's chamfer steps around bead hole openings to capture specular highlights and prevent polygon edge artifacts.
   - **Double-Sided PBR Interior Shading:** Configured `side: THREE.DoubleSide` across all PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`), allowing light to illuminate the inner cylindrical drill walls and rendering realistic refractive air tunnels in translucent glass and crystalline quartz.
   - **Hollow Inscribed Cube Beads:** Adapted monogram and symbol engravings on cube beads with synchronized double-sided overlays on outward-facing (+X) and inward-facing (-X) faces.
-- Phase 9 Reference-Calibrated Gold & Silver Metals (v1.8.1):
+- Phase 9 Reference-Calibrated Gold & Silver Metals & Smart Material Auto-Switch (v1.8.1–v1.8.2):
   - **Master Reference Calibration:** Sampled and matched gold (`#CCAD5C`, rgb(204, 173, 92)) and silver (`#A8A9AC`, rgb(168, 169, 172)) directly from user's `reference/gold.png` and `reference/silver.png` desktop master files.
+  - **Smart Metal Material Auto-Switch:** Selecting Silver or Gold circular swatches or quick buttons automatically sets `bead.material = "metal"`, preventing diffuse chalky white/plaster artifacts on previously stone or wood beads.
   - **Unified Palette Application:** Applied authentic 18K warm gold and sterling silver across clasps (`createClaspMesh`), base chains (`rebuild3DScene`), UI swatches, dedicated Quick Metal buttons (`#bead-col-gold`, `#bead-col-silver`), starter templates, and Materials Spec Sheet breakdowns.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.1 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.2 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
