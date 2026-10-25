@@ -1410,6 +1410,7 @@
         <div class="swatch" style="background:#F8FAFC;" data-color="#F8FAFC" title="Crackle Crystal White"></div>
         <div class="swatch" style="background:#A8A9AC;" data-color="#A8A9AC" title="Sterling Silver"></div>
         <div class="swatch" style="background:#D2AC4C;" data-color="#D2AC4C" title="Gold"></div>
+        <div class="swatch" style="background:#373A40;" data-color="#373A40" title="Basalt Charcoal Slate (Stone)"></div>
         <div class="swatch" style="background:#A855F7;" data-color="#A855F7" title="Amethyst Purple"></div>
         <div class="swatch" style="background:#10B981;" data-color="#10B981" title="Emerald Green"></div>
         <div class="swatch" style="background:#EF4444;" data-color="#EF4444" title="Coral Red"></div>
@@ -1497,7 +1498,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.13 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.14 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1614,7 +1615,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.13</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.14</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1634,7 +1635,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.13",
+      version: "1.8.14",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2886,7 +2887,7 @@
       return quartzTextureCache;
     }
 
-    // ── PROCEDURAL NATURAL WEATHERED STONE TEXTURE GENERATOR (MATCHING REFERENCE/STONETEXTURE.PNG) ──
+    // ── PROCEDURAL CRAGGY SLATE / VOLCANIC BASALT STONE TEXTURE GENERATOR (MATCHING REFERENCE/STONE2.PNG) ──
     let stoneTextureCache = null;
 
     function getStoneTextures() {
@@ -2895,7 +2896,7 @@
       const w = 512, h = 512;
       const tabSize = 256;
       const perm = new Float32Array(tabSize);
-      let seed = 67291;
+      let seed = 73921;
       function rand() {
         seed = (seed * 16807 + 0) % 2147483647;
         return (seed - 1) / 2147483646;
@@ -2914,56 +2915,77 @@
         return n00 + sx * (n10 - n00) + sy * (n01 - n00) + sx * sy * (n00 - n10 - n01 + n11);
       }
 
-      const grid = 28;
-      const stonePoints = [];
+      function ridgedNoise(u, v, rep) {
+        const n = sampleNoise(u, v, rep);
+        return 1.0 - 2.0 * Math.abs(n - 0.5);
+      }
+
+      // Cleaved rock polygonal blocks / faceted plateaus matching reference/stone2.png
+      const grid = 22;
+      const stoneCells = [];
       for (let gy = 0; gy < grid; gy++) {
         for (let gx = 0; gx < grid; gx++) {
-          stonePoints.push({ x: (gx + 0.12 + rand() * 0.76) / grid, y: (gy + 0.12 + rand() * 0.76) / grid });
+          stoneCells.push({
+            x: (gx + 0.15 + rand() * 0.70) / grid,
+            y: (gy + 0.15 + rand() * 0.70) / grid,
+            elev: 0.35 + rand() * 0.50,
+            tiltX: (rand() - 0.5) * 1.8,
+            tiltY: (rand() - 0.5) * 1.8
+          });
         }
       }
 
       const heightMap = new Float32Array(w * h);
-      const maxR = 1.35 / grid;
 
       for (let y = 0; y < h; y++) {
         const v0 = y / h;
         for (let x = 0; x < w; x++) {
           const u0 = x / w;
 
-          const warpU = (sampleNoise(u0, v0, 5) - 0.5) * 0.045;
-          const warpV = (sampleNoise(u0 + 0.37, v0 + 0.63, 5) - 0.5) * 0.045;
+          // Domain warp for natural geological fault distortion
+          const warpU = (sampleNoise(u0, v0, 6) - 0.5) * 0.055;
+          const warpV = (sampleNoise(u0 + 0.41, v0 + 0.59, 6) - 0.5) * 0.055;
           const u = (u0 + warpU + 1.0) % 1.0;
           const v = (v0 + warpV + 1.0) % 1.0;
 
           const cgx = Math.floor(u * grid), cgy = Math.floor(v * grid);
           let d1 = 1e9, d2 = 1e9;
+          let closestCell = null;
           for (let dy = -1; dy <= 1; dy++) {
             const ngy = (cgy + dy + grid) % grid;
             for (let dx = -1; dx <= 1; dx++) {
               const ngx = (cgx + dx + grid) % grid;
-              const p = stonePoints[ngy * grid + ngx];
-              let pdx = Math.abs(u - p.x); if (pdx > 0.5) pdx = 1.0 - pdx;
-              let pdy = Math.abs(v - p.y); if (pdy > 0.5) pdy = 1.0 - pdy;
+              const cell = stoneCells[ngy * grid + ngx];
+              let pdx = Math.abs(u - cell.x); if (pdx > 0.5) pdx = 1.0 - pdx;
+              let pdy = Math.abs(v - cell.y); if (pdy > 0.5) pdy = 1.0 - pdy;
               const dist = Math.sqrt(pdx * pdx + pdy * pdy);
-              if (dist < d1) { d2 = d1; d1 = dist; } else if (dist < d2) { d2 = dist; }
+              if (dist < d1) { d2 = d1; d1 = dist; closestCell = cell; }
+              else if (dist < d2) { d2 = dist; }
             }
           }
 
-          // Weathered rock plateaus (flattened domes matching stonetexture.png)
-          const cellNorm = Math.min(1.0, d1 / maxR);
-          let plateau = Math.cos(cellNorm * Math.PI * 0.5);
-          plateau = Math.pow(Math.max(0.0, plateau), 0.45);
+          // 1. Cleaved planar facet with tilted rock face
+          let pdx = u - closestCell.x; if (pdx > 0.5) pdx -= 1.0; else if (pdx < -0.5) pdx += 1.0;
+          let pdy = v - closestCell.y; if (pdy > 0.5) pdy -= 1.0; else if (pdy < -0.5) pdy += 1.0;
+          const facet = Math.max(0.1, closestCell.elev + pdx * closestCell.tiltX + pdy * closestCell.tiltY);
 
-          // Deep fissure crevices
-          const fissure = Math.min(1.0, (d2 - d1) * grid * 2.2);
+          // 2. Steep geological fissure cracks along cell boundaries
+          const crackDist = (d2 - d1) * grid;
+          const crack = 1.0 - Math.exp(-crackDist * 2.6);
 
-          // Multi-octave natural rock grain
-          const n1 = sampleNoise(u, v, 14);
-          const n2 = sampleNoise(u, v, 28) * 0.5;
-          const n3 = sampleNoise(u, v, 56) * 0.25;
-          const rockGrain = (n1 + n2 + n3) / 1.75;
+          // 3. Multi-octave ridged rock crags (slate / basalt fractures)
+          const crag1 = ridgedNoise(u, v, 12);
+          const crag2 = ridgedNoise(u * 1.5 + v * 0.6, v * 1.5 - u * 0.6, 24) * 0.5;
+          const crags = (crag1 + crag2) / 1.5;
 
-          const totalH = plateau * 0.35 + fissure * 0.25 + rockGrain * 0.40;
+          // 4. Directional stratified metamorphic foliation / cleavage layers
+          const strata = sampleNoise(u * 3.0 + v * 12.0, v * 8.0, 16);
+
+          // 5. Micro-porous basalt rock sand & pitting
+          const microGrit = (sampleNoise(u, v, 64) + sampleNoise(u, v, 128) * 0.5) / 1.5;
+
+          // Composite tactile stone height
+          const totalH = facet * 0.32 + crack * 0.28 + crags * 0.24 + strata * 0.08 + microGrit * 0.08;
           heightMap[y * w + x] = Math.max(0.0, Math.min(1.0, totalH));
         }
       }
@@ -2984,7 +3006,7 @@
       const normalCtx = normalCanvas.getContext("2d");
       const normalImg = normalCtx.createImageData(w, h);
 
-      const bumpStrength = 5.2;
+      const bumpStrength = 6.2;
       for (let y = 0; y < h; y++) {
         const ym = (y - 1 + h) % h, yp = (y + 1) % h;
         for (let x = 0; x < w; x++) {
@@ -2997,14 +3019,6 @@
           bumpImg.data[idx + 1] = bByte;
           bumpImg.data[idx + 2] = bByte;
           bumpImg.data[idx + 3] = 255;
-
-          // Ambient occlusion shading: fissures/depressions are darkened
-          const ao = 0.65 + 0.45 * Math.pow(hVal, 1.3);
-          const cByte = Math.min(255, Math.round(235 * ao));
-          colorImg.data[idx]     = cByte;
-          colorImg.data[idx + 1] = cByte;
-          colorImg.data[idx + 2] = cByte;
-          colorImg.data[idx + 3] = 255;
 
           // Sobel gradient tangent-space normal vector
           const tl = heightMap[ym * w + xm], tc = heightMap[ym * w + x], tr = heightMap[ym * w + xp];
@@ -3020,6 +3034,18 @@
           normalImg.data[idx + 1] = Math.round((-dY * invLen * 0.5 + 0.5) * 255);
           normalImg.data[idx + 2] = Math.round((dZ * invLen * 0.5 + 0.5) * 255);
           normalImg.data[idx + 3] = 255;
+
+          // Ambient occlusion shading & chiseled ridge edge highlight matching stone2.png
+          // Deep fissures are shaded dark; sharp chiseled ridges catch pulverized rock dust / crystalline glint
+          const slope = Math.sqrt(dX * dX + dY * dY);
+          const edgeHighlight = Math.min(0.22, slope * 0.045);
+          const ao = 0.52 + 0.44 * Math.pow(hVal, 1.25) + edgeHighlight;
+          const cByte = Math.max(0, Math.min(255, Math.round(230 * ao)));
+
+          colorImg.data[idx]     = cByte;
+          colorImg.data[idx + 1] = cByte;
+          colorImg.data[idx + 2] = cByte;
+          colorImg.data[idx + 3] = 255;
         }
       }
 
@@ -3368,12 +3394,12 @@
               color: new THREE.Color(0x7D5A18),
               map: textures.colorMap,
               normalMap: textures.normalMap,
-              normalScale: new THREE.Vector2(1.25, 1.25),
+              normalScale: new THREE.Vector2(1.35, 1.35),
               bumpMap: textures.bumpMap,
-              bumpScale: 0.038,
-              metalness: 0.22,
-              roughness: 0.55,
-              envMapIntensity: 0.75,
+              bumpScale: 0.045,
+              metalness: 0.20,
+              roughness: 0.65,
+              envMapIntensity: 0.60,
               side: THREE.DoubleSide
             });
           }
@@ -3383,25 +3409,26 @@
               color: new THREE.Color(0x4A4D53),
               map: textures.colorMap,
               normalMap: textures.normalMap,
-              normalScale: new THREE.Vector2(1.25, 1.25),
+              normalScale: new THREE.Vector2(1.35, 1.35),
               bumpMap: textures.bumpMap,
-              bumpScale: 0.038,
-              metalness: 0.26,
-              roughness: 0.50,
-              envMapIntensity: 0.75,
+              bumpScale: 0.045,
+              metalness: 0.24,
+              roughness: 0.62,
+              envMapIntensity: 0.60,
               side: THREE.DoubleSide
             });
           }
+          // Natural slate / volcanic basalt stone matching reference/stone2.png
           return new THREE.MeshStandardMaterial({
             color: col,
             map: textures.colorMap,
             normalMap: textures.normalMap,
-            normalScale: new THREE.Vector2(1.25, 1.25),
+            normalScale: new THREE.Vector2(1.4, 1.4),
             bumpMap: textures.bumpMap,
-            bumpScale: 0.038,
-            metalness: 0.04,
-            roughness: 0.70,
-            envMapIntensity: 0.50,
+            bumpScale: 0.045,
+            metalness: 0.03,
+            roughness: 0.88,
+            envMapIntensity: 0.32,
             side: THREE.DoubleSide
           });
         }
@@ -5007,6 +5034,8 @@
         "#9333EA": "Amethyst Glass",
         "#DC2626": "Red Jasper",
         "#EA580C": "Carnelian Agate",
+        "#373A40": "Volcanic Basalt / Slate Stone",
+        "#35383D": "Volcanic Basalt / Slate Stone",
         "#D97706": "Warm Sandstone / Amber",
         "#92400E": "Sandalwood",
         "#78350F": "Dark Sandalwood",

@@ -4,6 +4,21 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.14] - 2026-10-25
+
+### Added - Reference-Calibrated Craggy Slate / Volcanic Basalt Stone Texture
+- **Craggy Basalt & Slate Rock Calibration ([`getStoneTextures()`](file:///Users/ethannorland/hello-world/index.html#L2890)):**
+  - Calibrated the stone texture directly against desktop reference photo `reference/stone2.png`, capturing its dark volcanic basalt / cleaved slate rock geometry.
+  - Implemented 22x22 polygonal rock blocks with planar cleavage tilts, domain-warped fault lines, and steep exponential crevice fissures (`1.0 - Math.exp(-crackDist * 2.6)`).
+  - Integrated multi-octave ridged rock crags (`ridgedNoise(u, v, 12)` and `ridgedNoise(..., 24)`) producing jagged, angular rock cleavage rather than rounded cobblestone domes.
+  - Layered stratified metamorphic foliation / cleavage grain along with high-frequency porous volcanic micro-grit and sand pitting.
+  - Engineered Sobel-filtered tangent normal maps (`bumpStrength = 6.2`, `normalScale: [1.4, 1.4]`) and ambient occlusion color maps with sharp crystalline edge highlight glints on chiseled ridges.
+- **Natural Matte Rock PBR Shading ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3389)):**
+  - Updated stone material shader parameters to `roughness: 0.88`, `metalness: 0.03`, `bumpScale: 0.045`, and `envMapIntensity: 0.32` to recreate the authentic, non-plastic, dry volcanic basalt surface finish.
+  - Tuned gold pyrite / bronzite (`#7D5A18`) and silver hematite slate (`#4A4D53`) stone shaders to match the craggy faceted geometry (`bumpScale: 0.045`, `normalScale: [1.35, 1.35]`).
+- **Studio Color Palette Swatch:** Added a dedicated Basalt Charcoal Slate swatch (`#373A40`) to `#bead-swatches` with materials spec sheet labeling.
+- **PWA Precache Bump:** Added `stone2.png` and `metaltexture2.png` to service worker precache and bumped version to `1.8.14`.
+
 ## [1.8.13] - 2026-10-25
 
 ### Added - Reference-Calibrated Polished Wood & Brushed Satin Metal Textures
