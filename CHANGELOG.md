@@ -4,6 +4,24 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.23] - 2026-10-25
+
+### Added - Curated Community & Inspiration Credits in About Dialog
+- **Inspiration & Credits Entries ([`index.html#L1732`](file:///Users/ethannorland/hello-world/index.html#L1732)):**
+  - Populated the About dialog Inspiration & Credits panel with 10 community creators, artisans, and platforms:
+    - **Pantone:** Global color language, swatch standards, and palette inspiration.
+    - **Bracelet Designer:** Digital bead arrangement concepts and custom bracelet studio inspiration.
+    - **Beachmod:** Coastal lifestyle aesthetic, beach bead combinations, and relaxed stringing styles.
+    - **JewDIY:** DIY jewelry crafting tutorials, stringing patterns, and maker techniques.
+    - **Etsy:** Global handmade jewelry community, indie bead artisans, and custom craft inspiration.
+    - **Fire Mountain Gems:** Premier jewelry-making supplies, physical bead millimeter sizing, and findings references.
+    - **Banter:** Contemporary jewelry trends, fine metal finishes, charm styling, and clasp varieties.
+    - **Textures.com:** High-resolution surface textures, natural stone, wood grain, and PBR material reference.
+    - **Phillip Renato:** Contemporary art jewelry designer, educator, and digital fabrication pioneer.
+    - **Three.js Community:** WebGL 3D graphics rendering foundation and interactive shader pipeline.
+  - Added dedicated inner scroll container (`max-height: 320px; overflow-y: auto;`) with styled slim scrollbars and verified external link buttons (`↗`).
+- **PWA Bump:** Bumped service worker cache version to `1.8.23`.
+
 ## [1.8.22] - 2026-10-25
 
 ### Added - Inspiration & Credits Section in About Dialog
