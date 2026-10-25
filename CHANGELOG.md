@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.17] - 2026-10-25
+
+### Changed - Smooth High-Polish Jeweler's Metal Finish
+- **Smooth Metal Surface ([`getMetalTextures()`](file:///Users/ethannorland/hello-world/index.html#L3085) & [`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3297)):**
+  - Updated metal bead shader to a pristine, mirror-polished fine jeweler's finish with zero surface bumpiness, scratches, or abrasive textures.
+  - Removed scratch bump maps and normal distortion, allowing the bead geometries to reflect light with smooth, razor-sharp specular highlights.
+  - Tuned `roughness: 0.12`, `metalness: 0.96`, and `envMapIntensity: 1.40` for gleaming liquid-metal reflections across 18K yellow gold, sterling silver, gunmetal, and custom colors.
+- **PWA Bump:** Bumped service worker cache version to `1.8.17`.
+
 ## [1.8.16] - 2026-10-25
 
 ### Added - Reference-Calibrated Honed Limestone & Pitted Travertine Texture

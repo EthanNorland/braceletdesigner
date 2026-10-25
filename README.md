@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.8.16](https://img.shields.io/badge/Version-1.8.16-lightgrey?style=flat-square)](#)
+[![Version: 1.8.17](https://img.shields.io/badge/Version-1.8.17-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -46,6 +46,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Full Undo/Redo & Quick Actions:** Robust history stack, duplicate (`D`), and delete actions.
 - **Materials Spec Sheet & Parts Recipe:** Itemized parts recipe with visual color swatches, millimeter dimensions, material categories, 1-click plaintext clipboard copy, and clean **CSV Export** for jeweler assembly.
 - **Universal Mobile & iPhone Adaptation (Phase 7):** Responsive bottom-drawer architecture (`#left-panel` and `#right-panel` slide up smoothly on mobile), thumb-friendly navigation dock, compact header with `⋯ Menu`, Dynamic Island/Notch safe-area support, and dynamic viewport height (`100dvh`), while preserving 100% of the desktop 3-column studio layout.
+- **High-Polish Smooth Jeweler's Metal (v1.8.17):** Configured a pristine, silky-smooth mirror finish across all metal beads, spacers, and stars with zero surface bumpiness or scratches (`roughness: 0.12`, `metalness: 0.96`, `envMapIntensity: 1.40`), delivering crisp specular highlights and radiant studio reflections across 18K gold, sterling silver, and gunmetal.
 - **Reference-Calibrated Honed Limestone & Pitted Travertine Texture (v1.8.16):** Modeled directly after desktop 3D reference `reference/stonetexture3.png`, featuring a smooth honed spherical stone body with directional honing micro-striations, scattered organic porous cavities & pockmarks with ambient occlusion depth, fine pin-prick micro-pores, and dry matte PBR mineral shading (`roughness: 0.78`, `bumpScale: 0.020`, `normalScale: [1.0, 1.0]`). Includes a dedicated Honed Limestone / Travertine swatch (`#A2A5A0`) in the studio color palette.
 - **Reference-Calibrated Tumble-Polished Metal with Micro-Scratches & Patina (v1.8.15):** Modeled directly after desktop 3D reference `reference/metaltexture2.png`, featuring ~140 multi-directional organic micro-scratches, spatial grid acceleration, cloudy micro-patina / tarnish smudging, high-frequency abrasion grain, pixel-level roughness mapping (`roughnessMap: 0.12 - 0.28`), and micro-AO in scratch cuts under an authentic semi-gloss jeweler's tumble finish (`metalness: 0.94`, `normalScale: [0.95, 0.95]`). Includes a dedicated Gunmetal / Antiqued Steel swatch (`#4B4E54`) in the studio color palette.
 - **Reference-Calibrated Polished Wood & Brushed Satin Metal Textures (v1.8.13):**
@@ -64,7 +65,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Neutral Pure White Studio Lighting (v1.8.5):** Replaced warm gold/yellow key and rim lights with crisp, daylight-balanced white studio lighting (`0xFFFFFF`), ensuring silver metal, stone, and wood beads reflect clean white specular highlights with zero yellow cast.
 - **Rich Darker Gold & Silver Shading for Stone & Wood (v1.8.4):** Calibrated deep antique gold mineral stone (`#7D5A18`), silver hematite slate (`#4A4D53`), golden teak wood (`#744E14`), and weathered silver driftwood (`#46494F`), preventing diffuse chalk/white artifacts while preserving material selection.
 - **Harmonized Gold & Silver Shader Engine (v1.8.3):** Full Cook-Torrance BRDF alignment (`metalness: 0.90`, `roughness: 0.18`, `envMapIntensity: 1.2`) and ColorSync P3-to-sRGB recalibrated warm 18K gold (`#D2AC4C`) across beads, clasps, base chains, and spacers.
-- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.8.16 ↻`).
+- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.8.17 ↻`).
 
 ---
 
