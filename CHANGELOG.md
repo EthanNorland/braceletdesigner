@@ -4,6 +4,17 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.3] - 2026-10-24
+
+### Changed - Full Atelier Gold & Silver Shader Harmonization across Beads, Clasps & Spacers
+- **Unified Metal PBR Material Parameters:** Harmonized metal shader parameters across all studio components in [`getPBRMaterial("metal")`](file:///Users/ethannorland/hello-world/index.html#L2574), [`createClaspMesh()`](file:///Users/ethannorland/hello-world/index.html#L2834), base chains, and spacers to share identical Cook-Torrance BRDF properties: `metalness: 0.90`, `roughness: 0.18`, `envMapIntensity: 1.2`, and `side: THREE.DoubleSide`.
+- **Eliminated Bead vs Clasp Visual Discrepancy:** Resolved the visual discrepancy where gold beads previously rendered darker, harsher, or colder than the luminous clasp. Setting beads to match the clasp's `metalness: 0.90` (10% diffuse albedo reflection), `roughness: 0.18` (soft wide specular highlight), and `envMapIntensity: 1.2` ensures identical radiance, warmth, and luster from any viewing angle.
+- **ColorSync Display P3 to sRGB Master Recalibration (`#D2AC4C`):** Re-sampled `/reference/gold.png` with standard sRGB profile conversion via macOS ColorSync, upgrading from unprofiled `#CCAD5C` (RGB 204, 173, 92) to authentic warm 18K gold `#D2AC4C` (RGB 210, 172, 76), significantly increasing warm red chromaticity and eliminating drab olive undertones.
+- **Engraved Cube Bead PBR Transparency:** Redesigned [`createInscribedTexture()`](file:///Users/ethannorland/hello-world/index.html#L2497) to render engravings and hallmark borders on a transparent canvas, displaying the underlying 3D metal body directly rather than an opaque white-reflectance plane (`0xFFFFFF`). Engraved gold cube beads now reflect the identical gold environment specular highlights as the rest of the bracelet.
+- **Universal Color Picker Smart Metal Auto-Switch:** Enhanced the native color picker listener in [`#picker-bead-color`](file:///Users/ethannorland/hello-world/index.html#L3600) so selecting gold or silver automatically switches `bead.material = "metal"`, preventing diffuse chalk/clay artifacts.
+- **Session Migration & Backward Compatibility:** Updated [`migrateAndValidateDoc()`](file:///Users/ethannorland/hello-world/index.html#L2121) to map legacy `#CCAD5C` and `#FACC15` to `#D2AC4C` and auto-upgrade previously dielectric gold beads in IndexedDB sessions to `metal`.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.3`.
+
 ## [1.8.2] - 2026-10-24
 
 ### Changed - Auto-Switch Bead Material to Metal on Silver & Gold Swatch Selection

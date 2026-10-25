@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.8.2`
-- **Phase:** Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.8.3`
+- **Phase:** Harmonized Gold & Silver Shader Engine (`v1.8.3`); Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -77,11 +77,12 @@
   - **Chamfered Drilled Rims:** Applied realistic jeweler's chamfer steps around bead hole openings to capture specular highlights and prevent polygon edge artifacts.
   - **Double-Sided PBR Interior Shading:** Configured `side: THREE.DoubleSide` across all PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`), allowing light to illuminate the inner cylindrical drill walls and rendering realistic refractive air tunnels in translucent glass and crystalline quartz.
   - **Hollow Inscribed Cube Beads:** Adapted monogram and symbol engravings on cube beads with synchronized double-sided overlays on outward-facing (+X) and inward-facing (-X) faces.
-- Phase 9 Reference-Calibrated Gold & Silver Metals & Smart Material Auto-Switch (v1.8.1–v1.8.2):
-  - **Master Reference Calibration:** Sampled and matched gold (`#CCAD5C`, rgb(204, 173, 92)) and silver (`#A8A9AC`, rgb(168, 169, 172)) directly from user's `reference/gold.png` and `reference/silver.png` desktop master files.
-  - **Smart Metal Material Auto-Switch:** Selecting Silver or Gold circular swatches or quick buttons automatically sets `bead.material = "metal"`, preventing diffuse chalky white/plaster artifacts on previously stone or wood beads.
-  - **Unified Palette Application:** Applied authentic 18K warm gold and sterling silver across clasps (`createClaspMesh`), base chains (`rebuild3DScene`), UI swatches, dedicated Quick Metal buttons (`#bead-col-gold`, `#bead-col-silver`), starter templates, and Materials Spec Sheet breakdowns.
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.2 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
+- Phase 9 Reference-Calibrated Gold & Silver Metals & Universal Shader Engine (v1.8.1–v1.8.3):
+  - **Master Reference Calibration (`#D2AC4C`):** Calibrated warm 18K yellow gold directly from `reference/gold.png` via macOS ColorSync Display P3-to-sRGB profile translation (`#D2AC4C`, rgb(210, 172, 76)) and sterling silver from `reference/silver.png` (`#A8A9AC`, rgb(168, 169, 172)).
+  - **Unified Cook-Torrance BRDF Shading:** Harmonized metal shader parameters across clasps, beads, base chains, and spacers: `metalness: 0.90`, `roughness: 0.18`, `envMapIntensity: 1.2`, and `side: THREE.DoubleSide`. This guarantees 100% visual consistency between clasps, beads, and spacers.
+  - **Engraved Cube Bead PBR Transparency:** Rendered inscriptions with transparent canvas backgrounds (`createInscribedTexture`) layered over solid 3D metal geometries with `depthWrite: false`, ensuring engraved gold cubes display authentic gold metallic luster without white specular sheen.
+  - **Universal Smart Material Switching:** Selecting gold or silver in swatches, quick buttons, or the native color picker automatically sets `bead.material = "metal"`, preventing diffuse chalk artifacts on previously stone/wood beads.
+- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.8.3 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
 - Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
 - Screen context hook `window.__markupContext` configured.
 
@@ -90,7 +91,7 @@
 - Solicit end-user feedback on tactile audio sweet spot across various mobile devices.
 
 ## Rules Learned & Project Constraints
-- Metal color calibration: For jewelry metals in Three.js standard material, use reference-sampled diffuse albedo values (`#CCAD5C` for warm 18K yellow gold, `#A8A9AC` for sterling silver) combined with `metalness: 0.90–0.96` and `roughness: 0.14–0.18`.
+- Metal color calibration: For jewelry metals in Three.js standard material, use reference-sampled diffuse albedo values (`#D2AC4C` for warm 18K yellow gold, `#A8A9AC` for sterling silver) combined with `metalness: 0.90`, `roughness: 0.18`, and `envMapIntensity: 1.2` across ALL metal components to ensure identical specular sheen and environment radiance.
 - Bead holes: Beads strung on a bracelet cord must be modeled with through-holes along the tangential cord axis (local Z). Sizing the hole diameter to ~0.40–0.60 (relative to a 0.18 cord) provides a visible annular gap/space while maintaining robust wall thickness.
 - Safari WebKit CSS Grid bug: `position: fixed` elements inside a CSS Grid are still counted during grid auto-placement unless explicit `grid-row` / `grid-column` are assigned to grid children; always explicitly anchor `#stage-container` to `grid-row: 2; grid-column: 1;`.
 - Three.js camera initialization must guard against `0` dimensions (`Math.max(container.clientWidth || 0, window.innerWidth)`) to avoid `NaN` aspect ratios before WebKit completes its initial layout pass.

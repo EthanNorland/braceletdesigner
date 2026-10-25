@@ -29,7 +29,7 @@
     --fg-muted: #8E9BAE;
     --accent-silver: #A8A9AC;
     --accent-blue: #88A4C4;
-    --accent-gold: #CCAD5C;
+    --accent-gold: #D2AC4C;
     --accent-glow: rgba(136, 164, 196, 0.4);
     --ring: #88A4C4;
     --danger: #EF4444;
@@ -1409,7 +1409,7 @@
         <div class="swatch" style="background:#1E40AF;" data-color="#1E40AF" title="Lapis Blue"></div>
         <div class="swatch" style="background:#F8FAFC;" data-color="#F8FAFC" title="Crackle Crystal White"></div>
         <div class="swatch" style="background:#A8A9AC;" data-color="#A8A9AC" title="Sterling Silver"></div>
-        <div class="swatch" style="background:#CCAD5C;" data-color="#CCAD5C" title="Gold"></div>
+        <div class="swatch" style="background:#D2AC4C;" data-color="#D2AC4C" title="Gold"></div>
         <div class="swatch" style="background:#A855F7;" data-color="#A855F7" title="Amethyst Purple"></div>
         <div class="swatch" style="background:#10B981;" data-color="#10B981" title="Emerald Green"></div>
         <div class="swatch" style="background:#EF4444;" data-color="#EF4444" title="Coral Red"></div>
@@ -1420,7 +1420,7 @@
           <span style="width:10px; height:10px; border-radius:50%; background:#A8A9AC; border:1px solid #8E9BAE; display:inline-block;"></span> Silver
         </button>
         <button type="button" class="btn" id="bead-col-gold" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;" title="Set bead color to Polished Gold">
-          <span style="width:10px; height:10px; border-radius:50%; background:#CCAD5C; border:1px solid #B89848; display:inline-block;"></span> Gold
+          <span style="width:10px; height:10px; border-radius:50%; background:#D2AC4C; border:1px solid #B89848; display:inline-block;"></span> Gold
         </button>
       </div>
     </div>
@@ -1496,7 +1496,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.2 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.3 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1613,7 +1613,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.2</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.3</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1633,7 +1633,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.2",
+      version: "1.8.3",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2000,7 +2000,7 @@
       claspColor: "gold",
       beads: [
         { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "DASH", angle: Math.PI * 0.45 },
-        { id: 2, type: "bead", shape: "star", material: "metal", color: "#CCAD5C", sizeMm: 10, angle: Math.PI * 0.35 },
+        { id: 2, type: "bead", shape: "star", material: "metal", color: "#D2AC4C", sizeMm: 10, angle: Math.PI * 0.35 },
         { id: 3, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.25 },
         { id: 4, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.15 },
         { id: 5, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.05 },
@@ -2120,9 +2120,9 @@
 
       let cordColor = "#1E293B";
       if (typeof raw.cordColor === "string" && /^#[0-9a-fA-F]{3,8}$/.test(raw.cordColor)) {
-        cordColor = raw.cordColor;
+        cordColor = (raw.cordColor.toUpperCase() === "#CCAD5C" || raw.cordColor.toUpperCase() === "#FACC15") ? "#D2AC4C" : raw.cordColor;
       } else if (cordType === "gold") {
-        cordColor = "#CCAD5C";
+        cordColor = "#D2AC4C";
       } else if (cordType === "silver") {
         cordColor = "#A8A9AC";
       } else if (cordType === "leather") {
@@ -2160,8 +2160,14 @@
         const shape = validShapes.includes(b.shape) ? b.shape : "sphere";
         const isSpacer = b.type === "spacer" || b.isSpacer === true || (shape === "rondelle" && (b.sizeMm || 6) <= 6);
         const type = isSpacer ? "spacer" : "bead";
-        const material = validMaterials.includes(b.material) ? b.material : (isSpacer ? "metal" : "stone");
-        const color = (typeof b.color === "string" && /^#[0-9a-fA-F]{3,8}$/.test(b.color)) ? b.color : "#F8FAFC";
+        let material = validMaterials.includes(b.material) ? b.material : (isSpacer ? "metal" : "stone");
+        let color = (typeof b.color === "string" && /^#[0-9a-fA-F]{3,8}$/.test(b.color)) ? b.color : "#F8FAFC";
+        if (color.toUpperCase() === "#CCAD5C" || color.toUpperCase() === "#FACC15") {
+          color = "#D2AC4C";
+        }
+        if (["#D2AC4C", "#A8A9AC"].includes(color.toUpperCase()) && (isSpacer || material === "stone" || material === "wood")) {
+          material = "metal";
+        }
         const sizeMm = (typeof b.sizeMm === "number" && !isNaN(b.sizeMm)) ? Math.max(4, Math.min(20, Math.round(b.sizeMm))) : (isSpacer ? 6 : 10);
         const angle = (typeof b.angle === "number" && !isNaN(b.angle)) ? b.angle : ((Math.PI * 0.45) - idx * 0.25);
         const text = typeof b.text === "string" ? normalizeInscription(b.text) : "";
@@ -2497,8 +2503,8 @@
       canvas.height = 512;
       const ctx = canvas.getContext("2d");
 
-      ctx.fillStyle = bgColorHex;
-      ctx.fillRect(0, 0, 512, 512);
+      // Transparent canvas allows authentic 3D PBR metal/stone/wood to shine through seamlessly
+      ctx.clearRect(0, 0, 512, 512);
 
       const rgb = hexToRgb(bgColorHex);
       const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
@@ -2508,7 +2514,7 @@
       const embossColor = isLight ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.5)";
 
       // Inner border frame (delicate jeweler's hallmark)
-      ctx.strokeStyle = isLight ? "rgba(0,0,0,0.18)" : "rgba(255,255,255,0.25)";
+      ctx.strokeStyle = isLight ? "rgba(0,0,0,0.22)" : "rgba(255,255,255,0.30)";
       ctx.lineWidth = 16;
       ctx.strokeRect(36, 36, 440, 440);
 
@@ -2568,8 +2574,9 @@
         case "metal":
           return new THREE.MeshStandardMaterial({
             color: col,
-            metalness: 0.96,
-            roughness: 0.14,
+            metalness: 0.90,
+            roughness: 0.18,
+            envMapIntensity: 1.2,
             side: THREE.DoubleSide
           });
         case "stone":
@@ -2827,10 +2834,11 @@
     function createClaspMesh(type, color) {
       const group = new THREE.Group();
       const mat = new THREE.MeshStandardMaterial({
-        color: color === "gold" ? 0xCCAD5C : 0xA8A9AC,
+        color: color === "gold" ? 0xD2AC4C : 0xA8A9AC,
         metalness: 0.90,
         roughness: 0.18,
-        envMapIntensity: 1.2
+        envMapIntensity: 1.2,
+        side: THREE.DoubleSide
       });
 
       if (type === "magnetic") {
@@ -3137,15 +3145,18 @@
 
       // 1. Rebuild Cord Ring
       if (cordMesh) braceletGroup.remove(cordMesh);
-      const cordColor = doc.cordType === "gold" ? 0xCCAD5C :
+      const cordColor = doc.cordType === "gold" ? 0xD2AC4C :
                         doc.cordType === "leather" ? 0x78350F :
                         doc.cordType === "cord" ? new THREE.Color(doc.cordColor).getHex() :
                         0xA8A9AC; // silver chain default
       const cordGeo = new THREE.TorusGeometry(radius, 0.09, 16, 120);
+      const isMetalCord = ["silver", "gold"].includes(doc.cordType);
       const cordMat = new THREE.MeshStandardMaterial({
         color: cordColor,
-        metalness: ["silver", "gold"].includes(doc.cordType) ? 0.9 : 0.1,
-        roughness: ["silver", "gold"].includes(doc.cordType) ? 0.2 : 0.7
+        metalness: isMetalCord ? 0.90 : 0.1,
+        roughness: isMetalCord ? 0.18 : 0.7,
+        envMapIntensity: isMetalCord ? 1.2 : 0.5,
+        side: THREE.DoubleSide
       });
       cordMesh = new THREE.Mesh(cordGeo, cordMat);
       cordMesh.rotation.x = Math.PI / 2;
@@ -3175,11 +3186,12 @@
             group.add(bodyMesh);
 
             const faceTex = createInscribedTexture(char, b.color);
-            const faceMat = baseMat.clone();
-            faceMat.color.setHex(0xFFFFFF);
-            faceMat.map = faceTex;
-            faceMat.needsUpdate = true;
-            faceMat.side = THREE.DoubleSide;
+            const faceMat = new THREE.MeshBasicMaterial({
+              map: faceTex,
+              transparent: true,
+              depthWrite: false,
+              side: THREE.DoubleSide
+            });
 
             const faceGeo = new THREE.PlaneGeometry(s * 0.96, s * 0.96);
             // Front face (+X radially outward toward user)
@@ -3424,7 +3436,7 @@
         document.getElementById("picker-bead-color").value = selected.color;
 
         const isSilver = ["#A8A9AC", "#E2E8F0"].includes(selected.color.toUpperCase());
-        const isGold = ["#CCAD5C", "#FACC15"].includes(selected.color.toUpperCase());
+        const isGold = ["#D2AC4C", "#CCAD5C", "#FACC15"].includes(selected.color.toUpperCase());
         document.getElementById("bead-col-silver")?.classList.toggle("active", isSilver);
         document.getElementById("bead-col-gold")?.classList.toggle("active", isGold);
       }
@@ -3483,10 +3495,10 @@
     document.getElementById("add-rondelle").addEventListener("click", () => addBead("rondelle", "stone", "#1E40AF", 8));
     document.getElementById("add-barrel").addEventListener("click", () => addBead("barrel", "wood", "#78350F", 12));
     document.getElementById("add-cube").addEventListener("click", () => addBead("cube", "stone", "#F8FAFC", 10, false, "HEART"));
-    document.getElementById("add-star").addEventListener("click", () => addBead("star", "metal", "#CCAD5C", 10));
+    document.getElementById("add-star").addEventListener("click", () => addBead("star", "metal", "#D2AC4C", 10));
 
     document.getElementById("add-spacer-silver").addEventListener("click", () => addBead("rondelle", "metal", "#A8A9AC", 6, true));
-    document.getElementById("add-spacer-gold").addEventListener("click", () => addBead("rondelle", "metal", "#CCAD5C", 6, true));
+    document.getElementById("add-spacer-gold").addEventListener("click", () => addBead("rondelle", "metal", "#D2AC4C", 6, true));
     document.getElementById("add-spacer-carved").addEventListener("click", () => addBead("barrel", "metal", "#A8A9AC", 8, true));
 
     // Clasp controls
@@ -3577,7 +3589,7 @@
           if (bead) {
             bead.color = col;
             const normCol = col.toUpperCase();
-            if (["#A8A9AC", "#E2E8F0", "#CCAD5C", "#FACC15"].includes(normCol)) {
+            if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15"].includes(normCol)) {
               bead.material = "metal";
             }
           }
@@ -3589,7 +3601,13 @@
       const col = e.target.value;
       change(d => {
         const bead = d.beads.find(b => b.id === d.selectedId);
-        if (bead) bead.color = col;
+        if (bead) {
+          bead.color = col;
+          const normCol = col.toUpperCase();
+          if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15"].includes(normCol)) {
+            bead.material = "metal";
+          }
+        }
       });
     });
 
@@ -3601,16 +3619,18 @@
           bead.material = "metal";
         }
       });
+      audioPlayAdd("metal");
     });
 
     document.getElementById("bead-col-gold")?.addEventListener("click", () => {
       change(d => {
         const bead = d.beads.find(b => b.id === d.selectedId);
         if (bead) {
-          bead.color = "#CCAD5C";
+          bead.color = "#D2AC4C";
           bead.material = "metal";
         }
       });
+      audioPlayAdd("metal");
     });
 
     // ── BRACELET BASE CONTROLS ──────────────────────────────────────────────
@@ -3703,6 +3723,7 @@
         "#38BDF8": "Cyan Glass",
         "#F8FAFC": material === "quartz" ? "Crackle Quartz" : "Alabaster White",
         "#CCAD5C": "18K Yellow Gold",
+        "#D2AC4C": "18K Yellow Gold",
         "#A8A9AC": "Sterling Silver",
         "#FACC15": "18K Yellow Gold",
         "#FDE047": "Bright Gold",
@@ -3745,7 +3766,7 @@
         qty: 1,
         size: `${doc.wristMm}mm`,
         material: doc.cordType,
-        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#CCAD5C" : "#A8A9AC") : doc.cordColor
+        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#D2AC4C" : "#A8A9AC") : doc.cordColor
       });
 
       // 2. Clasp
@@ -3763,7 +3784,7 @@
         qty: 1,
         size: "Standard",
         material: doc.claspType,
-        color: doc.claspColor === "gold" ? "#CCAD5C" : "#A8A9AC"
+        color: doc.claspColor === "gold" ? "#D2AC4C" : "#A8A9AC"
       });
 
       // 3. Beads & Spacers
@@ -4053,7 +4074,7 @@
         id: "gold",
         name: "Minimalist 18K Heirloom",
         tag: "Quiet Luxury",
-        tagColor: "#CCAD5C",
+        tagColor: "#D2AC4C",
         desc: "Warm, understated luxury featuring polished gold spheres, faceted crystals, and a celestial star focal.",
         wristMm: 165,
         cordType: "gold",
@@ -4061,13 +4082,13 @@
         claspType: "magnetic",
         claspColor: "gold",
         beads: [
-          { shape: "sphere", material: "metal", color: "#CCAD5C", sizeMm: 8 },
+          { shape: "sphere", material: "metal", color: "#D2AC4C", sizeMm: 8 },
           { shape: "faceted", material: "metal", color: "#D4B565", sizeMm: 10 },
-          { shape: "rondelle", material: "metal", color: "#CCAD5C", sizeMm: 6, type: "spacer" },
-          { shape: "star", material: "metal", color: "#CCAD5C", sizeMm: 10 },
-          { shape: "rondelle", material: "metal", color: "#CCAD5C", sizeMm: 6, type: "spacer" },
+          { shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, type: "spacer" },
+          { shape: "star", material: "metal", color: "#D2AC4C", sizeMm: 10 },
+          { shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, type: "spacer" },
           { shape: "faceted", material: "metal", color: "#D4B565", sizeMm: 10 },
-          { shape: "sphere", material: "metal", color: "#CCAD5C", sizeMm: 8 },
+          { shape: "sphere", material: "metal", color: "#D2AC4C", sizeMm: 8 },
           { shape: "barrel", material: "metal", color: "#C8A959", sizeMm: 10 }
         ]
       },
@@ -4085,11 +4106,11 @@
         beads: [
           { shape: "sphere", material: "stone", color: "#0D9488", sizeMm: 10 },
           { shape: "sphere", material: "stone", color: "#D97706", sizeMm: 10 },
-          { shape: "rondelle", material: "metal", color: "#CCAD5C", sizeMm: 6, type: "spacer" },
+          { shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, type: "spacer" },
           { shape: "faceted", material: "wood", color: "#92400E", sizeMm: 10 },
           { shape: "barrel", material: "wood", color: "#78350F", sizeMm: 12 },
           { shape: "faceted", material: "wood", color: "#92400E", sizeMm: 10 },
-          { shape: "rondelle", material: "metal", color: "#CCAD5C", sizeMm: 6, type: "spacer" },
+          { shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, type: "spacer" },
           { shape: "sphere", material: "stone", color: "#D97706", sizeMm: 10 },
           { shape: "sphere", material: "stone", color: "#0D9488", sizeMm: 10 }
         ]
@@ -4134,12 +4155,12 @@
         claspColor: "gold",
         beads: [
           { shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10 },
-          { shape: "star", material: "metal", color: "#CCAD5C", sizeMm: 10 },
+          { shape: "star", material: "metal", color: "#D2AC4C", sizeMm: 10 },
           { shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "L" },
           { shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "O" },
           { shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "V" },
           { shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "E" },
-          { shape: "star", material: "metal", color: "#CCAD5C", sizeMm: 10 },
+          { shape: "star", material: "metal", color: "#D2AC4C", sizeMm: 10 },
           { shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10 }
         ]
       },
