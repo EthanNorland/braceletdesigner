@@ -4,6 +4,13 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.24] - 2026-10-25
+
+### Changed - Credit Link Update for Beadmod
+- **Beadmod Inspiration Card ([`index.html#L1746`](file:///Users/ethannorland/hello-world/index.html#L1746)):**
+  - Updated credit card from Beachmod to **Beadmod** ([`beadmod.com`](https://beadmod.com)) with updated description: *"Online bead bracelet designer, color patterns, and modular bead layout tool."*
+- **PWA Bump:** Bumped service worker cache version to `1.8.24`.
+
 ## [1.8.23] - 2026-10-25
 
 ### Added - Curated Community & Inspiration Credits in About Dialog
