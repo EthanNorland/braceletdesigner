@@ -844,6 +844,7 @@
     opacity: 0;
     transition: opacity 0.2s ease;
     pointer-events: none;
+    z-index: 10;
   }
   .demo-video-play-overlay.visible {
     opacity: 1;
@@ -1900,7 +1901,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.1 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.2 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2020,7 +2021,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.1</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.2</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2187,7 +2188,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.1",
+      version: "1.9.2",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2455,6 +2456,24 @@
         g.connect(ctx.destination);
         osc.start(now);
         osc.stop(now + 0.018);
+      });
+    }
+
+    function audioPlayTick() {
+      playWithContext(ctx => {
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(1600, now);
+        osc.frequency.exponentialRampToValueAtTime(1100, now + 0.012);
+        g.gain.setValueAtTime(0.001, now);
+        g.gain.linearRampToValueAtTime(0.04, now + 0.001);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 0.015);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.020);
       });
     }
 
@@ -6255,6 +6274,27 @@
     }
 
     // ── ANIMATED CANVAS VIDEO RENDERER ──────────────────────────────────────
+    function drawRoundRect(ctx, x, y, w, h, radii = 4) {
+      if (typeof ctx.roundRect === "function") {
+        ctx.roundRect(x, y, w, h, radii);
+      } else {
+        const r = Math.min(Math.max(0, typeof radii === "number" ? radii : (Array.isArray(radii) ? (radii[0] || 0) : 0)), Math.abs(w) / 2, Math.abs(h) / 2);
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+    }
+
+    if (typeof CanvasRenderingContext2D !== "undefined" && !CanvasRenderingContext2D.prototype.roundRect) {
+      CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, radii) {
+        drawRoundRect(this, x, y, w, h, radii);
+        return this;
+      };
+    }
+
     function drawDemoVideoFrame() {
       if (!vidCtx || !vidCanvas) return;
       const w = vidCanvas.width;
@@ -6309,7 +6349,7 @@
         vidCtx.fillStyle = isTargetHeaderBtn ? "rgba(136, 164, 196, 0.35)" : "rgba(255, 255, 255, 0.06)";
         vidCtx.strokeStyle = isTargetHeaderBtn ? "#88A4C4" : "rgba(255, 255, 255, 0.12)";
         vidCtx.beginPath();
-        vidCtx.roundRect(hx, 6, tw, 20, 4);
+        drawRoundRect(vidCtx, hx, 6, tw, 20, 4);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = isTargetHeaderBtn ? "#FFF" : "#8E9BAE";
@@ -6334,7 +6374,7 @@
         vidCtx.fillStyle = isHovered ? "rgba(136, 164, 196, 0.25)" : "rgba(255, 255, 255, 0.04)";
         vidCtx.strokeStyle = isHovered ? "#88A4C4" : "rgba(255, 255, 255, 0.08)";
         vidCtx.beginPath();
-        vidCtx.roundRect(10, sy, 115, 20, 4);
+        drawRoundRect(vidCtx, 10, sy, 115, 20, 4);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = isHovered ? "#FFF" : "#CBD5E1";
@@ -6368,7 +6408,7 @@
         vidCtx.fillStyle = isSel ? "rgba(136, 164, 196, 0.3)" : "rgba(255, 255, 255, 0.04)";
         vidCtx.strokeStyle = isSel ? "#88A4C4" : "rgba(255, 255, 255, 0.08)";
         vidCtx.beginPath();
-        vidCtx.roundRect(mx, my, 58, 18, 4);
+        drawRoundRect(vidCtx, mx, my, 58, 18, 4);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = isSel ? "#FFF" : "#8E9BAE";
@@ -6399,7 +6439,7 @@
         vidCtx.fillStyle = "rgba(136, 164, 196, 0.12)";
         vidCtx.strokeStyle = "#88A4C4";
         vidCtx.beginPath();
-        vidCtx.roundRect(w - 135, 175, 125, 60, 6);
+        drawRoundRect(vidCtx, w - 135, 175, 125, 60, 6);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = "#EDF2F7";
@@ -6471,7 +6511,7 @@
         vidCtx.fillStyle = "rgba(11, 14, 20, 0.85)";
         vidCtx.strokeStyle = "rgba(136, 164, 196, 0.3)";
         vidCtx.beginPath();
-        vidCtx.roundRect(stageCenterX - 110, 45, 220, 26, 6);
+        drawRoundRect(vidCtx, stageCenterX - 110, 45, 220, 26, 6);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = "#EDF2F7";
@@ -6482,7 +6522,7 @@
         vidCtx.fillStyle = "rgba(11, 14, 20, 0.95)";
         vidCtx.strokeStyle = "rgba(136, 164, 196, 0.5)";
         vidCtx.beginPath();
-        vidCtx.roundRect(stageCenterX - 140, 50, 280, 230, 10);
+        drawRoundRect(vidCtx, stageCenterX - 140, 50, 280, 230, 10);
         vidCtx.fill();
         vidCtx.stroke();
 
@@ -6511,7 +6551,7 @@
         vidCtx.fillStyle = "rgba(136, 164, 196, 0.25)";
         vidCtx.strokeStyle = "#88A4C4";
         vidCtx.beginPath();
-        vidCtx.roundRect(stageCenterX - 125, 220, 115, 24, 4);
+        drawRoundRect(vidCtx, stageCenterX - 125, 220, 115, 24, 4);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = "#FFF";
@@ -6519,7 +6559,7 @@
         vidCtx.fillText("📥 Download CSV", stageCenterX - 112, 236);
 
         vidCtx.beginPath();
-        vidCtx.roundRect(stageCenterX + 5, 220, 120, 24, 4);
+        drawRoundRect(vidCtx, stageCenterX + 5, 220, 120, 24, 4);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillText("📸 Export High-Res", stageCenterX + 15, 236);
@@ -6615,7 +6655,7 @@
         vidCtx.fillStyle = "rgba(11, 14, 20, 0.75)";
         vidCtx.strokeStyle = "rgba(136, 164, 196, 0.3)";
         vidCtx.beginPath();
-        vidCtx.roundRect(w - 260, 42, 105, 22, 4);
+        drawRoundRect(vidCtx, w - 260, 42, 105, 22, 4);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = "#10B981";
@@ -6712,7 +6752,7 @@
         if (!videoIsMuted && soundEnabled && videoLastSoundCue !== soundKey) {
           videoLastSoundCue = soundKey;
           if (chIdx === 0) audioPlaySlide();
-          else if (chIdx === 1) audioPlaySpawn();
+          else if (chIdx === 1) audioPlayAdd("gold");
           else audioPlaySelect();
         }
       }
@@ -6745,7 +6785,7 @@
       vidCtx.fillStyle = "rgba(11, 14, 20, 0.75)";
       vidCtx.strokeStyle = "rgba(136, 164, 196, 0.25)";
       vidCtx.beginPath();
-      vidCtx.roundRect(145, 38, 165, 20, 4);
+      drawRoundRect(vidCtx, 145, 38, 165, 20, 4);
       vidCtx.fill();
       vidCtx.stroke();
       vidCtx.fillStyle = "#88A4C4";
@@ -6755,22 +6795,38 @@
 
     // ── VIDEO PLAYBACK CONTROLLER ───────────────────────────────────────────
     function videoTick(timestamp) {
-      if (!videoLastTimestamp) videoLastTimestamp = timestamp;
-      const dt = (timestamp - videoLastTimestamp) / 1000.0;
-      videoLastTimestamp = timestamp;
+      const dlg = document.getElementById("dlg-demo");
+      if (!dlg || !dlg.open) {
+        videoRafId = null;
+        return;
+      }
+
+      const now = (typeof timestamp === "number" && !isNaN(timestamp)) ? timestamp : performance.now();
+      if (!videoLastTimestamp) videoLastTimestamp = now;
+      const dt = Math.min(Math.max(0, (now - videoLastTimestamp) / 1000.0), 0.1);
+      videoLastTimestamp = now;
 
       if (videoIsPlaying) {
+        if (isNaN(videoCurrentTime)) videoCurrentTime = 0;
         videoCurrentTime += dt;
         if (videoCurrentTime >= DEMO_VIDEO_TOTAL_DURATION) {
-          videoCurrentTime = 0; // Loop or hold
+          videoCurrentTime = 0; // Loop seamlessly
         }
       }
 
-      drawDemoVideoFrame();
-      updateVideoControlsUI();
+      try {
+        drawDemoVideoFrame();
+      } catch (err) {
+        console.warn("Demo video frame render error:", err);
+      }
 
-      const dlg = document.getElementById("dlg-demo");
-      if (dlg && dlg.open) {
+      try {
+        updateVideoControlsUI();
+      } catch (err) {
+        console.warn("Demo video UI update error:", err);
+      }
+
+      if (videoIsPlaying && dlg.open) {
         videoRafId = requestAnimationFrame(videoTick);
       } else {
         videoRafId = null;
@@ -6778,26 +6834,37 @@
     }
 
     function playVideo() {
+      if (isNaN(videoCurrentTime) || videoCurrentTime >= DEMO_VIDEO_TOTAL_DURATION - 0.05) {
+        videoCurrentTime = 0;
+      }
       videoIsPlaying = true;
       videoLastTimestamp = performance.now();
       updateVideoControlsUI();
-      if (!videoRafId) {
-        videoRafId = requestAnimationFrame(videoTick);
+      if (videoRafId) {
+        cancelAnimationFrame(videoRafId);
+        videoRafId = null;
       }
+      videoRafId = requestAnimationFrame(videoTick);
     }
 
     function pauseVideo() {
       videoIsPlaying = false;
+      if (videoRafId) {
+        cancelAnimationFrame(videoRafId);
+        videoRafId = null;
+      }
+      videoLastTimestamp = null;
       updateVideoControlsUI();
     }
 
-    function toggleVideoPlay() {
+    function toggleVideoPlay(e) {
+      if (e && e.stopPropagation) e.stopPropagation();
       if (videoIsPlaying) pauseVideo();
       else playVideo();
     }
 
     function seekVideo(targetSec) {
-      videoCurrentTime = Math.max(0, Math.min(targetSec, DEMO_VIDEO_TOTAL_DURATION));
+      videoCurrentTime = Math.max(0, Math.min(isNaN(targetSec) ? 0 : targetSec, DEMO_VIDEO_TOTAL_DURATION));
       drawDemoVideoFrame();
       updateVideoControlsUI();
     }
@@ -6813,7 +6880,7 @@
 
       renderChaptersBar();
       const ch = DEMO_VIDEO_CHAPTERS[startChapterIdx] || DEMO_VIDEO_CHAPTERS[0];
-      seekVideo(ch.timeStart);
+      videoCurrentTime = ch.timeStart;
 
       const chk = document.getElementById("chk-demo-skip-startup");
       if (chk) {
@@ -6825,6 +6892,7 @@
         audioPlaySelect();
       }
 
+      drawDemoVideoFrame();
       playVideo();
     }
 
@@ -6869,8 +6937,18 @@
     document.getElementById("btn-demo")?.addEventListener("click", () => openDemo(0));
     document.getElementById("btn-demo-close")?.addEventListener("click", closeDemo);
     document.getElementById("btn-demo-start")?.addEventListener("click", closeDemo);
-    document.getElementById("btn-vid-play")?.addEventListener("click", toggleVideoPlay);
-    document.getElementById("demo-video-screen")?.addEventListener("click", toggleVideoPlay);
+    document.getElementById("btn-vid-play")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleVideoPlay(e);
+    });
+    document.getElementById("demo-video-overlay-play")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      playVideo();
+    });
+    document.getElementById("demo-video-screen")?.addEventListener("click", (e) => {
+      if (e.target.closest("#demo-video-caption") || e.target.closest(".demo-video-controls")) return;
+      toggleVideoPlay(e);
+    });
     document.getElementById("btn-vid-restart")?.addEventListener("click", restartVideo);
 
     const soundBtn = document.getElementById("btn-vid-sound");

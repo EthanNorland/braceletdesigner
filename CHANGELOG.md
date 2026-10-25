@@ -4,6 +4,22 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.2] - 2026-10-25
+
+### Fixed - Demo Video Playback Controller & Cross-Browser Canvas Polyfill
+- **Reliable Play/Pause Lifecycle ([`index.html#L6810`](file:///Users/ethannorland/hello-world/index.html#L6810)):**
+  - Resolved issue where clicking the play button failed to initiate playback.
+  - Implemented clean `requestAnimationFrame` lifecycle: `playVideo()` explicitly clears any dangling `videoRafId` before scheduling a fresh render loop, and `pauseVideo()` cancels the frame subscription to prevent zombie ticks.
+  - Fixed `toggleVideoPlay` propagation so clicks on the center play overlay circle (`.demo-play-circle`), video screen, and toolbar control button (`#btn-vid-play`) cleanly trigger playback.
+- **Cross-Browser Canvas `roundRect` Polyfill & Helper ([`index.html#L6277`](file:///Users/ethannorland/hello-world/index.html#L6277)):**
+  - Added safe `drawRoundRect` helper function with bezier arc fallbacks and polyfilled `CanvasRenderingContext2D.prototype.roundRect`, completely eliminating `TypeError: vidCtx.roundRect is not a function` on Safari and older browser engines.
+  - Replaced all 10 direct `vidCtx.roundRect` invocations with `drawRoundRect(vidCtx, ...)`.
+- **Missing Audio Handlers & Error Boundary:**
+  - Added missing `audioPlayTick()` synthesized acoustic click in Web Audio engine for modal dismissal.
+  - Replaced undefined `audioPlaySpawn()` in Chapter 1 with `audioPlayAdd("gold")`.
+  - Added robust `try...catch` blocks inside `videoTick` so transient render errors never permanently stop playback.
+- **PWA Bump:** Bumped service worker cache version to `1.9.2`.
+
 ## [1.9.1] - 2026-10-25
 
 ### Added - Animated Feature Walkthrough Video Engine
