@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.11] - 2026-10-25
+
+### Added - Reference-Calibrated Hammered Glass Texture Matching Desktop Reference `glasstexture.png`
+- **Procedural Hammered Glass Surface Synthesis ([`getHammeredGlassTextures()`](file:///Users/ethannorland/hello-world/index.html#L2550)):**
+  - Synthesized a seamless 512x512 procedural hammered / rippled water glass texture directly matching the visual surface properties of `reference/glasstexture.png`.
+  - Built an organic 30x30 Voronoi/Worley cellular height field with smooth cosine-squared dome facets ($h_{\text{cell}} = \cos^2(d_1 / R \times \pi / 2)$), continuous depression valleys, and fluid Hermite spline domain warping simulating molten blown glass.
+  - Derived a high-resolution tangent-space normal map via Sobel gradient filtering ($dX, dY, dZ$) with isotropic 2:1 equator-to-meridian repeat wrapping (`repeat.set(2, 1)`), generating hundreds of sparkling specular glints across all 3D bead shapes (Sphere, Faceted, Rondelle, Barrel, Cube, Star).
+- **Physical Glass PBR Shading ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L2685)):**
+  - Integrated `normalMap: textures.normalMap` (`normalScale: [0.95, 0.95]`) and `bumpMap: textures.bumpMap` (`bumpScale: 0.024`) with physical transmission (`transmission: 0.86`), optical refraction (`ior: 1.52`, `thickness: 2.5`), smooth surface glaze (`clearcoat: 0.45`, `clearcoatRoughness: 0.08`), and studio environment radiance (`envMapIntensity: 1.35`).
+  - Tuned silver/white swatch selection (`#E2E8F0` / `#F8FAFC`) to match the clear crystalline ice glass aesthetic of `glasstexture.png`, while allowing all palette colors to inherit the hammered ripple finish.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.11`.
+
 ## [1.8.10] - 2026-10-25
 
 ### Changed - Deep Dark Brown Leather Tone Recalibration

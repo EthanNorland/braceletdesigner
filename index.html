@@ -1497,7 +1497,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.10 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.11 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1614,7 +1614,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.10</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.11</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1634,7 +1634,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.10",
+      version: "1.8.11",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2546,6 +2546,159 @@
       return texture;
     }
 
+    // ── PROCEDURAL HAMMERED GLASS TEXTURE GENERATOR (MATCHING REFERENCE/GLASSTEXTURE.PNG) ──
+    let glassTextureCache = null;
+
+    function getHammeredGlassTextures() {
+      if (glassTextureCache) return glassTextureCache;
+
+      const w = 512, h = 512;
+      const grid = 30; // 30x30 organic cellular ripples matching reference/glasstexture.png
+      const points = [];
+
+      let seed = 49271;
+      function rand() {
+        seed = (seed * 16807 + 0) % 2147483647;
+        return (seed - 1) / 2147483646;
+      }
+
+      for (let gy = 0; gy < grid; gy++) {
+        for (let gx = 0; gx < grid; gx++) {
+          const jx = (gx + 0.15 + rand() * 0.70) / grid;
+          const jy = (gy + 0.15 + rand() * 0.70) / grid;
+          points.push({ x: jx, y: jy });
+        }
+      }
+
+      const tabSize = 256;
+      const perm = new Float32Array(tabSize);
+      for (let i = 0; i < tabSize; i++) perm[i] = rand();
+
+      function sampleNoise(u, v, rep) {
+        let x = (u * rep) % rep; if (x < 0) x += rep;
+        let y = (v * rep) % rep; if (y < 0) y += rep;
+        const x0 = Math.floor(x), y0 = Math.floor(y);
+        const x1 = (x0 + 1) % rep, y1 = (y0 + 1) % rep;
+        const tx = x - x0, ty = y - y0;
+        const sx = tx * tx * (3.0 - 2.0 * tx);
+        const sy = ty * ty * (3.0 - 2.0 * ty);
+        const n00 = perm[(y0 * 37 + x0) % tabSize];
+        const n10 = perm[(y0 * 37 + x1) % tabSize];
+        const n01 = perm[(y1 * 37 + x0) % tabSize];
+        const n11 = perm[(y1 * 37 + x1) % tabSize];
+        return n00 + sx * (n10 - n00) + sy * (n01 - n00) + sx * sy * (n00 - n10 - n01 + n11);
+      }
+
+      const heightMap = new Float32Array(w * h);
+      const maxR = 1.35 / grid;
+
+      for (let y = 0; y < h; y++) {
+        const v0 = y / h;
+        for (let x = 0; x < w; x++) {
+          const u0 = x / w;
+
+          // Gentle fluid domain warp (simulates molten blown glass)
+          const warpU = (sampleNoise(u0, v0, 5) - 0.5) * 0.032;
+          const warpV = (sampleNoise(u0 + 0.43, v0 + 0.67, 5) - 0.5) * 0.032;
+          const u = (u0 + warpU + 1.0) % 1.0;
+          const v = (v0 + warpV + 1.0) % 1.0;
+
+          const cgx = Math.floor(u * grid);
+          const cgy = Math.floor(v * grid);
+
+          let d1 = 1e9, d2 = 1e9;
+          for (let dy = -1; dy <= 1; dy++) {
+            const ngy = (cgy + dy + grid) % grid;
+            for (let dx = -1; dx <= 1; dx++) {
+              const ngx = (cgx + dx + grid) % grid;
+              const p = points[ngy * grid + ngx];
+              let pdx = Math.abs(u - p.x); if (pdx > 0.5) pdx = 1.0 - pdx;
+              let pdy = Math.abs(v - p.y); if (pdy > 0.5) pdy = 1.0 - pdy;
+              const dist = Math.sqrt(pdx * pdx + pdy * pdy);
+              if (dist < d1) { d2 = d1; d1 = dist; }
+              else if (dist < d2) { d2 = dist; }
+            }
+          }
+
+          // Smooth rounded convex dome facet (cosine-squared)
+          const normD = Math.min(1.0, d1 / maxR);
+          let hCell = Math.cos(normD * Math.PI * 0.5);
+          hCell = hCell * hCell;
+
+          // High frequency micro-ripple texture
+          const micro = (sampleNoise(u, v, 40) - 0.5) * 0.07;
+          heightMap[y * w + x] = Math.max(0.0, Math.min(1.0, hCell * 0.82 + (d2 - d1) * grid * 0.18 + micro));
+        }
+      }
+
+      // Bump map canvas
+      const bumpCanvas = document.createElement("canvas");
+      bumpCanvas.width = w; bumpCanvas.height = h;
+      const bumpCtx = bumpCanvas.getContext("2d");
+      const bumpImg = bumpCtx.createImageData(w, h);
+
+      // Tangent-space normal map canvas
+      const normalCanvas = document.createElement("canvas");
+      normalCanvas.width = w; normalCanvas.height = h;
+      const normalCtx = normalCanvas.getContext("2d");
+      const normalImg = normalCtx.createImageData(w, h);
+
+      const bumpStrength = 4.8;
+      for (let y = 0; y < h; y++) {
+        const ym = (y - 1 + h) % h, yp = (y + 1) % h;
+        for (let x = 0; x < w; x++) {
+          const xm = (x - 1 + w) % w, xp = (x + 1) % w;
+          const idx = (y * w + x) * 4;
+
+          const hVal = heightMap[y * w + x];
+          const bByte = Math.round(hVal * 255);
+          bumpImg.data[idx] = bByte;
+          bumpImg.data[idx + 1] = bByte;
+          bumpImg.data[idx + 2] = bByte;
+          bumpImg.data[idx + 3] = 255;
+
+          // Sobel gradient for smooth, exact tangent normals
+          const tl = heightMap[ym * w + xm], tc = heightMap[ym * w + x], tr = heightMap[ym * w + xp];
+          const ml = heightMap[y * w + xm],                             mr = heightMap[y * w + xp];
+          const bl = heightMap[yp * w + xm], bc = heightMap[yp * w + x], br = heightMap[yp * w + xp];
+
+          const dX = ((tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl)) * bumpStrength;
+          const dY = ((bl + 2.0 * bc + br) - (tl + 2.0 * tc + tr)) * bumpStrength;
+          const dZ = 1.0;
+
+          const invLen = 1.0 / Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+          const nx = -dX * invLen;
+          const ny = -dY * invLen;
+          const nz = dZ * invLen;
+
+          normalImg.data[idx]     = Math.round((nx * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 1] = Math.round((ny * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 2] = Math.round((nz * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 3] = 255;
+        }
+      }
+
+      bumpCtx.putImageData(bumpImg, 0, 0);
+      normalCtx.putImageData(normalImg, 0, 0);
+
+      const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.RepeatWrapping;
+      bumpMap.repeat.set(2, 1);
+      bumpMap.anisotropy = 8;
+      bumpMap.needsUpdate = true;
+
+      const normalMap = new THREE.CanvasTexture(normalCanvas);
+      normalMap.wrapS = THREE.RepeatWrapping;
+      normalMap.wrapT = THREE.RepeatWrapping;
+      normalMap.repeat.set(2, 1);
+      normalMap.anisotropy = 8;
+      normalMap.needsUpdate = true;
+
+      glassTextureCache = { bumpMap, normalMap };
+      return glassTextureCache;
+    }
+
     // ── MATERIAL GENERATORS ─────────────────────────────────────────────────
     function getPBRMaterial(type, colorHex) {
       const col = new THREE.Color(colorHex);
@@ -2554,17 +2707,29 @@
       const isSilver = ["#A8A9AC", "#E2E8F0", "#C0C7D0", "#CBD5E1", "#94A3B8"].includes(hexUpper);
 
       switch(type) {
-        case "glass":
+        case "glass": {
+          const glassCol = isSilver ? new THREE.Color(0xE2E8F0) : (isGold ? new THREE.Color(0xDEC580) : col);
+          const textures = getHammeredGlassTextures();
           return new THREE.MeshPhysicalMaterial({
-            color: col,
-            metalness: 0.05,
-            roughness: 0.06,
-            transmission: 0.88,
-            thickness: 2.2,
+            color: glassCol,
+            metalness: 0.02,
+            roughness: 0.11,
+            transmission: 0.86,
+            thickness: 2.5,
+            ior: 1.52,
+            specularIntensity: 1.0,
+            clearcoat: 0.45,
+            clearcoatRoughness: 0.08,
+            normalMap: textures.normalMap,
+            normalScale: new THREE.Vector2(0.95, 0.95),
+            bumpMap: textures.bumpMap,
+            bumpScale: 0.024,
+            envMapIntensity: 1.35,
             transparent: true,
-            opacity: 0.96,
+            opacity: 0.97,
             side: THREE.DoubleSide
           });
+        }
         case "quartz":
           return new THREE.MeshPhysicalMaterial({
             color: col,
