@@ -1410,6 +1410,7 @@
         <div class="swatch" style="background:#F8FAFC;" data-color="#F8FAFC" title="Crackle Crystal White"></div>
         <div class="swatch" style="background:#A8A9AC;" data-color="#A8A9AC" title="Sterling Silver"></div>
         <div class="swatch" style="background:#D2AC4C;" data-color="#D2AC4C" title="Gold"></div>
+        <div class="swatch" style="background:#4B4E54;" data-color="#4B4E54" title="Gunmetal / Antiqued Steel (Metal)"></div>
         <div class="swatch" style="background:#373A40;" data-color="#373A40" title="Basalt Charcoal Slate (Stone)"></div>
         <div class="swatch" style="background:#A855F7;" data-color="#A855F7" title="Amethyst Purple"></div>
         <div class="swatch" style="background:#10B981;" data-color="#10B981" title="Emerald Green"></div>
@@ -1498,7 +1499,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.14 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.15 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1615,7 +1616,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.14</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.15</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1635,7 +1636,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.14",
+      version: "1.8.15",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3078,13 +3079,124 @@
       return stoneTextureCache;
     }
 
-    // ── PROCEDURAL BRUSHED SATIN METAL TEXTURE GENERATOR (MATCHING REFERENCE/METALTEXTURE.PNG) ──
+    // ── PROCEDURAL TUMBLE-POLISHED METAL WITH MICRO-SCRATCHES & PATINA (MATCHING REFERENCE/METALTEXTURE2.PNG) ──
     let metalTextureCache = null;
 
     function getMetalTextures() {
       if (metalTextureCache) return metalTextureCache;
 
       const w = 512, h = 512;
+      let seed = 49201;
+      function rand() {
+        seed = (seed * 16807 + 0) % 2147483647;
+        return (seed - 1) / 2147483646;
+      }
+
+      const tabSize = 256;
+      const perm = new Float32Array(tabSize);
+      for (let i = 0; i < tabSize; i++) perm[i] = rand();
+
+      function sampleNoise(u, v, rep) {
+        let x = (u * rep) % rep; if (x < 0) x += rep;
+        let y = (v * rep) % rep; if (y < 0) y += rep;
+        const x0 = Math.floor(x), y0 = Math.floor(y);
+        const x1 = (x0 + 1) % rep, y1 = (y0 + 1) % rep;
+        const tx = x - x0, ty = y - y0;
+        const sx = tx * tx * (3.0 - 2.0 * tx), sy = ty * ty * (3.0 - 2.0 * ty);
+        const n00 = perm[(y0 * 37 + x0) % tabSize], n10 = perm[(y0 * 37 + x1) % tabSize];
+        const n01 = perm[(y1 * 37 + x0) % tabSize], n11 = perm[(y1 * 37 + x1) % tabSize];
+        return n00 + sx * (n10 - n00) + sy * (n01 - n00) + sx * sy * (n00 - n10 - n01 + n11);
+      }
+
+      // 140 multi-directional organic micro-scratches matching reference/metaltexture2.png
+      const numScratches = 140;
+      const scratches = [];
+      for (let i = 0; i < numScratches; i++) {
+        const x0 = rand();
+        const y0 = rand();
+        const angle = rand() * Math.PI;
+        const len = 0.04 + rand() * 0.12;
+        const dx = Math.cos(angle) * len;
+        const dy = Math.sin(angle) * len;
+        const depth = 0.45 + rand() * 0.55;
+        scratches.push({ x0, y0, dx, dy, lenSq: dx * dx + dy * dy, depth });
+      }
+
+      // Spatial acceleration grid for seamless toroidal scratch lookup
+      const gridDim = 16;
+      const grid = Array.from({ length: gridDim * gridDim }, () => []);
+      for (const sc of scratches) {
+        const minX = Math.min(sc.x0, sc.x0 + sc.dx) - 0.02;
+        const maxX = Math.max(sc.x0, sc.x0 + sc.dx) + 0.02;
+        const minY = Math.min(sc.y0, sc.y0 + sc.dy) - 0.02;
+        const maxY = Math.max(sc.y0, sc.y0 + sc.dy) + 0.02;
+        const gx0 = Math.floor(minX * gridDim), gx1 = Math.floor(maxX * gridDim);
+        const gy0 = Math.floor(minY * gridDim), gy1 = Math.floor(maxY * gridDim);
+        for (let gy = gy0; gy <= gy1; gy++) {
+          const wrapGy = ((gy % gridDim) + gridDim) % gridDim;
+          for (let gx = gx0; gx <= gx1; gx++) {
+            const wrapGx = ((gx % gridDim) + gridDim) % gridDim;
+            grid[wrapGy * gridDim + wrapGx].push(sc);
+          }
+        }
+      }
+
+      const heightMap = new Float32Array(w * h);
+      const roughnessMap = new Float32Array(w * h);
+
+      for (let y = 0; y < h; y++) {
+        const v = y / h;
+        const gy = Math.floor(v * gridDim);
+        for (let x = 0; x < w; x++) {
+          const u = x / w;
+          const gx = Math.floor(u * gridDim);
+
+          // Cloudy micro-patina / tarnish smudging across polished metal surface
+          const patina1 = sampleNoise(u, v, 4);
+          const patina2 = sampleNoise(u, v, 10) * 0.5;
+          const patina = (patina1 + patina2) / 1.5;
+
+          // Multi-directional micro-scratch distance computation with wrap
+          let scratchStrength = 0;
+          const cellScratches = grid[gy * gridDim + gx];
+          for (let i = 0; i < cellScratches.length; i++) {
+            const sc = cellScratches[i];
+            let px = u - sc.x0; if (px > 0.5) px -= 1.0; else if (px < -0.5) px += 1.0;
+            let py = v - sc.y0; if (py > 0.5) py -= 1.0; else if (py < -0.5) py += 1.0;
+
+            const t = Math.max(0.0, Math.min(1.0, (px * sc.dx + py * sc.dy) / sc.lenSq));
+            const closeX = sc.dx * t, closeY = sc.dy * t;
+            const ddx = px - closeX, ddy = py - closeY;
+            const dist = Math.sqrt(ddx * ddx + ddy * ddy);
+            if (dist < 0.0035) {
+              const str = (1.0 - dist / 0.0035) * sc.depth;
+              if (str > scratchStrength) scratchStrength = str;
+            }
+          }
+
+          // High-frequency micro-abrasion grain
+          const fineGrain = (sampleNoise(u, v, 64) + sampleNoise(u, v, 128) * 0.5) / 1.5;
+
+          // Composite height map: recessed hairline scratches with micro-grain
+          const hVal = 0.5 - scratchStrength * 0.45 + (fineGrain - 0.5) * 0.08;
+          heightMap[y * w + x] = Math.max(0.0, Math.min(1.0, hVal));
+
+          // Roughness map: high-gloss base (0.16) + patina smudging (±0.05) + scratch light scatter (+0.14)
+          const rVal = 0.16 + (patina - 0.5) * 0.10 + scratchStrength * 0.14;
+          roughnessMap[y * w + x] = Math.max(0.05, Math.min(0.8, rVal));
+        }
+      }
+
+      const colorCanvas = document.createElement("canvas");
+      colorCanvas.width = w; colorCanvas.height = h;
+      const colorCtx = colorCanvas.getContext("2d");
+      const colorImg = colorCtx.createImageData(w, h);
+
+      const roughnessCanvas = document.createElement("canvas");
+      roughnessCanvas.width = w; roughnessCanvas.height = h;
+      const roughnessCtx = roughnessCanvas.getContext("2d");
+      const roughnessImg = roughnessCtx.createImageData(w, h);
+
       const bumpCanvas = document.createElement("canvas");
       bumpCanvas.width = w; bumpCanvas.height = h;
       const bumpCtx = bumpCanvas.getContext("2d");
@@ -3095,45 +3207,7 @@
       const normalCtx = normalCanvas.getContext("2d");
       const normalImg = normalCtx.createImageData(w, h);
 
-      const heightMap = new Float32Array(w * h);
-
-      let seed = 84920;
-      function rand() {
-        seed = (seed * 16807 + 0) % 2147483647;
-        return (seed - 1) / 2147483646;
-      }
-
-      const tabSize = 256;
-      const perm = new Float32Array(tabSize);
-      for (let i = 0; i < tabSize; i++) perm[i] = rand();
-
-      function sampleNoise(u, v, repU, repV) {
-        let x = (u * repU) % repU; if (x < 0) x += repU;
-        let y = (v * repV) % repV; if (y < 0) y += repV;
-        const x0 = Math.floor(x), y0 = Math.floor(y);
-        const x1 = (x0 + 1) % repU, y1 = (y0 + 1) % repV;
-        const tx = x - x0, ty = y - y0;
-        const sx = tx * tx * (3.0 - 2.0 * tx), sy = ty * ty * (3.0 - 2.0 * ty);
-        const n00 = perm[(y0 * 37 + x0) % tabSize], n10 = perm[(y0 * 37 + x1) % tabSize];
-        const n01 = perm[(y1 * 37 + x0) % tabSize], n11 = perm[(y1 * 37 + x1) % tabSize];
-        return n00 + sx * (n10 - n00) + sy * (n01 - n00) + sx * sy * (n00 - n10 - n01 + n11);
-      }
-
-      for (let y = 0; y < h; y++) {
-        const v = y / h;
-        for (let x = 0; x < w; x++) {
-          const u = x / w;
-
-          // Lathe/spun fine horizontal brushed hairline tracks
-          const brush1 = Math.sin(v * Math.PI * 192.0 + sampleNoise(u, v, 2, 4) * 2.0);
-          const brush2 = Math.sin(v * Math.PI * 384.0) * 0.5;
-          const microBrush = (sampleNoise(u * 4.0, v * 96.0, 8, 96) - 0.5) * 0.35;
-          const val = Math.max(0.0, Math.min(1.0, 0.5 + (brush1 + brush2) * 0.2 + microBrush));
-          heightMap[y * w + x] = val;
-        }
-      }
-
-      const bumpStrength = 2.8;
+      const bumpStrength = 3.6;
       for (let y = 0; y < h; y++) {
         const ym = (y - 1 + h) % h, yp = (y + 1) % h;
         for (let x = 0; x < w; x++) {
@@ -3147,6 +3221,21 @@
           bumpImg.data[idx + 2] = bByte;
           bumpImg.data[idx + 3] = 255;
 
+          const rByte = Math.round(roughnessMap[y * w + x] * 255);
+          roughnessImg.data[idx]     = rByte;
+          roughnessImg.data[idx + 1] = rByte;
+          roughnessImg.data[idx + 2] = rByte;
+          roughnessImg.data[idx + 3] = 255;
+
+          // Micro-AO in hairline cuts
+          const ao = 0.88 + 0.12 * Math.min(1.0, (hVal - 0.05) / 0.45);
+          const cByte = Math.round(255 * ao);
+          colorImg.data[idx]     = cByte;
+          colorImg.data[idx + 1] = cByte;
+          colorImg.data[idx + 2] = cByte;
+          colorImg.data[idx + 3] = 255;
+
+          // Sobel gradient normal vector
           const tl = heightMap[ym * w + xm], tc = heightMap[ym * w + x], tr = heightMap[ym * w + xp];
           const ml = heightMap[y * w + xm],                             mr = heightMap[y * w + xp];
           const bl = heightMap[yp * w + xm], bc = heightMap[yp * w + x], br = heightMap[yp * w + xp];
@@ -3163,8 +3252,24 @@
         }
       }
 
+      colorCtx.putImageData(colorImg, 0, 0);
+      roughnessCtx.putImageData(roughnessImg, 0, 0);
       bumpCtx.putImageData(bumpImg, 0, 0);
       normalCtx.putImageData(normalImg, 0, 0);
+
+      const colorMap = new THREE.CanvasTexture(colorCanvas);
+      colorMap.wrapS = THREE.RepeatWrapping;
+      colorMap.wrapT = THREE.RepeatWrapping;
+      colorMap.repeat.set(2, 1);
+      colorMap.anisotropy = 8;
+      colorMap.needsUpdate = true;
+
+      const roughnessMapTex = new THREE.CanvasTexture(roughnessCanvas);
+      roughnessMapTex.wrapS = THREE.RepeatWrapping;
+      roughnessMapTex.wrapT = THREE.RepeatWrapping;
+      roughnessMapTex.repeat.set(2, 1);
+      roughnessMapTex.anisotropy = 8;
+      roughnessMapTex.needsUpdate = true;
 
       const bumpMap = new THREE.CanvasTexture(bumpCanvas);
       bumpMap.wrapS = THREE.RepeatWrapping;
@@ -3180,7 +3285,7 @@
       normalMap.anisotropy = 8;
       normalMap.needsUpdate = true;
 
-      metalTextureCache = { bumpMap, normalMap };
+      metalTextureCache = { colorMap, roughnessMap: roughnessMapTex, bumpMap, normalMap };
       return metalTextureCache;
     }
 
@@ -3376,12 +3481,14 @@
           const textures = getMetalTextures();
           return new THREE.MeshStandardMaterial({
             color: col,
+            map: textures.colorMap,
+            roughnessMap: textures.roughnessMap,
             bumpMap: textures.bumpMap,
-            bumpScale: 0.012,
+            bumpScale: 0.015,
             normalMap: textures.normalMap,
-            normalScale: new THREE.Vector2(0.85, 0.45),
-            metalness: 0.92,
-            roughness: 0.22,
+            normalScale: new THREE.Vector2(0.95, 0.95),
+            metalness: 0.94,
+            roughness: 1.0,
             envMapIntensity: 1.35,
             side: THREE.DoubleSide
           });
@@ -4874,7 +4981,7 @@
           if (bead) {
             bead.color = col;
             const normCol = col.toUpperCase();
-            if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15"].includes(normCol)) {
+            if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15", "#4B4E54"].includes(normCol)) {
               if (bead.material !== "stone" && bead.material !== "wood") {
                 bead.material = "metal";
               }
@@ -4891,7 +4998,7 @@
         if (bead) {
           bead.color = col;
           const normCol = col.toUpperCase();
-          if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15"].includes(normCol)) {
+          if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15", "#4B4E54"].includes(normCol)) {
             if (bead.material !== "stone" && bead.material !== "wood") {
               bead.material = "metal";
             }
@@ -5036,6 +5143,8 @@
         "#EA580C": "Carnelian Agate",
         "#373A40": "Volcanic Basalt / Slate Stone",
         "#35383D": "Volcanic Basalt / Slate Stone",
+        "#4B4E54": "Gunmetal / Antiqued Steel",
+        "#44464D": "Gunmetal / Antiqued Steel",
         "#D97706": "Warm Sandstone / Amber",
         "#92400E": "Sandalwood",
         "#78350F": "Dark Sandalwood",

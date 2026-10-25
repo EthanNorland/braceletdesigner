@@ -1,5 +1,5 @@
 const APP_ID = "bracelet-designer";
-const VERSION = "1.8.14";
+const VERSION = "1.8.15";
 const CACHE = APP_ID + "-" + VERSION;
 const FILES = [
   "./",
@@ -14,6 +14,7 @@ const FILES = [
   "./reference/quartztexture.png",
   "./reference/stonetexture.png",
   "./reference/stone2.png",
+  "./reference/stonetexture3.png",
   "./reference/woodtexture.png",
   "./reference/metaltexture.png",
   "./reference/metaltexture2.png",

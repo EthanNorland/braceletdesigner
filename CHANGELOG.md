@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.15] - 2026-10-25
+
+### Added - Reference-Calibrated Tumble-Polished Metal with Micro-Scratches & Patina
+- **Polished Micro-Scratched Metal Calibration ([`getMetalTextures()`](file:///Users/ethannorland/hello-world/index.html#L3083)):**
+  - Calibrated the metal material directly against desktop reference photo `reference/metaltexture2.png`, capturing its authentic jeweler's tumble-polished surface with fine multi-directional hairline scratches and soft cloudy patina.
+  - Implemented 140 multi-directional organic micro-scratches with toroidal boundary wrapping and spatial grid acceleration ($16 \times 16$ lookup buckets).
+  - Engineered continuous 2D Hermite spline patina smudging across the surface, simulating subtle hand-worked oxidation and micro-wear.
+  - Added high-frequency micro-abrasion grain, Sobel-filtered tangent normal vectors (`bumpStrength = 3.6`, `normalScale: [0.95, 0.95]`, `bumpScale: 0.015`), and micro-AO in scratch cuts.
+- **Dynamic Roughness Mapping ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3480)):**
+  - Integrated `roughnessMap: textures.roughnessMap` into `MeshStandardMaterial` for metal beads, dynamically varying surface reflectivity from high-gloss polished facets (`0.12`) to soft micro-abrasion scuffs (`0.28`).
+  - Tuned `metalness: 0.94`, `roughness: 1.0` (modulated by roughness map), and `envMapIntensity: 1.35` for rich, authentic metal reflections under neutral studio lighting.
+- **Studio Color Palette Swatch & Auto-Switch:** Added a dedicated Gunmetal / Antiqued Steel swatch (`#4B4E54`) to `#bead-swatches` with materials spec sheet labeling and automatic metal material switching.
+- **PWA Bump:** Bumped service worker cache version to `1.8.15`.
+
 ## [1.8.14] - 2026-10-25
 
 ### Added - Reference-Calibrated Craggy Slate / Volcanic Basalt Stone Texture
