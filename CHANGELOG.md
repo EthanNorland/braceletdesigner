@@ -4,6 +4,17 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.21] - 2026-10-25
+
+### Changed - Softened Clearcoat Glaze & Dense Pigment Tuning on Light Glass and Quartz
+- **Glass Bead Glaze & Transmission Calibration ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3258)):**
+  - Reduced pure white clearcoat reflection from `0.75` to `0.35` and elevated `clearcoatRoughness` to `0.10` with `specularIntensity: 0.65` and `envMapIntensity: 0.70`, eliminating the white glare that washed out light colors into white.
+  - Dynamically scaled optical transmission with material lightness (`trans = Math.max(0.18, 0.35 - Math.max(0, hsl.l - 0.45) * 0.35)`), maintaining dense pigment in lighter tones (pastel pink, light cyan, pale yellow, mint) so they stay vividly colorful instead of bleaching into clear/white.
+- **Quartz Crystal Glaze & Pigment Density ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3282)):**
+  - Reduced clearcoat from `0.70` to `0.30` and tuned `clearcoatRoughness: 0.12`, `roughness: 0.16`, `specularIntensity: 0.60`, and `envMapIntensity: 0.65`.
+  - Dynamically scaled optical transmission (`trans = Math.max(0.12, 0.22 - Math.max(0, hsl.l - 0.45) * 0.20)`), keeping crystalline pigment rich across lighter hues while highlighting internal crackle cleavage veins.
+- **PWA Bump:** Bumped service worker cache version to `1.8.21`.
+
 ## [1.8.20] - 2026-10-25
 
 ### Changed - True-to-Selection Studio Lighting & Linear Tone Mapping Calibration

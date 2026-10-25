@@ -1500,7 +1500,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.20 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.21 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1617,7 +1617,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.20</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.21</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1637,7 +1637,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.20",
+      version: "1.8.21",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -3259,21 +3259,25 @@
         case "glass": {
           const glassCol = isSilver ? new THREE.Color(0xE2E8F0) : (isGold ? new THREE.Color(0xDEC580) : col);
           const textures = getHammeredGlassTextures();
+          const hsl = {};
+          glassCol.getHSL(hsl);
+          // Scale transmission dynamically with lightness to maintain rich pigment density on lighter colors
+          const trans = Math.max(0.18, 0.35 - Math.max(0, hsl.l - 0.45) * 0.35);
           return new THREE.MeshPhysicalMaterial({
             color: glassCol,
             metalness: 0.02,
-            roughness: 0.08,
-            transmission: 0.45,
+            roughness: 0.10,
+            transmission: trans,
             thickness: 2.0,
             ior: 1.52,
-            specularIntensity: 1.0,
-            clearcoat: 0.75,
-            clearcoatRoughness: 0.04,
+            specularIntensity: 0.65,
+            clearcoat: 0.35,
+            clearcoatRoughness: 0.10,
             normalMap: textures.normalMap,
             normalScale: new THREE.Vector2(0.85, 0.85),
             bumpMap: textures.bumpMap,
             bumpScale: 0.020,
-            envMapIntensity: 1.10,
+            envMapIntensity: 0.70,
             transparent: true,
             opacity: 0.98,
             side: THREE.DoubleSide
@@ -3282,6 +3286,10 @@
         case "quartz": {
           const quartzCol = isSilver ? new THREE.Color(0xF1F5F9) : (isGold ? new THREE.Color(0xF5E6A3) : col);
           const textures = getQuartzTextures();
+          const hsl = {};
+          quartzCol.getHSL(hsl);
+          // Scale transmission dynamically with lightness to keep crystalline pigment rich on lighter tones
+          const trans = Math.max(0.12, 0.22 - Math.max(0, hsl.l - 0.45) * 0.20);
           return new THREE.MeshPhysicalMaterial({
             color: quartzCol,
             map: textures.colorMap,
@@ -3289,15 +3297,15 @@
             normalScale: new THREE.Vector2(0.65, 0.65),
             bumpMap: textures.bumpMap,
             bumpScale: 0.016,
-            roughness: 0.14,
+            roughness: 0.16,
             metalness: 0.02,
-            transmission: 0.25,
+            transmission: trans,
             thickness: 2.0,
             ior: 1.54,
-            specularIntensity: 1.0,
-            clearcoat: 0.70,
-            clearcoatRoughness: 0.04,
-            envMapIntensity: 1.10,
+            specularIntensity: 0.60,
+            clearcoat: 0.30,
+            clearcoatRoughness: 0.12,
+            envMapIntensity: 0.65,
             transparent: true,
             opacity: 0.96,
             side: THREE.DoubleSide
