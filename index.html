@@ -641,6 +641,86 @@
     margin-top: 20px;
   }
 
+  /* About Dialog & Credits (Phase 26) */
+  #dlg-about {
+    max-height: 86vh;
+    overflow-y: auto;
+  }
+  .about-credits {
+    margin-top: 18px;
+    border-top: 1px solid var(--panel-border);
+    padding-top: 16px;
+    text-align: left;
+  }
+  .about-credits-title {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    margin: 0 0 8px 0;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .about-credits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .credit-card {
+    background: var(--bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .credit-card:hover {
+    border-color: var(--accent-blue);
+    background: var(--panel-hover);
+  }
+  .credit-card-info {
+    min-width: 0;
+  }
+  .credit-card-name {
+    font-weight: 600;
+    font-size: 0.86rem;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .credit-card-desc {
+    font-size: 0.76rem;
+    color: var(--fg-muted);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .credit-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-blue);
+    font-size: 0.76rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(136, 164, 196, 0.10);
+    border: 1px solid rgba(136, 164, 196, 0.25);
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    flex-shrink: 0;
+  }
+  .credit-card-link:hover {
+    background: rgba(136, 164, 196, 0.22);
+    border-color: var(--accent-blue);
+    color: var(--fg);
+  }
+
   /* Starter Templates Modal & Cards (Phase 6) */
   #dlg-templates {
     max-width: 860px;
@@ -1500,7 +1580,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.21 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.22 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1617,11 +1697,31 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.21</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.22</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
     </p>
+
+    <!-- Inspiration & Credits (Phase 26) -->
+    <div class="about-credits">
+      <div class="about-credits-title">
+        <span style="color:var(--accent-gold);">✨</span> Inspiration & Credits
+      </div>
+      <p style="font-size:0.80rem; color:var(--fg-muted); margin:0 0 10px 0; line-height:1.5;">
+        Special thanks to the creators, artisans, and websites who gave ideas and inspiration to this project:
+      </p>
+      <div class="about-credits-list" id="about-credits-list">
+        <div class="credit-card">
+          <div class="credit-card-info">
+            <div class="credit-card-name">Three.js Community</div>
+            <div class="credit-card-desc">WebGL 3D graphics rendering foundation and interactive shader pipeline.</div>
+          </div>
+          <a class="credit-card-link" href="https://threejs.org" target="_blank" rel="noopener noreferrer">threejs.org ↗</a>
+        </div>
+      </div>
+    </div>
+
     <div class="dialog-footer">
       <button class="btn primary" onclick="document.getElementById('dlg-about').close()">Close</button>
     </div>
@@ -1637,7 +1737,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.21",
+      version: "1.8.22",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };

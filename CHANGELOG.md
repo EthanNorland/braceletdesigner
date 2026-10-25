@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.22] - 2026-10-25
+
+### Added - Inspiration & Credits Section in About Dialog
+- **About Dialog Credits Panel ([`index.html#L1706`](file:///Users/ethannorland/hello-world/index.html#L1706)):**
+  - Added a dedicated "Inspiration & Credits" section within [`dlg-about`](file:///Users/ethannorland/hello-world/index.html#L1693) to celebrate and attribute creators, artisans, and websites that gave ideas and inspiration for Bracelet Designer.
+  - Implemented responsive, elegant credit cards with creator names, contribution descriptions, and external link buttons (`↗`) opening safely in new tabs (`target="_blank" rel="noopener noreferrer"`).
+  - Added `#dlg-about` responsive scroll handling (`max-height: 86vh; overflow-y: auto;`) to ensure all credits and about information display smoothly across mobile and desktop screens.
+- **PWA Bump:** Bumped service worker cache version to `1.8.22`.
+
 ## [1.8.21] - 2026-10-25
 
 ### Changed - Softened Clearcoat Glaze & Dense Pigment Tuning on Light Glass and Quartz
