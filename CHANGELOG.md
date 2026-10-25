@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.9] - 2026-10-24
+
+### Changed - Exact Match to Desktop Reference Swatch "leather color" (`leathercolor.png`)
+- **Master Reference Swatch Calibration ([`createLeatherTexture()`](file:///Users/ethannorland/hello-world/index.html#L3459)):**
+  - Calibrated the procedural 2D Hermite spline noise color ramp directly against the newly provided master swatch file `reference/leathercolor.png` (Display P3 `[118, 87, 63]` / `#76573F`, ColorSync sRGB `[124, 85, 59]` / `#7C553B`).
+  - Centered the main leather body precisely at `[124, 85, 59]` (`#7C553B`), matching the exact rich, warm, authentic saddle / vegetable-tanned leather brown swatch.
+  - Aligned soft weathered curvature highlights with `[148, 106, 76]` and deep rolled crevice shadows with `[96, 62, 42]`.
+- **PBR Specular & Materials Spec Integration ([`createCordBaseMesh()`](file:///Users/ethannorland/hello-world/index.html#L3558)):**
+  - Configured `roughness: 0.68`, `metalness: 0.03`, and `envMapIntensity: 0.35` for authentic satin bolo cord sheen.
+  - Updated leather swatch and materials spec sheet base dot to `#7C553B`.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.9`.
+
 ## [1.8.8] - 2026-10-24
 
 ### Changed - Exact Reference-Calibrated Vintage Brown Leather Tone
