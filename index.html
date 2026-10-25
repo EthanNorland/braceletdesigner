@@ -1500,7 +1500,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.17 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.18 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1617,7 +1617,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.17</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.18</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1637,7 +1637,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.17",
+      version: "1.8.18",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2733,74 +2733,56 @@
       const normalData = normalCtx.createImageData(w, h);
       const heightMap = new Float32Array(w * h);
 
-      // Fill ivory / cream quartz base
+      // Fill pure white crystalline foundation: preserves 100% of bead diffuse color
       for (let i = 0; i < w * h; i++) {
         const idx = i * 4;
-        const baseNoise = (Math.sin(i * 0.05) + Math.cos(i * 0.13)) * 4;
-        imgData.data[idx]     = Math.min(255, Math.max(0, Math.round(222 + baseNoise)));
-        imgData.data[idx + 1] = Math.min(255, Math.max(0, Math.round(218 + baseNoise)));
-        imgData.data[idx + 2] = Math.min(255, Math.max(0, Math.round(210 + baseNoise)));
+        imgData.data[idx]     = 255;
+        imgData.data[idx + 1] = 255;
+        imgData.data[idx + 2] = 255;
         imgData.data[idx + 3] = 255;
         heightMap[i] = 0.5;
       }
 
-      // Scatter dense crystalline flakes: dark mineral inclusions, granite grains, sparkling crystal facets
-      for (let i = 0; i < 5500; i++) {
-        const fx = Math.floor(rand() * w);
-        const fy = Math.floor(rand() * h);
-        const sz = rand() < 0.75 ? 1 : 2;
-        const shade = Math.round(55 + rand() * 45);
-        for (let dy = 0; dy < sz; dy++) {
-          const py = (fy + dy) % h;
-          for (let dx = 0; dx < sz; dx++) {
-            const px = (fx + dx) % w;
-            const pIdx = (py * w + px);
-            const idx = pIdx * 4;
-            const alpha = 0.6 + rand() * 0.35;
-            imgData.data[idx]     = Math.round(imgData.data[idx] * (1 - alpha) + shade * alpha);
-            imgData.data[idx + 1] = Math.round(imgData.data[idx + 1] * (1 - alpha) + shade * alpha);
-            imgData.data[idx + 2] = Math.round(imgData.data[idx + 2] * (1 - alpha) + (shade + 6) * alpha);
-            heightMap[pIdx] = Math.max(0.0, heightMap[pIdx] - 0.18 * alpha);
-          }
+      // Scatter fine crystalline crackle hairline veins (high-key fissures)
+      for (let v = 0; v < 45; v++) {
+        let vx = rand() * w;
+        let vy = rand() * h;
+        const vLen = 25 + rand() * 50;
+        const vAngle = rand() * Math.PI * 2;
+        const dx = Math.cos(vAngle) * 0.95;
+        const dy = Math.sin(vAngle) * 0.95;
+        const fissureShade = Math.round(222 + rand() * 22); // High-key crackle vein (222-244)
+        for (let s = 0; s < vLen; s++) {
+          vx = (vx + dx + (rand() - 0.5) * 1.2 + w) % w;
+          vy = (vy + dy + (rand() - 0.5) * 1.2 + h) % h;
+          const px = Math.floor(vx), py = Math.floor(vy);
+          const pIdx = py * w + px;
+          const idx = pIdx * 4;
+          imgData.data[idx]     = Math.min(imgData.data[idx], fissureShade);
+          imgData.data[idx + 1] = Math.min(imgData.data[idx + 1], fissureShade);
+          imgData.data[idx + 2] = Math.min(imgData.data[idx + 2], fissureShade);
+          heightMap[pIdx] = Math.max(0.08, heightMap[pIdx] - 0.22);
         }
       }
 
-      for (let i = 0; i < 5000; i++) {
-        const fx = Math.floor(rand() * w);
-        const fy = Math.floor(rand() * h);
-        const sz = rand() < 0.7 ? 1 : 2;
-        const shade = Math.round(140 + rand() * 35);
-        for (let dy = 0; dy < sz; dy++) {
-          const py = (fy + dy) % h;
-          for (let dx = 0; dx < sz; dx++) {
-            const px = (fx + dx) % w;
-            const pIdx = (py * w + px);
-            const idx = pIdx * 4;
-            const alpha = 0.5 + rand() * 0.3;
-            imgData.data[idx]     = Math.round(imgData.data[idx] * (1 - alpha) + shade * alpha);
-            imgData.data[idx + 1] = Math.round(imgData.data[idx + 1] * (1 - alpha) + shade * alpha);
-            imgData.data[idx + 2] = Math.round(imgData.data[idx + 2] * (1 - alpha) + (shade - 5) * alpha);
-            heightMap[pIdx] = Math.max(0.0, heightMap[pIdx] - 0.08 * alpha);
-          }
-        }
-      }
-
+      // Scatter dense crystalline micro-facets & sparkling internal cleavage planes
       for (let i = 0; i < 7000; i++) {
         const fx = Math.floor(rand() * w);
         const fy = Math.floor(rand() * h);
-        const sz = rand() < 0.65 ? 1 : (rand() < 0.9 ? 2 : 3);
-        const shade = Math.round(248 + rand() * 7);
+        const sz = rand() < 0.72 ? 1 : 2;
+        const isSparkle = rand() < 0.5;
+        const shade = isSparkle ? 255 : Math.round(226 + rand() * 24);
         for (let dy = 0; dy < sz; dy++) {
           const py = (fy + dy) % h;
           for (let dx = 0; dx < sz; dx++) {
             const px = (fx + dx) % w;
-            const pIdx = (py * w + px);
+            const pIdx = py * w + px;
             const idx = pIdx * 4;
-            const alpha = 0.7 + rand() * 0.3;
+            const alpha = 0.55 + rand() * 0.35;
             imgData.data[idx]     = Math.round(imgData.data[idx] * (1 - alpha) + shade * alpha);
             imgData.data[idx + 1] = Math.round(imgData.data[idx + 1] * (1 - alpha) + shade * alpha);
             imgData.data[idx + 2] = Math.round(imgData.data[idx + 2] * (1 - alpha) + shade * alpha);
-            heightMap[pIdx] = Math.min(1.0, heightMap[pIdx] + 0.22 * alpha);
+            heightMap[pIdx] = isSparkle ? Math.min(1.0, heightMap[pIdx] + 0.20 * alpha) : Math.max(0.0, heightMap[pIdx] - 0.08 * alpha);
           }
         }
       }
@@ -2867,13 +2849,26 @@
       if (typeof Image !== "undefined") {
         const refImg = new Image();
         refImg.onload = () => {
-          ctx.drawImage(refImg, 0, 0, w, h);
-          const loadedData = ctx.getImageData(0, 0, w, h);
+          const offCanvas = document.createElement("canvas");
+          offCanvas.width = w; offCanvas.height = h;
+          const offCtx = offCanvas.getContext("2d");
+          offCtx.drawImage(refImg, 0, 0, w, h);
+          const loadedData = offCtx.getImageData(0, 0, w, h);
+
+          const colorData = ctx.createImageData(w, h);
           for (let i = 0; i < w * h; i++) {
             const idx = i * 4;
             const lum = (loadedData.data[idx] * 0.299 + loadedData.data[idx + 1] * 0.587 + loadedData.data[idx + 2] * 0.114) / 255.0;
             heightMap[i] = lum;
+            // High-key crystalline contrast: preserves 85% to 100% of bead diffuse color
+            // while mapping authentic crackle fissures and sparkle facets from reference photo
+            const cByte = Math.min(255, Math.max(218, Math.round(218 + lum * 37)));
+            colorData.data[idx]     = cByte;
+            colorData.data[idx + 1] = cByte;
+            colorData.data[idx + 2] = cByte;
+            colorData.data[idx + 3] = 255;
           }
+          ctx.putImageData(colorData, 0, 0);
           computeMaps();
           colorMap.needsUpdate = true;
           bumpMap.needsUpdate = true;
@@ -3241,6 +3236,20 @@
     }
 
     // ── MATERIAL GENERATORS ─────────────────────────────────────────────────
+    function getVibrantGemColor(col) {
+      const hsl = {};
+      col.getHSL(hsl);
+      // Boost saturation for chromatic colors (preserve neutral crystal white, silver, grey)
+      if (hsl.s > 0.08 && hsl.l < 0.92) {
+        const vibrant = col.clone();
+        const newS = Math.min(1.0, hsl.s * 1.32);
+        const newL = Math.max(0.42, Math.min(0.60, hsl.l));
+        vibrant.setHSL(hsl.h, newS, newL);
+        return vibrant;
+      }
+      return col;
+    }
+
     function getPBRMaterial(type, colorHex) {
       const col = new THREE.Color(colorHex);
       const hexUpper = (typeof colorHex === "string" ? colorHex : ("#" + col.getHexString())).toUpperCase();
@@ -3249,48 +3258,49 @@
 
       switch(type) {
         case "glass": {
-          const glassCol = isSilver ? new THREE.Color(0xE2E8F0) : (isGold ? new THREE.Color(0xDEC580) : col);
+          const glassCol = isSilver ? new THREE.Color(0xE2E8F0) : (isGold ? new THREE.Color(0xDEC580) : getVibrantGemColor(col));
           const textures = getHammeredGlassTextures();
           return new THREE.MeshPhysicalMaterial({
             color: glassCol,
             metalness: 0.02,
-            roughness: 0.11,
-            transmission: 0.86,
-            thickness: 2.5,
+            roughness: 0.08,
+            transmission: 0.48,
+            thickness: 2.0,
             ior: 1.52,
             specularIntensity: 1.0,
-            clearcoat: 0.45,
-            clearcoatRoughness: 0.08,
+            clearcoat: 0.75,
+            clearcoatRoughness: 0.04,
             normalMap: textures.normalMap,
-            normalScale: new THREE.Vector2(0.95, 0.95),
+            normalScale: new THREE.Vector2(0.85, 0.85),
             bumpMap: textures.bumpMap,
-            bumpScale: 0.024,
-            envMapIntensity: 1.35,
+            bumpScale: 0.020,
+            envMapIntensity: 1.25,
             transparent: true,
-            opacity: 0.97,
+            opacity: 0.98,
             side: THREE.DoubleSide
           });
         }
         case "quartz": {
+          const quartzCol = isSilver ? new THREE.Color(0xF1F5F9) : (isGold ? new THREE.Color(0xF5E6A3) : getVibrantGemColor(col));
           const textures = getQuartzTextures();
           return new THREE.MeshPhysicalMaterial({
-            color: col,
+            color: quartzCol,
             map: textures.colorMap,
             normalMap: textures.normalMap,
-            normalScale: new THREE.Vector2(0.70, 0.70),
+            normalScale: new THREE.Vector2(0.65, 0.65),
             bumpMap: textures.bumpMap,
             bumpScale: 0.016,
-            roughness: 0.22,
+            roughness: 0.14,
             metalness: 0.02,
-            transmission: 0.58,
-            thickness: 2.2,
+            transmission: 0.30,
+            thickness: 2.0,
             ior: 1.54,
             specularIntensity: 1.0,
-            clearcoat: 0.35,
-            clearcoatRoughness: 0.08,
+            clearcoat: 0.70,
+            clearcoatRoughness: 0.04,
             envMapIntensity: 1.25,
             transparent: true,
-            opacity: 0.94,
+            opacity: 0.96,
             side: THREE.DoubleSide
           });
         }

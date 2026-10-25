@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.18] - 2026-10-25
+
+### Changed - Luminous Vibrant Jewel-Tone Colors on Glass & Crystalline Quartz
+- **Glass Bead Vibrancy Calibration ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3244)):**
+  - Calibrated glass transmission parameter from `0.86` to `0.48`, preventing 86% dark studio background bleed-through and boosting direct diffuse bead color reflection by more than 3.5×.
+  - Reduced roughness to `0.08` and elevated clearcoat glaze to `0.75` with `clearcoatRoughness: 0.04` and `envMapIntensity: 1.25`, producing dazzling crystalline refraction and rich, luminous gem depth.
+  - Implemented [`getVibrantGemColor()`](file:///Users/ethannorland/hello-world/index.html#L3244) helper to intelligently boost chromatic color saturation ($S \times 1.32$) and anchor lightness ($L \in [0.42, 0.60]$), transforming dull or washed-out blues, cyans, greens, purples, and reds into radiant jewel tones while preserving neutral white crystal and sterling silver.
+- **Crystalline Quartz Vibrancy & Texture Calibration ([`getQuartzTextures()`](file:///Users/ethannorland/hello-world/index.html#L2708) & [`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3274)):**
+  - Replaced procedural ivory/grey base and dark inclusion flakes with a pure white crystalline foundation (`255, 255, 255`), high-key sparkle micro-facets, and delicate crackle hairline veins (`218–255` luminance).
+  - Isolated photographic reference image sampling to an offscreen buffer, preventing `reference/quartztexture.png` from overwriting the diffuse map with murky grey pixels.
+  - Mapped photographic luminance into high-key crystalline contrast (`218 + lum * 37`), preserving 85%–100% of the bead's vibrant chosen color while capturing authentic crackle veins and facet relief in tangent normal and bump maps.
+  - Calibrated quartz PBR parameters to `transmission: 0.30`, `roughness: 0.14`, `clearcoat: 0.70`, and `clearcoatRoughness: 0.04` with [`getVibrantGemColor()`](file:///Users/ethannorland/hello-world/index.html#L3244).
+- **PWA Bump:** Bumped service worker cache version to `1.8.18`.
+
 ## [1.8.17] - 2026-10-25
 
 ### Changed - Smooth High-Polish Jeweler's Metal Finish
