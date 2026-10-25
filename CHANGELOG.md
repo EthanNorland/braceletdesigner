@@ -4,6 +4,13 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.26] - 2026-10-25
+
+### Added - GitHub Added to Inspiration & Credits
+- **GitHub Inspiration Card ([`index.html#L1767`](file:///Users/ethannorland/hello-world/index.html#L1767)):**
+  - Added **GitHub** ([`github.com`](https://github.com)) to the Inspiration & Credits panel in alphabetical order: *"Open-source codebase hosting, GitHub Pages deployment, and developer collaboration."*
+- **PWA Bump:** Bumped service worker cache version to `1.8.26`.
+
 ## [1.8.25] - 2026-10-25
 
 ### Changed - Alphabetical Ordering of Inspiration & Credits
