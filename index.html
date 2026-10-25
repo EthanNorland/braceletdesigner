@@ -1497,7 +1497,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.7 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.8 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1614,7 +1614,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.7</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.8</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1634,7 +1634,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.7",
+      version: "1.8.8",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2127,7 +2127,7 @@
       } else if (cordType === "silver") {
         cordColor = "#A8A9AC";
       } else if (cordType === "leather") {
-        cordColor = "#3E2723";
+        cordColor = "#5D4037";
       }
 
       let claspType = "lobster";
@@ -3456,21 +3456,21 @@
 
           const val = Math.max(0.0, Math.min(1.0, grain + micro - burnish));
 
-          // Deep dark vintage cowhide tones matching dark leather reference:
-          // Subtle dark chestnut highlight: [100, 64, 42]
-          // Rich dark chocolate / antique saddle midtone: [66, 40, 26]
-          // Deep dark espresso crevice: [34, 18, 12]
+          // Authentic vintage weathered brown cowhide matching reference/Leather Bracelet.png:
+          // Soft weathered highlight: [138, 114, 105] (#8A7269)
+          // Natural earthy brown body: [105, 80, 72] (#695048 - reference median)
+          // Deep burnished crevice:   [72, 46, 38]   (#482E26 - reference shadow)
           let r, g, b;
           if (val > 0.5) {
             const t = (val - 0.5) / 0.5;
-            r = Math.round(66 + (100 - 66) * t);
-            g = Math.round(40 + (64 - 40) * t);
-            b = Math.round(26 + (42 - 26) * t);
+            r = Math.round(105 + (138 - 105) * t);
+            g = Math.round(80 + (114 - 80) * t);
+            b = Math.round(72 + (105 - 72) * t);
           } else {
             const t = val / 0.5;
-            r = Math.round(34 + (66 - 34) * t);
-            g = Math.round(18 + (40 - 18) * t);
-            b = Math.round(12 + (26 - 12) * t);
+            r = Math.round(72 + (105 - 72) * t);
+            g = Math.round(46 + (80 - 46) * t);
+            b = Math.round(38 + (72 - 38) * t);
           }
 
           imgData.data[idx] = r;
@@ -3558,9 +3558,9 @@
           map: textures.colorMap,
           bumpMap: textures.bumpMap,
           bumpScale: 0.022,
-          metalness: 0.04,
-          roughness: 0.72,
-          envMapIntensity: 0.28,
+          metalness: 0.03,
+          roughness: 0.70,
+          envMapIntensity: 0.32,
           side: THREE.DoubleSide
         });
       }
@@ -4226,7 +4226,7 @@
         qty: 1,
         size: `${doc.wristMm}mm`,
         material: doc.cordType,
-        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#D2AC4C" : "#A8A9AC") : (doc.cordType === "leather" ? "#3E2723" : doc.cordColor)
+        color: ["silver", "gold"].includes(doc.cordType) ? (doc.cordType === "gold" ? "#D2AC4C" : "#A8A9AC") : (doc.cordType === "leather" ? "#5D4037" : doc.cordColor)
       });
 
       // 2. Clasp

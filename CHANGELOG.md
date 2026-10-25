@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.8] - 2026-10-24
+
+### Changed - Exact Reference-Calibrated Vintage Brown Leather Tone
+- **Reference-Sampled Vintage Brown Leather ([`createLeatherTexture()`](file:///Users/ethannorland/hello-world/index.html#L3459)):**
+  - Calibrated the procedural 2D Hermite spline noise color ramp directly against the sampled pixel distribution of `reference/Leather Bracelet.png` on the desktop.
+  - Aligned midtone leather body with the exact reference median: `[105, 80, 72]` (`#695048`), capturing authentic earthy antique vegetable-tanned cowhide brown.
+  - Aligned crevice and burnished seam depths with reference shadow tones: `[72, 46, 38]` (`#482E26`).
+  - Aligned curvature highlights with the reference weathered surface sheen: `[138, 114, 105]` (`#8A7269`).
+- **PBR Specular Balancing ([`createCordBaseMesh()`](file:///Users/ethannorland/hello-world/index.html#L3557)):**
+  - Calibrated `roughness: 0.70`, `metalness: 0.03`, and `envMapIntensity: 0.32` to provide authentic satin leather highlight roll-off without washing out the warm brown body.
+  - Updated leather swatch and materials spec sheet base dot to `#5D4037`.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.8`.
+
 ## [1.8.7] - 2026-10-24
 
 ### Changed - Deep Dark Antique Leather Tone Recalibration

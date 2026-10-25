@@ -1,8 +1,8 @@
 # Handoff Notes
 
 ## Current State
-- **Version:** `1.8.7`
-- **Phase:** Deep Dark Antique Leather Recalibration (`v1.8.7`); Authentic 3D Base Types Matching Desktop Reference Photos (`v1.8.6`); Neutral Pure White Studio Lighting (`v1.8.5`); Rich Darker Gold & Silver Shading for Stone & Wood (`v1.8.4`); Harmonized Gold & Silver Shader Engine (`v1.8.3`); Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
+- **Version:** `1.8.8`
+- **Phase:** Exact Reference-Calibrated Vintage Brown Leather Tone (`v1.8.8`); Deep Dark Antique Leather Recalibration (`v1.8.7`); Authentic 3D Base Types Matching Desktop Reference Photos (`v1.8.6`); Neutral Pure White Studio Lighting (`v1.8.5`); Rich Darker Gold & Silver Shading for Stone & Wood (`v1.8.4`); Harmonized Gold & Silver Shader Engine (`v1.8.3`); Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
 - **App URL:** https://ethannorland.github.io/hello-world/
 - **Repository:** https://github.com/EthanNorland/hello-world
 
@@ -77,6 +77,9 @@
   - **Chamfered Drilled Rims:** Applied realistic jeweler's chamfer steps around bead hole openings to capture specular highlights and prevent polygon edge artifacts.
   - **Double-Sided PBR Interior Shading:** Configured `side: THREE.DoubleSide` across all PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`), allowing light to illuminate the inner cylindrical drill walls and rendering realistic refractive air tunnels in translucent glass and crystalline quartz.
   - **Hollow Inscribed Cube Beads:** Adapted monogram and symbol engravings on cube beads with synchronized double-sided overlays on outward-facing (+X) and inward-facing (-X) faces.
+- Phase 12 Exact Reference-Calibrated Vintage Brown Leather Tone (v1.8.8):
+  - **Reference-Sampled Vintage Brown Leather:** Calibrated the procedural 2D Hermite spline noise color ramp directly against the pixel distribution of `reference/Leather Bracelet.png`. Aligned midtone leather body with reference median: `[105, 80, 72]` (`#695048`), crevice/burnished seam with shadow tones `[72, 46, 38]` (`#482E26`), and highlights with weathered surface sheen `[138, 114, 105]` (`#8A7269`).
+  - **PBR Specular Balancing:** Calibrated `roughness: 0.70`, `metalness: 0.03`, and `envMapIntensity: 0.32` for authentic satin leather highlight roll-off. Swatch and spec sheet dot updated to `#5D4037`.
 - Phase 11 Deep Dark Antique Leather Recalibration (v1.8.7):
   - **Dark Antique Leather Color Ramp:** Recalibrated the procedural 2D Hermite spline noise color ramp to render rich, dark antique cowhide leather matching the darkest tones in `reference/Leather Bracelet.png`. Shifted highlight from light cognac (`#915C30`) down to subtle dark chestnut (`[100, 64, 42]`), midtone down to rich dark chocolate / antique saddle (`[66, 40, 26]`), and crevice depth down to deep espresso (`[34, 18, 12]`).
   - **Specular & Environment Balancing:** Adjusted `roughness: 0.72` and reduced `envMapIntensity` from `0.45` to `0.28`, preventing studio light reflections from washing out the deep dark leather tones while preserving subtle satin highlight roll-off.

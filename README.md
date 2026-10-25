@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.8.7](https://img.shields.io/badge/Version-1.8.7-lightgrey?style=flat-square)](#)
+[![Version: 1.8.8](https://img.shields.io/badge/Version-1.8.8-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -46,16 +46,16 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Full Undo/Redo & Quick Actions:** Robust history stack, duplicate (`D`), and delete actions.
 - **Materials Spec Sheet & Parts Recipe:** Itemized parts recipe with visual color swatches, millimeter dimensions, material categories, 1-click plaintext clipboard copy, and clean **CSV Export** for jeweler assembly.
 - **Universal Mobile & iPhone Adaptation (Phase 7):** Responsive bottom-drawer architecture (`#left-panel` and `#right-panel` slide up smoothly on mobile), thumb-friendly navigation dock, compact header with `⋯ Menu`, Dynamic Island/Notch safe-area support, and dynamic viewport height (`100dvh`), while preserving 100% of the desktop 3-column studio layout.
-- **Deep Dark Antique Leather Recalibration (v1.8.7):** Recalibrated the procedural bolo leather cord color ramp to deep espresso and rich dark chocolate saddle tones (`[100, 64, 42]`, `[66, 40, 26]`, `[34, 18, 12]`) with `roughness: 0.72` and `envMapIntensity: 0.28`, eliminating light orange wash under studio lights.
+- **Exact Reference-Calibrated Vintage Brown Leather (v1.8.8):** Calibrated the procedural bolo leather cord color ramp directly against the sampled pixel distribution of `reference/Leather Bracelet.png` on the desktop (`[105, 80, 72]` body, `[72, 46, 38]` crevice, `[138, 114, 105]` highlight), capturing authentic earthy antique vegetable-tanned cowhide brown with balanced satin sheen (`roughness: 0.70`, `envMapIntensity: 0.32`).
 - **Authentic 3D Bracelet Base Types Matching Reference Photos (v1.8.6):**
   - **Sterling Silver & 18K Gold Snake Chains:** Faithful 3D reproduction of `silver chain bracelet.png` and `gold chain bracelet.png`, featuring ~128 interlocking slanted metal segments with deep joint seams, convex plate bevels, specular roughness maps, and polished tapered end-cap ferrules flanking the clasp.
   - **Two-Tone Braided Diamond Woven Cord:** Modeled after `Woven Cord Bracelet.png`, featuring a continuous interlacing twill braid with micro-fiber yarn striations, primary cord color inheritance, and contrasting deep charcoal-black (`#181A20`) strands.
-  - **Vintage Round Bolo Leather Cord:** Modeled after `Leather Bracelet.png`, featuring true round bolo cowhide cord rendered via continuous 2D periodic Hermite spline noise with rich cognac/chestnut mottling, longitudinal rolled burnished seam, and satin sheen.
+  - **Vintage Round Bolo Leather Cord:** Modeled after `Leather Bracelet.png`, featuring true round bolo cowhide cord rendered via continuous 2D periodic Hermite spline noise with rich natural brown mottling, longitudinal rolled burnished seam, and satin sheen.
   - **Preserved Bead Clearance:** Base core diameter maintained at `0.184` ensuring clear visible space inside enlarged bead holes (`0.38`–`0.60` diameter) during smooth 3D sliding.
 - **Neutral Pure White Studio Lighting (v1.8.5):** Replaced warm gold/yellow key and rim lights with crisp, daylight-balanced white studio lighting (`0xFFFFFF`), ensuring silver metal, stone, and wood beads reflect clean white specular highlights with zero yellow cast.
 - **Rich Darker Gold & Silver Shading for Stone & Wood (v1.8.4):** Calibrated deep antique gold mineral stone (`#7D5A18`), silver hematite slate (`#4A4D53`), golden teak wood (`#744E14`), and weathered silver driftwood (`#46494F`), preventing diffuse chalk/white artifacts while preserving material selection.
 - **Harmonized Gold & Silver Shader Engine (v1.8.3):** Full Cook-Torrance BRDF alignment (`metalness: 0.90`, `roughness: 0.18`, `envMapIntensity: 1.2`) and ColorSync P3-to-sRGB recalibrated warm 18K gold (`#D2AC4C`) across beads, clasps, base chains, and spacers.
-- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.8.7 ↻`).
+- **Progressive Web App (PWA):** Offline service worker caching, installable manifest, and interactive version chip (`1.8.8 ↻`).
 
 ---
 
