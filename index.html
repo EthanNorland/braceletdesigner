@@ -1500,7 +1500,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.19 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.20 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1617,7 +1617,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.19</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.20</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1637,7 +1637,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.19",
+      version: "1.8.20",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2330,8 +2330,8 @@
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setSize(initW, initH);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMapping = THREE.LinearToneMapping;
+    renderer.toneMappingExposure = 1.0;
 
     // Studio Environment Generator for realistic metal specular reflections
     const pmrem = new THREE.PMREMGenerator(renderer);
@@ -2358,19 +2358,19 @@
     controls.minDistance = 8;
     controls.maxDistance = 75;
 
-    // Studio Lighting (Neutral Pure White Studio Illumination)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    // Studio Lighting (Calibrated Studio Illumination for True Color Fidelity)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.3);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 0.55);
     keyLight.position.set(18, 28, 22);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xf1f5f9, 1.5);
+    const fillLight = new THREE.DirectionalLight(0xf1f5f9, 0.35);
     fillLight.position.set(-18, 12, -18);
     scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0xffffff, 1.6, 45);
+    const rimLight = new THREE.PointLight(0xffffff, 0.30, 45);
     rimLight.position.set(0, -8, 12);
     scene.add(rimLight);
 
@@ -3257,13 +3257,13 @@
 
       switch(type) {
         case "glass": {
-          const glassCol = isSilver ? new THREE.Color(0xE2E8F0) : (isGold ? new THREE.Color(0xDEC580) : getVibrantGemColor(col));
+          const glassCol = isSilver ? new THREE.Color(0xE2E8F0) : (isGold ? new THREE.Color(0xDEC580) : col);
           const textures = getHammeredGlassTextures();
           return new THREE.MeshPhysicalMaterial({
             color: glassCol,
             metalness: 0.02,
             roughness: 0.08,
-            transmission: 0.48,
+            transmission: 0.45,
             thickness: 2.0,
             ior: 1.52,
             specularIntensity: 1.0,
@@ -3273,14 +3273,14 @@
             normalScale: new THREE.Vector2(0.85, 0.85),
             bumpMap: textures.bumpMap,
             bumpScale: 0.020,
-            envMapIntensity: 1.25,
+            envMapIntensity: 1.10,
             transparent: true,
             opacity: 0.98,
             side: THREE.DoubleSide
           });
         }
         case "quartz": {
-          const quartzCol = isSilver ? new THREE.Color(0xF1F5F9) : (isGold ? new THREE.Color(0xF5E6A3) : getVibrantGemColor(col));
+          const quartzCol = isSilver ? new THREE.Color(0xF1F5F9) : (isGold ? new THREE.Color(0xF5E6A3) : col);
           const textures = getQuartzTextures();
           return new THREE.MeshPhysicalMaterial({
             color: quartzCol,
@@ -3291,13 +3291,13 @@
             bumpScale: 0.016,
             roughness: 0.14,
             metalness: 0.02,
-            transmission: 0.30,
+            transmission: 0.25,
             thickness: 2.0,
             ior: 1.54,
             specularIntensity: 1.0,
             clearcoat: 0.70,
             clearcoatRoughness: 0.04,
-            envMapIntensity: 1.25,
+            envMapIntensity: 1.10,
             transparent: true,
             opacity: 0.96,
             side: THREE.DoubleSide
@@ -3893,20 +3893,20 @@
         if (invitation) invitation.style.display = "none";
 
         // Dynamic studio lighting tuned for realistic human skin rendering
-        ambientLight.intensity = 0.60;
-        keyLight.intensity = 1.30;
-        fillLight.intensity = 0.50;
-        rimLight.intensity = 0.35;
+        ambientLight.intensity = 0.55;
+        keyLight.intensity = 0.60;
+        fillLight.intensity = 0.30;
+        rimLight.intensity = 0.20;
 
         // Natural angled wrist camera position framing bracelet, forearm, and posed hand
         camera.position.set(0, 14, 50);
         controls.target.set(0, -9, 0);
         controls.update();
       } else {
-        ambientLight.intensity = 0.85;
-        keyLight.intensity = 2.30;
-        fillLight.intensity = 1.50;
-        rimLight.intensity = 1.60;
+        ambientLight.intensity = 0.65;
+        keyLight.intensity = 0.55;
+        fillLight.intensity = 0.35;
+        rimLight.intensity = 0.30;
 
         if (wristMesh) {
           wristMesh.visible = false;

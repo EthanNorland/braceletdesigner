@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.20] - 2026-10-25
+
+### Changed - True-to-Selection Studio Lighting & Linear Tone Mapping Calibration
+- **Studio Lighting Balance ([`index.html#L2361`](file:///Users/ethannorland/hello-world/index.html#L2361)):**
+  - Replaced 5× over-illumination (`keyLight: 2.30`, `fillLight: 1.50`, `rimLight: 1.60`, `ambientLight: 0.85`) with balanced, daylight-white studio illumination (`ambientLight: 0.65`, `keyLight: 0.55`, `fillLight: 0.35`, `rimLight: 0.30`).
+  - Achieves $\approx 1.00$ combined illumination on the visible front face of every bead, allowing rendered bead colors to match the 2D color selector directly while maintaining gentle 3D form shading and specular highlights.
+  - Calibrated Wrist View lighting transition (`ambientLight: 0.55`, `keyLight: 0.60`, `fillLight: 0.30`, `rimLight: 0.20`) to prevent over-illumination when toggling between studio and anatomical arm views.
+- **Linear Tone Mapping ([`index.html#L2333`](file:///Users/ethannorland/hello-world/index.html#L2333)):**
+  - Switched renderer tone mapping from `ACESFilmicToneMapping` (`exposure: 1.15`) to `LinearToneMapping` (`exposure: 1.0`).
+  - Eliminates ACES highlight bleaching and cross-channel desaturation that previously washed out vibrant reds, cyans, greens, and purples into pale pastel chalk.
+- **Direct Color Mapping on Glass & Quartz ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3258)):**
+  - Mapped chosen colors directly (`color: col`) across Glass and Quartz, ensuring all palette swatches and custom hex picker colors display true to the user's intent.
+- **PWA Bump:** Bumped service worker cache version to `1.8.20`.
+
 ## [1.8.19] - 2026-10-25
 
 ### Changed - Painted Wood Beads with Selected Palette Color & Tactile Grain
