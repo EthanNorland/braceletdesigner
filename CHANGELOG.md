@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.12] - 2026-10-25
+
+### Added - Reference-Calibrated Crystalline Quartz & Natural Stone Textures
+- **Photographic Crystalline Quartz Calibration ([`getQuartzTextures()`](file:///Users/ethannorland/hello-world/index.html#L2702)):**
+  - Integrated the granular crystalline quartz texture from desktop reference `reference/quartztexture.png`.
+  - Built a 512x512 multi-tone crystalline fleck color map featuring translucent white crystal facets, slate-charcoal inclusions, and ivory quartzite grains, with automatic asynchronous ground-truth upgrade via `new Image()`.
+  - Derived micro-facet normal map and bump map (`bumpScale: 0.016`, `normalScale: [0.70, 0.70]`) with semi-translucent crystalline depth (`transmission: 0.58`, `ior: 1.54`, `thickness: 2.2`, `roughness: 0.22`, `clearcoat: 0.35`).
+- **Weathered Pitted Natural Stone Calibration ([`getStoneTextures()`](file:///Users/ethannorland/hello-world/index.html#L2850)):**
+  - Modeled the chiseled, weathered natural rock surface directly after desktop 3D reference `reference/stonetexture.png`.
+  - Synthesized a 28x28 Voronoi cellular plateau height field with steep fissure crevices, multi-octave Hermite spline rock turbulence, and ambient occlusion crevice shading.
+  - Derived a high-contrast tangent-space normal map via Sobel gradient filtering (`normalScale: [1.25, 1.25]`, `bumpScale: 0.038`, `roughness: 0.70`), casting realistic micro-shadows into deep stone pits across all bead shapes.
+- **PWA Precache Bump:** Added `glasstexture.png`, `quartztexture.png`, and `stonetexture.png` to service worker precache, and bumped version to `1.8.12`.
+
 ## [1.8.11] - 2026-10-25
 
 ### Added - Reference-Calibrated Hammered Glass Texture Matching Desktop Reference `glasstexture.png`

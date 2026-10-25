@@ -1497,7 +1497,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.11 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.12 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1614,7 +1614,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.11</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.12</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1634,7 +1634,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.11",
+      version: "1.8.12",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2699,6 +2699,359 @@
       return glassTextureCache;
     }
 
+    // ── PROCEDURAL CRYSTALLINE QUARTZ TEXTURE GENERATOR (MATCHING REFERENCE/QUARTZTEXTURE.PNG) ──
+    let quartzTextureCache = null;
+
+    function getQuartzTextures() {
+      if (quartzTextureCache) return quartzTextureCache;
+
+      const w = 512, h = 512;
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+
+      const bumpCanvas = document.createElement("canvas");
+      bumpCanvas.width = w; bumpCanvas.height = h;
+      const bumpCtx = bumpCanvas.getContext("2d");
+
+      const normalCanvas = document.createElement("canvas");
+      normalCanvas.width = w; normalCanvas.height = h;
+      const normalCtx = normalCanvas.getContext("2d");
+
+      // 1. Generate procedural crystalline speckled quartz (synchronous baseline)
+      let seed = 38472;
+      function rand() {
+        seed = (seed * 16807 + 0) % 2147483647;
+        return (seed - 1) / 2147483646;
+      }
+
+      const imgData = ctx.createImageData(w, h);
+      const bumpData = bumpCtx.createImageData(w, h);
+      const normalData = normalCtx.createImageData(w, h);
+      const heightMap = new Float32Array(w * h);
+
+      // Fill ivory / cream quartz base
+      for (let i = 0; i < w * h; i++) {
+        const idx = i * 4;
+        const baseNoise = (Math.sin(i * 0.05) + Math.cos(i * 0.13)) * 4;
+        imgData.data[idx]     = Math.min(255, Math.max(0, Math.round(222 + baseNoise)));
+        imgData.data[idx + 1] = Math.min(255, Math.max(0, Math.round(218 + baseNoise)));
+        imgData.data[idx + 2] = Math.min(255, Math.max(0, Math.round(210 + baseNoise)));
+        imgData.data[idx + 3] = 255;
+        heightMap[i] = 0.5;
+      }
+
+      // Scatter dense crystalline flakes: dark mineral inclusions, granite grains, sparkling crystal facets
+      for (let i = 0; i < 5500; i++) {
+        const fx = Math.floor(rand() * w);
+        const fy = Math.floor(rand() * h);
+        const sz = rand() < 0.75 ? 1 : 2;
+        const shade = Math.round(55 + rand() * 45);
+        for (let dy = 0; dy < sz; dy++) {
+          const py = (fy + dy) % h;
+          for (let dx = 0; dx < sz; dx++) {
+            const px = (fx + dx) % w;
+            const pIdx = (py * w + px);
+            const idx = pIdx * 4;
+            const alpha = 0.6 + rand() * 0.35;
+            imgData.data[idx]     = Math.round(imgData.data[idx] * (1 - alpha) + shade * alpha);
+            imgData.data[idx + 1] = Math.round(imgData.data[idx + 1] * (1 - alpha) + shade * alpha);
+            imgData.data[idx + 2] = Math.round(imgData.data[idx + 2] * (1 - alpha) + (shade + 6) * alpha);
+            heightMap[pIdx] = Math.max(0.0, heightMap[pIdx] - 0.18 * alpha);
+          }
+        }
+      }
+
+      for (let i = 0; i < 5000; i++) {
+        const fx = Math.floor(rand() * w);
+        const fy = Math.floor(rand() * h);
+        const sz = rand() < 0.7 ? 1 : 2;
+        const shade = Math.round(140 + rand() * 35);
+        for (let dy = 0; dy < sz; dy++) {
+          const py = (fy + dy) % h;
+          for (let dx = 0; dx < sz; dx++) {
+            const px = (fx + dx) % w;
+            const pIdx = (py * w + px);
+            const idx = pIdx * 4;
+            const alpha = 0.5 + rand() * 0.3;
+            imgData.data[idx]     = Math.round(imgData.data[idx] * (1 - alpha) + shade * alpha);
+            imgData.data[idx + 1] = Math.round(imgData.data[idx + 1] * (1 - alpha) + shade * alpha);
+            imgData.data[idx + 2] = Math.round(imgData.data[idx + 2] * (1 - alpha) + (shade - 5) * alpha);
+            heightMap[pIdx] = Math.max(0.0, heightMap[pIdx] - 0.08 * alpha);
+          }
+        }
+      }
+
+      for (let i = 0; i < 7000; i++) {
+        const fx = Math.floor(rand() * w);
+        const fy = Math.floor(rand() * h);
+        const sz = rand() < 0.65 ? 1 : (rand() < 0.9 ? 2 : 3);
+        const shade = Math.round(248 + rand() * 7);
+        for (let dy = 0; dy < sz; dy++) {
+          const py = (fy + dy) % h;
+          for (let dx = 0; dx < sz; dx++) {
+            const px = (fx + dx) % w;
+            const pIdx = (py * w + px);
+            const idx = pIdx * 4;
+            const alpha = 0.7 + rand() * 0.3;
+            imgData.data[idx]     = Math.round(imgData.data[idx] * (1 - alpha) + shade * alpha);
+            imgData.data[idx + 1] = Math.round(imgData.data[idx + 1] * (1 - alpha) + shade * alpha);
+            imgData.data[idx + 2] = Math.round(imgData.data[idx + 2] * (1 - alpha) + shade * alpha);
+            heightMap[pIdx] = Math.min(1.0, heightMap[pIdx] + 0.22 * alpha);
+          }
+        }
+      }
+
+      function computeMaps() {
+        const bumpStrength = 3.6;
+        for (let y = 0; y < h; y++) {
+          const ym = (y - 1 + h) % h, yp = (y + 1) % h;
+          for (let x = 0; x < w; x++) {
+            const xm = (x - 1 + w) % w, xp = (x + 1) % w;
+            const idx = (y * w + x) * 4;
+
+            const hVal = heightMap[y * w + x];
+            const bByte = Math.round(hVal * 255);
+            bumpData.data[idx]     = bByte;
+            bumpData.data[idx + 1] = bByte;
+            bumpData.data[idx + 2] = bByte;
+            bumpData.data[idx + 3] = 255;
+
+            const tl = heightMap[ym * w + xm], tc = heightMap[ym * w + x], tr = heightMap[ym * w + xp];
+            const ml = heightMap[y * w + xm],                             mr = heightMap[y * w + xp];
+            const bl = heightMap[yp * w + xm], bc = heightMap[yp * w + x], br = heightMap[yp * w + xp];
+
+            const dX = ((tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl)) * bumpStrength;
+            const dY = ((bl + 2.0 * bc + br) - (tl + 2.0 * tc + tr)) * bumpStrength;
+            const dZ = 1.0;
+            const invLen = 1.0 / Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+
+            normalData.data[idx]     = Math.round((-dX * invLen * 0.5 + 0.5) * 255);
+            normalData.data[idx + 1] = Math.round((-dY * invLen * 0.5 + 0.5) * 255);
+            normalData.data[idx + 2] = Math.round((dZ * invLen * 0.5 + 0.5) * 255);
+            normalData.data[idx + 3] = 255;
+          }
+        }
+        bumpCtx.putImageData(bumpData, 0, 0);
+        normalCtx.putImageData(normalData, 0, 0);
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+      computeMaps();
+
+      const colorMap = new THREE.CanvasTexture(canvas);
+      colorMap.wrapS = THREE.RepeatWrapping;
+      colorMap.wrapT = THREE.RepeatWrapping;
+      colorMap.repeat.set(2, 1);
+      colorMap.anisotropy = 8;
+      colorMap.needsUpdate = true;
+
+      const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.RepeatWrapping;
+      bumpMap.repeat.set(2, 1);
+      bumpMap.anisotropy = 8;
+      bumpMap.needsUpdate = true;
+
+      const normalMap = new THREE.CanvasTexture(normalCanvas);
+      normalMap.wrapS = THREE.RepeatWrapping;
+      normalMap.wrapT = THREE.RepeatWrapping;
+      normalMap.repeat.set(2, 1);
+      normalMap.anisotropy = 8;
+      normalMap.needsUpdate = true;
+
+      // Load ground-truth reference/quartztexture.png for photographic match
+      if (typeof Image !== "undefined") {
+        const refImg = new Image();
+        refImg.onload = () => {
+          ctx.drawImage(refImg, 0, 0, w, h);
+          const loadedData = ctx.getImageData(0, 0, w, h);
+          for (let i = 0; i < w * h; i++) {
+            const idx = i * 4;
+            const lum = (loadedData.data[idx] * 0.299 + loadedData.data[idx + 1] * 0.587 + loadedData.data[idx + 2] * 0.114) / 255.0;
+            heightMap[i] = lum;
+          }
+          computeMaps();
+          colorMap.needsUpdate = true;
+          bumpMap.needsUpdate = true;
+          normalMap.needsUpdate = true;
+          if (typeof renderer !== "undefined" && typeof scene !== "undefined" && typeof camera !== "undefined") {
+            renderer.render(scene, camera);
+          }
+        };
+        refImg.src = "reference/quartztexture.png";
+      }
+
+      quartzTextureCache = { colorMap, bumpMap, normalMap };
+      return quartzTextureCache;
+    }
+
+    // ── PROCEDURAL NATURAL WEATHERED STONE TEXTURE GENERATOR (MATCHING REFERENCE/STONETEXTURE.PNG) ──
+    let stoneTextureCache = null;
+
+    function getStoneTextures() {
+      if (stoneTextureCache) return stoneTextureCache;
+
+      const w = 512, h = 512;
+      const tabSize = 256;
+      const perm = new Float32Array(tabSize);
+      let seed = 67291;
+      function rand() {
+        seed = (seed * 16807 + 0) % 2147483647;
+        return (seed - 1) / 2147483646;
+      }
+      for (let i = 0; i < tabSize; i++) perm[i] = rand();
+
+      function sampleNoise(u, v, rep) {
+        let x = (u * rep) % rep; if (x < 0) x += rep;
+        let y = (v * rep) % rep; if (y < 0) y += rep;
+        const x0 = Math.floor(x), y0 = Math.floor(y);
+        const x1 = (x0 + 1) % rep, y1 = (y0 + 1) % rep;
+        const tx = x - x0, ty = y - y0;
+        const sx = tx * tx * (3.0 - 2.0 * tx), sy = ty * ty * (3.0 - 2.0 * ty);
+        const n00 = perm[(y0 * 37 + x0) % tabSize], n10 = perm[(y0 * 37 + x1) % tabSize];
+        const n01 = perm[(y1 * 37 + x0) % tabSize], n11 = perm[(y1 * 37 + x1) % tabSize];
+        return n00 + sx * (n10 - n00) + sy * (n01 - n00) + sx * sy * (n00 - n10 - n01 + n11);
+      }
+
+      const grid = 28;
+      const stonePoints = [];
+      for (let gy = 0; gy < grid; gy++) {
+        for (let gx = 0; gx < grid; gx++) {
+          stonePoints.push({ x: (gx + 0.12 + rand() * 0.76) / grid, y: (gy + 0.12 + rand() * 0.76) / grid });
+        }
+      }
+
+      const heightMap = new Float32Array(w * h);
+      const maxR = 1.35 / grid;
+
+      for (let y = 0; y < h; y++) {
+        const v0 = y / h;
+        for (let x = 0; x < w; x++) {
+          const u0 = x / w;
+
+          const warpU = (sampleNoise(u0, v0, 5) - 0.5) * 0.045;
+          const warpV = (sampleNoise(u0 + 0.37, v0 + 0.63, 5) - 0.5) * 0.045;
+          const u = (u0 + warpU + 1.0) % 1.0;
+          const v = (v0 + warpV + 1.0) % 1.0;
+
+          const cgx = Math.floor(u * grid), cgy = Math.floor(v * grid);
+          let d1 = 1e9, d2 = 1e9;
+          for (let dy = -1; dy <= 1; dy++) {
+            const ngy = (cgy + dy + grid) % grid;
+            for (let dx = -1; dx <= 1; dx++) {
+              const ngx = (cgx + dx + grid) % grid;
+              const p = stonePoints[ngy * grid + ngx];
+              let pdx = Math.abs(u - p.x); if (pdx > 0.5) pdx = 1.0 - pdx;
+              let pdy = Math.abs(v - p.y); if (pdy > 0.5) pdy = 1.0 - pdy;
+              const dist = Math.sqrt(pdx * pdx + pdy * pdy);
+              if (dist < d1) { d2 = d1; d1 = dist; } else if (dist < d2) { d2 = dist; }
+            }
+          }
+
+          // Weathered rock plateaus (flattened domes matching stonetexture.png)
+          const cellNorm = Math.min(1.0, d1 / maxR);
+          let plateau = Math.cos(cellNorm * Math.PI * 0.5);
+          plateau = Math.pow(Math.max(0.0, plateau), 0.45);
+
+          // Deep fissure crevices
+          const fissure = Math.min(1.0, (d2 - d1) * grid * 2.2);
+
+          // Multi-octave natural rock grain
+          const n1 = sampleNoise(u, v, 14);
+          const n2 = sampleNoise(u, v, 28) * 0.5;
+          const n3 = sampleNoise(u, v, 56) * 0.25;
+          const rockGrain = (n1 + n2 + n3) / 1.75;
+
+          const totalH = plateau * 0.35 + fissure * 0.25 + rockGrain * 0.40;
+          heightMap[y * w + x] = Math.max(0.0, Math.min(1.0, totalH));
+        }
+      }
+
+      // Canvases for Color/AO, Bump, and Tangent Normal
+      const colorCanvas = document.createElement("canvas");
+      colorCanvas.width = w; colorCanvas.height = h;
+      const colorCtx = colorCanvas.getContext("2d");
+      const colorImg = colorCtx.createImageData(w, h);
+
+      const bumpCanvas = document.createElement("canvas");
+      bumpCanvas.width = w; bumpCanvas.height = h;
+      const bumpCtx = bumpCanvas.getContext("2d");
+      const bumpImg = bumpCtx.createImageData(w, h);
+
+      const normalCanvas = document.createElement("canvas");
+      normalCanvas.width = w; normalCanvas.height = h;
+      const normalCtx = normalCanvas.getContext("2d");
+      const normalImg = normalCtx.createImageData(w, h);
+
+      const bumpStrength = 5.2;
+      for (let y = 0; y < h; y++) {
+        const ym = (y - 1 + h) % h, yp = (y + 1) % h;
+        for (let x = 0; x < w; x++) {
+          const xm = (x - 1 + w) % w, xp = (x + 1) % w;
+          const idx = (y * w + x) * 4;
+
+          const hVal = heightMap[y * w + x];
+          const bByte = Math.round(hVal * 255);
+          bumpImg.data[idx]     = bByte;
+          bumpImg.data[idx + 1] = bByte;
+          bumpImg.data[idx + 2] = bByte;
+          bumpImg.data[idx + 3] = 255;
+
+          // Ambient occlusion shading: fissures/depressions are darkened
+          const ao = 0.65 + 0.45 * Math.pow(hVal, 1.3);
+          const cByte = Math.min(255, Math.round(235 * ao));
+          colorImg.data[idx]     = cByte;
+          colorImg.data[idx + 1] = cByte;
+          colorImg.data[idx + 2] = cByte;
+          colorImg.data[idx + 3] = 255;
+
+          // Sobel gradient tangent-space normal vector
+          const tl = heightMap[ym * w + xm], tc = heightMap[ym * w + x], tr = heightMap[ym * w + xp];
+          const ml = heightMap[y * w + xm],                             mr = heightMap[y * w + xp];
+          const bl = heightMap[yp * w + xm], bc = heightMap[yp * w + x], br = heightMap[yp * w + xp];
+
+          const dX = ((tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl)) * bumpStrength;
+          const dY = ((bl + 2.0 * bc + br) - (tl + 2.0 * tc + tr)) * bumpStrength;
+          const dZ = 1.0;
+          const invLen = 1.0 / Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+
+          normalImg.data[idx]     = Math.round((-dX * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 1] = Math.round((-dY * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 2] = Math.round((dZ * invLen * 0.5 + 0.5) * 255);
+          normalImg.data[idx + 3] = 255;
+        }
+      }
+
+      colorCtx.putImageData(colorImg, 0, 0);
+      bumpCtx.putImageData(bumpImg, 0, 0);
+      normalCtx.putImageData(normalImg, 0, 0);
+
+      const colorMap = new THREE.CanvasTexture(colorCanvas);
+      colorMap.wrapS = THREE.RepeatWrapping;
+      colorMap.wrapT = THREE.RepeatWrapping;
+      colorMap.repeat.set(2, 1);
+      colorMap.anisotropy = 8;
+      colorMap.needsUpdate = true;
+
+      const bumpMap = new THREE.CanvasTexture(bumpCanvas);
+      bumpMap.wrapS = THREE.RepeatWrapping;
+      bumpMap.wrapT = THREE.RepeatWrapping;
+      bumpMap.repeat.set(2, 1);
+      bumpMap.anisotropy = 8;
+      bumpMap.needsUpdate = true;
+
+      const normalMap = new THREE.CanvasTexture(normalCanvas);
+      normalMap.wrapS = THREE.RepeatWrapping;
+      normalMap.wrapT = THREE.RepeatWrapping;
+      normalMap.repeat.set(2, 1);
+      normalMap.anisotropy = 8;
+      normalMap.needsUpdate = true;
+
+      stoneTextureCache = { colorMap, bumpMap, normalMap };
+      return stoneTextureCache;
+    }
+
     // ── MATERIAL GENERATORS ─────────────────────────────────────────────────
     function getPBRMaterial(type, colorHex) {
       const col = new THREE.Color(colorHex);
@@ -2730,17 +3083,29 @@
             side: THREE.DoubleSide
           });
         }
-        case "quartz":
+        case "quartz": {
+          const textures = getQuartzTextures();
           return new THREE.MeshPhysicalMaterial({
             color: col,
-            metalness: 0.05,
-            roughness: 0.18,
-            transmission: 0.82,
-            thickness: 2.5,
+            map: textures.colorMap,
+            normalMap: textures.normalMap,
+            normalScale: new THREE.Vector2(0.70, 0.70),
+            bumpMap: textures.bumpMap,
+            bumpScale: 0.016,
+            roughness: 0.22,
+            metalness: 0.02,
+            transmission: 0.58,
+            thickness: 2.2,
+            ior: 1.54,
+            specularIntensity: 1.0,
+            clearcoat: 0.35,
+            clearcoatRoughness: 0.08,
+            envMapIntensity: 1.25,
             transparent: true,
-            opacity: 0.92,
+            opacity: 0.94,
             side: THREE.DoubleSide
           });
+        }
         case "metal":
           return new THREE.MeshStandardMaterial({
             color: col,
@@ -2749,14 +3114,20 @@
             envMapIntensity: 1.2,
             side: THREE.DoubleSide
           });
-        case "stone":
+        case "stone": {
+          const textures = getStoneTextures();
           if (isGold) {
             // Rich deep antique gold mineral stone (pyrite / bronzite / tiger's eye)
             return new THREE.MeshStandardMaterial({
               color: new THREE.Color(0x7D5A18),
+              map: textures.colorMap,
+              normalMap: textures.normalMap,
+              normalScale: new THREE.Vector2(1.25, 1.25),
+              bumpMap: textures.bumpMap,
+              bumpScale: 0.038,
               metalness: 0.22,
-              roughness: 0.35,
-              envMapIntensity: 0.65,
+              roughness: 0.55,
+              envMapIntensity: 0.75,
               side: THREE.DoubleSide
             });
           }
@@ -2764,18 +3135,30 @@
             // Deep lustrous silver mineral stone (polished hematite / silver slate)
             return new THREE.MeshStandardMaterial({
               color: new THREE.Color(0x4A4D53),
+              map: textures.colorMap,
+              normalMap: textures.normalMap,
+              normalScale: new THREE.Vector2(1.25, 1.25),
+              bumpMap: textures.bumpMap,
+              bumpScale: 0.038,
               metalness: 0.26,
-              roughness: 0.32,
-              envMapIntensity: 0.65,
+              roughness: 0.50,
+              envMapIntensity: 0.75,
               side: THREE.DoubleSide
             });
           }
           return new THREE.MeshStandardMaterial({
             color: col,
-            metalness: 0.15,
-            roughness: 0.38,
+            map: textures.colorMap,
+            normalMap: textures.normalMap,
+            normalScale: new THREE.Vector2(1.25, 1.25),
+            bumpMap: textures.bumpMap,
+            bumpScale: 0.038,
+            metalness: 0.04,
+            roughness: 0.70,
+            envMapIntensity: 0.50,
             side: THREE.DoubleSide
           });
+        }
         case "wood":
           if (isGold) {
             // Warm golden teak / gilded amber sandalwood with rich deep grain
