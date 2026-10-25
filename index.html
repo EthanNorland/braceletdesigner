@@ -1412,6 +1412,7 @@
         <div class="swatch" style="background:#D2AC4C;" data-color="#D2AC4C" title="Gold"></div>
         <div class="swatch" style="background:#4B4E54;" data-color="#4B4E54" title="Gunmetal / Antiqued Steel (Metal)"></div>
         <div class="swatch" style="background:#373A40;" data-color="#373A40" title="Basalt Charcoal Slate (Stone)"></div>
+        <div class="swatch" style="background:#A2A5A0;" data-color="#A2A5A0" title="Honed Limestone / Travertine (Stone)"></div>
         <div class="swatch" style="background:#A855F7;" data-color="#A855F7" title="Amethyst Purple"></div>
         <div class="swatch" style="background:#10B981;" data-color="#10B981" title="Emerald Green"></div>
         <div class="swatch" style="background:#EF4444;" data-color="#EF4444" title="Coral Red"></div>
@@ -1499,7 +1500,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.15 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.16 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1616,7 +1617,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.15</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.16</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1636,7 +1637,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.15",
+      version: "1.8.16",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2888,7 +2889,7 @@
       return quartzTextureCache;
     }
 
-    // ── PROCEDURAL CRAGGY SLATE / VOLCANIC BASALT STONE TEXTURE GENERATOR (MATCHING REFERENCE/STONE2.PNG) ──
+    // ── PROCEDURAL HONED LIMESTONE / PITTED TRAVERTINE TEXTURE GENERATOR (MATCHING REFERENCE/STONETEXTURE3.PNG) ──
     let stoneTextureCache = null;
 
     function getStoneTextures() {
@@ -2897,7 +2898,7 @@
       const w = 512, h = 512;
       const tabSize = 256;
       const perm = new Float32Array(tabSize);
-      let seed = 73921;
+      let seed = 38471;
       function rand() {
         seed = (seed * 16807 + 0) % 2147483647;
         return (seed - 1) / 2147483646;
@@ -2916,77 +2917,82 @@
         return n00 + sx * (n10 - n00) + sy * (n01 - n00) + sx * sy * (n00 - n10 - n01 + n11);
       }
 
-      function ridgedNoise(u, v, rep) {
-        const n = sampleNoise(u, v, rep);
-        return 1.0 - 2.0 * Math.abs(n - 0.5);
+      // Scattered limestone & travertine porous pits / cavities matching reference/stonetexture3.png
+      const pitGrid = 28;
+      const pitPoints = [];
+      for (let gy = 0; gy < pitGrid; gy++) {
+        for (let gx = 0; gx < pitGrid; gx++) {
+          // Clustered natural limestone cavities (~42% of grid cells)
+          if (rand() < 0.42) {
+            pitPoints.push({
+              x: (gx + 0.15 + rand() * 0.70) / pitGrid,
+              y: (gy + 0.15 + rand() * 0.70) / pitGrid,
+              radius: 0.008 + rand() * 0.022,
+              depth: 0.5 + rand() * 0.5
+            });
+          }
+        }
       }
 
-      // Cleaved rock polygonal blocks / faceted plateaus matching reference/stone2.png
-      const grid = 22;
-      const stoneCells = [];
-      for (let gy = 0; gy < grid; gy++) {
-        for (let gx = 0; gx < grid; gx++) {
-          stoneCells.push({
-            x: (gx + 0.15 + rand() * 0.70) / grid,
-            y: (gy + 0.15 + rand() * 0.70) / grid,
-            elev: 0.35 + rand() * 0.50,
-            tiltX: (rand() - 0.5) * 1.8,
-            tiltY: (rand() - 0.5) * 1.8
-          });
+      // Spatial acceleration grid for seamless toroidal pit lookup
+      const gridDim = 16;
+      const grid = Array.from({ length: gridDim * gridDim }, () => []);
+      for (const p of pitPoints) {
+        const gx = Math.floor(p.x * gridDim);
+        const gy = Math.floor(p.y * gridDim);
+        for (let dy = -1; dy <= 1; dy++) {
+          const wrapGy = ((gy + dy) % gridDim + gridDim) % gridDim;
+          for (let dx = -1; dx <= 1; dx++) {
+            const wrapGx = ((gx + dx) % gridDim + gridDim) % gridDim;
+            grid[wrapGy * gridDim + wrapGx].push(p);
+          }
         }
       }
 
       const heightMap = new Float32Array(w * h);
 
       for (let y = 0; y < h; y++) {
-        const v0 = y / h;
+        const v = y / h;
+        const gy = Math.floor(v * gridDim);
         for (let x = 0; x < w; x++) {
-          const u0 = x / w;
+          const u = x / w;
+          const gx = Math.floor(u * gridDim);
 
-          // Domain warp for natural geological fault distortion
-          const warpU = (sampleNoise(u0, v0, 6) - 0.5) * 0.055;
-          const warpV = (sampleNoise(u0 + 0.41, v0 + 0.59, 6) - 0.5) * 0.055;
-          const u = (u0 + warpU + 1.0) % 1.0;
-          const v = (v0 + warpV + 1.0) % 1.0;
+          // 1. Honed surface macro undulation (smooth spherical limestone/plaster body)
+          const macro1 = sampleNoise(u, v, 3);
+          const macro2 = sampleNoise(u + 0.31, v + 0.69, 7) * 0.5;
+          const honedSurface = (macro1 + macro2) / 1.5;
 
-          const cgx = Math.floor(u * grid), cgy = Math.floor(v * grid);
-          let d1 = 1e9, d2 = 1e9;
-          let closestCell = null;
-          for (let dy = -1; dy <= 1; dy++) {
-            const ngy = (cgy + dy + grid) % grid;
-            for (let dx = -1; dx <= 1; dx++) {
-              const ngx = (cgx + dx + grid) % grid;
-              const cell = stoneCells[ngy * grid + ngx];
-              let pdx = Math.abs(u - cell.x); if (pdx > 0.5) pdx = 1.0 - pdx;
-              let pdy = Math.abs(v - cell.y); if (pdy > 0.5) pdy = 1.0 - pdy;
-              const dist = Math.sqrt(pdx * pdx + pdy * pdy);
-              if (dist < d1) { d2 = d1; d1 = dist; closestCell = cell; }
-              else if (dist < d2) { d2 = dist; }
+          // 2. Fine directional honing / sanding grain
+          const honing = sampleNoise(u * 14.0 + v * 4.0, v * 28.0, 24) * 0.04;
+
+          // 3. Scattered limestone pits & cavities
+          let pitDepth = 0;
+          const cellPits = grid[gy * gridDim + gx];
+          for (let i = 0; i < cellPits.length; i++) {
+            const p = cellPits[i];
+            let pdx = Math.abs(u - p.x); if (pdx > 0.5) pdx = 1.0 - pdx;
+            let pdy = Math.abs(v - p.y); if (pdy > 0.5) pdy = 1.0 - pdy;
+            const dist = Math.sqrt(pdx * pdx + pdy * pdy);
+            if (dist < p.radius) {
+              const falloff = 1.0 - dist / p.radius;
+              const d = Math.pow(falloff, 1.8) * p.depth;
+              if (d > pitDepth) pitDepth = d;
             }
           }
 
-          // 1. Cleaved planar facet with tilted rock face
-          let pdx = u - closestCell.x; if (pdx > 0.5) pdx -= 1.0; else if (pdx < -0.5) pdx += 1.0;
-          let pdy = v - closestCell.y; if (pdy > 0.5) pdy -= 1.0; else if (pdy < -0.5) pdy += 1.0;
-          const facet = Math.max(0.1, closestCell.elev + pdx * closestCell.tiltX + pdy * closestCell.tiltY);
+          // 4. Fine pin-prick micro-pores
+          const microNoise = sampleNoise(u, v, 56);
+          let microPore = 0;
+          if (microNoise < 0.22) {
+            microPore = (0.22 - microNoise) / 0.22 * 0.25;
+          }
 
-          // 2. Steep geological fissure cracks along cell boundaries
-          const crackDist = (d2 - d1) * grid;
-          const crack = 1.0 - Math.exp(-crackDist * 2.6);
+          // 5. Subtle micro-sand grain
+          const sand = (sampleNoise(u, v, 112) - 0.5) * 0.03;
 
-          // 3. Multi-octave ridged rock crags (slate / basalt fractures)
-          const crag1 = ridgedNoise(u, v, 12);
-          const crag2 = ridgedNoise(u * 1.5 + v * 0.6, v * 1.5 - u * 0.6, 24) * 0.5;
-          const crags = (crag1 + crag2) / 1.5;
-
-          // 4. Directional stratified metamorphic foliation / cleavage layers
-          const strata = sampleNoise(u * 3.0 + v * 12.0, v * 8.0, 16);
-
-          // 5. Micro-porous basalt rock sand & pitting
-          const microGrit = (sampleNoise(u, v, 64) + sampleNoise(u, v, 128) * 0.5) / 1.5;
-
-          // Composite tactile stone height
-          const totalH = facet * 0.32 + crack * 0.28 + crags * 0.24 + strata * 0.08 + microGrit * 0.08;
+          // Total height: smooth honed plane with recessed pits
+          const totalH = 0.70 + (honedSurface - 0.5) * 0.08 + honing - pitDepth * 0.45 - microPore * 0.15 + sand;
           heightMap[y * w + x] = Math.max(0.0, Math.min(1.0, totalH));
         }
       }
@@ -3007,7 +3013,7 @@
       const normalCtx = normalCanvas.getContext("2d");
       const normalImg = normalCtx.createImageData(w, h);
 
-      const bumpStrength = 6.2;
+      const bumpStrength = 4.8;
       for (let y = 0; y < h; y++) {
         const ym = (y - 1 + h) % h, yp = (y + 1) % h;
         for (let x = 0; x < w; x++) {
@@ -3020,6 +3026,15 @@
           bumpImg.data[idx + 1] = bByte;
           bumpImg.data[idx + 2] = bByte;
           bumpImg.data[idx + 3] = 255;
+
+          // Ambient occlusion shading: dark shadows in recessed pits matching stonetexture3.png
+          const ao = 0.55 + 0.45 * Math.pow(Math.min(1.0, (hVal - 0.25) / 0.45), 1.2);
+          const cByte = Math.max(0, Math.min(255, Math.round(240 * ao)));
+
+          colorImg.data[idx]     = cByte;
+          colorImg.data[idx + 1] = cByte;
+          colorImg.data[idx + 2] = cByte;
+          colorImg.data[idx + 3] = 255;
 
           // Sobel gradient tangent-space normal vector
           const tl = heightMap[ym * w + xm], tc = heightMap[ym * w + x], tr = heightMap[ym * w + xp];
@@ -3035,18 +3050,6 @@
           normalImg.data[idx + 1] = Math.round((-dY * invLen * 0.5 + 0.5) * 255);
           normalImg.data[idx + 2] = Math.round((dZ * invLen * 0.5 + 0.5) * 255);
           normalImg.data[idx + 3] = 255;
-
-          // Ambient occlusion shading & chiseled ridge edge highlight matching stone2.png
-          // Deep fissures are shaded dark; sharp chiseled ridges catch pulverized rock dust / crystalline glint
-          const slope = Math.sqrt(dX * dX + dY * dY);
-          const edgeHighlight = Math.min(0.22, slope * 0.045);
-          const ao = 0.52 + 0.44 * Math.pow(hVal, 1.25) + edgeHighlight;
-          const cByte = Math.max(0, Math.min(255, Math.round(230 * ao)));
-
-          colorImg.data[idx]     = cByte;
-          colorImg.data[idx + 1] = cByte;
-          colorImg.data[idx + 2] = cByte;
-          colorImg.data[idx + 3] = 255;
         }
       }
 
@@ -3501,12 +3504,12 @@
               color: new THREE.Color(0x7D5A18),
               map: textures.colorMap,
               normalMap: textures.normalMap,
-              normalScale: new THREE.Vector2(1.35, 1.35),
+              normalScale: new THREE.Vector2(1.1, 1.1),
               bumpMap: textures.bumpMap,
-              bumpScale: 0.045,
-              metalness: 0.20,
-              roughness: 0.65,
-              envMapIntensity: 0.60,
+              bumpScale: 0.022,
+              metalness: 0.18,
+              roughness: 0.62,
+              envMapIntensity: 0.55,
               side: THREE.DoubleSide
             });
           }
@@ -3516,26 +3519,26 @@
               color: new THREE.Color(0x4A4D53),
               map: textures.colorMap,
               normalMap: textures.normalMap,
-              normalScale: new THREE.Vector2(1.35, 1.35),
+              normalScale: new THREE.Vector2(1.1, 1.1),
               bumpMap: textures.bumpMap,
-              bumpScale: 0.045,
-              metalness: 0.24,
-              roughness: 0.62,
-              envMapIntensity: 0.60,
+              bumpScale: 0.022,
+              metalness: 0.22,
+              roughness: 0.58,
+              envMapIntensity: 0.55,
               side: THREE.DoubleSide
             });
           }
-          // Natural slate / volcanic basalt stone matching reference/stone2.png
+          // Honed limestone / travertine / natural stone matching reference/stonetexture3.png
           return new THREE.MeshStandardMaterial({
             color: col,
             map: textures.colorMap,
             normalMap: textures.normalMap,
-            normalScale: new THREE.Vector2(1.4, 1.4),
+            normalScale: new THREE.Vector2(1.0, 1.0),
             bumpMap: textures.bumpMap,
-            bumpScale: 0.045,
-            metalness: 0.03,
-            roughness: 0.88,
-            envMapIntensity: 0.32,
+            bumpScale: 0.020,
+            metalness: 0.02,
+            roughness: 0.78,
+            envMapIntensity: 0.38,
             side: THREE.DoubleSide
           });
         }
@@ -5143,6 +5146,8 @@
         "#EA580C": "Carnelian Agate",
         "#373A40": "Volcanic Basalt / Slate Stone",
         "#35383D": "Volcanic Basalt / Slate Stone",
+        "#A2A5A0": "Honed Limestone / Travertine",
+        "#9CA09A": "Honed Limestone / Travertine",
         "#4B4E54": "Gunmetal / Antiqued Steel",
         "#44464D": "Gunmetal / Antiqued Steel",
         "#D97706": "Warm Sandstone / Amber",

@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.16] - 2026-10-25
+
+### Added - Reference-Calibrated Honed Limestone & Pitted Travertine Texture
+- **Honed Limestone & Pitted Travertine Calibration ([`getStoneTextures()`](file:///Users/ethannorland/hello-world/index.html#L2892)):**
+  - Calibrated the stone material directly against desktop reference photo `reference/stonetexture3.png`, capturing its smooth honed spherical body with fine directional honing striations and scattered porous cavities.
+  - Implemented organic clustered limestone pits with toroidal boundary wrapping and spatial grid lookup acceleration.
+  - Layered multi-octave directional honing grain ($24\pi$), pin-prick micro-pores, and fine sand mottling onto a smooth honed plane.
+  - Engineered Sobel-filtered tangent normal vectors (`bumpStrength = 4.8`, `normalScale: [1.0, 1.0]`, `bumpScale: 0.020`) and deep ambient occlusion shading inside the cavities (`ao: 0.55 - 1.0`).
+- **Honed Matte Stone PBR Shading ([`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3499)):**
+  - Updated stone material shader parameters to `roughness: 0.78`, `metalness: 0.02`, `bumpScale: 0.020`, `normalScale: [1.0, 1.0]`, and `envMapIntensity: 0.38` for authentic honed architectural stone realism.
+  - Added a dedicated **Honed Limestone / Travertine** swatch (`#A2A5A0`) to `#bead-swatches` with materials spec sheet labeling.
+- **PWA Bump:** Bumped service worker cache version to `1.8.16`.
+
 ## [1.8.15] - 2026-10-25
 
 ### Added - Reference-Calibrated Tumble-Polished Metal with Micro-Scratches & Patina
