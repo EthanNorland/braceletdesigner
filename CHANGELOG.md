@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.8.5] - 2026-10-24
+
+### Changed - Neutral Pure White Studio Lighting on Silver, Stone & Wood Beads
+- **Neutral White Studio Illumination:** Replaced warm gold/yellow light sources in the 3D studio with pure neutral daylight-balanced illumination:
+  - **Rim Light Recalibration:** Converted [`rimLight`](file:///Users/ethannorland/hello-world/index.html#L2369) from intense gold-yellow `0xd4af37` (RGB 212, 175, 55, which cast a heavy 3.8x red/blue yellow reflection) to pure neutral white `0xffffff` (intensity `1.6`, distance `45`).
+  - **Key Light Recalibration:** Converted [`keyLight`](file:///Users/ethannorland/hello-world/index.html#L2361) from warm ivory `0xfff5e6` to pure neutral white `0xffffff` (intensity `2.3`).
+  - **Fill Light Neutralization:** Converted [`fillLight`](file:///Users/ethannorland/hello-world/index.html#L2365) to balanced neutral fill `0xf1f5f9`.
+  - **PMREM Environment Softbox Neutralization:** Converted key softbox reflector `pKey` in [`envScene`](file:///Users/ethannorland/hello-world/index.html#L2340) from yellow-tinted `0xFFFBEB` to pure white `0xFFFFFF`.
+- **Pure White Specular Highlights:** Silver metal beads, sterling clasps, silver chains, silver stone beads, and silver wood beads now catch crisp, clean, neutral **white** specular highlights and rim reflections with zero yellow color contamination.
+- **Preserved Warmth on Gold Components:** Because gold metals and gold stone/wood have authentic colored Cook-Torrance BRDF specular reflectance (`#D2AC4C`, `#7D5A18`, `#744E14`), they continue reflecting rich, warm, authentic gold highlights under pure white studio light.
+- **PWA Precache Bump:** Bumped application version and service worker cache to `1.8.5`.
+
 ## [1.8.4] - 2026-10-24
 
 ### Changed - Rich Darker Gold & Silver Shading for Stone & Wood Beads

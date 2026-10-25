@@ -1496,7 +1496,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.8.4 ↻</button>
+  <button id="chip" title="Check for a newer version">1.8.5 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -1613,7 +1613,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.8.4</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.8.5</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -1633,7 +1633,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.8.4",
+      version: "1.8.5",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -2337,11 +2337,11 @@
     ceilMesh.position.set(0, 25, 0);
     ceilMesh.rotation.x = Math.PI / 2;
     envScene.add(ceilMesh);
-    const pKey = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshBasicMaterial({ color: 0xFFFBEB }));
+    const pKey = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshBasicMaterial({ color: 0xFFFFFF }));
     pKey.position.set(18, 16, 18);
     pKey.lookAt(0, 0, 0);
     envScene.add(pKey);
-    const pFill = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshBasicMaterial({ color: 0xEFF6FF }));
+    const pFill = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.MeshBasicMaterial({ color: 0xF8FAFC }));
     pFill.position.set(-18, 14, -18);
     pFill.lookAt(0, 0, 0);
     envScene.add(pFill);
@@ -2354,19 +2354,19 @@
     controls.minDistance = 8;
     controls.maxDistance = 75;
 
-    // Studio Lighting
+    // Studio Lighting (Neutral Pure White Studio Illumination)
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfff5e6, 2.3);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.3);
     keyLight.position.set(18, 28, 22);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xc0d8ff, 1.5);
+    const fillLight = new THREE.DirectionalLight(0xf1f5f9, 1.5);
     fillLight.position.set(-18, 12, -18);
     scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0xd4af37, 1.8, 45);
+    const rimLight = new THREE.PointLight(0xffffff, 1.6, 45);
     rimLight.position.set(0, -8, 12);
     scene.add(rimLight);
 
@@ -3165,7 +3165,7 @@
         ambientLight.intensity = 0.85;
         keyLight.intensity = 2.30;
         fillLight.intensity = 1.50;
-        rimLight.intensity = 1.80;
+        rimLight.intensity = 1.60;
 
         if (wristMesh) {
           wristMesh.visible = false;
