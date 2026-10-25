@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.2](https://img.shields.io/badge/Version-1.9.2-lightgrey?style=flat-square)](#)
+[![Version: 1.9.3](https://img.shields.io/badge/Version-1.9.3-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -29,7 +29,8 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 ---
 
 ## Key Features
-- **Animated Feature Walkthrough Video Engine (v1.9.1):** A zero-dependency procedural 60fps video player built directly on `<canvas>` demonstrating all 6 major features of the studio in high definition:
+- **Spotlight Feature Inspection & Picture-in-Picture Mode (v1.9.3):** Replaced the dark blurred modal backdrop with a clear, non-blackout studio view. When clicking any chapter's "Highlight Feature ✨" button, the demo video dynamically docks into a sleek Picture-in-Picture (PiP) mini-player in the bottom corner while the actual feature in the studio (3D Stage, Element Palette, Properties, Monogram Engraving, Wrist View, Spec Sheet) lights up with an animated golden halo beacon and spotlight ring. Includes manual Picture-in-Picture toggle (`🗕 / ⤢`) in the video header, floating inspection toast with quick return, and 5s auto-expand.
+- **Animated Feature Walkthrough Video Engine (v1.9.1–v1.9.2):** A zero-dependency procedural 60fps video player built directly on `<canvas>` demonstrating all 6 major features of the studio in high definition:
   1. *3D Stage Orbit & Bead Sliding* (interactive 360° rotation, bead sliding along cord, real-time mm fit gauge).
   2. *Bead Geometries, Spacers & Clasps* (sphere, faceted, rondelle, barrel, cube, celestial star, spacers, clasps).
   3. *PBR Materials & Jewel-Tone Colors* (translucent glass, crystalline quartz, stone, high-polish metal, painted wood).

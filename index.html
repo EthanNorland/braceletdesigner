@@ -750,6 +750,7 @@
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(136, 164, 196, 0.15);
     overflow: hidden;
     color: var(--fg);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.3s ease, box-shadow 0.3s ease;
   }
   #dlg-demo[open] {
     display: flex;
@@ -758,6 +759,124 @@
   #dlg-demo:not([open]) {
     display: none;
   }
+
+  /* Non-blackout, unblurred backdrop so the 3D atelier remains clearly visible behind the video */
+  #dlg-demo::backdrop {
+    background: rgba(11, 14, 20, 0.40);
+    backdrop-filter: none;
+    transition: background 0.3s ease;
+  }
+
+  /* Picture-in-Picture / Spotlight Minimized Mode */
+  #dlg-demo.demo-pip {
+    position: fixed !important;
+    top: auto !important;
+    left: auto !important;
+    right: 24px !important;
+    bottom: 24px !important;
+    width: 350px !important;
+    max-width: calc(100vw - 32px) !important;
+    max-height: 85vh !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.9), 0 0 0 2px var(--accent-blue) !important;
+    z-index: 9999 !important;
+  }
+  #dlg-demo.demo-pip::backdrop {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    pointer-events: none !important;
+  }
+  #dlg-demo.demo-pip .demo-chapters-container,
+  #dlg-demo.demo-pip .demo-modal-footer {
+    display: none !important;
+  }
+  #dlg-demo.demo-pip .demo-active-info {
+    padding: 8px 12px;
+  }
+  #dlg-demo.demo-pip .demo-info-desc {
+    display: none;
+  }
+  #dlg-demo.demo-pip .demo-video-caption-overlay {
+    font-size: 0.76rem;
+    padding: 6px 10px;
+  }
+  @media (max-width: 600px) {
+    #dlg-demo.demo-pip {
+      right: 12px !important;
+      left: 12px !important;
+      bottom: 12px !important;
+      width: auto !important;
+      max-width: none !important;
+    }
+  }
+
+  /* Atelier Spotlight Feature Highlight Beacon */
+  @keyframes atelierSpotlightPulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(210, 172, 76, 0.9), 0 0 0 0 rgba(136, 164, 196, 0.6);
+      transform: scale(1);
+    }
+    30% {
+      box-shadow: 0 0 0 5px rgba(210, 172, 76, 0.95), 0 0 32px rgba(210, 172, 76, 0.85), 0 0 0 1px #FFF;
+      transform: scale(1.02);
+    }
+    70% {
+      box-shadow: 0 0 0 7px rgba(210, 172, 76, 0.45), 0 0 45px rgba(210, 172, 76, 0.65);
+      transform: scale(1.01);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(210, 172, 76, 0), 0 0 0 0 rgba(136, 164, 196, 0);
+      transform: scale(1);
+    }
+  }
+
+  .atelier-spotlight {
+    position: relative;
+    z-index: 100 !important;
+    outline: 3px solid var(--accent-gold) !important;
+    outline-offset: 4px !important;
+    animation: atelierSpotlightPulse 1.8s infinite ease-in-out !important;
+    transition: outline 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  /* Spotlight Toast Notification */
+  .demo-spotlight-toast {
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 25, 35, 0.95);
+    border: 1px solid var(--accent-gold);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(210, 172, 76, 0.35);
+    padding: 10px 18px;
+    border-radius: 30px;
+    color: var(--fg);
+    font-size: 0.84rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10000;
+    pointer-events: auto;
+    animation: fadeInDown 0.25s ease;
+  }
+  .demo-spotlight-toast button {
+    background: var(--accent-blue);
+    color: #0B0E14;
+    border: none;
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .demo-spotlight-toast button:hover {
+    background: #FFF;
+    transform: scale(1.05);
+  }
+
   .demo-modal-header {
     display: flex;
     align-items: center;
@@ -765,6 +884,26 @@
     padding: 14px 20px 12px 20px;
     border-bottom: 1px solid var(--panel-border);
     background: rgba(11, 14, 20, 0.7);
+  }
+  .demo-header-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--fg-muted);
+    font-size: 1.05rem;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .demo-header-btn:hover {
+    color: var(--fg);
+    background: var(--panel-hover);
+    border-color: var(--panel-border);
   }
   .demo-badge {
     display: inline-flex;
@@ -1901,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.2 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.3 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2021,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.2</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.3</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2128,7 +2267,10 @@
         <span class="demo-badge-dot"></span>
         <span>ATELIER VIDEO DEMO • 6 MAJOR FEATURES</span>
       </div>
-      <button type="button" class="demo-close-btn" id="btn-demo-close" title="Close video (Esc)" aria-label="Close video">✕</button>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <button type="button" class="demo-header-btn" id="btn-demo-pip" title="Toggle Picture-in-Picture (Minimize to corner to see app / Expand)" aria-label="Toggle Picture-in-Picture">🗕</button>
+        <button type="button" class="demo-close-btn" id="btn-demo-close" title="Close video (Esc)" aria-label="Close video">✕</button>
+      </div>
     </div>
 
     <!-- Video Stage Container -->
@@ -2188,7 +2330,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.2",
+      version: "1.9.3",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -6103,6 +6245,105 @@
     });
 
     // ── INTERACTIVE FEATURE DEMO VIDEO SYSTEM (PHASE 28-29) ─────────────────
+    let spotlightTimer = null;
+
+    function clearActiveSpotlights() {
+      document.querySelectorAll(".atelier-spotlight").forEach(el => el.classList.remove("atelier-spotlight"));
+      const existingToast = document.getElementById("demo-spotlight-toast");
+      if (existingToast) existingToast.remove();
+      if (spotlightTimer) {
+        clearTimeout(spotlightTimer);
+        spotlightTimer = null;
+      }
+    }
+
+    function setDemoPiPMode(isPiP) {
+      const dlg = document.getElementById("dlg-demo");
+      const pipBtn = document.getElementById("btn-demo-pip");
+      if (!dlg) return;
+
+      if (isPiP) {
+        if (!dlg.classList.contains("demo-pip")) {
+          // Switch to Picture-in-Picture mode with transparent non-blocking backdrop
+          if (dlg.open && typeof dlg.close === "function") {
+            dlg.close();
+          }
+          dlg.classList.add("demo-pip");
+          dlg.show();
+          if (!videoIsPlaying) playVideo();
+        }
+        if (pipBtn) {
+          pipBtn.textContent = "⤢";
+          pipBtn.title = "Expand demo video to center modal";
+        }
+      } else {
+        if (dlg.classList.contains("demo-pip")) {
+          dlg.close();
+          dlg.classList.remove("demo-pip");
+          dlg.showModal();
+          if (!videoIsPlaying) playVideo();
+        }
+        if (pipBtn) {
+          pipBtn.textContent = "🗕";
+          pipBtn.title = "Minimize to Picture-in-Picture (to design while watching)";
+        }
+        clearActiveSpotlights();
+      }
+    }
+
+    function spotlightFeature(selectors, featureName) {
+      clearActiveSpotlights();
+
+      // 1. Enter Picture-in-Picture mode so the entire studio is unobstructed
+      setDemoPiPMode(true);
+
+      // 2. Locate target element(s) and highlight
+      const selectorList = Array.isArray(selectors) ? selectors : [selectors];
+      selectorList.forEach(sel => {
+        const el = document.querySelector(sel);
+        if (!el) return;
+
+        // Auto-open mobile drawer if target is inside left or right panel
+        if (window.innerWidth <= 840) {
+          if (sel === "#left-panel" || el.closest("#left-panel")) {
+            toggleMobileDrawer("palette");
+          } else if (sel === "#right-panel" || el.closest("#right-panel")) {
+            toggleMobileDrawer("props");
+          }
+        }
+
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        el.classList.add("atelier-spotlight");
+      });
+
+      // Tactile sound feedback
+      audioPlaySelect();
+
+      // 3. Show spotlight guide toast banner
+      const toast = document.createElement("div");
+      toast.id = "demo-spotlight-toast";
+      toast.className = "demo-spotlight-toast";
+      toast.innerHTML = `
+        <span>✦ Highlighting: <strong style="color:var(--accent-gold);">${featureName}</strong> in Studio</span>
+        <button type="button" id="btn-spotlight-expand">⤢ Expand Video</button>
+        <button type="button" id="btn-spotlight-dismiss" style="background:transparent; color:var(--fg-muted); padding:2px 6px;">✕</button>
+      `;
+      document.body.appendChild(toast);
+
+      document.getElementById("btn-spotlight-expand")?.addEventListener("click", () => {
+        setDemoPiPMode(false);
+      });
+      document.getElementById("btn-spotlight-dismiss")?.addEventListener("click", () => {
+        clearActiveSpotlights();
+      });
+
+      // 4. Auto-expand back to full modal after 5 seconds of spotlight inspection
+      spotlightTimer = setTimeout(() => {
+        clearActiveSpotlights();
+        setDemoPiPMode(false);
+      }, 5000);
+    }
+
     const DEMO_VIDEO_CHAPTERS = [
       {
         id: "slide",
@@ -6113,7 +6354,7 @@
         summaryTitle: "Direct 3D Studio & Raycast Bead Sliding",
         summaryDesc: "Rotate the tabletop 360° under studio illumination, zoom into micro-details, and drag beads freely along the cord with live millimeter fit tracking.",
         actionText: "Highlight 3D Stage ✨",
-        action: () => ring("#stage-container")
+        action: () => spotlightFeature("#stage-container", "3D Stage & Tabletop")
       },
       {
         id: "palette",
@@ -6124,7 +6365,7 @@
         summaryTitle: "Bead Geometries, Spacers & Clasps",
         summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Celestial Stars with jewelry chamfers, paired with 3 mechanical clasp styles.",
         actionText: "Highlight Palette ✨",
-        action: () => ring("#left-panel")
+        action: () => spotlightFeature("#left-panel", "Element Palette & Clasps")
       },
       {
         id: "materials",
@@ -6135,7 +6376,7 @@
         summaryTitle: "PBR Materials & Jewel-Tone Colors",
         summaryDesc: "Physical transmission, surface crackle veins, honed stone pits, and Linear Tone Mapping ensure colors match the 2D selector without glare burnout.",
         actionText: "Highlight Properties ✨",
-        action: () => ring("#right-panel")
+        action: () => spotlightFeature("#right-panel", "Materials & Properties")
       },
       {
         id: "engraving",
@@ -6146,7 +6387,7 @@
         summaryTitle: "Personalized Monograms & Hallmarks",
         summaryDesc: "Dynamic procedural debossed normal mapping carves deep tactile engraved initials, lucky digits, and symbols directly into the bead face.",
         actionText: "Highlight Inscriptions ✨",
-        action: () => ring("#cube-inscription-section")
+        action: () => spotlightFeature("#cube-inscription-section", "Cube Monogram Inscriptions")
       },
       {
         id: "wrist",
@@ -6157,7 +6398,7 @@
         summaryTitle: "3D Wrist Preview & Anatomical Fit",
         summaryDesc: "Switch from tabletop studio to a realistic anatomical forearm and hand with Fair, Natural, Warm Tan, and Deep Rich tones that scale to your wrist size.",
         actionText: "Highlight Wrist View ✨",
-        action: () => ring("#btn-wrist")
+        action: () => spotlightFeature("#btn-wrist", "Wrist View Button")
       },
       {
         id: "export",
@@ -6168,10 +6409,7 @@
         summaryTitle: "Materials Recipe, CSV & Project Export",
         summaryDesc: "Get an exact physical parts breakdown for jewelers, download CSV order spreadsheets, and capture crisp PNG photos without UI overlays.",
         actionText: "Highlight Materials & Export ✨",
-        action: () => {
-          ring("#btn-list");
-          setTimeout(() => ring("#btn-export"), 400);
-        }
+        action: () => spotlightFeature(["#btn-list", "#btn-export"], "Materials Spec Sheet & Export PNG")
       }
     ];
 
@@ -6878,6 +7116,14 @@
       const dlg = document.getElementById("dlg-demo");
       if (!dlg) return;
 
+      clearActiveSpotlights();
+      dlg.classList.remove("demo-pip");
+      const pipBtn = document.getElementById("btn-demo-pip");
+      if (pipBtn) {
+        pipBtn.textContent = "🗕";
+        pipBtn.title = "Minimize to Picture-in-Picture (to design while watching)";
+      }
+
       renderChaptersBar();
       const ch = DEMO_VIDEO_CHAPTERS[startChapterIdx] || DEMO_VIDEO_CHAPTERS[0];
       videoCurrentTime = ch.timeStart;
@@ -6899,9 +7145,15 @@
     function closeDemo() {
       const dlg = document.getElementById("dlg-demo");
       pauseVideo();
-      if (dlg && dlg.open) {
-        dlg.close();
-        audioPlayTick();
+      clearActiveSpotlights();
+      if (dlg) {
+        dlg.classList.remove("demo-pip");
+        const pipBtn = document.getElementById("btn-demo-pip");
+        if (pipBtn) pipBtn.textContent = "🗕";
+        if (dlg.open) {
+          dlg.close();
+          audioPlayTick();
+        }
       }
       const chk = document.getElementById("chk-demo-skip-startup");
       if (chk && chk.checked) {
@@ -6935,6 +7187,12 @@
 
     // Wire video modal buttons
     document.getElementById("btn-demo")?.addEventListener("click", () => openDemo(0));
+    document.getElementById("btn-demo-pip")?.addEventListener("click", () => {
+      const dlg = document.getElementById("dlg-demo");
+      if (!dlg) return;
+      const isCurrentlyPiP = dlg.classList.contains("demo-pip");
+      setDemoPiPMode(!isCurrentlyPiP);
+    });
     document.getElementById("btn-demo-close")?.addEventListener("click", closeDemo);
     document.getElementById("btn-demo-start")?.addEventListener("click", closeDemo);
     document.getElementById("btn-vid-play")?.addEventListener("click", (e) => {

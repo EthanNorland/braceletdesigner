@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.3] - 2026-10-25
+
+### Fixed - Studio Feature Spotlighting & Picture-in-Picture Demo Player
+- **Non-Blackout Backdrop ([`index.html#L756`](file:///Users/ethannorland/hello-world/index.html#L756)):**
+  - Replaced the dark blurred modal backdrop (`rgba(5, 7, 10, 0.75)` with `blur(4px)`) with a light, non-blackout studio view (`rgba(11, 14, 20, 0.40)` with `backdrop-filter: none`). The 3D studio, stage lighting, and tools remain clearly visible behind the demo modal.
+- **Picture-in-Picture (PiP) & Studio Spotlight Inspection ([`index.html#L6248`](file:///Users/ethannorland/hello-world/index.html#L6248)):**
+  - Resolved issue where clicking chapter highlight buttons failed to reveal workbench elements because the demo modal and blacked-out backdrop covered the entire studio.
+  - Implemented `spotlightFeature(selectors, name)`: clicking any chapter's "Highlight Feature ✨" button automatically shifts the demo player into a sleek Picture-in-Picture mini-player (`350px`) docked in the bottom-right corner while the actual feature in the studio (3D Stage, Element Palette, Properties, Monogram Engraving, Wrist View, Spec Sheet) lights up with an animated golden halo beacon (`.atelier-spotlight`).
+  - Added on-screen floating banner with quick return (`[ ⤢ Expand Video ]`) and a 5-second auto-restore timer.
+  - Added dedicated Picture-in-Picture toggle button (`🗕 / ⤢`) in the video modal header so creators can minimize the video player at any time to design in the studio while continuing to watch.
+- **PWA Bump:** Bumped service worker cache version to `1.9.3`.
+
 ## [1.9.2] - 2026-10-25
 
 ### Fixed - Demo Video Playback Controller & Cross-Browser Canvas Polyfill
