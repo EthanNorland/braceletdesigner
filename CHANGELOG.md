@@ -4,6 +4,21 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.16] - 2026-10-26
+
+### Improved - Demo Captions, Targeted Spotlight Highlighting & Chapter 7 Button Alignment
+- **Chapter 1 & 2 Caption & Description Refinements ([`index.html#L6380–L6415`](file:///Users/ethannorland/braceletdesigner/index.html#L6380-L6415)):**
+  - **Chapter 1:** Updated summary description from `"select cord bases"` to `"select cord base"`.
+  - **Chapter 2:** Added `" and spacers"` after `"drag beads"` in the summary description, and added `" or spacer"` after `"bead"` and before `"directly"` in the video caption (*"Click and drag any bead or spacer directly on the cord to slide it into place."*).
+  - **Chapter 3:** Standardized clasp styles to lowercase initial letters (*"magnetic, lobster claw, and screw-in clasps"*).
+- **Targeted Studio Spotlight Highlighting ([`index.html#L1960–L2005`](file:///Users/ethannorland/braceletdesigner/index.html#L1960-L2005), [`#L6380–L6430`](file:///Users/ethannorland/braceletdesigner/index.html#L6380-L6430)):**
+  - **Chapter 1 Base Box Spotlight:** Assigned `id="card-bracelet-base"` to the entire card enclosing both *Bracelet Cord Base* (wrist sizing slider) and *Base Type* (chain/cord chips) so the highlight beacon encompasses the complete base box.
+  - **Chapter 4 Materials & Colors Spotlight:** Wrapped the Material Type and Color selector sections in `#section-materials-and-colors` so the highlight beacon frames only material types and colors, excluding bead diameter, shape, and monogram sections.
+- **Chapter 7 Spec Sheet Button Labels & Cursor Click ([`index.html#L7560–L7585`](file:///Users/ethannorland/braceletdesigner/index.html#L7560-L7585), [`#L8230–L8260`](file:///Users/ethannorland/braceletdesigner/index.html#L8230-L8260)):**
+  - Updated button labels in the simulated modal to **Copy Spec Sheet** (left button) and **Export CSV** (right button).
+  - Programmed cursor trajectory in Chapter 7 to glide directly across to **Export CSV** and click it with a tactile ripple, triggering the active golden button highlight.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.16`.
+
 ## [1.9.15] - 2026-10-26
 
 ### Fixed & Improved - Chapter 7 Button Clearance & Mobile Video Caption Sizing

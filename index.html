@@ -1957,42 +1957,45 @@
         </div>
       </div>
 
-      <div class="section-title" style="margin-top:14px;">Material Type</div>
-      <div class="item-grid cols-2">
-        <div class="item-thumb active" id="mat-glass" title="Translucent glass crystal">Glass</div>
-        <div class="item-thumb" id="mat-quartz" title="Crackle quartz crystal">Quartz</div>
-        <div class="item-thumb" id="mat-stone" title="Lapis / Turquoise stone">Stone</div>
-        <div class="item-thumb" id="mat-metal" title="Polished reflective metal">Metal</div>
-        <div class="item-thumb" id="mat-wood" title="Natural grain wood">Wood</div>
-      </div>
+      <!-- Material Types & Colors Section (Target for Chapter 4 Spotlight) -->
+      <div id="section-materials-and-colors" style="border-radius:8px; padding:4px 6px; margin:8px -6px 0 -6px;">
+        <div class="section-title">Material Type</div>
+        <div class="item-grid cols-2">
+          <div class="item-thumb active" id="mat-glass" title="Translucent glass crystal">Glass</div>
+          <div class="item-thumb" id="mat-quartz" title="Crackle quartz crystal">Quartz</div>
+          <div class="item-thumb" id="mat-stone" title="Lapis / Turquoise stone">Stone</div>
+          <div class="item-thumb" id="mat-metal" title="Polished reflective metal">Metal</div>
+          <div class="item-thumb" id="mat-wood" title="Natural grain wood">Wood</div>
+        </div>
 
-      <div class="section-title" style="margin-top:14px;">Color</div>
-      <div class="color-swatches" id="bead-swatches">
-        <div class="swatch active" style="background:#38BDF8;" data-color="#38BDF8" title="Cyan / Turquoise"></div>
-        <div class="swatch" style="background:#1E40AF;" data-color="#1E40AF" title="Lapis Blue"></div>
-        <div class="swatch" style="background:#F8FAFC;" data-color="#F8FAFC" title="Crackle Crystal White"></div>
-        <div class="swatch" style="background:#A8A9AC;" data-color="#A8A9AC" title="Sterling Silver"></div>
-        <div class="swatch" style="background:#D2AC4C;" data-color="#D2AC4C" title="Gold"></div>
-        <div class="swatch" style="background:#4B4E54;" data-color="#4B4E54" title="Gunmetal / Antiqued Steel (Metal)"></div>
-        <div class="swatch" style="background:#373A40;" data-color="#373A40" title="Basalt Charcoal Slate (Stone)"></div>
-        <div class="swatch" style="background:#A2A5A0;" data-color="#A2A5A0" title="Honed Limestone / Travertine (Stone)"></div>
-        <div class="swatch" style="background:#A855F7;" data-color="#A855F7" title="Amethyst Purple"></div>
-        <div class="swatch" style="background:#10B981;" data-color="#10B981" title="Emerald Green"></div>
-        <div class="swatch" style="background:#EF4444;" data-color="#EF4444" title="Coral Red"></div>
-        <input type="color" id="picker-bead-color" value="#38BDF8" title="Custom color picker">
-      </div>
-      <div style="display:flex; gap:8px; margin-top:10px;">
-        <button type="button" class="btn" id="bead-col-silver" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;" title="Set bead color to Sterling Silver">
-          <span style="width:10px; height:10px; border-radius:50%; background:#A8A9AC; border:1px solid #8E9BAE; display:inline-block;"></span> Silver
-        </button>
-        <button type="button" class="btn" id="bead-col-gold" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;" title="Set bead color to Polished Gold">
-          <span style="width:10px; height:10px; border-radius:50%; background:#D2AC4C; border:1px solid #B89848; display:inline-block;"></span> Gold
-        </button>
+        <div class="section-title" style="margin-top:14px;">Color</div>
+        <div class="color-swatches" id="bead-swatches">
+          <div class="swatch active" style="background:#38BDF8;" data-color="#38BDF8" title="Cyan / Turquoise"></div>
+          <div class="swatch" style="background:#1E40AF;" data-color="#1E40AF" title="Lapis Blue"></div>
+          <div class="swatch" style="background:#F8FAFC;" data-color="#F8FAFC" title="Crackle Crystal White"></div>
+          <div class="swatch" style="background:#A8A9AC;" data-color="#A8A9AC" title="Sterling Silver"></div>
+          <div class="swatch" style="background:#D2AC4C;" data-color="#D2AC4C" title="Gold"></div>
+          <div class="swatch" style="background:#4B4E54;" data-color="#4B4E54" title="Gunmetal / Antiqued Steel (Metal)"></div>
+          <div class="swatch" style="background:#373A40;" data-color="#373A40" title="Basalt Charcoal Slate (Stone)"></div>
+          <div class="swatch" style="background:#A2A5A0;" data-color="#A2A5A0" title="Honed Limestone / Travertine (Stone)"></div>
+          <div class="swatch" style="background:#A855F7;" data-color="#A855F7" title="Amethyst Purple"></div>
+          <div class="swatch" style="background:#10B981;" data-color="#10B981" title="Emerald Green"></div>
+          <div class="swatch" style="background:#EF4444;" data-color="#EF4444" title="Coral Red"></div>
+          <input type="color" id="picker-bead-color" value="#38BDF8" title="Custom color picker">
+        </div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button type="button" class="btn" id="bead-col-silver" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;" title="Set bead color to Sterling Silver">
+            <span style="width:10px; height:10px; border-radius:50%; background:#A8A9AC; border:1px solid #8E9BAE; display:inline-block;"></span> Silver
+          </button>
+          <button type="button" class="btn" id="bead-col-gold" style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px;" title="Set bead color to Polished Gold">
+            <span style="width:10px; height:10px; border-radius:50%; background:#D2AC4C; border:1px solid #B89848; display:inline-block;"></span> Gold
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Bracelet Base Properties -->
-    <div class="card">
+    <div class="card" id="card-bracelet-base">
       <div class="section-title">Bracelet Cord Base</div>
       <div class="control-group">
         <div class="control-label">
@@ -2064,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.15 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.16 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2184,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.15</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.16</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2360,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.15",
+      version: "1.9.16",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -6385,18 +6388,18 @@
         timeEnd: 14,
         caption: "Start a fresh design, adjust wrist circumference & cord base, or open an existing .bracelet project file from your computer.",
         summaryTitle: "New Bracelet, Base Sizing & Open File",
-        summaryDesc: "Create a blank canvas or starter design, dial in wrist circumference (140–220mm), select cord bases (Silver, Gold, Cord, Leather), or open any saved .bracelet file.",
+        summaryDesc: "Create a blank canvas or starter design, dial in wrist circumference (140–220mm), select cord base (Silver, Gold, Cord, Leather), or open any saved .bracelet file.",
         actionText: "Highlight New, Base & Open ✨",
-        action: () => spotlightFeature(["#btn-new", "#slider-wrist-size", "#base-silver", "#btn-open"], "New Bracelet, Base Sizing & Open File")
+        action: () => spotlightFeature(["#btn-new", "#card-bracelet-base", "#btn-open"], "New Bracelet, Base & Open File")
       },
       {
         id: "slide",
         title: "3D Stage & Bead Sliding",
         timeStart: 14,
         timeEnd: 27,
-        caption: "Orbit freely in 3D to inspect your design. Click and drag any bead directly on the cord to slide it into place.",
+        caption: "Orbit freely in 3D to inspect your design. Click and drag any bead or spacer directly on the cord to slide it into place.",
         summaryTitle: "Direct 3D Studio & Raycast Bead Sliding",
-        summaryDesc: "Rotate the tabletop 360° under studio illumination, zoom into micro-details, and drag beads freely along the cord with live millimeter fit tracking.",
+        summaryDesc: "Rotate the tabletop 360° under studio illumination, zoom into micro-details, and drag beads and spacers freely along the cord with live millimeter fit tracking.",
         actionText: "Highlight 3D Stage ✨",
         action: () => spotlightFeature("#stage-container", "3D Stage & Tabletop")
       },
@@ -6405,7 +6408,7 @@
         title: "Palette & Clasps",
         timeStart: 27,
         timeEnd: 40,
-        caption: "Choose from 6 bead shapes, gold, silver, and carved spacers, and swap between Magnetic, Lobster Claw, and Screw-in clasps.",
+        caption: "Choose from 6 bead shapes, gold, silver, and carved spacers, and swap between magnetic, lobster claw, and screw-in clasps.",
         summaryTitle: "Bead Geometries, Spacers & Clasps",
         summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Stars with jewelry spacers, paired with 3 mechanical clasp styles.",
         actionText: "Highlight Palette ✨",
@@ -6420,7 +6423,7 @@
         summaryTitle: "PBR Materials & Jewel-Tone Colors",
         summaryDesc: "Physical transmission, surface crackle veins, honed stone pits, and Linear Tone Mapping ensure colors match the 2D selector without glare burnout.",
         actionText: "Highlight Properties ✨",
-        action: () => spotlightFeature("#card-selected-bead", "Materials & Bead Properties")
+        action: () => spotlightFeature("#section-materials-and-colors", "Materials & Colors")
       },
       {
         id: "engraving",
@@ -7552,27 +7555,31 @@
           vidCtx.fillText(ri, stageCenterX - 115, 89 + idx * 20);
         });
 
-        // Export CSV & PNG buttons moved down below all recipe items so they don't cover any text
-        const isCsvClicked = (chIdx === 6 && chLocalT >= 0.58 && chLocalT < 0.72);
+        // Copy Spec Sheet & Export CSV buttons (left: Copy Spec Sheet, right: Export CSV)
+        const isExportCsvClicked = (chIdx === 6 && chLocalT >= 0.58 && chLocalT < 0.72);
         const btnY = 250;
-        vidCtx.fillStyle = isCsvClicked ? "rgba(210, 172, 76, 0.4)" : "rgba(136, 164, 196, 0.25)";
-        vidCtx.strokeStyle = isCsvClicked ? "#D2AC4C" : "#88A4C4";
-        vidCtx.beginPath();
-        drawRoundRect(vidCtx, stageCenterX - 125, btnY, 115, 24, 4);
-        vidCtx.fill();
-        vidCtx.stroke();
-        vidCtx.fillStyle = isCsvClicked ? "#D2AC4C" : "#FFF";
-        vidCtx.font = "bold 9px -apple-system, sans-serif";
-        vidCtx.fillText("📥 Download CSV", stageCenterX - 112, btnY + 16);
 
+        // Left button: Copy Spec Sheet
         vidCtx.fillStyle = "rgba(136, 164, 196, 0.25)";
         vidCtx.strokeStyle = "#88A4C4";
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, stageCenterX - 125, btnY, 120, 24, 4);
+        vidCtx.fill();
+        vidCtx.stroke();
+        vidCtx.fillStyle = "#FFF";
+        vidCtx.font = "bold 9px -apple-system, sans-serif";
+        vidCtx.fillText("📋 Copy Spec Sheet", stageCenterX - 118, btnY + 16);
+
+        // Right button: Export CSV (turns gold ONLY when cursor clicks on it!)
+        vidCtx.fillStyle = isExportCsvClicked ? "rgba(210, 172, 76, 0.4)" : "rgba(136, 164, 196, 0.25)";
+        vidCtx.strokeStyle = isExportCsvClicked ? "#D2AC4C" : "#88A4C4";
         vidCtx.beginPath();
         drawRoundRect(vidCtx, stageCenterX + 5, btnY, 120, 24, 4);
         vidCtx.fill();
         vidCtx.stroke();
-        vidCtx.fillStyle = "#FFF";
-        vidCtx.fillText("📸 Export High-Res", stageCenterX + 15, btnY + 16);
+        vidCtx.fillStyle = isExportCsvClicked ? "#D2AC4C" : "#FFF";
+        vidCtx.font = "bold 9px -apple-system, sans-serif";
+        vidCtx.fillText("📥 Export CSV", stageCenterX + 28, btnY + 16);
       } else {
         // ── Normal 3D Turntable Studio Simulation ──
         vidCtx.save();
@@ -8219,12 +8226,10 @@
           curY = toneY;
         }
       } else if (chIdx === 6) {
-        // Chapter 6 (Ch 7): Click Materials & Export CSV (buttons positioned at Y = 250, center Y = 262)
+        // Chapter 6 (Ch 7): Click Materials header & Click Export CSV button (right button at stageCenterX + 65, center Y = 262)
         const matBtn = headerBtnRects["Materials"] || { cx: w - 110, cy: 16 };
-        const csvBtnCX = stageCenterX - 68;
-        const csvBtnCY = 262;
-        const exportBtnCX = stageCenterX + 65;
-        const exportBtnCY = 262;
+        const exportCsvBtnCX = stageCenterX + 65;
+        const exportCsvBtnCY = 262;
 
         if (chLocalT < 0.15) {
           const p = chLocalT / 0.15;
@@ -8235,16 +8240,19 @@
           curY = matBtn.cy;
           if (chLocalT >= 0.18 && chLocalT < 0.28) isClicking = true;
         } else if (chLocalT < 0.58) {
+          // Glide directly across from Materials button to Export CSV button
           const p = (chLocalT - 0.32) / 0.26;
-          curX = matBtn.cx + (csvBtnCX - matBtn.cx) * p;
-          curY = matBtn.cy + (csvBtnCY - matBtn.cy) * p;
+          curX = matBtn.cx + (exportCsvBtnCX - matBtn.cx) * p;
+          curY = matBtn.cy + (exportCsvBtnCY - matBtn.cy) * p;
         } else if (chLocalT < 0.75) {
-          curX = csvBtnCX;
-          curY = csvBtnCY;
+          // Click Export CSV button! (turns button gold)
+          curX = exportCsvBtnCX;
+          curY = exportCsvBtnCY;
           if (chLocalT >= 0.60 && chLocalT < 0.72) isClicking = true;
         } else {
-          curX = exportBtnCX;
-          curY = exportBtnCY;
+          // Rest on Export CSV button
+          curX = exportCsvBtnCX;
+          curY = exportCsvBtnCY;
         }
       }
 
