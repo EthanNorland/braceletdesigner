@@ -4,6 +4,21 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.10] - 2026-10-25
+
+### Fixed - Chapter 2 Clasp Macro Zoom, Chapter 6 Realistic Sculpted Hand, and Streamlined Chapter Descriptions
+- **Chapter 2 Clasp Detail Zoom ([`index.html#L7330`](file:///Users/ethannorland/hello-world/index.html#L7330), [`#L7560`](file:///Users/ethannorland/hello-world/index.html#L7560), [`#L7780`](file:///Users/ethannorland/hello-world/index.html#L7780)):**
+  - Following the smooth bead sliding demonstration in Chapter 2, the 3D camera smoothly magnifies 2.6x directly centered on the 18K Gold Screw-in Clasp (`chLocalT = 0.50–0.94`).
+  - Showcases the high-resolution knurled threads, center screw division seam, gold specular glints, and end collars with slow rotational inspection, an inspection pill badge (`✦ 18K GOLD SCREW-IN CLASP • DETAIL ZOOM`), and cursor inspection tracking.
+- **Chapter 6 Realistic Anatomical Hand ([`index.html#L7040`](file:///Users/ethannorland/hello-world/index.html#L7040)):**
+  - Completely replaced the basic arm contour in Chapter 6 Wrist View with a realistic, fully articulated human hand in a relaxed atelier display pose.
+  - Features dorsal palm mass, thenar eminence, sculpted thumb with thumbnail highlight, index finger with defined knuckles, middle finger, ring finger, pinky, skin separation creases, and volumetric studio lighting gradients that dynamically adapt to all 4 skin tone presets.
+- **Chapter 3 Description Refinement ([`index.html#L6379`](file:///Users/ethannorland/hello-world/index.html#L6379)):**
+  - Removed the word "Celestial" before "Stars" in Chapter 3's summary description (*"String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Stars with jewelry spacers, paired with 3 mechanical clasp styles."*).
+- **Chapter 7 Description Refinement ([`index.html#L6423`](file:///Users/ethannorland/hello-world/index.html#L6423)):**
+  - Deleted the words "without UI overlays" from Chapter 7's summary description (*"Get an exact physical parts breakdown for jewelers, download CSV order spreadsheets, and capture crisp PNG photos."*).
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.10`.
+
 ## [1.9.9] - 2026-10-25
 
 ### Fixed - Neutral Element Palette Symbols, Gold Screw-in Clasp Continuity, Targeted Properties Spotlight & Cube Peace Sign

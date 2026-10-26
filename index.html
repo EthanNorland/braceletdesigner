@@ -2040,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.9 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.10 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.9</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.10</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2329,7 +2329,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.9",
+      version: "1.9.10",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -6376,7 +6376,7 @@
         timeEnd: 40,
         caption: "Choose from 6 bead shapes, gold and silver spacers, and swap between Magnetic, Lobster Claw, and Screw-in clasps.",
         summaryTitle: "Bead Geometries, Spacers & Clasps",
-        summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Celestial Stars with jewelry spacers, paired with 3 mechanical clasp styles.",
+        summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Stars with jewelry spacers, paired with 3 mechanical clasp styles.",
         actionText: "Highlight Palette ✨",
         action: () => spotlightFeature("#left-panel", "Element Palette & Clasps")
       },
@@ -6420,7 +6420,7 @@
         timeEnd: 92,
         caption: "Access an itemized materials recipe with 1-click CSV export for ordering supplies, or download high-res PNG studio renders.",
         summaryTitle: "Materials Recipe, CSV & Project Export",
-        summaryDesc: "Get an exact physical parts breakdown for jewelers, download CSV order spreadsheets, and capture crisp PNG photos without UI overlays.",
+        summaryDesc: "Get an exact physical parts breakdown for jewelers, download CSV order spreadsheets, and capture crisp PNG photos.",
         actionText: "Highlight Materials & Export ✨",
         action: () => spotlightFeature(["#btn-list", "#btn-export"], "Materials Spec Sheet & Export PNG")
       }
@@ -7031,39 +7031,131 @@
       let b2WorldPos = { x: stageCenterX - 30, y: stageCenterY - 15 };
 
       if (chIdx === 5) {
-        // ── Chapter 5: Realistic 3D Wrist Mode Simulation ──
+        // ── Chapter 5 (Ch 6): Realistic 3D Wrist Mode Simulation with Sculpted Hand ──
         vidCtx.save();
-        vidCtx.translate(stageCenterX, stageCenterY);
+        vidCtx.translate(stageCenterX - 25, stageCenterY);
 
-        // Skin Tone changes dynamically in Ch 5
+        // Skin Tone changes dynamically in Ch 6
         let skinTone = "#D8A684";
         if (chLocalT > 0.75) skinTone = "#5C3826";
         else if (chLocalT > 0.5) skinTone = "#A66D44";
         else if (chLocalT > 0.25) skinTone = "#F4D0BA";
 
-        // Arm shape
+        // ── 1. Forearm & Palm Mass ──
         vidCtx.fillStyle = skinTone;
         vidCtx.beginPath();
-        vidCtx.moveTo(-130, -35);
-        vidCtx.bezierCurveTo(-40, -32, 40, -28, 90, -32); // forearm upper
-        vidCtx.bezierCurveTo(120, -34, 140, -20, 160, -10); // wrist into hand
-        vidCtx.bezierCurveTo(175, 5, 170, 25, 150, 30); // hand bottom
-        vidCtx.bezierCurveTo(90, 32, 20, 35, -50, 38); // forearm lower
-        vidCtx.bezierCurveTo(-90, 40, -120, 38, -130, 35);
+        vidCtx.moveTo(-140, -35);
+        vidCtx.bezierCurveTo(-60, -33, 10, -30, 65, -30); // Forearm upper edge to wrist dorsal
+        vidCtx.bezierCurveTo(84, -29, 100, -26, 114, -22); // Dorsum (back of hand) to index knuckle
+        // Palm base
+        vidCtx.lineTo(112, 12);
+        vidCtx.bezierCurveTo(95, 26, 80, 29, 65, 30); // Wrist palmar crease
+        vidCtx.bezierCurveTo(10, 32, -60, 34, -140, 36); // Forearm underside
         vidCtx.closePath();
         vidCtx.fill();
 
-        // Subtle anatomical shading gradient
-        const armGrad = vidCtx.createLinearGradient(0, -35, 0, 40);
-        armGrad.addColorStop(0, "rgba(255, 255, 255, 0.2)");
-        armGrad.addColorStop(0.5, "transparent");
-        armGrad.addColorStop(1, "rgba(0, 0, 0, 0.35)");
-        vidCtx.fillStyle = armGrad;
+        // ── 2. Realistic Sculpted Fingers (Graceful Jewelry Model Pose) ──
+        // Little finger (pinky curled along bottom)
+        vidCtx.beginPath();
+        vidCtx.moveTo(110, 10);
+        vidCtx.bezierCurveTo(126, 13, 142, 14, 150, 12);
+        vidCtx.bezierCurveTo(154, 11, 154, 8, 148, 6);
+        vidCtx.bezierCurveTo(138, 4, 124, 6, 112, 8);
+        vidCtx.closePath();
         vidCtx.fill();
 
-        // Draped bracelet wrapping around wrist: 18K Gold Chain with laced beads from opened design
+        // Ring finger
+        vidCtx.beginPath();
+        vidCtx.moveTo(112, 4);
+        vidCtx.bezierCurveTo(132, 6, 152, 6, 162, 3);
+        vidCtx.bezierCurveTo(166, 2, 166, -1, 160, -3);
+        vidCtx.bezierCurveTo(148, -5, 130, -3, 114, 1);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        // Middle finger (longest, resting naturally)
+        vidCtx.beginPath();
+        vidCtx.moveTo(114, -8);
+        vidCtx.bezierCurveTo(134, -7, 158, -7, 172, -4);
+        vidCtx.bezierCurveTo(176, -3, 176, 1, 169, 2);
+        vidCtx.bezierCurveTo(156, 3, 134, 1, 115, -2);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        // Foreground Index finger (with prominent dorsal ridge & knuckle)
+        vidCtx.beginPath();
+        vidCtx.moveTo(114, -22);
+        vidCtx.bezierCurveTo(130, -21, 148, -17, 164, -11);
+        vidCtx.bezierCurveTo(168, -9, 167, -5, 161, -4);
+        vidCtx.bezierCurveTo(148, -3, 132, -8, 116, -12);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        // Foreground Thumb (emerges from thenar muscle pad)
+        vidCtx.beginPath();
+        vidCtx.moveTo(85, 20);
+        vidCtx.bezierCurveTo(98, 24, 112, 24, 128, 19);
+        vidCtx.bezierCurveTo(133, 17, 133, 13, 127, 11);
+        vidCtx.bezierCurveTo(115, 8, 102, 11, 88, 12);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        // ── 3. Anatomical Lighting & Volumetric Depth Gradient ──
+        const armGrad = vidCtx.createLinearGradient(0, -35, 0, 36);
+        armGrad.addColorStop(0, "rgba(255, 255, 255, 0.22)"); // Keylight on top
+        armGrad.addColorStop(0.35, "rgba(255, 255, 255, 0.04)");
+        armGrad.addColorStop(0.65, "transparent");
+        armGrad.addColorStop(1, "rgba(0, 0, 0, 0.35)"); // Ambient underside shadow
+        vidCtx.fillStyle = armGrad;
+        vidCtx.beginPath();
+        vidCtx.moveTo(-140, -35);
+        vidCtx.lineTo(176, -35);
+        vidCtx.lineTo(176, 36);
+        vidCtx.lineTo(-140, 36);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        // ── 4. Finger Separation Creases & Hand Contours ──
+        vidCtx.strokeStyle = "rgba(0, 0, 0, 0.20)";
+        vidCtx.lineWidth = 1;
+        // Index-middle cleft
+        vidCtx.beginPath();
+        vidCtx.moveTo(116, -12);
+        vidCtx.lineTo(142, -9);
+        vidCtx.stroke();
+        // Middle-ring cleft
+        vidCtx.beginPath();
+        vidCtx.moveTo(115, -2);
+        vidCtx.lineTo(144, -1);
+        vidCtx.stroke();
+        // Ring-pinky cleft
+        vidCtx.beginPath();
+        vidCtx.moveTo(112, 8);
+        vidCtx.lineTo(136, 8);
+        vidCtx.stroke();
+        // Thumb web crease
+        vidCtx.beginPath();
+        vidCtx.moveTo(88, 12);
+        vidCtx.bezierCurveTo(96, 15, 105, 17, 110, 13);
+        vidCtx.stroke();
+        // Wrist flexion creases
+        vidCtx.beginPath();
+        vidCtx.moveTo(64, -28);
+        vidCtx.bezierCurveTo(66, -10, 66, 10, 64, 28);
+        vidCtx.stroke();
+
+        // ── 5. Fingernail Highlights on Index and Thumb ──
+        vidCtx.fillStyle = "rgba(255, 255, 255, 0.35)";
+        vidCtx.beginPath();
+        vidCtx.ellipse(163, -9, 2.5, 1.8, Math.PI * 0.15, 0, Math.PI * 2);
+        vidCtx.fill();
+        vidCtx.beginPath();
+        vidCtx.ellipse(128, 16, 2.8, 2.0, -Math.PI * 0.1, 0, Math.PI * 2);
+        vidCtx.fill();
+
+        // ── 6. Draped bracelet wrapping around wrist at x=65 ──
         vidCtx.save();
-        vidCtx.translate(90, 2);
+        vidCtx.translate(65, 2);
         vidCtx.rotate(Math.PI * 0.05);
 
         // 1. 18K Gold Chain cord base wrapping around wrist
@@ -7225,10 +7317,6 @@
         vidCtx.save();
         vidCtx.translate(stageCenterX, stageCenterY);
 
-        // Camera turntable orbit angle
-        const orbitAngle = chIdx === 1 ? (t * 0.45) : (t * 0.15);
-        vidCtx.rotate(orbitAngle);
-
         // Cord radius: expands dynamically in Chapter 0 based on wristMm (175mm = 88px across all chapters)
         let cordRadius = 88;
         if (chIdx === 0) {
@@ -7242,6 +7330,39 @@
           }
         }
         const cordMinorRadius = cordRadius * 0.72; // Ellipse vertical semi-axis
+
+        // In Chapter 2 (code chIdx === 1): First slide bead along cord, then smoothly zoom in on clasp to show detail!
+        let ch2Zoom = 1.0;
+        let panToClaspX = 0;
+        if (chIdx === 1 && chLocalT >= 0.50 && chLocalT < 0.94) {
+          let zp = 0;
+          if (chLocalT < 0.62) {
+            zp = (chLocalT - 0.50) / 0.12;
+            zp = 0.5 - 0.5 * Math.cos(zp * Math.PI);
+          } else if (chLocalT < 0.82) {
+            zp = 1.0;
+          } else {
+            zp = (0.94 - chLocalT) / 0.12;
+            zp = 0.5 - 0.5 * Math.cos(zp * Math.PI);
+          }
+          ch2Zoom = 1.0 + zp * 1.6; // smoothly magnifies up to 2.6x!
+          panToClaspX = cordRadius * zp; // centers the clasp (-cordRadius, 0)
+        }
+
+        // Camera turntable orbit angle
+        let orbitSpeed = 0.15;
+        if (chIdx === 1) {
+          orbitSpeed = (chLocalT >= 0.50 && chLocalT < 0.94) ? 0.08 : 0.45;
+        }
+        const orbitAngle = t * orbitSpeed;
+
+        if (ch2Zoom > 1.0) {
+          vidCtx.scale(ch2Zoom, ch2Zoom);
+          vidCtx.rotate(orbitAngle);
+          vidCtx.translate(panToClaspX, 0);
+        } else {
+          vidCtx.rotate(orbitAngle);
+        }
 
         // Workspace chain color: strictly Silver until clicked Gold at 0.64 in Chapter 0, then 18K Gold across all chapters
         let cordStroke = "#D2AC4C";
@@ -7299,9 +7420,9 @@
             // In chapter 2 (code chIdx === 1), sphere bead (bi === 2) slides along cord wire
             // Stops well before hitting the cube bead (bi === 3) with the heart on it!
             let bAngleOffset = 0;
-            if (chIdx === 1 && bi === 2 && chLocalT > 0.22 && chLocalT < 0.82) {
-              const p = (chLocalT - 0.22) / 0.60;
-              bAngleOffset = Math.sin(p * Math.PI * 2) * 0.18;
+            if (chIdx === 1 && bi === 2 && chLocalT > 0.16 && chLocalT < 0.48) {
+              const p = (chLocalT - 0.16) / 0.32;
+              bAngleOffset = Math.sin(p * Math.PI) * 0.18;
             }
             const theta = (bi / numBeads) * Math.PI * 1.72 - Math.PI * 0.86 + bAngleOffset;
 
@@ -7429,6 +7550,24 @@
         }
 
         vidCtx.restore();
+
+        // In Chapter 2, when zoomed in on the clasp, show detail inspection badge
+        if (chIdx === 1 && chLocalT >= 0.58 && chLocalT < 0.88) {
+          vidCtx.save();
+          vidCtx.fillStyle = "rgba(11, 14, 20, 0.90)";
+          vidCtx.strokeStyle = "#D2AC4C";
+          vidCtx.lineWidth = 1.2;
+          vidCtx.beginPath();
+          drawRoundRect(vidCtx, stageCenterX - 115, 48, 230, 26, 6);
+          vidCtx.fill();
+          vidCtx.stroke();
+          vidCtx.fillStyle = "#EDF2F7";
+          vidCtx.font = "bold 9px -apple-system, sans-serif";
+          vidCtx.textAlign = "center";
+          vidCtx.textBaseline = "middle";
+          vidCtx.fillText("✦ 18K GOLD SCREW-IN CLASP • DETAIL ZOOM", stageCenterX, 61);
+          vidCtx.restore();
+        }
 
         // In Chapter 0, show interactive modal overlays
         if (chIdx === 0) {
@@ -7621,19 +7760,29 @@
           if (chLocalT >= 0.88 && chLocalT < 0.94) isClicking = true;
         }
       } else if (chIdx === 1) {
-        // Chapter 2: Move to sphere bead (index 2) on cord and slide smoothly along cord
-        if (chLocalT < 0.22) {
-          const p = chLocalT / 0.22;
+        // Chapter 2: Bead Sliding (0.0 - 0.48), then Clasp Detail Zoom (0.50 - 0.94)
+        if (chLocalT < 0.16) {
+          const p = chLocalT / 0.16;
           curX = stageCenterX + 40 + (b2WorldPos.x - (stageCenterX + 40)) * p;
           curY = stageCenterY + 60 + (b2WorldPos.y - (stageCenterY + 60)) * p;
-        } else if (chLocalT < 0.82) {
+        } else if (chLocalT < 0.48) {
           curX = b2WorldPos.x;
           curY = b2WorldPos.y;
           isClicking = true;
+        } else if (chLocalT < 0.62) {
+          // Camera zooms in on the clasp! Cursor glides towards the centered clasp detail
+          const p = (chLocalT - 0.48) / 0.14;
+          curX = b2WorldPos.x + (stageCenterX + 25 - b2WorldPos.x) * p;
+          curY = b2WorldPos.y + (stageCenterY - 10 - b2WorldPos.y) * p;
+        } else if (chLocalT < 0.84) {
+          // Inspect the knurled screw clasp threads in center
+          curX = stageCenterX + 25 + Math.sin(t * 2.5) * 8;
+          curY = stageCenterY + Math.cos(t * 2.5) * 6;
         } else {
-          const p = (chLocalT - 0.82) / 0.18;
-          curX = b2WorldPos.x + (stageCenterX + 80 - b2WorldPos.x) * p;
-          curY = b2WorldPos.y + (stageCenterY - 40 - b2WorldPos.y) * p;
+          // Camera zooms back out, cursor returns to resting position
+          const p = (chLocalT - 0.84) / 0.16;
+          curX = (stageCenterX + 25) + (stageCenterX + 70 - (stageCenterX + 25)) * p;
+          curY = stageCenterY + (stageCenterY - 30 - stageCenterY) * p;
         }
       } else if (chIdx === 2) {
         // Chapter 3: Move to Star option in Left Palette, click to add Star bead, then move to newly added bead
