@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.17] - 2026-10-26
+
+### Improved - Calibrated Darker Silver Color for Chain, Disc Spacers & Bead Selection Matching Clasp
+- **Snake Chain Silver Calibration ([`index.html#L4715–L4720`](file:///Users/ethannorland/braceletdesigner/index.html#L4715-L4720), [`#L5025–L5035`](file:///Users/ethannorland/braceletdesigner/index.html#L5025-L5035)):**
+  - Recalibrated procedural snake chain diffuse highlights for silver: reduced `baseCol` from `[184, 186, 190]` down to `[142, 144, 148]` and crevice `darkCol` to `[52, 54, 58]`, eliminating bright white specular blowout.
+  - Aligned `cordMat` material properties for silver chain with `createClaspMesh`: `metalness: 0.90` (from `0.92`), `roughness: 0.18`, and `envMapIntensity: 1.20` (from `1.35`).
+- **Silver Disc Spacers & Metal Bead Shading ([`index.html#L4059–L4072`](file:///Users/ethannorland/braceletdesigner/index.html#L4059-L4072)):**
+  - Added dedicated silver metal branch in `getPBRMaterial("metal")` for `isSilver`: assigns `color: 0x8C8D90`, `metalness: 0.90`, `roughness: 0.18`, and `envMapIntensity: 1.20` (identical to `createClaspMesh`), bringing silver disc spacers (`#add-spacer-silver`, `#add-spacer-carved`) and metal beads into exact visual parity with the bracelet clasp.
+- **Silver Bead Color Selection ([`index.html#L5540–L5545`](file:///Users/ethannorland/braceletdesigner/index.html#L5540-L5545), [`#L5565–L5575`](file:///Users/ethannorland/braceletdesigner/index.html#L5565-L5575)):**
+  - Configured `#bead-col-silver` button and the Sterling Silver swatch (`#A8A9AC`) to set `bead.material = "metal"` and `bead.color = "#A8A9AC"`, ensuring any selected bead transitions seamlessly into the calibrated silver metal finish that matches the clasp.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.17`.
+
 ## [1.9.16] - 2026-10-26
 
 ### Improved - Demo Captions, Targeted Spotlight Highlighting & Chapter 7 Button Alignment

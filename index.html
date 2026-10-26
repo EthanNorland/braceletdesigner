@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.16 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.17 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.16</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.17</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.16",
+      version: "1.9.17",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -4057,6 +4057,15 @@
           });
         }
         case "metal": {
+          if (isSilver) {
+            return new THREE.MeshStandardMaterial({
+              color: new THREE.Color(0x8C8D90),
+              metalness: 0.90,
+              roughness: 0.18,
+              envMapIntensity: 1.20,
+              side: THREE.DoubleSide
+            });
+          }
           const textures = getMetalTextures();
           return new THREE.MeshStandardMaterial({
             color: col,
@@ -4706,8 +4715,8 @@
       const shear = linkW; // 32 px seamless wrapping across 128 px height
 
       // Calibrated metal tones matching desktop reference photos
-      const baseCol = isGold ? [210, 172, 76] : [184, 186, 190];
-      const darkCol = isGold ? [96, 72, 26]   : [68, 70, 75];
+      const baseCol = isGold ? [210, 172, 76] : [142, 144, 148];
+      const darkCol = isGold ? [96, 72, 26]   : [52, 54, 58];
 
       for (let y = 0; y < h; y++) {
         const v = y / h;
@@ -5020,9 +5029,9 @@
           bumpMap: textures.bumpMap,
           bumpScale: 0.026,
           roughnessMap: textures.roughnessMap,
-          metalness: 0.92,
+          metalness: isGold ? 0.92 : 0.90,
           roughness: 0.18,
-          envMapIntensity: 1.35,
+          envMapIntensity: isGold ? 1.35 : 1.20,
           side: THREE.DoubleSide
         });
       } else if (cordType === "cord") {
@@ -5528,7 +5537,9 @@
           if (bead) {
             bead.color = col;
             const normCol = col.toUpperCase();
-            if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15", "#4B4E54"].includes(normCol)) {
+            if (normCol === "#A8A9AC") {
+              bead.material = "metal";
+            } else if (["#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15", "#4B4E54"].includes(normCol)) {
               if (bead.material !== "stone" && bead.material !== "wood") {
                 bead.material = "metal";
               }
@@ -5555,18 +5566,14 @@
     });
 
     document.getElementById("bead-col-silver")?.addEventListener("click", () => {
-      let activeMat = "metal";
       change(d => {
         const bead = d.beads.find(b => b.id === d.selectedId);
         if (bead) {
           bead.color = "#A8A9AC";
-          if (bead.material !== "stone" && bead.material !== "wood") {
-            bead.material = "metal";
-          }
-          activeMat = bead.material;
+          bead.material = "metal";
         }
       });
-      audioPlayAdd(activeMat);
+      audioPlayAdd("metal");
     });
 
     document.getElementById("bead-col-gold")?.addEventListener("click", () => {
@@ -8542,6 +8549,15 @@
     // ── INITIAL BOOTSTRAP WITH SESSION RESTORE (PART 3.4) ───────────────────
     updateApp();
     renderTemplatesGallery();
+    window.__bd = {
+      get doc() { return doc; },
+      set doc(v) { doc = v; },
+      renderer, scene, camera,
+      get beadMeshes() { return beadMeshes; },
+      get cordMesh() { return cordMesh; },
+      get claspMeshGroup() { return claspMeshGroup; },
+      updateApp, change
+    };
 
     async function initSession() {
       try {
