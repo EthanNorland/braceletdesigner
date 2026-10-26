@@ -2,9 +2,9 @@
 
 > An interactive 3D studio for designing custom bracelets with realistic beads, spacers, and clasps.
 
-[![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
+[![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/braceletdesigner/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.11](https://img.shields.io/badge/Version-1.9.11-lightgrey?style=flat-square)](#)
+[![Version: 1.9.12](https://img.shields.io/badge/Version-1.9.12-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -18,7 +18,7 @@ Instead of navigating flat online store catalogs or static 2D grid software, **B
 
 ## Live Link & Installation
 
-- **Live URL:** [https://ethannorland.github.io/hello-world/](https://ethannorland.github.io/hello-world/)
+- **Live URL:** [https://ethannorland.github.io/braceletdesigner/](https://ethannorland.github.io/braceletdesigner/)
 - **Install as an App (PWA):**
   - **Mac (Safari):** File → *Add to Dock*.
   - **Chrome / Edge (Desktop & Android):** Click the install icon in the address bar, or menu → *Install app*.

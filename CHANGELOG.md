@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.12] - 2026-10-25
+
+### Changed - Website Location & Repository Migration to `braceletdesigner`
+- **Website URL & Repository Update ([`index.html#L2334`](file:///Users/ethannorland/hello-world/index.html#L2334), [`README.md`](file:///Users/ethannorland/hello-world/README.md), [`HANDOFF.md`](file:///Users/ethannorland/hello-world/HANDOFF.md)):**
+  - Updated all production site locations and repository links from `hello-world` to `braceletdesigner`:
+    - New Live Web Location: `https://ethannorland.github.io/braceletdesigner/`
+    - New GitHub Repository: `https://github.com/EthanNorland/braceletdesigner`
+- **Subpath Path Independence Verified:**
+  - Verified that all asset requests (`vendor/three.min.js`, `vendor/OrbitControls.js`, `vendor/GLTFLoader.js`, `models/arm_wrist.glb`, `manifest.webmanifest`, `sw.js`, and textures) resolve strictly via relative paths (`./`), ensuring 100% operation under `/braceletdesigner/` without 404 errors.
+  - Tested running the full 3D studio, service worker, and demo video engine under simulated `/braceletdesigner/` path with headless Chrome and verified 100% functional integrity.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.12`.
+
 ## [1.9.11] - 2026-10-25
 
 ### Fixed - Realistic Anatomical Vertical Arm & Palm-Forward Hand Calibrated to Reference `wristview.png`
