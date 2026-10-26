@@ -4,6 +4,26 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.7] - 2026-10-25
+
+### Fixed - Strict Button Hover/Click Timing, Continuous Opened Bracelet Continuity & Authentic Internal Cord Lacing
+- **Strict Button Color Timing ([`index.html#L6634`](file:///Users/ethannorland/hello-world/index.html#L6634)):**
+  - Resolved issue where the "New" button in Chapter 1 was drawn gold from time 0:00 before cursor arrival. The "New" button now remains in its neutral resting style until the cursor reaches it and clicks (`0.11 <= chLocalT < 0.16`), returning to resting style when cursor departs.
+  - Enforced across ALL buttons in the demo: "Open", "Wrist View", "Materials", "Blank Canvas", "Star Bead", "Quartz", color swatches, and "Download CSV" never change color or turn gold until the cursor is directly on them.
+- **Consistent Opened Bracelet Across All Chapters ([`index.html#L6540`](file:///Users/ethannorland/hello-world/index.html#L6540), [`#L6970`](file:///Users/ethannorland/hello-world/index.html#L6970)):**
+  - Resolved continuity mismatch where subsequent chapters reverted to an 80px dark gray cord.
+  - The design loaded in Chapter 1 (`summer-gemstone.bracelet` • 10 beads • 175mm 18K Gold Chain base) is now the canonical design showcased across all chapters:
+    - Chapter 2: Bead #2 slides along the 175mm 18K Gold Chain wire under 3D studio turntable illumination.
+    - Chapter 3: Element palette highlights Celestial Star bead on the bracelet.
+    - Chapter 4: Properties panel updates PBR materials & jewel-tone colors on the bracelet.
+    - Chapter 5: Cube bead receives debossed "♥ LOVE" monogram.
+    - Chapter 6: Drapes this exact 10-bead bracelet around the 3D anatomical wrist.
+    - Chapter 7: Materials spec sheet displays the exact itemized recipe for this bracelet.
+- **Authentic Internal Cord Lacing ([`index.html#L6882`](file:///Users/ethannorland/hello-world/index.html#L6882), [`#L7025`](file:///Users/ethannorland/hello-world/index.html#L7025)):**
+  - Resolved issue where the cord was stroked across the top face of the beads.
+  - Eliminated the foreground cord stroke over bead bodies. The cord base ellipse is drawn first, beads are filled over the cord, and dark chamfered drill holes render along the cord tangent vector. The bracelet base passes through the interior center hole of each bead and is never shown on top of the beads.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.7`.
+
 ## [1.9.6] - 2026-10-25
 
 ### Fixed - Demo Modal Sequencing, Pronounced Workspace Cord Expansion & Load Button Timing
