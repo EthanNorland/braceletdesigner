@@ -2040,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.5 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.6 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.5</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.6</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2329,7 +2329,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.5",
+      version: "1.9.6",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -6897,8 +6897,17 @@
         // Cord radius: expands dynamically in Chapter 0 based on wristMm
         let cordRadius = 80;
         if (chIdx === 0) {
-          const sizeP = (wristMm - 140) / (220 - 140);
-          cordRadius = 68 + sizeP * 28; // 68px to 80px dynamically
+          // Circumference visibly expands from 58px to 88px (+52% visual expansion in workspace area)
+          if (chLocalT < 0.40) {
+            cordRadius = 58;
+          } else if (chLocalT < 0.52) {
+            const dragP = (chLocalT - 0.40) / 0.12;
+            cordRadius = 58 + dragP * 30; // 58px to 88px smoothly
+          } else if (chLocalT < 0.90) {
+            cordRadius = 88;
+          } else {
+            cordRadius = 80;
+          }
         }
         const cordMinorRadius = cordRadius * 0.72; // Ellipse vertical semi-axis
 
@@ -6912,6 +6921,34 @@
         vidCtx.beginPath();
         vidCtx.ellipse(0, 0, cordRadius, cordMinorRadius, 0, 0, Math.PI * 2);
         vidCtx.stroke();
+
+        // Circumference expansion dimension guide in workspace during sizing
+        if (chIdx === 0 && chLocalT >= 0.38 && chLocalT < 0.58) {
+          vidCtx.save();
+          vidCtx.strokeStyle = "rgba(210, 172, 76, 0.45)";
+          vidCtx.lineWidth = 1.5;
+          vidCtx.setLineDash([4, 4]);
+          vidCtx.beginPath();
+          vidCtx.ellipse(0, 0, cordRadius + 12, (cordRadius + 12) * 0.72, 0, 0, Math.PI * 2);
+          vidCtx.stroke();
+          vidCtx.restore();
+
+          // Sizing badge centered in workspace
+          vidCtx.fillStyle = "rgba(11, 14, 20, 0.90)";
+          vidCtx.strokeStyle = "#D2AC4C";
+          vidCtx.lineWidth = 1.2;
+          vidCtx.beginPath();
+          drawRoundRect(vidCtx, -85, -14, 170, 28, 6);
+          vidCtx.fill();
+          vidCtx.stroke();
+          vidCtx.fillStyle = "#EDF2F7";
+          vidCtx.font = "bold 9.5px -apple-system, sans-serif";
+          vidCtx.textAlign = "center";
+          vidCtx.textBaseline = "middle";
+          vidCtx.fillText(`⟵ ${wristMm} mm (${(wristMm / 25.4).toFixed(1)}") ⟶`, 0, 0);
+          vidCtx.textAlign = "start";
+          vidCtx.textBaseline = "alphabetic";
+        }
 
         // Clasp on cord
         const cx = -cordRadius;
@@ -7029,8 +7066,8 @@
 
         // In Chapter 0, show interactive modal overlays
         if (chIdx === 0) {
-          if (chLocalT < 0.32) {
-            // New Bracelet Templates Modal
+          if (chLocalT >= 0.14 && chLocalT < 0.32) {
+            // New Bracelet Templates Modal (appears ONLY AFTER cursor clicks New at 0.11-0.14!)
             vidCtx.fillStyle = "rgba(15, 20, 30, 0.94)";
             vidCtx.strokeStyle = "#D2AC4C";
             vidCtx.lineWidth = 1.5;
@@ -7070,8 +7107,8 @@
             vidCtx.fillStyle = "#CBD5E1";
             vidCtx.font = "9.5px -apple-system, sans-serif";
             vidCtx.fillText("✨ Signature Gold / Heirloom Presets", stageCenterX - 105, stageCenterY + 41);
-          } else if (chLocalT >= 0.76) {
-            // Open Project Modal
+          } else if (chLocalT >= 0.79) {
+            // Open Project Modal (appears ONLY AFTER cursor clicks Open at 0.76-0.79!)
             vidCtx.fillStyle = "rgba(15, 20, 30, 0.94)";
             vidCtx.strokeStyle = "#88A4C4";
             vidCtx.lineWidth = 1.5;
@@ -7102,15 +7139,15 @@
             vidCtx.font = "8px -apple-system, sans-serif";
             vidCtx.fillText("Saved project file • 14 beads • 175mm cord", stageCenterX - 82, stageCenterY + 2);
 
-            // Load button
-            const isLoadHovered = chLocalT > 0.85;
-            vidCtx.fillStyle = isLoadHovered ? "rgba(210, 172, 76, 0.4)" : "rgba(136, 164, 196, 0.25)";
-            vidCtx.strokeStyle = isLoadHovered ? "#D2AC4C" : "#88A4C4";
+            // Load button: stays neutral blue/gray and DOES NOT turn gold until cursor clicks on it at 0.89!
+            const isLoadClicked = (chLocalT >= 0.89);
+            vidCtx.fillStyle = isLoadClicked ? "rgba(210, 172, 76, 0.4)" : "rgba(136, 164, 196, 0.25)";
+            vidCtx.strokeStyle = isLoadClicked ? "#D2AC4C" : "#88A4C4";
             vidCtx.beginPath();
             drawRoundRect(vidCtx, stageCenterX - 65, stageCenterY + 20, 130, 24, 4);
             vidCtx.fill();
             vidCtx.stroke();
-            vidCtx.fillStyle = "#FFF";
+            vidCtx.fillStyle = isLoadClicked ? "#D2AC4C" : "#FFF";
             vidCtx.font = "bold 9px -apple-system, sans-serif";
             vidCtx.fillText("Load Bracelet Design ✦", stageCenterX - 52, stageCenterY + 35);
 
@@ -7147,19 +7184,19 @@
       // Compute cursor path depending on chapter
       if (chIdx === 0) {
         // Chapter 0: New Bracelet, Base & Open Project
-        if (chLocalT < 0.10) {
+        if (chLocalT < 0.11) {
           // 1. Move to "New" button in header
-          const p = chLocalT / 0.10;
+          const p = chLocalT / 0.11;
           curX = stageCenterX + (newBtn.cx - stageCenterX) * p;
           curY = stageCenterY + (newBtn.cy - stageCenterY) * p;
-        } else if (chLocalT < 0.16) {
-          // 2. Touch and click directly on the "New" button
+        } else if (chLocalT < 0.15) {
+          // 2. Touch and click directly on "New" button BEFORE dialog appears
           curX = newBtn.cx;
           curY = newBtn.cy;
           isClicking = true;
         } else if (chLocalT < 0.24) {
-          // 3. Move from "New" button down to "Blank Canvas" in template dialog
-          const p = (chLocalT - 0.16) / 0.08;
+          // 3. Dialog has appeared! Move from "New" down to "Blank Canvas" in template dialog
+          const p = (chLocalT - 0.15) / 0.09;
           curX = newBtn.cx + (stageCenterX - newBtn.cx) * p;
           curY = newBtn.cy + (stageCenterY - newBtn.cy) * p;
         } else if (chLocalT < 0.30) {
@@ -7201,21 +7238,21 @@
           const p = (chLocalT - 0.68) / 0.08;
           curX = goldChainCX + (openBtn.cx - goldChainCX) * p;
           curY = goldChainCY + (openBtn.cy - goldChainCY) * p;
-        } else if (chLocalT < 0.81) {
-          // 12. Touch and click "Open" button
+        } else if (chLocalT < 0.80) {
+          // 12. Touch and click "Open" button BEFORE open project modal appears
           curX = openBtn.cx;
           curY = openBtn.cy;
           isClicking = true;
         } else if (chLocalT < 0.88) {
-          // 13. Move to "Load Bracelet Design ✦" in open file dialog
-          const p = (chLocalT - 0.81) / 0.07;
+          // 13. Open modal has appeared! Move to "Load Bracelet Design ✦" (button stays blue/gray)
+          const p = (chLocalT - 0.80) / 0.08;
           curX = openBtn.cx + (stageCenterX - openBtn.cx) * p;
           curY = openBtn.cy + (stageCenterY + 32 - openBtn.cy) * p;
         } else {
-          // 14. Click "Load Bracelet Design ✦" and lace beads onto stage
+          // 14. Click "Load Bracelet Design ✦" (button turns gold upon click at 0.89!)
           curX = stageCenterX;
           curY = stageCenterY + 32;
-          if (chLocalT < 0.94) isClicking = true;
+          if (chLocalT >= 0.88 && chLocalT < 0.94) isClicking = true;
         }
       } else if (chIdx === 1) {
         // Chapter 1: Move to bead 2 on cord and slide smoothly along cord

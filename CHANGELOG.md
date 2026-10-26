@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.6] - 2026-10-25
+
+### Fixed - Demo Modal Sequencing, Pronounced Workspace Cord Expansion & Load Button Timing
+- **Sequenced "New" Click Before Modal Reveal ([`index.html#L7069`](file:///Users/ethannorland/hello-world/index.html#L7069), [`#L7187`](file:///Users/ethannorland/hello-world/index.html#L7187)):**
+  - Gated the "✦ START A NEW BRACELET" template modal display to `chLocalT >= 0.14 && chLocalT < 0.32`.
+  - The cursor navigates to the header **New** button (`0.00–0.11`) and triggers a visible tactile click directly on the button face (`0.11–0.15`) before the dialog modal appears on screen.
+- **Pronounced Workspace Cord Circumference Expansion ([`index.html#L6898`](file:///Users/ethannorland/hello-world/index.html#L6898), [`#L6925`](file:///Users/ethannorland/hello-world/index.html#L6925)):**
+  - Resolved subtle sizing feedback by increasing cord ellipse visual scaling in Chapter 0 from 58px to 88px (+52% visual growth) during the wrist circumference slider drag (`chLocalT = 0.40–0.52`).
+  - Added an expanding dashed caliper guide ring (`cordRadius + 12`) and dynamic dimension badge (`⟵ 160 mm (6.3") ➔ 175 mm (6.9") ⟶`) centered in the 3D workspace area during slider manipulation (`chLocalT = 0.38–0.58`).
+- **Load Bracelet Design Button Gold Timing ([`index.html#L7142`](file:///Users/ethannorland/hello-world/index.html#L7142), [`#L7251`](file:///Users/ethannorland/hello-world/index.html#L7251)):**
+  - Replaced premature hover state with click-synchronized state `isLoadClicked = (chLocalT >= 0.89)`.
+  - In the "OPEN SAVED BRACELET" file modal, the `[ Load Bracelet Design ✦ ]` button remains in its neutral blue/gray resting state (`#88A4C4` / `rgba(136, 164, 196, 0.25)`) while the cursor travels toward it, turning gold (`#D2AC4C`) only upon cursor arrival and click (`chLocalT >= 0.89`).
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.6`.
+
 ## [1.9.5] - 2026-10-25
 
 ### Fixed - Demo Cursor Precision, Sizing Timing & Beads Laced on Cord Base
