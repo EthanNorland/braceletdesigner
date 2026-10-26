@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/braceletdesigner/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.13](https://img.shields.io/badge/Version-1.9.13-lightgrey?style=flat-square)](#)
+[![Version: 1.9.14](https://img.shields.io/badge/Version-1.9.14-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -56,7 +56,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 - **Full Undo/Redo & Quick Actions:** Robust history stack, duplicate (`D`), and delete actions.
 - **Materials Spec Sheet & Parts Recipe:** Itemized parts recipe with visual color swatches, millimeter dimensions, material categories, 1-click plaintext clipboard copy, and clean **CSV Export** for jeweler assembly.
 - **Universal Mobile & iPhone Adaptation (Phase 7):** Responsive bottom-drawer architecture (`#left-panel` and `#right-panel` slide up smoothly on mobile), thumb-friendly navigation dock, compact header with `⋯ Menu`, Dynamic Island/Notch safe-area support, and dynamic viewport height (`100dvh`), while preserving 100% of the desktop 3-column studio layout.
-- **Inspiration & Credits Gallery (v1.8.26):** Added a dedicated "Inspiration & Credits" section within the About dialog ([`dlg-about`](file:///Users/ethannorland/hello-world/index.html#L1710)) celebrating the creators, artisans, and platforms that gave ideas and inspiration to Bracelet Designer, arranged in alphabetical order (Banter, Beadmod, Bracelet Designer, Etsy, Fire Mountain Gems, GitHub, JewDIY, Pantone, Phillip Renato, Textures.com, Three.js Community) with custom scroll handling and verified external links.
+- **Inspiration & Credits Gallery (v1.9.14):** Added a dedicated "Inspiration & Credits" section within the About dialog ([`dlg-about`](file:///Users/ethannorland/braceletdesigner/index.html#L2170)) celebrating the creators, artisans, and platforms that gave ideas and inspiration to Bracelet Designer, arranged in alphabetical order (Antigravity, Banter, Beadmod, Bracelet Designer, Etsy, Fire Mountain Gems, GitHub, JewDIY, Pantone, Phillip Renato, Textures.com, Three.js Community) with custom scroll handling and verified external links.
 - **Softened Clearcoat Glaze & Dense Pigment Tuning on Light Glass and Quartz (v1.8.21):** Calibrated material parameters to prevent lighter colors (light cyan, pastel pink, pale yellow, mint) from bleaching into pure white glare on Glass and Quartz. Reduced white clearcoat reflection ([`clearcoat: 0.35` / `0.30`](file:///Users/ethannorland/hello-world/index.html#L3272), `clearcoatRoughness: 0.10–0.12`, `specularIntensity: 0.60–0.65`) and dynamically scaled optical transmission with lightness (`trans = 0.18–0.35` on glass, `0.12–0.22` on quartz), keeping light tints richly pigmented and colorful rather than washing out into clear or white.
 - **True-to-Selection Studio Lighting & Linear Tone Mapping (v1.8.20):** Calibrated the 3D studio lighting and tone mapping to achieve true 1:1 color accuracy between the 2D color selector and 3D beads. Replaced harsh 5× over-illumination and ACES highlight bleaching with balanced studio lighting (`ambientLight: 0.65`, `keyLight: 0.55`, `fillLight: 0.35`, `rimLight: 0.30`) and `LinearToneMapping` (`exposure: 1.0`). Beads now directly display the chosen hue and saturation across the visible body, with soft 3D form shading and crisp specular highlights across Glass, Quartz, Wood, Stone, and Metal.
 - **Painted Wood Beads with True Color Selection & Tactile Grain (v1.8.19):** Configured wood beads to match the user's selected palette or custom picker color as painted wooden beads (birch, maple, or sandalwood). Replaced hard-coded brown teak diffuse pixels with a neutral high-key wood grain map (`240–255` luminance) that preserves 94%–100% of any chosen paint color without discoloration, while retaining natural tactile wood growth rings, longitudinal fibers, and micro-pores via normal and bump maps, finished with a smooth satin lacquer glaze (`clearcoat: 0.28`, `roughness: 0.38`).
@@ -95,6 +95,6 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 
 ## Credits & License
 
-- **Created by:** Ethan Norland
+- **Created by:** Ethan Norland with [Antigravity](https://antigravity.google) (Google DeepMind)
 - **License:** Released under the [MIT License](LICENSE).
 - **Libraries:** Powered by [Three.js](https://threejs.org/) (MIT License). See [ATTRIBUTION.md](ATTRIBUTION.md) for full credits.

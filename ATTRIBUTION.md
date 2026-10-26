@@ -6,7 +6,11 @@ This document records all third-party code, fonts, techniques, and inspiration b
 
 ## Code & Libraries
 
-### 1. Three.js & OrbitControls
+### 1. Antigravity (Google DeepMind)
+- **Source:** [https://antigravity.google](https://antigravity.google)
+- **Role:** Agentic AI coding platform and autonomous engineering assistant for application architecture, 3D procedural textures, PBR shader calibrations, walkthrough video engine, and responsive UI design.
+
+### 2. Three.js & OrbitControls
 - **Author:** Ricardo Cabello (Mr.doob) and the Three.js Authors
 - **Source:** [https://threejs.org/](https://threejs.org/)
 - **License:** MIT License (copy preserved in [`vendor/LICENSE`](vendor/LICENSE))

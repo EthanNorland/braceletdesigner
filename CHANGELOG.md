@@ -4,6 +4,17 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.14] - 2026-10-26
+
+### Added - Antigravity Credit in About Dialog & Documentation
+- **Antigravity Credit Card ([`index.html#L2178–L2185`](file:///Users/ethannorland/braceletdesigner/index.html#L2178-L2185)):**
+  - Added a dedicated credit card for **Antigravity** (`https://antigravity.google`) at the top of the alphabetical Inspiration & Credits gallery within the About dialog (`#dlg-about`).
+  - Highlights Google DeepMind's advanced agentic AI pair programming platform and engineering assistance in building Bracelet Designer.
+- **Attribution & Documentation Updates ([`ATTRIBUTION.md#L7–L13`](file:///Users/ethannorland/braceletdesigner/ATTRIBUTION.md#L7-L13), [`README.md#L59`](file:///Users/ethannorland/braceletdesigner/README.md#L59), [`#L98`](file:///Users/ethannorland/braceletdesigner/README.md#L98)):**
+  - Added Antigravity to `ATTRIBUTION.md` under Code & Libraries.
+  - Updated Credits & License section and gallery overview in `README.md`.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.14`.
+
 ## [1.9.13] - 2026-10-26
 
 ### Added & Improved - Demo Video Chapter 4 Bead Selection & Caption Streamlining
