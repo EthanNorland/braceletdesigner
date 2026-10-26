@@ -4,6 +4,22 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.18] - 2026-10-26
+
+### Improved - Calibrated Authentic Silver Shading for Glass, Quartz & Wood Materials
+- **Silver Artisan Glass Shading ([`index.html#L4004–L4030`](file:///Users/ethannorland/braceletdesigner/index.html#L4004-L4030)):**
+  - Replaced pale white diffuse tint (`0xE2E8F0`) with a rich smoked silver body (`0x606268`) when `isSilver` is active.
+  - Added metallic luster (`metalness: 0.50`, `roughness: 0.10`, `transmission: 0.18`, `ior: 1.54`, `specularIntensity: 0.92`, `clearcoat: 0.55`, `envMapIntensity: 1.25`) with softened micro-relief (`normalScale: 0.25`, `bumpScale: 0.006`), producing an authentic liquid mercury / silver-foil artisan glass look.
+- **Silver Crystalline Quartz Shading ([`index.html#L4054–L4080`](file:///Users/ethannorland/braceletdesigner/index.html#L4054-L4080)):**
+  - Replaced chalky white tint (`0xF1F5F9`) with a smoky rutile silver body (`0x5C5E64`).
+  - Added subtle metallic refraction and crystal facets (`metalness: 0.38`, `roughness: 0.14`, `transmission: 0.12`, `specularIntensity: 0.90`, `clearcoat: 0.42`, `envMapIntensity: 1.20`, `normalScale: 0.40`, `bumpScale: 0.010`), transforming the bead into a shimmering silver rutile quartz crystal.
+- **Silver Gilded Wood Shading ([`index.html#L4174–L4195`](file:///Users/ethannorland/braceletdesigner/index.html#L4174-L4195)):**
+  - Calibrated diffuse base color down to `0x54565C` to balance procedural wood grain highlight map.
+  - Imbued with metallic silver leaf luster (`metalness: 0.70`, `roughness: 0.24`, `clearcoat: 0.35`, `envMapIntensity: 1.20`), yielding an authentic silver-leaf gilded lacquer / weathered silver driftwood finish rather than flat white paint.
+- **Material Preservation on Color Selection ([`index.html#L5595–L5650`](file:///Users/ethannorland/braceletdesigner/index.html#L5595-L5650)):**
+  - Updated color swatches, color picker, and quick silver/gold action buttons to preserve existing `glass`, `quartz`, `wood`, and `stone` material selections when applying silver color, allowing users to freely combine silver coloring with any bead material.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.18`.
+
 ## [1.9.17] - 2026-10-26
 
 ### Improved - Calibrated Darker Silver Color for Chain, Disc Spacers & Bead Selection Matching Clasp

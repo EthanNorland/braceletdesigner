@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.17 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.18 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.17</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.18</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.17",
+      version: "1.9.18",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -4002,7 +4002,30 @@
 
       switch(type) {
         case "glass": {
-          const glassCol = isSilver ? new THREE.Color(0xE2E8F0) : (isGold ? new THREE.Color(0xDEC580) : col);
+          if (isSilver) {
+            // Smoked silver luster / mirrored mercury artisan glass
+            const textures = getHammeredGlassTextures();
+            return new THREE.MeshPhysicalMaterial({
+              color: new THREE.Color(0x606268),
+              metalness: 0.50,
+              roughness: 0.10,
+              transmission: 0.18,
+              thickness: 2.0,
+              ior: 1.54,
+              specularIntensity: 0.92,
+              clearcoat: 0.55,
+              clearcoatRoughness: 0.06,
+              normalMap: textures.normalMap,
+              normalScale: new THREE.Vector2(0.25, 0.25),
+              bumpMap: textures.bumpMap,
+              bumpScale: 0.006,
+              envMapIntensity: 1.25,
+              transparent: true,
+              opacity: 0.98,
+              side: THREE.DoubleSide
+            });
+          }
+          const glassCol = isGold ? new THREE.Color(0xDEC580) : col;
           const textures = getHammeredGlassTextures();
           const hsl = {};
           glassCol.getHSL(hsl);
@@ -4029,7 +4052,31 @@
           });
         }
         case "quartz": {
-          const quartzCol = isSilver ? new THREE.Color(0xF1F5F9) : (isGold ? new THREE.Color(0xF5E6A3) : col);
+          if (isSilver) {
+            // Rutile silver crystalline quartz / sparkling smoky silver drusy
+            const textures = getQuartzTextures();
+            return new THREE.MeshPhysicalMaterial({
+              color: new THREE.Color(0x5C5E64),
+              map: textures.colorMap,
+              normalMap: textures.normalMap,
+              normalScale: new THREE.Vector2(0.40, 0.40),
+              bumpMap: textures.bumpMap,
+              bumpScale: 0.010,
+              roughness: 0.14,
+              metalness: 0.38,
+              transmission: 0.12,
+              thickness: 2.0,
+              ior: 1.54,
+              specularIntensity: 0.90,
+              clearcoat: 0.42,
+              clearcoatRoughness: 0.08,
+              envMapIntensity: 1.20,
+              transparent: true,
+              opacity: 0.96,
+              side: THREE.DoubleSide
+            });
+          }
+          const quartzCol = isGold ? new THREE.Color(0xF5E6A3) : col;
           const textures = getQuartzTextures();
           const hsl = {};
           quartzCol.getHSL(hsl);
@@ -4124,6 +4171,23 @@
         }
         case "wood": {
           const textures = getWoodTextures();
+          if (isSilver) {
+            // Silver-leaf gilded lacquer / weathered silver driftwood with metallic grain
+            return new THREE.MeshPhysicalMaterial({
+              color: new THREE.Color(0x54565C),
+              map: textures.colorMap,
+              bumpMap: textures.bumpMap,
+              bumpScale: 0.018,
+              normalMap: textures.normalMap,
+              normalScale: new THREE.Vector2(0.65, 0.65),
+              metalness: 0.70,
+              roughness: 0.24,
+              clearcoat: 0.35,
+              clearcoatRoughness: 0.14,
+              envMapIntensity: 1.20,
+              side: THREE.DoubleSide
+            });
+          }
           const isMetallicPaint = isGold || isSilver;
           return new THREE.MeshPhysicalMaterial({
             color: col,
@@ -5537,10 +5601,8 @@
           if (bead) {
             bead.color = col;
             const normCol = col.toUpperCase();
-            if (normCol === "#A8A9AC") {
-              bead.material = "metal";
-            } else if (["#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15", "#4B4E54"].includes(normCol)) {
-              if (bead.material !== "stone" && bead.material !== "wood") {
+            if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15", "#4B4E54"].includes(normCol)) {
+              if (bead.material !== "stone" && bead.material !== "wood" && bead.material !== "glass" && bead.material !== "quartz") {
                 bead.material = "metal";
               }
             }
@@ -5557,7 +5619,7 @@
           bead.color = col;
           const normCol = col.toUpperCase();
           if (["#A8A9AC", "#E2E8F0", "#D2AC4C", "#CCAD5C", "#FACC15", "#4B4E54"].includes(normCol)) {
-            if (bead.material !== "stone" && bead.material !== "wood") {
+            if (bead.material !== "stone" && bead.material !== "wood" && bead.material !== "glass" && bead.material !== "quartz") {
               bead.material = "metal";
             }
           }
@@ -5566,14 +5628,18 @@
     });
 
     document.getElementById("bead-col-silver")?.addEventListener("click", () => {
+      let activeMat = "metal";
       change(d => {
         const bead = d.beads.find(b => b.id === d.selectedId);
         if (bead) {
           bead.color = "#A8A9AC";
-          bead.material = "metal";
+          if (bead.material !== "stone" && bead.material !== "wood" && bead.material !== "glass" && bead.material !== "quartz") {
+            bead.material = "metal";
+          }
+          activeMat = bead.material;
         }
       });
-      audioPlayAdd("metal");
+      audioPlayAdd(activeMat);
     });
 
     document.getElementById("bead-col-gold")?.addEventListener("click", () => {
@@ -5582,7 +5648,7 @@
         const bead = d.beads.find(b => b.id === d.selectedId);
         if (bead) {
           bead.color = "#D2AC4C";
-          if (bead.material !== "stone" && bead.material !== "wood") {
+          if (bead.material !== "stone" && bead.material !== "wood" && bead.material !== "glass" && bead.material !== "quartz") {
             bead.material = "metal";
           }
           activeMat = bead.material;
