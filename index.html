@@ -771,8 +771,8 @@
   #dlg-demo.demo-pip {
     position: fixed !important;
     top: auto !important;
-    left: auto !important;
-    right: 24px !important;
+    left: 24px !important;
+    right: auto !important;
     bottom: 24px !important;
     width: 350px !important;
     max-width: calc(100vw - 32px) !important;
@@ -2040,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.7 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.8 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.7</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.8</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2329,7 +2329,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.7",
+      version: "1.9.8",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -6370,7 +6370,7 @@
         timeEnd: 40,
         caption: "Choose from 6 bead shapes, gold and silver spacers, and swap between Magnetic, Lobster Claw, and Screw-in clasps.",
         summaryTitle: "Bead Geometries, Spacers & Clasps",
-        summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Celestial Stars with jewelry chamfers, paired with 3 mechanical clasp styles.",
+        summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Celestial Stars with jewelry spacers, paired with 3 mechanical clasp styles.",
         actionText: "Highlight Palette ✨",
         action: () => spotlightFeature("#left-panel", "Element Palette & Clasps")
       },
@@ -6537,19 +6537,40 @@
       };
     }
 
-    // Canonical Opened Bracelet Design shown consistently across Chapter 1 and all subsequent chapters
-    const DEMO_OPENED_BRACELET_BEADS = [
+    // Canonical Opened Bracelet Design shown consistently across Chapter 1 and subsequent chapters
+    const DEMO_BASE_BEADS = [
       { shape: "faceted", color: "#06B6D4", radius: 11, name: "Turquoise Faceted Glass" },
       { shape: "spacer",  color: "#D2AC4C", radius: 7,  name: "18K Gold Spacer" },
-      { shape: "faceted", color: "#06B6D4", radius: 13, name: "Turquoise Faceted Glass (Sliding)" },
+      { shape: "sphere",  color: "#06B6D4", radius: 12, name: "Turquoise Sphere Bead" },
       { shape: "cube",    color: "#D2AC4C", radius: 11, name: "Engraved Cube Bead" },
       { shape: "sphere",  color: "#10B981", radius: 11, name: "Emerald Stone" },
       { shape: "faceted", color: "#E2E8F0", radius: 12, name: "Crystalline Quartz" },
       { shape: "spacer",  color: "#D2AC4C", radius: 7,  name: "18K Gold Spacer" },
-      { shape: "star",    color: "#D2AC4C", radius: 12, name: "Celestial Star Bead" },
       { shape: "sphere",  color: "#06B6D4", radius: 11, name: "Turquoise Sphere" },
       { shape: "faceted", color: "#E2E8F0", radius: 12, name: "Crystalline Quartz" }
     ];
+
+    const DEMO_STAR_BEAD = { shape: "star", color: "#D2AC4C", radius: 12, name: "Celestial Star Bead" };
+
+    function getDemoBeadsForState(chIdx, chLocalT) {
+      // Star option is clicked in Chapter 3 (chIdx === 2) at chLocalT >= 0.35, adding Star bead to bracelet!
+      const hasStar = (chIdx > 2) || (chIdx === 2 && chLocalT >= 0.35);
+      if (!hasStar) {
+        return DEMO_BASE_BEADS;
+      }
+      return [
+        DEMO_BASE_BEADS[0],
+        DEMO_BASE_BEADS[1],
+        DEMO_BASE_BEADS[2],
+        DEMO_BASE_BEADS[3],
+        DEMO_BASE_BEADS[4],
+        DEMO_BASE_BEADS[5],
+        DEMO_BASE_BEADS[6],
+        DEMO_STAR_BEAD,
+        DEMO_BASE_BEADS[7],
+        DEMO_BASE_BEADS[8]
+      ];
+    }
 
     function drawStarPath(ctx, cx, cy, spikes, outerRadius, innerRadius) {
       let rot = Math.PI / 2 * 3;
@@ -6656,28 +6677,104 @@
 
       vidCtx.fillStyle = "#8E9BAE";
       vidCtx.font = "bold 9px -apple-system, sans-serif";
-      vidCtx.fillText("ELEMENT PALETTE", 12, 48);
+      vidCtx.fillText("ELEMENT PALETTE", 10, 46);
 
-      const shapes = ["Sphere", "Faceted", "Rondelle", "Barrel", "Cube", "Star Bead"];
+      // Section 1: BEAD SHAPES (label for Star bead is just "Star")
+      vidCtx.fillStyle = "#94A3B8";
+      vidCtx.font = "bold 7.5px -apple-system, sans-serif";
+      vidCtx.fillText("BEAD SHAPES", 10, 58);
+
+      const shapes = ["Sphere", "Faceted", "Rondelle", "Barrel", "Cube", "Star"];
+      const shapeColors = ["#06B6D4", "#10B981", "#EC4899", "#E2E8F0", "#A8A9AC", "#D2AC4C"];
       shapes.forEach((s, si) => {
-        const sy = 60 + si * 24;
+        const sy = 64 + si * 18;
         // Button changes color ONLY when cursor is on it and clicking it!
-        const isHovered = isPaletteActive && (chLocalT >= 0.25 && chLocalT <= 0.42 && s === "Star Bead");
+        const isHovered = isPaletteActive && (chLocalT >= 0.25 && chLocalT <= 0.42 && s === "Star");
         vidCtx.fillStyle = isHovered ? "rgba(210, 172, 76, 0.35)" : "rgba(255, 255, 255, 0.04)";
         vidCtx.strokeStyle = isHovered ? "#D2AC4C" : "rgba(255, 255, 255, 0.08)";
         vidCtx.beginPath();
-        drawRoundRect(vidCtx, 10, sy, 115, 20, 4);
+        drawRoundRect(vidCtx, 8, sy, 119, 15, 3);
         vidCtx.fill();
         vidCtx.stroke();
-        vidCtx.fillStyle = isHovered ? "#FFF" : "#CBD5E1";
-        vidCtx.font = "9px -apple-system, sans-serif";
-        vidCtx.fillText(s, 28, sy + 14);
 
-        // Mini icon dot
-        vidCtx.fillStyle = (s === "Star Bead" && isHovered) ? "#D2AC4C" : (s === "Star Bead" ? "#D2AC4C" : "#88A4C4");
+        // Mini shape icon
+        vidCtx.fillStyle = isHovered ? "#D2AC4C" : shapeColors[si];
+        if (s === "Star") {
+          vidCtx.save();
+          drawStarPath(vidCtx, 16, sy + 7.5, 5, 4.5, 2.2);
+          vidCtx.fill();
+          vidCtx.restore();
+        } else if (s === "Cube") {
+          vidCtx.fillRect(13, sy + 4.5, 6, 6);
+        } else {
+          vidCtx.beginPath();
+          vidCtx.arc(16, sy + 7.5, 3, 0, Math.PI * 2);
+          vidCtx.fill();
+        }
+
+        vidCtx.fillStyle = isHovered ? "#FFF" : "#CBD5E1";
+        vidCtx.font = "8.5px -apple-system, sans-serif";
+        vidCtx.fillText(s, 26, sy + 11);
+      });
+
+      // Section 2: SPACER OPTIONS
+      const spacerStartY = 64 + shapes.length * 18 + 5; // 177
+      vidCtx.fillStyle = "#94A3B8";
+      vidCtx.font = "bold 7.5px -apple-system, sans-serif";
+      vidCtx.fillText("SPACERS", 10, spacerStartY + 8);
+
+      const spacers = [
+        { name: "Gold Spacer", col: "#D2AC4C" },
+        { name: "Silver Spacer", col: "#A8A9AC" },
+        { name: "Carved Spacer", col: "#D2AC4C" }
+      ];
+      spacers.forEach((sp, spi) => {
+        const spy = spacerStartY + 13 + spi * 18;
+        vidCtx.fillStyle = "rgba(255, 255, 255, 0.04)";
+        vidCtx.strokeStyle = "rgba(255, 255, 255, 0.08)";
         vidCtx.beginPath();
-        vidCtx.arc(18, sy + 10, 3, 0, Math.PI * 2);
+        drawRoundRect(vidCtx, 8, spy, 119, 15, 3);
         vidCtx.fill();
+        vidCtx.stroke();
+
+        vidCtx.fillStyle = sp.col;
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, 14, spy + 3.5, 4, 8, 1);
+        vidCtx.fill();
+
+        vidCtx.fillStyle = "#CBD5E1";
+        vidCtx.font = "8.5px -apple-system, sans-serif";
+        vidCtx.fillText(sp.name, 26, spy + 11);
+      });
+
+      // Section 3: CLASP STYLES
+      const claspStartY = spacerStartY + 13 + spacers.length * 18 + 5; // 249
+      vidCtx.fillStyle = "#94A3B8";
+      vidCtx.font = "bold 7.5px -apple-system, sans-serif";
+      vidCtx.fillText("CLASP STYLES", 10, claspStartY + 8);
+
+      const clasps = [
+        { name: "Magnetic Clasp" },
+        { name: "Lobster Claw" },
+        { name: "Screw-in Clasp" }
+      ];
+      clasps.forEach((cl, cli) => {
+        const cly = claspStartY + 13 + cli * 18;
+        vidCtx.fillStyle = "rgba(255, 255, 255, 0.04)";
+        vidCtx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, 8, cly, 119, 15, 3);
+        vidCtx.fill();
+        vidCtx.stroke();
+
+        vidCtx.fillStyle = "#D2AC4C";
+        vidCtx.beginPath();
+        vidCtx.arc(16, cly + 7.5, 3, 0, Math.PI * 2);
+        vidCtx.fill();
+
+        vidCtx.fillStyle = "#CBD5E1";
+        vidCtx.font = "8.5px -apple-system, sans-serif";
+        vidCtx.fillText(cl.name, 26, cly + 11);
       });
 
       // Right Properties Panel (w=145)
@@ -6880,9 +6977,10 @@
         vidCtx.stroke();
 
         // 3. Beads of the opened bracelet laced along front curve of wrist (base goes THROUGH beads, not on top!)
-        const numWBeads = DEMO_OPENED_BRACELET_BEADS.length;
+        const wristBeads = getDemoBeadsForState(chIdx, chLocalT);
+        const numWBeads = wristBeads.length;
         for (let wbi = 0; wbi < numWBeads; wbi++) {
-          const wb = DEMO_OPENED_BRACELET_BEADS[wbi];
+          const wb = wristBeads[wbi];
           const wTheta = -Math.PI * 0.38 + (wbi / (numWBeads - 1)) * Math.PI * 0.76;
           const wbx = Math.cos(wTheta) * 24;
           const wby = Math.sin(wTheta) * 42;
@@ -7096,14 +7194,17 @@
         // Beads: LACED DIRECTLY ON THE CORD BASE (THE OPENED BRACELET ACROSS ALL CHAPTERS)
         const showBeads = (chIdx > 0) || (chIdx === 0 && chLocalT >= 0.90);
         if (showBeads) {
-          const numBeads = DEMO_OPENED_BRACELET_BEADS.length;
+          const activeBeads = getDemoBeadsForState(chIdx, chLocalT);
+          const numBeads = activeBeads.length;
           for (let bi = 0; bi < numBeads; bi++) {
-            const bDef = DEMO_OPENED_BRACELET_BEADS[bi];
+            const bDef = activeBeads[bi];
 
-            // In chapter 2 (code chIdx === 1), bead 2 slides smoothly along the cord wire
+            // In chapter 2 (code chIdx === 1), sphere bead (bi === 2) slides along cord wire
+            // Stops well before hitting the cube bead (bi === 3) with the heart on it!
             let bAngleOffset = 0;
-            if (chIdx === 1 && bi === 2 && chLocalT > 0.25 && chLocalT < 0.85) {
-              bAngleOffset = Math.sin((chLocalT - 0.25) * Math.PI * 2) * 0.45;
+            if (chIdx === 1 && bi === 2 && chLocalT > 0.22 && chLocalT < 0.82) {
+              const p = (chLocalT - 0.22) / 0.60;
+              bAngleOffset = Math.sin(p * Math.PI * 2) * 0.18;
             }
             const theta = (bi / numBeads) * Math.PI * 1.72 - Math.PI * 0.86 + bAngleOffset;
 
@@ -7197,6 +7298,18 @@
               vidCtx.fillText("♥", 0, 0);
               vidCtx.restore();
             }
+
+            // 5. Star bead addition sparkle ring in Chapter 3
+            if (chIdx === 2 && chLocalT >= 0.35 && chLocalT < 0.60 && bDef.shape === "star") {
+              const spawnPhase = (chLocalT - 0.35) / 0.25;
+              vidCtx.save();
+              vidCtx.strokeStyle = `rgba(210, 172, 76, ${1.0 - spawnPhase})`;
+              vidCtx.lineWidth = 2.5;
+              vidCtx.beginPath();
+              vidCtx.arc(bx, by, beadR + spawnPhase * 16, 0, Math.PI * 2);
+              vidCtx.stroke();
+              vidCtx.restore();
+            }
           }
         }
 
@@ -7275,7 +7388,7 @@
             vidCtx.fillText("summer-gemstone.bracelet", stageCenterX - 82, stageCenterY - 10);
             vidCtx.fillStyle = "#8E9BAE";
             vidCtx.font = "8px -apple-system, sans-serif";
-            vidCtx.fillText("Saved project file • 10 beads • 175mm gold chain", stageCenterX - 82, stageCenterY + 2);
+            vidCtx.fillText("Saved project file • 9 beads • 175mm gold chain", stageCenterX - 82, stageCenterY + 2);
 
             // Load button: stays neutral blue/gray and DOES NOT turn gold until cursor clicks on it at 0.89!
             const isLoadClicked = (chLocalT >= 0.89);
@@ -7393,38 +7506,48 @@
           if (chLocalT >= 0.88 && chLocalT < 0.94) isClicking = true;
         }
       } else if (chIdx === 1) {
-        // Chapter 1: Move to bead 2 on cord and slide smoothly along cord
-        if (chLocalT < 0.25) {
-          const p = chLocalT / 0.25;
+        // Chapter 2: Move to sphere bead (index 2) on cord and slide smoothly along cord
+        if (chLocalT < 0.22) {
+          const p = chLocalT / 0.22;
           curX = stageCenterX + 40 + (b2WorldPos.x - (stageCenterX + 40)) * p;
           curY = stageCenterY + 60 + (b2WorldPos.y - (stageCenterY + 60)) * p;
-        } else if (chLocalT < 0.85) {
+        } else if (chLocalT < 0.82) {
           curX = b2WorldPos.x;
           curY = b2WorldPos.y;
           isClicking = true;
         } else {
-          curX = stageCenterX + 80;
-          curY = stageCenterY - 40;
+          const p = (chLocalT - 0.82) / 0.18;
+          curX = b2WorldPos.x + (stageCenterX + 80 - b2WorldPos.x) * p;
+          curY = b2WorldPos.y + (stageCenterY - 40 - b2WorldPos.y) * p;
         }
       } else if (chIdx === 2) {
-        // Chapter 2: Move to Star Bead in Left Palette, click, then move to stage
-        const starBtnCX = 10 + 115 * 0.5; // 67.5
-        const starBtnCY = 60 + 5 * 24 + 10; // 190
+        // Chapter 3: Move to Star option in Left Palette, click to add Star bead, then move to newly added bead
+        const starBtnCX = 8 + 119 * 0.5; // 67.5
+        const starBtnCY = 64 + 5 * 18 + 7.5; // 161.5
+
+        // World position of the newly added star bead (index 7 in 10-bead bracelet)
+        const thetaStar = (7 / 10) * Math.PI * 1.72 - Math.PI * 0.86;
+        const starBx = Math.cos(thetaStar) * 88;
+        const starBy = Math.sin(thetaStar) * (88 * 0.72);
+        const starOrbitAngle = t * 0.15;
+        const starWorldX = stageCenterX + (starBx * Math.cos(starOrbitAngle) - starBy * Math.sin(starOrbitAngle));
+        const starWorldY = stageCenterY + (starBx * Math.sin(starOrbitAngle) + starBy * Math.cos(starOrbitAngle));
+
         if (chLocalT < 0.25) {
           const p = chLocalT / 0.25;
           curX = stageCenterX + (starBtnCX - stageCenterX) * p;
           curY = stageCenterY + (starBtnCY - stageCenterY) * p;
-        } else if (chLocalT < 0.40) {
+        } else if (chLocalT < 0.38) {
           curX = starBtnCX;
           curY = starBtnCY;
-          isClicking = true;
-        } else if (chLocalT < 0.55) {
-          const p = (chLocalT - 0.40) / 0.15;
-          curX = starBtnCX + (stageCenterX - 40 - starBtnCX) * p;
-          curY = starBtnCY + (stageCenterY - starBtnCY) * p;
+          if (chLocalT >= 0.26) isClicking = true;
+        } else if (chLocalT < 0.58) {
+          const p = (chLocalT - 0.38) / 0.20;
+          curX = starBtnCX + (starWorldX - starBtnCX) * p;
+          curY = starBtnCY + (starWorldY - starBtnCY) * p;
         } else {
-          curX = stageCenterX - 40;
-          curY = stageCenterY;
+          curX = starWorldX;
+          curY = starWorldY;
         }
       } else if (chIdx === 3) {
         // Chapter 3: Click Materials & Swatches on Right Panel

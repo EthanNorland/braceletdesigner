@@ -4,6 +4,24 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.8] - 2026-10-25
+
+### Fixed - Safe Bead Sliding Clearance, Bottom-Left PiP Docking, Complete Palette Categories & Dynamic Star Addition
+- **Safe Sphere Bead Drag Clearance ([`index.html#L7205`](file:///Users/ethannorland/hello-world/index.html#L7205), [`#L7515`](file:///Users/ethannorland/hello-world/index.html#L7515)):**
+  - In Chapter 2 ("3D Stage & Bead Sliding"), calibrated the drag amplitude of the Turquoise Sphere bead (index 2) so it stops smoothly with a generous 14px physical clearance before ever contacting the engraved Cube bead with the heart on it (index 3), then glides smoothly back to resting position.
+- **Bottom-Left Picture-in-Picture Docking ([`index.html#L770`](file:///Users/ethannorland/hello-world/index.html#L770)):**
+  - Updated `#dlg-demo.demo-pip` CSS to anchor to `left: 24px !important; bottom: 24px !important; right: auto !important;`. When minimized in any chapter, the demo player docks to the bottom-left corner of the screen instead of the bottom-right corner.
+- **Spacers Wording in Chapter 3 Description ([`index.html#L6373`](file:///Users/ethannorland/hello-world/index.html#L6373)):**
+  - Changed the word "chamfers" to "spacers" in Chapter 3's `summaryDesc` ("String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Celestial Stars with jewelry spacers, paired with 3 mechanical clasp styles.").
+- **Comprehensive Element Palette on Left ([`index.html#L6670`](file:///Users/ethannorland/hello-world/index.html#L6670)):**
+  - Expanded the simulated Element Palette sidebar to display all 3 atelier sections:
+    - **BEAD SHAPES:** Sphere, Faceted, Rondelle, Barrel, Cube, and concise **Star** label (formerly "Star Bead").
+    - **SPACERS:** Gold Spacer, Silver Spacer, Carved Spacer with realistic metallic swatches.
+    - **CLASP STYLES:** Magnetic Clasp, Lobster Claw, Screw-in Clasp.
+- **Dynamic Star Addition to Bracelet on Click ([`index.html#L6540`](file:///Users/ethannorland/hello-world/index.html#L6540), [`#L7275`](file:///Users/ethannorland/hello-world/index.html#L7275), [`#L7530`](file:///Users/ethannorland/hello-world/index.html#L7530)):**
+  - In Chapter 3 ("Palette & Clasps"), when the cursor touches and clicks the "Star" option in the palette (`chLocalT = 0.35`), a Celestial Star bead is dynamically threaded onto the bracelet on the 3D stage with an animated golden spawn ripple. The cursor then glides to the newly added Star bead on the bracelet, which remains part of the design through all subsequent chapters.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.8`.
+
 ## [1.9.7] - 2026-10-25
 
 ### Fixed - Strict Button Hover/Click Timing, Continuous Opened Bracelet Continuity & Authentic Internal Cord Lacing

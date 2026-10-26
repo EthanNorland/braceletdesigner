@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.7](https://img.shields.io/badge/Version-1.9.7-lightgrey?style=flat-square)](#)
+[![Version: 1.9.8](https://img.shields.io/badge/Version-1.9.8-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -30,7 +30,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 
 ## Key Features
 - **Spotlight Feature Inspection & Picture-in-Picture Mode (v1.9.3):** Replaced the dark blurred modal backdrop with a clear, non-blackout studio view. When clicking any chapter's "Highlight Feature ✨" button, the demo video dynamically docks into a sleek Picture-in-Picture (PiP) mini-player in the bottom corner while the actual feature in the studio (3D Stage, Element Palette, Properties, Monogram Engraving, Wrist View, Spec Sheet) lights up with an animated golden halo beacon and spotlight ring. Includes manual Picture-in-Picture toggle (`🗕 / ⤢`) in the video header, floating inspection toast with quick return, and 5s auto-expand.
-- **Silent 7-Chapter Walkthrough Video Engine (v1.9.7):** A zero-dependency procedural 60fps video player built directly on `<canvas>` demonstrating all 7 major features of the studio in high definition without intrusive audio cues. Features strict tactile cursor interaction (buttons never change color until clicked/hovered by cursor), authentic internal cord lacing where the bracelet base passes through drilled bead channels without drawing over bead faces, and seamless design continuity where the exact 175mm 18K Gold Chain bracelet opened in Chapter 1 remains active and showcased across all chapters (including 3D bead sliding, palette selection, properties swatches, cube engraving, anatomical wrist draping, and spec sheet recipe):
+- **Silent 7-Chapter Walkthrough Video Engine (v1.9.8):** A zero-dependency procedural 60fps video player built directly on `<canvas>` demonstrating all 7 major features of the studio in high definition without intrusive audio cues. Features bottom-left Picture-in-Picture docking, generous sliding collision clearance stopping the sphere bead safely before the heart cube in Chapter 2, complete Element Palette categories on the left (Bead Shapes, Spacer Options, Clasp Styles) with concise "Star" labeling, real-time dynamic Star addition onto the cord upon palette click in Chapter 3, authentic internal cord lacing through drilled holes, and complete design continuity across all chapters:
   1. *Start New, Base Sizing & Open Project* (starting fresh blank canvas or starter presets, configuring wrist circumference 140–220mm, selecting base types like Silver Chain, Gold Chain, Cord, and Leather, and opening saved `.bracelet` files from your computer or drag-and-drop).
   2. *3D Stage Orbit & Bead Sliding* (interactive 360° rotation, bead sliding along cord, real-time mm fit gauge).
   3. *Bead Geometries, Spacers & Clasps* (sphere, faceted, rondelle, barrel, cube, celestial star, spacers, clasps).
