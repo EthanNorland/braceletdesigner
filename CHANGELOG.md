@@ -4,6 +4,23 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.4] - 2026-10-25
+
+### Added - Starting Chapter: New Bracelet, Wrist Circumference, Base Type & Open Saved Project
+- **New Starting Chapter 1 ([`index.html#L6347`](file:///Users/ethannorland/hello-world/index.html#L6347)):**
+  - Added "1. New, Sizing & Open" at the beginning of the demo walkthrough video, expanding total chapters to 7 (`DEMO_VIDEO_TOTAL_DURATION = 92.0s`).
+  - **Start a New Bracelet (0.00s–0.35s):** Demonstrates clicking the **New** header button, opening the curated starter templates modal, and selecting **Blank Canvas** for a clean slate.
+  - **Wrist Circumference & Base Type Sizing (0.35s–0.70s):** Highlights the right inspector panel's *Bracelet Cord Base* section, showing real-time wrist circumference slider adjustment (160mm ➔ 175mm / 6.9") with synchronous 3D cord expansion, and selecting the **Gold Chain** base type chip.
+  - **Open Saved Project File (0.70s–1.00s):** Shows clicking the **Open** button in the header bar, previewing the project file load modal (`summer-gemstone.bracelet`), loading the design, and populating 8 vibrant beads directly onto the 3D bracelet cord.
+  - **Studio Feature Spotlight Integration:** Clicking the chapter action button (*"Highlight New, Base & Open ✨"*) shifts the player into Picture-in-Picture mode and illuminates `#btn-new`, `#slider-wrist-size`, `#base-silver`, and `#btn-open` with the pulsating golden beacon.
+
+### Removed - Silent Demo Video Mode
+- **Removed Demo Sound Effects:**
+  - Removed all synthesized audio triggers and click chimes from the procedural canvas video render loop (`drawDemoVideoFrame()`).
+  - Removed the sound mute/unmute button (`#btn-vid-sound`) from the video control bar.
+  - Removed audio chimes on demo dialog open and close for a peaceful, completely silent walkthrough experience.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.4`.
+
 ## [1.9.3] - 2026-10-25
 
 ### Fixed - Studio Feature Spotlighting & Picture-in-Picture Demo Player

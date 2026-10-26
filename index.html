@@ -2040,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.3 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.4 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.3</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.4</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2265,7 +2265,7 @@
     <div class="demo-modal-header">
       <div class="demo-badge">
         <span class="demo-badge-dot"></span>
-        <span>ATELIER VIDEO DEMO • 6 MAJOR FEATURES</span>
+        <span>ATELIER VIDEO DEMO • 7 MAJOR FEATURES</span>
       </div>
       <div style="display:flex; align-items:center; gap:6px;">
         <button type="button" class="demo-header-btn" id="btn-demo-pip" title="Toggle Picture-in-Picture (Minimize to corner to see app / Expand)" aria-label="Toggle Picture-in-Picture">🗕</button>
@@ -2281,19 +2281,18 @@
           <div class="demo-play-circle" title="Click to Play Video">▶</div>
         </div>
         <div class="demo-video-caption-overlay" id="demo-video-caption">
-          Orbit freely in 3D to inspect your design. Click and drag any bead directly on the cord to slide it into place.
+          Start a fresh design, adjust wrist circumference &amp; cord base, or open an existing .bracelet project file from your computer.
         </div>
       </div>
 
       <!-- Video Control Bar -->
       <div class="demo-video-controls">
         <button type="button" class="demo-ctrl-btn" id="btn-vid-play" title="Play / Pause (Space)">▶</button>
-        <span class="demo-vid-time" id="demo-vid-time">0:00 / 1:18</span>
+        <span class="demo-vid-time" id="demo-vid-time">0:00 / 1:32</span>
         <div class="demo-vid-scrubber-track" id="demo-vid-track">
           <div class="demo-vid-scrubber-fill" id="demo-vid-fill"></div>
           <div class="demo-vid-scrubber-thumb" id="demo-vid-thumb"></div>
         </div>
-        <button type="button" class="demo-ctrl-btn" id="btn-vid-sound" title="Mute / Unmute audio">🔊</button>
         <button type="button" class="demo-ctrl-btn" id="btn-vid-restart" title="Restart video from beginning">↺</button>
       </div>
     </div>
@@ -2330,7 +2329,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.3",
+      version: "1.9.4",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -6316,9 +6315,6 @@
         el.classList.add("atelier-spotlight");
       });
 
-      // Tactile sound feedback
-      audioPlaySelect();
-
       // 3. Show spotlight guide toast banner
       const toast = document.createElement("div");
       toast.id = "demo-spotlight-toast";
@@ -6346,10 +6342,21 @@
 
     const DEMO_VIDEO_CHAPTERS = [
       {
+        id: "start",
+        title: "New, Sizing & Open",
+        timeStart: 0,
+        timeEnd: 14,
+        caption: "Start a fresh design, adjust wrist circumference & cord base, or open an existing .bracelet project file from your computer.",
+        summaryTitle: "New Bracelet, Base Sizing & Open File",
+        summaryDesc: "Create a blank canvas or starter design, dial in wrist circumference (140–220mm), select cord bases (Silver, Gold, Cord, Leather), or open any saved .bracelet file.",
+        actionText: "Highlight New, Base & Open ✨",
+        action: () => spotlightFeature(["#btn-new", "#slider-wrist-size", "#base-silver", "#btn-open"], "New Bracelet, Base Sizing & Open File")
+      },
+      {
         id: "slide",
         title: "3D Stage & Bead Sliding",
-        timeStart: 0,
-        timeEnd: 13,
+        timeStart: 14,
+        timeEnd: 27,
         caption: "Orbit freely in 3D to inspect your design. Click and drag any bead directly on the cord to slide it into place.",
         summaryTitle: "Direct 3D Studio & Raycast Bead Sliding",
         summaryDesc: "Rotate the tabletop 360° under studio illumination, zoom into micro-details, and drag beads freely along the cord with live millimeter fit tracking.",
@@ -6359,8 +6366,8 @@
       {
         id: "palette",
         title: "Palette & Clasps",
-        timeStart: 13,
-        timeEnd: 26,
+        timeStart: 27,
+        timeEnd: 40,
         caption: "Choose from 6 bead shapes, gold and silver spacers, and swap between Magnetic, Lobster Claw, and Screw-in clasps.",
         summaryTitle: "Bead Geometries, Spacers & Clasps",
         summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Celestial Stars with jewelry chamfers, paired with 3 mechanical clasp styles.",
@@ -6370,8 +6377,8 @@
       {
         id: "materials",
         title: "Materials & Colors",
-        timeStart: 26,
-        timeEnd: 39,
+        timeStart: 40,
+        timeEnd: 53,
         caption: "Select from 5 PBR materials—glass, quartz, stone, metal, and painted wood—with true-to-selection color rendering.",
         summaryTitle: "PBR Materials & Jewel-Tone Colors",
         summaryDesc: "Physical transmission, surface crackle veins, honed stone pits, and Linear Tone Mapping ensure colors match the 2D selector without glare burnout.",
@@ -6381,8 +6388,8 @@
       {
         id: "engraving",
         title: "Monogram Inscriptions",
-        timeStart: 39,
-        timeEnd: 52,
+        timeStart: 53,
+        timeEnd: 66,
         caption: "Select any Cube bead to deboss custom monograms (A–Z), lucky numbers (0–9), or jewelry symbols like Heart ♥ and Peace ☮.",
         summaryTitle: "Personalized Monograms & Hallmarks",
         summaryDesc: "Dynamic procedural debossed normal mapping carves deep tactile engraved initials, lucky digits, and symbols directly into the bead face.",
@@ -6392,8 +6399,8 @@
       {
         id: "wrist",
         title: "Realistic Wrist View",
-        timeStart: 52,
-        timeEnd: 65,
+        timeStart: 66,
+        timeEnd: 79,
         caption: "Click 'Wrist View' to drape your bracelet onto an anatomical 3D arm with 4 skin tone presets and dynamic wrist sizing.",
         summaryTitle: "3D Wrist Preview & Anatomical Fit",
         summaryDesc: "Switch from tabletop studio to a realistic anatomical forearm and hand with Fair, Natural, Warm Tan, and Deep Rich tones that scale to your wrist size.",
@@ -6403,8 +6410,8 @@
       {
         id: "export",
         title: "Spec Sheet & Export",
-        timeStart: 65,
-        timeEnd: 78,
+        timeStart: 79,
+        timeEnd: 92,
         caption: "Access an itemized materials recipe with 1-click CSV export for ordering supplies, or download high-res PNG studio renders.",
         summaryTitle: "Materials Recipe, CSV & Project Export",
         summaryDesc: "Get an exact physical parts breakdown for jewelers, download CSV order spreadsheets, and capture crisp PNG photos without UI overlays.",
@@ -6413,13 +6420,11 @@
       }
     ];
 
-    const DEMO_VIDEO_TOTAL_DURATION = 78.0;
+    const DEMO_VIDEO_TOTAL_DURATION = 92.0;
     let videoCurrentTime = 0.0;
     let videoIsPlaying = false;
-    let videoIsMuted = false;
     let videoLastTimestamp = null;
     let videoRafId = null;
-    let videoLastSoundCue = -1;
 
     const vidCanvas = document.getElementById("demo-video-canvas");
     const vidCtx = vidCanvas ? vidCanvas.getContext("2d") : null;
@@ -6472,7 +6477,6 @@
         `;
         document.getElementById("btn-demo-try-feature")?.addEventListener("click", () => {
           ch.action();
-          audioPlaySelect();
         });
 
         // Update active chapter pill
@@ -6583,9 +6587,11 @@
         vidCtx.font = "10px -apple-system, sans-serif";
         const tw = vidCtx.measureText(bText).width + 12;
         hx -= (tw + 6);
-        const isTargetHeaderBtn = (chIdx === 4 && bText === "Wrist View") || (chIdx === 5 && bText.includes("Materials"));
-        vidCtx.fillStyle = isTargetHeaderBtn ? "rgba(136, 164, 196, 0.35)" : "rgba(255, 255, 255, 0.06)";
-        vidCtx.strokeStyle = isTargetHeaderBtn ? "#88A4C4" : "rgba(255, 255, 255, 0.12)";
+        const isTargetHeaderBtn = (chIdx === 0 && ((chLocalT < 0.35 && bText === "New") || (chLocalT >= 0.70 && bText === "Open"))) ||
+                                  (chIdx === 5 && bText === "Wrist View") ||
+                                  (chIdx === 6 && (bText.includes("Materials") || bText.includes("Export")));
+        vidCtx.fillStyle = isTargetHeaderBtn ? "rgba(210, 172, 76, 0.45)" : "rgba(255, 255, 255, 0.06)";
+        vidCtx.strokeStyle = isTargetHeaderBtn ? "#D2AC4C" : "rgba(255, 255, 255, 0.12)";
         vidCtx.beginPath();
         drawRoundRect(vidCtx, hx, 6, tw, 20, 4);
         vidCtx.fill();
@@ -6595,7 +6601,7 @@
       }
 
       // Simulated Left Palette Sidebar (w=135)
-      const isPaletteActive = chIdx === 1;
+      const isPaletteActive = chIdx === 2;
       vidCtx.fillStyle = isPaletteActive ? "rgba(20, 25, 35, 0.96)" : "rgba(15, 19, 27, 0.85)";
       vidCtx.fillRect(0, 32, 135, h - 32);
       vidCtx.strokeStyle = isPaletteActive ? "rgba(136, 164, 196, 0.4)" : "rgba(30, 38, 56, 0.6)";
@@ -6627,78 +6633,129 @@
       });
 
       // Simulated Right Properties Panel (w=145)
-      const isPropsActive = chIdx === 2 || chIdx === 3;
+      const isPropsActive = (chIdx === 0 && chLocalT >= 0.35 && chLocalT < 0.70) || chIdx === 3 || chIdx === 4;
       vidCtx.fillStyle = isPropsActive ? "rgba(20, 25, 35, 0.96)" : "rgba(15, 19, 27, 0.85)";
       vidCtx.fillRect(w - 145, 32, 145, h - 32);
       vidCtx.strokeStyle = isPropsActive ? "rgba(136, 164, 196, 0.4)" : "rgba(30, 38, 56, 0.6)";
       vidCtx.strokeRect(w - 145, 32, 145, h - 32);
 
-      vidCtx.fillStyle = "#8E9BAE";
-      vidCtx.font = "bold 9px -apple-system, sans-serif";
-      vidCtx.fillText("PROPERTIES", w - 135, 48);
-
-      // Materials chips in simulated right panel
-      const mats = ["Glass", "Quartz", "Stone", "Metal", "Wood"];
-      mats.forEach((m, mi) => {
-        const mx = w - 135 + (mi % 2) * 62;
-        const my = 58 + Math.floor(mi / 2) * 22;
-        const isSel = (chIdx === 2 && chLocalT > 0.4 && m === "Quartz") || (chIdx !== 2 && m === "Glass");
-        vidCtx.fillStyle = isSel ? "rgba(136, 164, 196, 0.3)" : "rgba(255, 255, 255, 0.04)";
-        vidCtx.strokeStyle = isSel ? "#88A4C4" : "rgba(255, 255, 255, 0.08)";
-        vidCtx.beginPath();
-        drawRoundRect(vidCtx, mx, my, 58, 18, 4);
-        vidCtx.fill();
-        vidCtx.stroke();
-        vidCtx.fillStyle = isSel ? "#FFF" : "#8E9BAE";
-        vidCtx.font = "8.5px -apple-system, sans-serif";
-        vidCtx.fillText(m, mx + 6, my + 12);
-      });
-
-      // Swatches in simulated right panel
-      const swatches = ["#06B6D4", "#10B981", "#EC4899", "#8B5CF6", "#D2AC4C", "#A8A9AC"];
-      swatches.forEach((sc, si) => {
-        const sx = w - 135 + (si % 3) * 40;
-        const sy = 120 + Math.floor(si / 3) * 22;
-        const isSwSel = chIdx === 2 && chLocalT > 0.65 && sc === "#06B6D4";
-        vidCtx.fillStyle = sc;
-        vidCtx.beginPath();
-        vidCtx.arc(sx + 10, sy + 10, 7, 0, Math.PI * 2);
-        vidCtx.fill();
-        if (isSwSel) {
-          vidCtx.strokeStyle = "#FFF";
-          vidCtx.lineWidth = 2;
-          vidCtx.stroke();
-          vidCtx.lineWidth = 1;
-        }
-      });
-
-      // If Inscription chapter, show simulated cube inscription card
-      if (chIdx === 3) {
-        vidCtx.fillStyle = "rgba(136, 164, 196, 0.12)";
-        vidCtx.strokeStyle = "#88A4C4";
-        vidCtx.beginPath();
-        drawRoundRect(vidCtx, w - 135, 175, 125, 60, 6);
-        vidCtx.fill();
-        vidCtx.stroke();
-        vidCtx.fillStyle = "#EDF2F7";
+      if (chIdx === 0) {
+        // In Chapter 0, show Cord Base & Sizing section in Right Panel
+        vidCtx.fillStyle = "#8E9BAE";
         vidCtx.font = "bold 9px -apple-system, sans-serif";
-        vidCtx.fillText("ENGRAVING: CUBE", w - 128, 192);
+        vidCtx.fillText("CORD BASE & SIZING", w - 135, 48);
+
+        // Wrist Circumference display
+        const wristMm = Math.round(160 + Math.min(1, Math.max(0, (chLocalT - 0.38) / 0.15)) * 15);
+        const wristIn = (wristMm / 25.4).toFixed(1);
+        vidCtx.fillStyle = "#CBD5E1";
+        vidCtx.font = "8px -apple-system, sans-serif";
+        vidCtx.fillText("Wrist Circumference", w - 135, 64);
         vidCtx.fillStyle = "#D2AC4C";
-        vidCtx.font = "14px -apple-system, sans-serif";
-        vidCtx.fillText("♥  L  O  V  E", w - 124, 216);
+        vidCtx.font = "bold 8px -apple-system, sans-serif";
+        vidCtx.fillText(`${wristMm} mm (${wristIn}")`, w - 135, 76);
+
+        // Slider track
+        vidCtx.fillStyle = "rgba(255, 255, 255, 0.15)";
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, w - 135, 84, 125, 4, 2);
+        vidCtx.fill();
+
+        // Slider thumb
+        const sliderProgress = (wristMm - 140) / (220 - 140);
+        const thumbX = (w - 135) + sliderProgress * 125;
+        vidCtx.fillStyle = "#D2AC4C";
+        vidCtx.beginPath();
+        vidCtx.arc(thumbX, 86, 5, 0, Math.PI * 2);
+        vidCtx.fill();
+
+        // Base Type Section
+        vidCtx.fillStyle = "#8E9BAE";
+        vidCtx.font = "bold 9px -apple-system, sans-serif";
+        vidCtx.fillText("BASE TYPE", w - 135, 108);
+
+        const baseTypes = ["Silver Chain", "Gold Chain", "Woven Cord", "Leather"];
+        baseTypes.forEach((bName, bi) => {
+          const bx = w - 135 + (bi % 2) * 64;
+          const by = 118 + Math.floor(bi / 2) * 26;
+          const isGoldSel = (chLocalT >= 0.58 && bName === "Gold Chain") || (chLocalT < 0.58 && bName === "Silver Chain");
+          vidCtx.fillStyle = isGoldSel ? "rgba(210, 172, 76, 0.3)" : "rgba(255, 255, 255, 0.04)";
+          vidCtx.strokeStyle = isGoldSel ? "#D2AC4C" : "rgba(255, 255, 255, 0.1)";
+          vidCtx.beginPath();
+          drawRoundRect(vidCtx, bx, by, 60, 20, 4);
+          vidCtx.fill();
+          vidCtx.stroke();
+          vidCtx.fillStyle = isGoldSel ? "#FFF" : "#8E9BAE";
+          vidCtx.font = "8px -apple-system, sans-serif";
+          vidCtx.fillText(bName, bx + 4, by + 13);
+        });
+      } else {
+        vidCtx.fillStyle = "#8E9BAE";
+        vidCtx.font = "bold 9px -apple-system, sans-serif";
+        vidCtx.fillText("PROPERTIES", w - 135, 48);
+
+        // Materials chips in simulated right panel
+        const mats = ["Glass", "Quartz", "Stone", "Metal", "Wood"];
+        mats.forEach((m, mi) => {
+          const mx = w - 135 + (mi % 2) * 62;
+          const my = 58 + Math.floor(mi / 2) * 22;
+          const isSel = (chIdx === 3 && chLocalT > 0.4 && m === "Quartz") || (chIdx !== 3 && m === "Glass");
+          vidCtx.fillStyle = isSel ? "rgba(136, 164, 196, 0.3)" : "rgba(255, 255, 255, 0.04)";
+          vidCtx.strokeStyle = isSel ? "#88A4C4" : "rgba(255, 255, 255, 0.08)";
+          vidCtx.beginPath();
+          drawRoundRect(vidCtx, mx, my, 58, 18, 4);
+          vidCtx.fill();
+          vidCtx.stroke();
+          vidCtx.fillStyle = isSel ? "#FFF" : "#8E9BAE";
+          vidCtx.font = "8.5px -apple-system, sans-serif";
+          vidCtx.fillText(m, mx + 6, my + 12);
+        });
+
+        // Swatches in simulated right panel
+        const swatches = ["#06B6D4", "#10B981", "#EC4899", "#8B5CF6", "#D2AC4C", "#A8A9AC"];
+        swatches.forEach((sc, si) => {
+          const sx = w - 135 + (si % 3) * 40;
+          const sy = 120 + Math.floor(si / 3) * 22;
+          const isSwSel = chIdx === 3 && chLocalT > 0.65 && sc === "#06B6D4";
+          vidCtx.fillStyle = sc;
+          vidCtx.beginPath();
+          vidCtx.arc(sx + 10, sy + 10, 7, 0, Math.PI * 2);
+          vidCtx.fill();
+          if (isSwSel) {
+            vidCtx.strokeStyle = "#FFF";
+            vidCtx.lineWidth = 2;
+            vidCtx.stroke();
+            vidCtx.lineWidth = 1;
+          }
+        });
+
+        // If Inscription chapter, show simulated cube inscription card
+        if (chIdx === 4) {
+          vidCtx.fillStyle = "rgba(136, 164, 196, 0.12)";
+          vidCtx.strokeStyle = "#88A4C4";
+          vidCtx.beginPath();
+          drawRoundRect(vidCtx, w - 135, 175, 125, 60, 6);
+          vidCtx.fill();
+          vidCtx.stroke();
+          vidCtx.fillStyle = "#EDF2F7";
+          vidCtx.font = "bold 9px -apple-system, sans-serif";
+          vidCtx.fillText("ENGRAVING: CUBE", w - 128, 192);
+          vidCtx.fillStyle = "#D2AC4C";
+          vidCtx.font = "14px -apple-system, sans-serif";
+          vidCtx.fillText("♥  L  O  V  E", w - 124, 216);
+        }
       }
 
       // 3. Central 3D Scene Viewport
       const stageCenterX = (w - 145 + 135) * 0.5;
       const stageCenterY = (h - 32) * 0.5 + 24;
 
-      if (chIdx === 4) {
-        // ── Chapter 4: Realistic 3D Wrist Mode Simulation ──
-        // Draw simulated forearm & hand
+      if (chIdx === 5) {
+        // ── Chapter 5: Realistic 3D Wrist Mode Simulation ──
         vidCtx.save();
         vidCtx.translate(stageCenterX, stageCenterY);
 
-        // Skin Tone changes dynamically in Ch 4
+        // Skin Tone changes dynamically in Ch 5
         let skinTone = "#D8A684";
         if (chLocalT > 0.75) skinTone = "#5C3826";
         else if (chLocalT > 0.5) skinTone = "#A66D44";
@@ -6755,8 +6812,8 @@
         vidCtx.fillStyle = "#EDF2F7";
         vidCtx.font = "bold 9px -apple-system, sans-serif";
         vidCtx.fillText("WRIST VIEW • DYNAMIC ANATOMICAL FIT", stageCenterX - 95, 62);
-      } else if (chIdx === 5 && chLocalT > 0.3) {
-        // ── Chapter 5: Materials Spec Sheet Modal Simulation ──
+      } else if (chIdx === 6 && chLocalT > 0.3) {
+        // ── Chapter 6: Materials Spec Sheet Modal Simulation ──
         vidCtx.fillStyle = "rgba(11, 14, 20, 0.95)";
         vidCtx.strokeStyle = "rgba(136, 164, 196, 0.5)";
         vidCtx.beginPath();
@@ -6802,16 +6859,26 @@
         vidCtx.stroke();
         vidCtx.fillText("📸 Export High-Res", stageCenterX + 15, 236);
       } else {
-        // ── Normal 3D Turntable Studio Simulation (Chapters 0, 1, 2, 3, 5 early) ──
+        // ── Normal 3D Turntable Studio Simulation ──
         vidCtx.save();
         vidCtx.translate(stageCenterX, stageCenterY);
 
         // Slow camera rotation angle
-        const orbitAngle = chIdx === 0 ? (t * 0.45) : (t * 0.15);
+        const orbitAngle = chIdx === 1 ? (t * 0.45) : (t * 0.15);
+
+        // Cord radius: expands dynamically in Chapter 0
+        let cordRadius = 80;
+        if (chIdx === 0) {
+          const p = Math.min(1, Math.max(0, (chLocalT - 0.38) / 0.15));
+          cordRadius = 70 + p * 12; // 70 to 82 px
+        }
 
         // Circular bracelet cord
-        const cordRadius = 80;
-        vidCtx.strokeStyle = "#4B4E54";
+        let cordStroke = "#4B4E54";
+        if (chIdx === 0) {
+          cordStroke = (chLocalT >= 0.58) ? "#D2AC4C" : "#8E9BAE";
+        }
+        vidCtx.strokeStyle = cordStroke;
         vidCtx.lineWidth = 5;
         vidCtx.beginPath();
         vidCtx.ellipse(0, 0, cordRadius, cordRadius * 0.75, orbitAngle, 0, Math.PI * 2);
@@ -6821,7 +6888,7 @@
         const claspAngle = orbitAngle + Math.PI;
         const cx = Math.cos(claspAngle) * cordRadius;
         const cy = Math.sin(claspAngle) * cordRadius * 0.75;
-        vidCtx.fillStyle = chIdx >= 1 ? "#D2AC4C" : "#A8A9AC";
+        vidCtx.fillStyle = (chIdx >= 2 || (chIdx === 0 && chLocalT >= 0.58)) ? "#D2AC4C" : "#A8A9AC";
         vidCtx.beginPath();
         vidCtx.arc(cx, cy, 9, 0, Math.PI * 2);
         vidCtx.fill();
@@ -6829,65 +6896,163 @@
         vidCtx.lineWidth = 1.5;
         vidCtx.stroke();
 
-        // 8 Beads along cord
-        const numBeads = 8;
-        for (let bi = 0; bi < numBeads; bi++) {
-          // In chapter 0, bead 2 slides along the cord!
-          let bAngleOffset = 0;
-          if (chIdx === 0 && bi === 2 && chLocalT > 0.3 && chLocalT < 0.8) {
-            bAngleOffset = Math.sin((chLocalT - 0.3) * Math.PI * 2) * 0.45;
-          }
-          const ba = orbitAngle + (bi / numBeads) * Math.PI * 1.8 + bAngleOffset;
-          const bx = Math.cos(ba) * cordRadius;
-          const by = Math.sin(ba) * cordRadius * 0.75;
+        // Beads along cord
+        const showBeads = (chIdx > 0) || (chIdx === 0 && chLocalT >= 0.90);
+        if (showBeads) {
+          const numBeads = 8;
+          for (let bi = 0; bi < numBeads; bi++) {
+            // In chapter 1, bead 2 slides along the cord
+            let bAngleOffset = 0;
+            if (chIdx === 1 && bi === 2 && chLocalT > 0.3 && chLocalT < 0.8) {
+              bAngleOffset = Math.sin((chLocalT - 0.3) * Math.PI * 2) * 0.45;
+            }
+            const ba = orbitAngle + (bi / numBeads) * Math.PI * 1.8 + bAngleOffset;
+            const bx = Math.cos(ba) * cordRadius;
+            const by = Math.sin(ba) * cordRadius * 0.75;
 
-          // Bead colors
-          let bCol = "#06B6D4"; // Turquoise
-          if (bi === 1) bCol = "#D2AC4C"; // Gold
-          if (bi === 3) bCol = (chIdx >= 3 ? "#D2AC4C" : "#EC4899"); // Cube / Pink
-          if (bi === 4) bCol = "#10B981"; // Emerald
-          if (bi === 5) bCol = "#E2E8F0"; // Quartz
-          if (bi === 6) bCol = "#A8A9AC"; // Silver
+            // Bead colors
+            let bCol = "#06B6D4"; // Turquoise
+            if (bi === 1) bCol = "#D2AC4C"; // Gold
+            if (bi === 3) bCol = (chIdx >= 4 ? "#D2AC4C" : "#EC4899"); // Cube / Pink
+            if (bi === 4) bCol = "#10B981"; // Emerald
+            if (bi === 5) bCol = "#E2E8F0"; // Quartz
+            if (bi === 6) bCol = "#A8A9AC"; // Silver
 
-          // Draw 3D bead body
-          const beadR = bi === 3 ? 12 : (bi === 2 ? 14 : 11);
-          vidCtx.fillStyle = bCol;
-          vidCtx.beginPath();
-          if (bi === 3) {
-            // Cube bead
-            vidCtx.rect(bx - beadR * 0.8, by - beadR * 0.8, beadR * 1.6, beadR * 1.6);
-          } else if (bi === 7 && chIdx >= 1) {
-            // Celestial star bead!
-            vidCtx.arc(bx, by, beadR * 1.2, 0, Math.PI * 2);
-          } else {
-            // Spherical / faceted bead
+            // Draw 3D bead body
+            const beadR = bi === 3 ? 12 : (bi === 2 ? 14 : 11);
+            vidCtx.fillStyle = bCol;
+            vidCtx.beginPath();
+            if (bi === 3) {
+              // Cube bead
+              vidCtx.rect(bx - beadR * 0.8, by - beadR * 0.8, beadR * 1.6, beadR * 1.6);
+            } else if (bi === 7 && chIdx >= 2) {
+              // Celestial star bead
+              vidCtx.arc(bx, by, beadR * 1.2, 0, Math.PI * 2);
+            } else {
+              // Spherical / faceted bead
+              vidCtx.arc(bx, by, beadR, 0, Math.PI * 2);
+            }
+            vidCtx.fill();
+
+            // 3D Specular Highlight glint
+            const hGrad = vidCtx.createRadialGradient(bx - beadR * 0.35, by - beadR * 0.35, 1, bx, by, beadR);
+            hGrad.addColorStop(0, "rgba(255, 255, 255, 0.75)");
+            hGrad.addColorStop(0.3, "rgba(255, 255, 255, 0.2)");
+            hGrad.addColorStop(1, "rgba(0, 0, 0, 0.4)");
+            vidCtx.fillStyle = hGrad;
+            vidCtx.beginPath();
             vidCtx.arc(bx, by, beadR, 0, Math.PI * 2);
-          }
-          vidCtx.fill();
+            vidCtx.fill();
 
-          // 3D Specular Highlight glint
-          const hGrad = vidCtx.createRadialGradient(bx - beadR * 0.35, by - beadR * 0.35, 1, bx, by, beadR);
-          hGrad.addColorStop(0, "rgba(255, 255, 255, 0.75)");
-          hGrad.addColorStop(0.3, "rgba(255, 255, 255, 0.2)");
-          hGrad.addColorStop(1, "rgba(0, 0, 0, 0.4)");
-          vidCtx.fillStyle = hGrad;
-          vidCtx.beginPath();
-          vidCtx.arc(bx, by, beadR, 0, Math.PI * 2);
-          vidCtx.fill();
-
-          // If Cube bead & Inscription Chapter, draw debossed heart
-          if (bi === 3 && chIdx >= 3) {
-            vidCtx.fillStyle = "rgba(0, 0, 0, 0.7)";
-            vidCtx.font = "bold 10px -apple-system, sans-serif";
-            vidCtx.textAlign = "center";
-            vidCtx.textBaseline = "middle";
-            vidCtx.fillText("♥", bx, by);
-            vidCtx.textAlign = "start";
-            vidCtx.textBaseline = "alphabetic";
+            // If Cube bead & Inscription Chapter, draw debossed heart
+            if (bi === 3 && chIdx >= 4) {
+              vidCtx.fillStyle = "rgba(0, 0, 0, 0.7)";
+              vidCtx.font = "bold 10px -apple-system, sans-serif";
+              vidCtx.textAlign = "center";
+              vidCtx.textBaseline = "middle";
+              vidCtx.fillText("♥", bx, by);
+              vidCtx.textAlign = "start";
+              vidCtx.textBaseline = "alphabetic";
+            }
           }
         }
 
         vidCtx.restore();
+
+        // In Chapter 0, show interactive modal overlays
+        if (chIdx === 0) {
+          if (chLocalT < 0.35) {
+            // New Bracelet Templates Modal
+            vidCtx.fillStyle = "rgba(15, 20, 30, 0.94)";
+            vidCtx.strokeStyle = "#D2AC4C";
+            vidCtx.lineWidth = 1.5;
+            vidCtx.beginPath();
+            drawRoundRect(vidCtx, stageCenterX - 130, stageCenterY - 70, 260, 138, 10);
+            vidCtx.fill();
+            vidCtx.stroke();
+            vidCtx.lineWidth = 1;
+
+            vidCtx.fillStyle = "#FFF";
+            vidCtx.font = "bold 11px -apple-system, sans-serif";
+            vidCtx.fillText("✦ START A NEW BRACELET", stageCenterX - 110, stageCenterY - 45);
+
+            vidCtx.fillStyle = "#8E9BAE";
+            vidCtx.font = "9px -apple-system, sans-serif";
+            vidCtx.fillText("Choose starter design or begin with blank cord", stageCenterX - 110, stageCenterY - 30);
+
+            // Blank canvas card
+            const isBlankSel = chLocalT > 0.22;
+            vidCtx.fillStyle = isBlankSel ? "rgba(210, 172, 76, 0.2)" : "rgba(255, 255, 255, 0.04)";
+            vidCtx.strokeStyle = isBlankSel ? "#D2AC4C" : "rgba(255, 255, 255, 0.1)";
+            vidCtx.beginPath();
+            drawRoundRect(vidCtx, stageCenterX - 115, stageCenterY - 15, 230, 30, 6);
+            vidCtx.fill();
+            vidCtx.stroke();
+            vidCtx.fillStyle = isBlankSel ? "#D2AC4C" : "#FFF";
+            vidCtx.font = "bold 9.5px -apple-system, sans-serif";
+            vidCtx.fillText("＋ Blank Canvas (Clean Slate)", stageCenterX - 105, stageCenterY + 4);
+
+            // Starter preset card
+            vidCtx.fillStyle = "rgba(255, 255, 255, 0.04)";
+            vidCtx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+            vidCtx.beginPath();
+            drawRoundRect(vidCtx, stageCenterX - 115, stageCenterY + 22, 230, 30, 6);
+            vidCtx.fill();
+            vidCtx.stroke();
+            vidCtx.fillStyle = "#CBD5E1";
+            vidCtx.font = "9.5px -apple-system, sans-serif";
+            vidCtx.fillText("✨ Signature Gold / Heirloom Presets", stageCenterX - 105, stageCenterY + 41);
+          } else if (chLocalT >= 0.70) {
+            // Open Project Modal
+            vidCtx.fillStyle = "rgba(15, 20, 30, 0.94)";
+            vidCtx.strokeStyle = "#88A4C4";
+            vidCtx.lineWidth = 1.5;
+            vidCtx.beginPath();
+            drawRoundRect(vidCtx, stageCenterX - 130, stageCenterY - 65, 260, 130, 10);
+            vidCtx.fill();
+            vidCtx.stroke();
+            vidCtx.lineWidth = 1;
+
+            vidCtx.fillStyle = "#FFF";
+            vidCtx.font = "bold 11px -apple-system, sans-serif";
+            vidCtx.fillText("📂 OPEN SAVED BRACELET (.bracelet)", stageCenterX - 110, stageCenterY - 40);
+
+            // File card
+            vidCtx.fillStyle = "rgba(255, 255, 255, 0.05)";
+            vidCtx.strokeStyle = "rgba(136, 164, 196, 0.3)";
+            vidCtx.beginPath();
+            drawRoundRect(vidCtx, stageCenterX - 115, stageCenterY - 25, 230, 38, 6);
+            vidCtx.fill();
+            vidCtx.stroke();
+            vidCtx.fillStyle = "#D2AC4C";
+            vidCtx.font = "14px -apple-system, sans-serif";
+            vidCtx.fillText("📄", stageCenterX - 105, stageCenterY - 2);
+            vidCtx.fillStyle = "#EDF2F7";
+            vidCtx.font = "bold 9.5px -apple-system, sans-serif";
+            vidCtx.fillText("summer-gemstone.bracelet", stageCenterX - 82, stageCenterY - 10);
+            vidCtx.fillStyle = "#8E9BAE";
+            vidCtx.font = "8px -apple-system, sans-serif";
+            vidCtx.fillText("Saved project file • 14 beads • 175mm cord", stageCenterX - 82, stageCenterY + 2);
+
+            // Load button
+            const isLoadHovered = chLocalT > 0.84;
+            vidCtx.fillStyle = isLoadHovered ? "rgba(210, 172, 76, 0.4)" : "rgba(136, 164, 196, 0.25)";
+            vidCtx.strokeStyle = isLoadHovered ? "#D2AC4C" : "#88A4C4";
+            vidCtx.beginPath();
+            drawRoundRect(vidCtx, stageCenterX - 65, stageCenterY + 20, 130, 24, 4);
+            vidCtx.fill();
+            vidCtx.stroke();
+            vidCtx.fillStyle = "#FFF";
+            vidCtx.font = "bold 9px -apple-system, sans-serif";
+            vidCtx.fillText("Load Bracelet Design ✦", stageCenterX - 52, stageCenterY + 35);
+
+            if (chLocalT > 0.90) {
+              vidCtx.fillStyle = "#10B981";
+              vidCtx.font = "bold 9px -apple-system, sans-serif";
+              vidCtx.fillText("✓ Design Loaded to 3D Stage!", stageCenterX - 65, stageCenterY + 56);
+            }
+          }
+        }
 
         // Fit gauge indicator (top right of stage)
         vidCtx.fillStyle = "rgba(11, 14, 20, 0.75)";
@@ -6898,7 +7063,9 @@
         vidCtx.stroke();
         vidCtx.fillStyle = "#10B981";
         vidCtx.font = "bold 9px -apple-system, sans-serif";
-        vidCtx.fillText("● 168 mm / 170 mm", w - 252, 56);
+        const maxWrist = (chIdx === 0) ? Math.round(160 + Math.min(1, Math.max(0, (chLocalT - 0.38) / 0.15)) * 15) : 175;
+        const curBeadFit = (chIdx === 0 && chLocalT < 0.90) ? 0 : 168;
+        vidCtx.fillText(`● ${curBeadFit} mm / ${maxWrist} mm`, w - 252, 56);
       }
 
       // 4. Animated Mouse Pointer & Interaction Simulation
@@ -6908,7 +7075,46 @@
 
       // Compute cursor path depending on chapter
       if (chIdx === 0) {
-        // Chapter 0: Move to bead on stage and drag
+        // Chapter 0: New Bracelet, Base & Open Project
+        if (chLocalT < 0.15) {
+          // Move to "New" button in header
+          const p = chLocalT / 0.15;
+          curX = stageCenterX + (345 - stageCenterX) * p;
+          curY = stageCenterY + (16 - stageCenterY) * p;
+          if (chLocalT > 0.10) isClicking = true;
+        } else if (chLocalT < 0.35) {
+          // Move to "Blank Canvas" in template dialog
+          const p = (chLocalT - 0.15) / 0.20;
+          curX = 345 + (stageCenterX - 60 - 345) * p;
+          curY = 16 + (stageCenterY - 2 - 16) * p;
+          if (chLocalT > 0.26 && chLocalT < 0.32) isClicking = true;
+        } else if (chLocalT < 0.55) {
+          // Move to Wrist Circumference slider in right panel
+          const p = (chLocalT - 0.35) / 0.20;
+          curX = (stageCenterX - 60) + (w - 75 - (stageCenterX - 60)) * p;
+          curY = (stageCenterY - 2) + (86 - (stageCenterY - 2)) * p;
+          if (chLocalT > 0.42 && chLocalT < 0.50) isClicking = true;
+        } else if (chLocalT < 0.70) {
+          // Move to "Gold Chain" base type chip
+          const p = (chLocalT - 0.55) / 0.15;
+          curX = (w - 75) + ((w - 45) - (w - 75)) * p;
+          curY = 86 + (128 - 86) * p;
+          if (chLocalT > 0.60 && chLocalT < 0.67) isClicking = true;
+        } else if (chLocalT < 0.82) {
+          // Move to "Open" button in header
+          const p = (chLocalT - 0.70) / 0.12;
+          curX = (w - 45) + (390 - (w - 45)) * p;
+          curY = 128 + (16 - 128) * p;
+          if (chLocalT > 0.76 && chLocalT < 0.81) isClicking = true;
+        } else {
+          // Move to "Load Bracelet" button in file dialog
+          const p = (chLocalT - 0.82) / 0.18;
+          curX = 390 + (stageCenterX - 390) * p;
+          curY = 16 + (stageCenterY + 32 - 16) * p;
+          if (chLocalT > 0.88 && chLocalT < 0.94) isClicking = true;
+        }
+      } else if (chIdx === 1) {
+        // Chapter 1: Move to bead on stage and drag
         if (chLocalT < 0.25) {
           curX = 220 + chLocalT * 400;
           curY = 120 + chLocalT * 200;
@@ -6920,8 +7126,8 @@
           curX = stageCenterX + 80;
           curY = stageCenterY - 40;
         }
-      } else if (chIdx === 1) {
-        // Chapter 1: Click Star Bead in Left Palette
+      } else if (chIdx === 2) {
+        // Chapter 2: Click Star Bead in Left Palette
         if (chLocalT < 0.4) {
           curX = 40 + chLocalT * 70;
           curY = 140 + chLocalT * 70;
@@ -6930,8 +7136,8 @@
           curX = stageCenterX - 40;
           curY = stageCenterY;
         }
-      } else if (chIdx === 2) {
-        // Chapter 2: Click Materials & Swatches on Right Panel
+      } else if (chIdx === 3) {
+        // Chapter 3: Click Materials & Swatches on Right Panel
         if (chLocalT < 0.5) {
           curX = w - 100;
           curY = 65;
@@ -6941,8 +7147,8 @@
           curY = 130;
           if (chLocalT > 0.65 && chLocalT < 0.75) isClicking = true;
         }
-      } else if (chIdx === 3) {
-        // Chapter 3: Click Cube bead & Inscription
+      } else if (chIdx === 4) {
+        // Chapter 4: Click Cube bead & Inscription
         if (chLocalT < 0.45) {
           curX = stageCenterX;
           curY = stageCenterY - 30;
@@ -6952,8 +7158,8 @@
           curY = 200;
           if (chLocalT > 0.65 && chLocalT < 0.75) isClicking = true;
         }
-      } else if (chIdx === 4) {
-        // Chapter 4: Click Wrist View header & Skin Tones
+      } else if (chIdx === 5) {
+        // Chapter 5: Click Wrist View header & Skin Tones
         if (chLocalT < 0.3) {
           curX = w - 45;
           curY = 16;
@@ -6962,8 +7168,8 @@
           curX = stageCenterX;
           curY = 55;
         }
-      } else if (chIdx === 5) {
-        // Chapter 5: Click Materials & Export CSV
+      } else if (chIdx === 6) {
+        // Chapter 6: Click Materials & Export CSV
         if (chLocalT < 0.35) {
           curX = w - 110;
           curY = 16;
@@ -6975,7 +7181,7 @@
         }
       }
 
-      // Draw click ripple effect
+      // Draw click ripple effect (SILENT - no audio triggered)
       if (isClicking) {
         const ripplePhase = (t * 5) % 1;
         vidCtx.strokeStyle = `rgba(210, 172, 76, ${1.0 - ripplePhase})`;
@@ -6984,15 +7190,6 @@
         vidCtx.arc(curX, curY, ripplePhase * 24, 0, Math.PI * 2);
         vidCtx.stroke();
         vidCtx.lineWidth = 1;
-
-        // Trigger audio chime if unmuted and not fired yet
-        const soundKey = Math.floor(t * 2);
-        if (!videoIsMuted && soundEnabled && videoLastSoundCue !== soundKey) {
-          videoLastSoundCue = soundKey;
-          if (chIdx === 0) audioPlaySlide();
-          else if (chIdx === 1) audioPlayAdd("gold");
-          else audioPlaySelect();
-        }
       }
 
       // Draw Cursor
@@ -7023,12 +7220,12 @@
       vidCtx.fillStyle = "rgba(11, 14, 20, 0.75)";
       vidCtx.strokeStyle = "rgba(136, 164, 196, 0.25)";
       vidCtx.beginPath();
-      drawRoundRect(vidCtx, 145, 38, 165, 20, 4);
+      drawRoundRect(vidCtx, 145, 38, 180, 20, 4);
       vidCtx.fill();
       vidCtx.stroke();
       vidCtx.fillStyle = "#88A4C4";
       vidCtx.font = "bold 8.5px SF Mono, monospace";
-      vidCtx.fillText(`CHAPTER ${chIdx + 1} OF 6: ${ch.title.toUpperCase()}`, 152, 51);
+      vidCtx.fillText(`CHAPTER ${chIdx + 1} OF ${DEMO_VIDEO_CHAPTERS.length}: ${ch.title.toUpperCase()}`, 152, 51);
     }
 
     // ── VIDEO PLAYBACK CONTROLLER ───────────────────────────────────────────
@@ -7135,7 +7332,6 @@
 
       if (!dlg.open) {
         dlg.showModal();
-        audioPlaySelect();
       }
 
       drawDemoVideoFrame();
@@ -7152,7 +7348,6 @@
         if (pipBtn) pipBtn.textContent = "🗕";
         if (dlg.open) {
           dlg.close();
-          audioPlayTick();
         }
       }
       const chk = document.getElementById("chk-demo-skip-startup");
@@ -7208,14 +7403,6 @@
       toggleVideoPlay(e);
     });
     document.getElementById("btn-vid-restart")?.addEventListener("click", restartVideo);
-
-    const soundBtn = document.getElementById("btn-vid-sound");
-    if (soundBtn) {
-      soundBtn.addEventListener("click", () => {
-        videoIsMuted = !videoIsMuted;
-        soundBtn.textContent = videoIsMuted ? "🔇" : "🔊";
-      });
-    }
 
     document.getElementById("dlg-demo")?.addEventListener("close", () => {
       pauseVideo();

@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.3](https://img.shields.io/badge/Version-1.9.3-lightgrey?style=flat-square)](#)
+[![Version: 1.9.4](https://img.shields.io/badge/Version-1.9.4-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -30,14 +30,15 @@ Works 100% offline after your first visit. All designs are saved privately in yo
 
 ## Key Features
 - **Spotlight Feature Inspection & Picture-in-Picture Mode (v1.9.3):** Replaced the dark blurred modal backdrop with a clear, non-blackout studio view. When clicking any chapter's "Highlight Feature ✨" button, the demo video dynamically docks into a sleek Picture-in-Picture (PiP) mini-player in the bottom corner while the actual feature in the studio (3D Stage, Element Palette, Properties, Monogram Engraving, Wrist View, Spec Sheet) lights up with an animated golden halo beacon and spotlight ring. Includes manual Picture-in-Picture toggle (`🗕 / ⤢`) in the video header, floating inspection toast with quick return, and 5s auto-expand.
-- **Animated Feature Walkthrough Video Engine (v1.9.1–v1.9.2):** A zero-dependency procedural 60fps video player built directly on `<canvas>` demonstrating all 6 major features of the studio in high definition:
-  1. *3D Stage Orbit & Bead Sliding* (interactive 360° rotation, bead sliding along cord, real-time mm fit gauge).
-  2. *Bead Geometries, Spacers & Clasps* (sphere, faceted, rondelle, barrel, cube, celestial star, spacers, clasps).
-  3. *PBR Materials & Jewel-Tone Colors* (translucent glass, crystalline quartz, stone, high-polish metal, painted wood).
-  4. *Personalized Monograms & Hallmarks* (cube bead debossing with letters A–Z, numbers 0–9, and jewelry symbols).
-  5. *Realistic 3D Wrist Mode & Anatomical Fit* (anatomical arm draping, 4 natural skin tones, dynamic wrist scaling).
-  6. *Materials Spec Sheet & Project Exports* (itemized recipe, 1-click CSV order export, high-res PNG studio renders).
-  Includes custom video player controls (Play/Pause, interactive Scrubber slider track, 0:00/1:18 timestamp counter, Mute/Unmute, Restart), 6 clickable Chapter navigation pills, lower-third explanatory captions, animated mouse cursor and click ripples, synchronized tactile audio cues, keyboard shortcuts (<kbd>Space</kbd>, <kbd>←</kbd>, <kbd>→</kbd>), auto-open on app startup, instant close buttons (`✕` and footer close), and a *"Don't show video automatically when opening the app"* preference saved to `localStorage`.
+- **Silent 7-Chapter Walkthrough Video Engine (v1.9.4):** A zero-dependency procedural 60fps video player built directly on `<canvas>` demonstrating all 7 major features of the studio in high definition without intrusive audio cues:
+  1. *Start New, Base Sizing & Open Project* (starting fresh blank canvas or starter presets, configuring wrist circumference 140–220mm, selecting base types like Silver Chain, Gold Chain, Cord, and Leather, and opening saved `.bracelet` files from your computer or drag-and-drop).
+  2. *3D Stage Orbit & Bead Sliding* (interactive 360° rotation, bead sliding along cord, real-time mm fit gauge).
+  3. *Bead Geometries, Spacers & Clasps* (sphere, faceted, rondelle, barrel, cube, celestial star, spacers, clasps).
+  4. *PBR Materials & Jewel-Tone Colors* (translucent glass, crystalline quartz, stone, high-polish metal, painted wood).
+  5. *Personalized Monograms & Hallmarks* (cube bead debossing with letters A–Z, numbers 0–9, and jewelry symbols).
+  6. *Realistic 3D Wrist Mode & Anatomical Fit* (anatomical arm draping, 4 natural skin tones, dynamic wrist scaling).
+  7. *Materials Spec Sheet & Project Exports* (itemized recipe, 1-click CSV order export, high-res PNG studio renders).
+  Includes custom video player controls (Play/Pause, interactive Scrubber slider track, 0:00/1:32 timestamp counter, Restart), 7 clickable Chapter navigation pills, lower-third explanatory captions, animated mouse cursor and click ripples, keyboard shortcuts (<kbd>Space</kbd>, <kbd>←</kbd>, <kbd>→</kbd>), auto-open on app startup, instant close buttons (`✕` and footer close), and a *"Don't show video automatically when opening the app"* preference saved to `localStorage`.
 - **Curated Starter Design Templates (Phase 6):** An atelier gallery modal accessible via **New** featuring 6 professionally balanced designs—*The Signature Atelier* (evil eye & lapis), *Minimalist 18K Heirloom* (gold & celestial star), *Bohemian Earth & Sandalwood* (desert solstice), *Chakra Resonance Spectrum* (7 energy centers), *Monogram Keepsake* ("LOVE" cubes & gold stars), and a pristine *Blank Canvas*—all with instant sequence visualizers, tactile loading chime, and full undo protection.
 - **Procedural Tactile Audio Synthesis Engine:** 100% client-side Web Audio synthesis providing real-time acoustic resonance tailored by physical bead material (Glass, Quartz, Metal, Stone, Wood), throttled micro-tick clatter during 3D sliding, realistic dual-action clasp clicks (Magnetic, Lobster Claw, Screw-in), and subtle tactile feedback for selection, duplicate, and delete.
 - **3D Preview on Wrist Mode:** Toggle between Studio View and Wrist View to drape your custom bracelet onto an anatomically realistic human arm and gracefully posed hand, featuring 4 skin tone presets (Fair, Natural, Warm Tan, Deep Rich) and dynamic scaling matching your exact wrist circumference.
