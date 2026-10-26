@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.13] - 2026-10-26
+
+### Added & Improved - Demo Video Chapter 4 Bead Selection & Caption Streamlining
+- **Chapter 4 Interactive Bead Selection Before Material Assignment ([`index.html#L6940–L6980`](file:///Users/ethannorland/braceletdesigner/index.html#L6940-L6980), [`#L7680–L7751`](file:///Users/ethannorland/braceletdesigner/index.html#L7680-L7751), [`#L8062–L8111`](file:///Users/ethannorland/braceletdesigner/index.html#L8062-L8111)):**
+  - **Dynamic Stage Trajectory:** In Chapter 4 (Materials & Colors), the cursor glides from center stage across to Bead 5 on the revolving 3D turntable using real-time orbit coordinate projection.
+  - **Tactile Bead Click & Selection Halo:** Cursor clicks Bead 5 on stage with an authentic silent click ripple, triggering a luminous golden selection halo (`#D2AC4C`, `lineWidth: 1.8`) encircling the bead body.
+  - **Synchronized Properties Panel:** Properties panel header dynamically transitions to `"SELECTED BEAD #5"`, displaying `"Glass"` as the active material upon selection.
+  - **Seamless Material & Swatch Sequencing:** Cursor then glides from Bead 5 to the `"Quartz"` button on the right panel, clicks it to transform the bead into faceted Crystalline Quartz (turning the Quartz chip golden), then glides to the cyan swatch and clicks it to turn the bead into Crystalline Turquoise Quartz (`#06B6D4`).
+- **Chapter 3 Caption Enhancement ([`index.html#L6377`](file:///Users/ethannorland/braceletdesigner/index.html#L6377)):**
+  - Updated caption text under the video to include carved spacers: `"Choose from 6 bead shapes, gold, silver, and carved spacers, and swap between Magnetic, Lobster Claw, and Screw-in clasps."`
+- **Chapter 5 Caption Streamlining ([`index.html#L6399`](file:///Users/ethannorland/braceletdesigner/index.html#L6399)):**
+  - Streamlined inscription text under the video by removing "lucky": `"Select any Cube bead to deboss custom monograms (A–Z), numbers (0–9), or jewelry symbols like Heart ♥ and Peace ☮."`
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.13`.
+
 ## [1.9.12] - 2026-10-25
 
 ### Changed - Website Location & Repository Migration to `braceletdesigner`

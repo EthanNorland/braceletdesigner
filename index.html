@@ -2040,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.12 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.13 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.12</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.13</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2329,7 +2329,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.12",
+      version: "1.9.13",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -6374,7 +6374,7 @@
         title: "Palette & Clasps",
         timeStart: 27,
         timeEnd: 40,
-        caption: "Choose from 6 bead shapes, gold and silver spacers, and swap between Magnetic, Lobster Claw, and Screw-in clasps.",
+        caption: "Choose from 6 bead shapes, gold, silver, and carved spacers, and swap between Magnetic, Lobster Claw, and Screw-in clasps.",
         summaryTitle: "Bead Geometries, Spacers & Clasps",
         summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Stars with jewelry spacers, paired with 3 mechanical clasp styles.",
         actionText: "Highlight Palette ✨",
@@ -6396,7 +6396,7 @@
         title: "Monogram Inscriptions",
         timeStart: 53,
         timeEnd: 66,
-        caption: "Select any Cube bead to deboss custom monograms (A–Z), lucky numbers (0–9), or jewelry symbols like Heart ♥ and Peace ☮.",
+        caption: "Select any Cube bead to deboss custom monograms (A–Z), numbers (0–9), or jewelry symbols like Heart ♥ and Peace ☮.",
         summaryTitle: "Personalized Monograms & Hallmarks",
         summaryDesc: "Dynamic procedural debossed normal mapping carves deep tactile engraved initials, numerals, and symbols directly into the bead face.",
         actionText: "Highlight Inscriptions ✨",
@@ -6941,7 +6941,7 @@
       } else {
         vidCtx.fillStyle = "#8E9BAE";
         vidCtx.font = "bold 9px -apple-system, sans-serif";
-        vidCtx.fillText("PROPERTIES", w - 135, 48);
+        vidCtx.fillText(chIdx === 3 && chLocalT >= 0.18 ? "SELECTED BEAD #5" : "PROPERTIES", w - 135, 48);
 
         // Materials chips in simulated right panel
         const mats = ["Glass", "Quartz", "Stone", "Metal", "Wood"];
@@ -6949,7 +6949,18 @@
           const mx = w - 135 + (mi % 2) * 62;
           const my = 58 + Math.floor(mi / 2) * 22;
           // Material changes color ONLY when clicked by cursor!
-          const isSel = (chIdx === 3 && chLocalT >= 0.34 && m === "Quartz") || (chIdx !== 3 && m === "Quartz");
+          let isSel = false;
+          if (chIdx === 3) {
+            if (chLocalT < 0.18) {
+              isSel = false;
+            } else if (chLocalT < 0.44) {
+              isSel = (m === "Glass"); // Glass is selected when bead is clicked on stage
+            } else {
+              isSel = (m === "Quartz"); // Quartz turns gold when cursor clicks it
+            }
+          } else {
+            isSel = (m === "Quartz");
+          }
           vidCtx.fillStyle = isSel ? "rgba(210, 172, 76, 0.35)" : "rgba(255, 255, 255, 0.04)";
           vidCtx.strokeStyle = isSel ? "#D2AC4C" : "rgba(255, 255, 255, 0.08)";
           vidCtx.beginPath();
@@ -6967,7 +6978,7 @@
           const sx = w - 135 + (si % 3) * 40;
           const sy = 120 + Math.floor(si / 3) * 22;
           // Swatch ring changes ONLY when clicked by cursor!
-          const isSwSel = (chIdx === 3 && chLocalT >= 0.66 && sc === "#06B6D4");
+          const isSwSel = (chIdx === 3 && chLocalT >= 0.70 && sc === "#06B6D4");
           vidCtx.fillStyle = sc;
           vidCtx.beginPath();
           vidCtx.arc(sx + 10, sy + 10, 7, 0, Math.PI * 2);
@@ -7668,8 +7679,14 @@
 
             // Bead color: responsive to chapter interactions
             let bCol = bDef.color;
-            if (bi === 5 && chIdx === 3 && chLocalT >= 0.66) {
-              bCol = "#06B6D4"; // Crystalline Turquoise when cyan swatch clicked in Ch 3
+            if (bi === 5 && chIdx === 3) {
+              if (chLocalT < 0.44) {
+                bCol = "#E2E8F0"; // Translucent glass appearance before quartz clicked
+              } else if (chLocalT < 0.70) {
+                bCol = "#F8FAFC"; // Crystalline Quartz (white faceted brilliance)
+              } else {
+                bCol = "#06B6D4"; // Crystalline Turquoise when cyan swatch clicked in Ch 4
+              }
             }
 
             // 1. Draw 3D bead body centered directly on cord (covers the cord ellipse behind it)
@@ -7721,6 +7738,17 @@
             vidCtx.arc(inX, inY, 2.2, 0, Math.PI * 2);
             vidCtx.arc(outX, outY, 2.2, 0, Math.PI * 2);
             vidCtx.fill();
+
+            // Luminous golden selection halo when bead is clicked in Chapter 4 (Materials)
+            if (bi === 5 && chIdx === 3 && chLocalT >= 0.18) {
+              vidCtx.save();
+              vidCtx.strokeStyle = "#D2AC4C";
+              vidCtx.lineWidth = 1.8;
+              vidCtx.beginPath();
+              vidCtx.arc(bx, by, beadR + 3.5, 0, Math.PI * 2);
+              vidCtx.stroke();
+              vidCtx.restore();
+            }
 
             // 4. Cube bead debossing: Peace sign ☮ appears ONLY after chosen in Chapter 5!
             if (bDef.shape === "cube") {
@@ -8032,30 +8060,54 @@
           curY = starWorldY;
         }
       } else if (chIdx === 3) {
-        // Chapter 3: Click Materials & Swatches on Right Panel
+        // Chapter 3 (Ch 4): Click target bead on stage first, then click Quartz, then click Cyan swatch
+        const b5Theta = (5 / 10) * Math.PI * 1.72 - Math.PI * 0.86;
+        const b5x = Math.cos(b5Theta) * 88;
+        const b5y = Math.sin(b5Theta) * (88 * 0.72);
+        const b5OrbitAngle = t * 0.15;
+        const b5WorldX = stageCenterX + (b5x * Math.cos(b5OrbitAngle) - b5y * Math.sin(b5OrbitAngle));
+        const b5WorldY = stageCenterY + (b5x * Math.sin(b5OrbitAngle) + b5y * Math.cos(b5OrbitAngle));
+
         const quartzCX = w - 135 + 62 + 29; // w - 44
         const quartzCY = 58 + 9;            // 67
         const cyanSwCX = w - 135 + 10;      // w - 125
         const cyanSwCY = 120 + 10;          // 130
-        if (chLocalT < 0.25) {
-          const p = chLocalT / 0.25;
-          curX = stageCenterX + (quartzCX - stageCenterX) * p;
-          curY = stageCenterY + (quartzCY - stageCenterY) * p;
-        } else if (chLocalT < 0.44) {
+
+        if (chLocalT < 0.12) {
+          // Glide to target bead on stage
+          const p = chLocalT / 0.12;
+          curX = stageCenterX + (b5WorldX - stageCenterX) * p;
+          curY = stageCenterY + (b5WorldY - stageCenterY) * p;
+        } else if (chLocalT < 0.22) {
+          // Click target bead (selects bead on stage)
+          curX = b5WorldX;
+          curY = b5WorldY;
+          if (chLocalT >= 0.15 && chLocalT < 0.20) isClicking = true;
+        } else if (chLocalT < 0.38) {
+          // Glide from selected bead over to Quartz button on right panel
+          const p = (chLocalT - 0.22) / 0.16;
+          curX = b5WorldX + (quartzCX - b5WorldX) * p;
+          curY = b5WorldY + (quartzCY - b5WorldY) * p;
+        } else if (chLocalT < 0.50) {
+          // Click Quartz button (transforms bead into Quartz)
           curX = quartzCX;
           curY = quartzCY;
-          if (chLocalT >= 0.32 && chLocalT < 0.42) isClicking = true;
-        } else if (chLocalT < 0.62) {
-          const p = (chLocalT - 0.44) / 0.18;
+          if (chLocalT >= 0.42 && chLocalT < 0.48) isClicking = true;
+        } else if (chLocalT < 0.64) {
+          // Glide from Quartz button down to Cyan swatch
+          const p = (chLocalT - 0.50) / 0.14;
           curX = quartzCX + (cyanSwCX - quartzCX) * p;
           curY = quartzCY + (cyanSwCY - quartzCY) * p;
-        } else if (chLocalT < 0.80) {
+        } else if (chLocalT < 0.78) {
+          // Click Cyan swatch (colors bead turquoise)
           curX = cyanSwCX;
           curY = cyanSwCY;
-          if (chLocalT >= 0.65 && chLocalT < 0.76) isClicking = true;
+          if (chLocalT >= 0.68 && chLocalT < 0.74) isClicking = true;
         } else {
-          curX = stageCenterX;
-          curY = stageCenterY;
+          // Glide back to center stage to display result
+          const p = (chLocalT - 0.78) / 0.22;
+          curX = cyanSwCX + (stageCenterX - cyanSwCX) * p;
+          curY = cyanSwCY + (stageCenterY - cyanSwCY) * p;
         }
       } else if (chIdx === 4) {
         // Chapter 5: Click Cube bead on stage, then choose Peace sign in Inscription card
