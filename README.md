@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/hello-world/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.4](https://img.shields.io/badge/Version-1.9.4-lightgrey?style=flat-square)](#)
+[![Version: 1.9.5](https://img.shields.io/badge/Version-1.9.5-lightgrey?style=flat-square)](#)
 
 ---
 

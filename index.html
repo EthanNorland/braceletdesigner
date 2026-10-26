@@ -2040,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.4 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.5 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.4</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.5</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2329,7 +2329,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.4",
+      version: "1.9.5",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -6579,15 +6579,17 @@
       vidCtx.font = "bold 11px -apple-system, sans-serif";
       vidCtx.fillText("✦ BRACELET DESIGNER", 16, 20);
 
-      // Simulated header buttons
+      // Simulated header buttons (record exact centers for cursor precision)
       const hBtns = ["New", "Open", "Save", "Export PNG", "Materials", "Wrist View"];
+      const headerBtnRects = {};
       let hx = w - 16;
       for (let bi = hBtns.length - 1; bi >= 0; bi--) {
         const bText = hBtns[bi];
         vidCtx.font = "10px -apple-system, sans-serif";
         const tw = vidCtx.measureText(bText).width + 12;
         hx -= (tw + 6);
-        const isTargetHeaderBtn = (chIdx === 0 && ((chLocalT < 0.35 && bText === "New") || (chLocalT >= 0.70 && bText === "Open"))) ||
+        headerBtnRects[bText] = { x: hx, y: 6, w: tw, h: 20, cx: hx + tw * 0.5, cy: 16 };
+        const isTargetHeaderBtn = (chIdx === 0 && ((chLocalT < 0.32 && bText === "New") || (chLocalT >= 0.70 && bText === "Open"))) ||
                                   (chIdx === 5 && bText === "Wrist View") ||
                                   (chIdx === 6 && (bText.includes("Materials") || bText.includes("Export")));
         vidCtx.fillStyle = isTargetHeaderBtn ? "rgba(210, 172, 76, 0.45)" : "rgba(255, 255, 255, 0.06)";
@@ -6632,21 +6634,45 @@
         vidCtx.fill();
       });
 
-      // Simulated Right Properties Panel (w=145)
-      const isPropsActive = (chIdx === 0 && chLocalT >= 0.35 && chLocalT < 0.70) || chIdx === 3 || chIdx === 4;
+      // Right Properties Panel (w=145)
+      const isPropsActive = (chIdx === 0 && chLocalT >= 0.32 && chLocalT < 0.70) || chIdx === 3 || chIdx === 4;
       vidCtx.fillStyle = isPropsActive ? "rgba(20, 25, 35, 0.96)" : "rgba(15, 19, 27, 0.85)";
       vidCtx.fillRect(w - 145, 32, 145, h - 32);
       vidCtx.strokeStyle = isPropsActive ? "rgba(136, 164, 196, 0.4)" : "rgba(30, 38, 56, 0.6)";
       vidCtx.strokeRect(w - 145, 32, 145, h - 32);
 
+      // Variables for Chapter 0 slider & base timing
+      const trackX = w - 135;
+      const trackW = 125;
+      const sliderY = 86;
+      const goldBallStartX = trackX + ((160 - 140) / 80) * trackW; // 160 mm
+      const goldBallEndX = trackX + ((175 - 140) / 80) * trackW;   // 175 mm
+      const goldChainCX = (w - 135 + 64) + 30; // center X of Gold Chain chip
+      const goldChainCY = 118 + 10;            // center Y of Gold Chain chip
+
+      // Timing rule: wrist circumference stays strictly 160 mm UNTIL cursor reaches gold ball at 0.40
+      let wristMm = 160;
       if (chIdx === 0) {
-        // In Chapter 0, show Cord Base & Sizing section in Right Panel
+        if (chLocalT < 0.40) {
+          wristMm = 160;
+        } else if (chLocalT < 0.52) {
+          const dragP = (chLocalT - 0.40) / 0.12;
+          wristMm = Math.round(160 + dragP * 15);
+        } else {
+          wristMm = 175;
+        }
+      }
+
+      // Timing rule: chain in workspace & chip turn gold ONLY after cursor clicks Gold Chain chip at 0.64
+      const isGoldChainSelected = (chIdx === 0 && chLocalT >= 0.64);
+
+      if (chIdx === 0) {
+        // In Chapter 0, show Cord Base & Sizing in Right Panel
         vidCtx.fillStyle = "#8E9BAE";
         vidCtx.font = "bold 9px -apple-system, sans-serif";
         vidCtx.fillText("CORD BASE & SIZING", w - 135, 48);
 
         // Wrist Circumference display
-        const wristMm = Math.round(160 + Math.min(1, Math.max(0, (chLocalT - 0.38) / 0.15)) * 15);
         const wristIn = (wristMm / 25.4).toFixed(1);
         vidCtx.fillStyle = "#CBD5E1";
         vidCtx.font = "8px -apple-system, sans-serif";
@@ -6658,15 +6684,15 @@
         // Slider track
         vidCtx.fillStyle = "rgba(255, 255, 255, 0.15)";
         vidCtx.beginPath();
-        drawRoundRect(vidCtx, w - 135, 84, 125, 4, 2);
+        drawRoundRect(vidCtx, trackX, 84, trackW, 4, 2);
         vidCtx.fill();
 
-        // Slider thumb
+        // Slider thumb (gold ball)
         const sliderProgress = (wristMm - 140) / (220 - 140);
-        const thumbX = (w - 135) + sliderProgress * 125;
+        const thumbX = trackX + sliderProgress * trackW;
         vidCtx.fillStyle = "#D2AC4C";
         vidCtx.beginPath();
-        vidCtx.arc(thumbX, 86, 5, 0, Math.PI * 2);
+        vidCtx.arc(thumbX, sliderY, 5, 0, Math.PI * 2);
         vidCtx.fill();
 
         // Base Type Section
@@ -6678,14 +6704,14 @@
         baseTypes.forEach((bName, bi) => {
           const bx = w - 135 + (bi % 2) * 64;
           const by = 118 + Math.floor(bi / 2) * 26;
-          const isGoldSel = (chLocalT >= 0.58 && bName === "Gold Chain") || (chLocalT < 0.58 && bName === "Silver Chain");
-          vidCtx.fillStyle = isGoldSel ? "rgba(210, 172, 76, 0.3)" : "rgba(255, 255, 255, 0.04)";
-          vidCtx.strokeStyle = isGoldSel ? "#D2AC4C" : "rgba(255, 255, 255, 0.1)";
+          const isSelectedChip = (isGoldChainSelected && bName === "Gold Chain") || (!isGoldChainSelected && bName === "Silver Chain");
+          vidCtx.fillStyle = isSelectedChip ? "rgba(210, 172, 76, 0.3)" : "rgba(255, 255, 255, 0.04)";
+          vidCtx.strokeStyle = isSelectedChip ? "#D2AC4C" : "rgba(255, 255, 255, 0.1)";
           vidCtx.beginPath();
           drawRoundRect(vidCtx, bx, by, 60, 20, 4);
           vidCtx.fill();
           vidCtx.stroke();
-          vidCtx.fillStyle = isGoldSel ? "#FFF" : "#8E9BAE";
+          vidCtx.fillStyle = isSelectedChip ? "#FFF" : "#8E9BAE";
           vidCtx.font = "8px -apple-system, sans-serif";
           vidCtx.fillText(bName, bx + 4, by + 13);
         });
@@ -6749,6 +6775,7 @@
       // 3. Central 3D Scene Viewport
       const stageCenterX = (w - 145 + 135) * 0.5;
       const stageCenterY = (h - 32) * 0.5 + 24;
+      let b2WorldPos = { x: stageCenterX - 30, y: stageCenterY - 15 };
 
       if (chIdx === 5) {
         // ── Chapter 5: Realistic 3D Wrist Mode Simulation ──
@@ -6863,32 +6890,33 @@
         vidCtx.save();
         vidCtx.translate(stageCenterX, stageCenterY);
 
-        // Slow camera rotation angle
+        // Camera turntable orbit angle
         const orbitAngle = chIdx === 1 ? (t * 0.45) : (t * 0.15);
+        vidCtx.rotate(orbitAngle);
 
-        // Cord radius: expands dynamically in Chapter 0
+        // Cord radius: expands dynamically in Chapter 0 based on wristMm
         let cordRadius = 80;
         if (chIdx === 0) {
-          const p = Math.min(1, Math.max(0, (chLocalT - 0.38) / 0.15));
-          cordRadius = 70 + p * 12; // 70 to 82 px
+          const sizeP = (wristMm - 140) / (220 - 140);
+          cordRadius = 68 + sizeP * 28; // 68px to 80px dynamically
         }
+        const cordMinorRadius = cordRadius * 0.72; // Ellipse vertical semi-axis
 
-        // Circular bracelet cord
+        // Workspace chain color: strictly Silver until clicked Gold at 0.64
         let cordStroke = "#4B4E54";
         if (chIdx === 0) {
-          cordStroke = (chLocalT >= 0.58) ? "#D2AC4C" : "#8E9BAE";
+          cordStroke = isGoldChainSelected ? "#D2AC4C" : "#A8A9AC";
         }
         vidCtx.strokeStyle = cordStroke;
         vidCtx.lineWidth = 5;
         vidCtx.beginPath();
-        vidCtx.ellipse(0, 0, cordRadius, cordRadius * 0.75, orbitAngle, 0, Math.PI * 2);
+        vidCtx.ellipse(0, 0, cordRadius, cordMinorRadius, 0, 0, Math.PI * 2);
         vidCtx.stroke();
 
-        // Clasp
-        const claspAngle = orbitAngle + Math.PI;
-        const cx = Math.cos(claspAngle) * cordRadius;
-        const cy = Math.sin(claspAngle) * cordRadius * 0.75;
-        vidCtx.fillStyle = (chIdx >= 2 || (chIdx === 0 && chLocalT >= 0.58)) ? "#D2AC4C" : "#A8A9AC";
+        // Clasp on cord
+        const cx = -cordRadius;
+        const cy = 0;
+        vidCtx.fillStyle = (chIdx >= 2 || (chIdx === 0 && isGoldChainSelected)) ? "#D2AC4C" : "#A8A9AC";
         vidCtx.beginPath();
         vidCtx.arc(cx, cy, 9, 0, Math.PI * 2);
         vidCtx.fill();
@@ -6896,19 +6924,39 @@
         vidCtx.lineWidth = 1.5;
         vidCtx.stroke();
 
-        // Beads along cord
+        // Beads: LACED DIRECTLY ON THE CORD BASE
         const showBeads = (chIdx > 0) || (chIdx === 0 && chLocalT >= 0.90);
         if (showBeads) {
           const numBeads = 8;
           for (let bi = 0; bi < numBeads; bi++) {
-            // In chapter 1, bead 2 slides along the cord
+            // In chapter 1, bead 2 slides smoothly along the cord wire
             let bAngleOffset = 0;
-            if (chIdx === 1 && bi === 2 && chLocalT > 0.3 && chLocalT < 0.8) {
-              bAngleOffset = Math.sin((chLocalT - 0.3) * Math.PI * 2) * 0.45;
+            if (chIdx === 1 && bi === 2 && chLocalT > 0.25 && chLocalT < 0.85) {
+              bAngleOffset = Math.sin((chLocalT - 0.25) * Math.PI * 2) * 0.45;
             }
-            const ba = orbitAngle + (bi / numBeads) * Math.PI * 1.8 + bAngleOffset;
-            const bx = Math.cos(ba) * cordRadius;
-            const by = Math.sin(ba) * cordRadius * 0.75;
+            const theta = (bi / numBeads) * Math.PI * 1.72 - Math.PI * 0.86 + bAngleOffset;
+
+            // Mathematical position ON the cord ellipse
+            const bx = Math.cos(theta) * cordRadius;
+            const by = Math.sin(theta) * cordMinorRadius;
+
+            // Cord tangent vector at (bx, by)
+            const tangent = Math.atan2(cordMinorRadius * Math.cos(theta), -cordRadius * Math.sin(theta));
+            const beadR = bi === 3 ? 12 : (bi === 2 ? 14 : 11);
+
+            // Record world position of bead 2 for cursor tracking in Chapter 1
+            if (chIdx === 1 && bi === 2) {
+              b2WorldPos = {
+                x: stageCenterX + (bx * Math.cos(orbitAngle) - by * Math.sin(orbitAngle)),
+                y: stageCenterY + (bx * Math.sin(orbitAngle) + by * Math.cos(orbitAngle))
+              };
+            }
+
+            // Entry & Exit points where cord passes through bead
+            const inX = bx - Math.cos(tangent) * (beadR - 1);
+            const inY = by - Math.sin(tangent) * (beadR - 1);
+            const outX = bx + Math.cos(tangent) * (beadR - 1);
+            const outY = by + Math.sin(tangent) * (beadR - 1);
 
             // Bead colors
             let bCol = "#06B6D4"; // Turquoise
@@ -6918,23 +6966,28 @@
             if (bi === 5) bCol = "#E2E8F0"; // Quartz
             if (bi === 6) bCol = "#A8A9AC"; // Silver
 
-            // Draw 3D bead body
-            const beadR = bi === 3 ? 12 : (bi === 2 ? 14 : 11);
+            // 1. Draw 3D bead body centered directly on cord
             vidCtx.fillStyle = bCol;
             vidCtx.beginPath();
             if (bi === 3) {
-              // Cube bead
-              vidCtx.rect(bx - beadR * 0.8, by - beadR * 0.8, beadR * 1.6, beadR * 1.6);
+              // Cube bead rotated with cord tangent
+              vidCtx.save();
+              vidCtx.translate(bx, by);
+              vidCtx.rotate(tangent);
+              vidCtx.rect(-beadR * 0.8, -beadR * 0.8, beadR * 1.6, beadR * 1.6);
+              vidCtx.fill();
+              vidCtx.restore();
             } else if (bi === 7 && chIdx >= 2) {
               // Celestial star bead
               vidCtx.arc(bx, by, beadR * 1.2, 0, Math.PI * 2);
+              vidCtx.fill();
             } else {
               // Spherical / faceted bead
               vidCtx.arc(bx, by, beadR, 0, Math.PI * 2);
+              vidCtx.fill();
             }
-            vidCtx.fill();
 
-            // 3D Specular Highlight glint
+            // 2. 3D Specular Highlight glint
             const hGrad = vidCtx.createRadialGradient(bx - beadR * 0.35, by - beadR * 0.35, 1, bx, by, beadR);
             hGrad.addColorStop(0, "rgba(255, 255, 255, 0.75)");
             hGrad.addColorStop(0.3, "rgba(255, 255, 255, 0.2)");
@@ -6944,9 +6997,24 @@
             vidCtx.arc(bx, by, beadR, 0, Math.PI * 2);
             vidCtx.fill();
 
-            // If Cube bead & Inscription Chapter, draw debossed heart
+            // 3. Visible Cord Lacing Channel through bead center hole
+            vidCtx.strokeStyle = cordStroke;
+            vidCtx.lineWidth = 3.5;
+            vidCtx.beginPath();
+            vidCtx.moveTo(inX, inY);
+            vidCtx.lineTo(outX, outY);
+            vidCtx.stroke();
+
+            // 4. Drill hole entry & exit chamfers
+            vidCtx.fillStyle = "rgba(0, 0, 0, 0.55)";
+            vidCtx.beginPath();
+            vidCtx.arc(inX, inY, 2.2, 0, Math.PI * 2);
+            vidCtx.arc(outX, outY, 2.2, 0, Math.PI * 2);
+            vidCtx.fill();
+
+            // 5. If Cube bead & Inscription Chapter, draw debossed heart
             if (bi === 3 && chIdx >= 4) {
-              vidCtx.fillStyle = "rgba(0, 0, 0, 0.7)";
+              vidCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
               vidCtx.font = "bold 10px -apple-system, sans-serif";
               vidCtx.textAlign = "center";
               vidCtx.textBaseline = "middle";
@@ -6961,7 +7029,7 @@
 
         // In Chapter 0, show interactive modal overlays
         if (chIdx === 0) {
-          if (chLocalT < 0.35) {
+          if (chLocalT < 0.32) {
             // New Bracelet Templates Modal
             vidCtx.fillStyle = "rgba(15, 20, 30, 0.94)";
             vidCtx.strokeStyle = "#D2AC4C";
@@ -7002,7 +7070,7 @@
             vidCtx.fillStyle = "#CBD5E1";
             vidCtx.font = "9.5px -apple-system, sans-serif";
             vidCtx.fillText("✨ Signature Gold / Heirloom Presets", stageCenterX - 105, stageCenterY + 41);
-          } else if (chLocalT >= 0.70) {
+          } else if (chLocalT >= 0.76) {
             // Open Project Modal
             vidCtx.fillStyle = "rgba(15, 20, 30, 0.94)";
             vidCtx.strokeStyle = "#88A4C4";
@@ -7035,7 +7103,7 @@
             vidCtx.fillText("Saved project file • 14 beads • 175mm cord", stageCenterX - 82, stageCenterY + 2);
 
             // Load button
-            const isLoadHovered = chLocalT > 0.84;
+            const isLoadHovered = chLocalT > 0.85;
             vidCtx.fillStyle = isLoadHovered ? "rgba(210, 172, 76, 0.4)" : "rgba(136, 164, 196, 0.25)";
             vidCtx.strokeStyle = isLoadHovered ? "#D2AC4C" : "#88A4C4";
             vidCtx.beginPath();
@@ -7063,7 +7131,7 @@
         vidCtx.stroke();
         vidCtx.fillStyle = "#10B981";
         vidCtx.font = "bold 9px -apple-system, sans-serif";
-        const maxWrist = (chIdx === 0) ? Math.round(160 + Math.min(1, Math.max(0, (chLocalT - 0.38) / 0.15)) * 15) : 175;
+        const maxWrist = (chIdx === 0) ? wristMm : 175;
         const curBeadFit = (chIdx === 0 && chLocalT < 0.90) ? 0 : 168;
         vidCtx.fillText(`● ${curBeadFit} mm / ${maxWrist} mm`, w - 252, 56);
       }
@@ -7073,54 +7141,91 @@
       let curY = stageCenterY;
       let isClicking = false;
 
+      const newBtn = headerBtnRects["New"] || { cx: 375, cy: 16 };
+      const openBtn = headerBtnRects["Open"] || { cx: 420, cy: 16 };
+
       // Compute cursor path depending on chapter
       if (chIdx === 0) {
         // Chapter 0: New Bracelet, Base & Open Project
-        if (chLocalT < 0.15) {
-          // Move to "New" button in header
-          const p = chLocalT / 0.15;
-          curX = stageCenterX + (345 - stageCenterX) * p;
-          curY = stageCenterY + (16 - stageCenterY) * p;
-          if (chLocalT > 0.10) isClicking = true;
-        } else if (chLocalT < 0.35) {
-          // Move to "Blank Canvas" in template dialog
-          const p = (chLocalT - 0.15) / 0.20;
-          curX = 345 + (stageCenterX - 60 - 345) * p;
-          curY = 16 + (stageCenterY - 2 - 16) * p;
-          if (chLocalT > 0.26 && chLocalT < 0.32) isClicking = true;
-        } else if (chLocalT < 0.55) {
-          // Move to Wrist Circumference slider in right panel
-          const p = (chLocalT - 0.35) / 0.20;
-          curX = (stageCenterX - 60) + (w - 75 - (stageCenterX - 60)) * p;
-          curY = (stageCenterY - 2) + (86 - (stageCenterY - 2)) * p;
-          if (chLocalT > 0.42 && chLocalT < 0.50) isClicking = true;
-        } else if (chLocalT < 0.70) {
-          // Move to "Gold Chain" base type chip
-          const p = (chLocalT - 0.55) / 0.15;
-          curX = (w - 75) + ((w - 45) - (w - 75)) * p;
-          curY = 86 + (128 - 86) * p;
-          if (chLocalT > 0.60 && chLocalT < 0.67) isClicking = true;
-        } else if (chLocalT < 0.82) {
-          // Move to "Open" button in header
-          const p = (chLocalT - 0.70) / 0.12;
-          curX = (w - 45) + (390 - (w - 45)) * p;
-          curY = 128 + (16 - 128) * p;
-          if (chLocalT > 0.76 && chLocalT < 0.81) isClicking = true;
+        if (chLocalT < 0.10) {
+          // 1. Move to "New" button in header
+          const p = chLocalT / 0.10;
+          curX = stageCenterX + (newBtn.cx - stageCenterX) * p;
+          curY = stageCenterY + (newBtn.cy - stageCenterY) * p;
+        } else if (chLocalT < 0.16) {
+          // 2. Touch and click directly on the "New" button
+          curX = newBtn.cx;
+          curY = newBtn.cy;
+          isClicking = true;
+        } else if (chLocalT < 0.24) {
+          // 3. Move from "New" button down to "Blank Canvas" in template dialog
+          const p = (chLocalT - 0.16) / 0.08;
+          curX = newBtn.cx + (stageCenterX - newBtn.cx) * p;
+          curY = newBtn.cy + (stageCenterY - newBtn.cy) * p;
+        } else if (chLocalT < 0.30) {
+          // 4. Touch and click "Blank Canvas"
+          curX = stageCenterX;
+          curY = stageCenterY;
+          isClicking = true;
+        } else if (chLocalT < 0.38) {
+          // 5. Move from dialog directly ON TOP OF THE GOLD BALL (before wrist circumference changes!)
+          const p = (chLocalT - 0.30) / 0.08;
+          curX = stageCenterX + (goldBallStartX - stageCenterX) * p;
+          curY = stageCenterY + (sliderY - stageCenterY) * p;
+        } else if (chLocalT < 0.40) {
+          // 6. Rest on top of the gold ball before dragging begins (strictly 160 mm)
+          curX = goldBallStartX;
+          curY = sliderY;
+        } else if (chLocalT < 0.52) {
+          // 7. Hold and drag gold ball from 160mm to 175mm (curX tracks gold ball thumbX perfectly!)
+          const dragP = (chLocalT - 0.40) / 0.12;
+          curX = goldBallStartX + dragP * (goldBallEndX - goldBallStartX);
+          curY = sliderY;
+          isClicking = true;
+        } else if (chLocalT < 0.54) {
+          // 8. Release gold ball at 175mm
+          curX = goldBallEndX;
+          curY = sliderY;
+        } else if (chLocalT < 0.62) {
+          // 9. Move from slider down to "Gold Chain" base type chip (chain is STILL silver until clicked!)
+          const p = (chLocalT - 0.54) / 0.08;
+          curX = goldBallEndX + (goldChainCX - goldBallEndX) * p;
+          curY = sliderY + (goldChainCY - sliderY) * p;
+        } else if (chLocalT < 0.68) {
+          // 10. Click "Gold Chain" chip! (chain turns gold upon click at 0.64)
+          curX = goldChainCX;
+          curY = goldChainCY;
+          isClicking = true;
+        } else if (chLocalT < 0.76) {
+          // 11. Move up to "Open" button in header (touching the button directly)
+          const p = (chLocalT - 0.68) / 0.08;
+          curX = goldChainCX + (openBtn.cx - goldChainCX) * p;
+          curY = goldChainCY + (openBtn.cy - goldChainCY) * p;
+        } else if (chLocalT < 0.81) {
+          // 12. Touch and click "Open" button
+          curX = openBtn.cx;
+          curY = openBtn.cy;
+          isClicking = true;
+        } else if (chLocalT < 0.88) {
+          // 13. Move to "Load Bracelet Design ✦" in open file dialog
+          const p = (chLocalT - 0.81) / 0.07;
+          curX = openBtn.cx + (stageCenterX - openBtn.cx) * p;
+          curY = openBtn.cy + (stageCenterY + 32 - openBtn.cy) * p;
         } else {
-          // Move to "Load Bracelet" button in file dialog
-          const p = (chLocalT - 0.82) / 0.18;
-          curX = 390 + (stageCenterX - 390) * p;
-          curY = 16 + (stageCenterY + 32 - 16) * p;
-          if (chLocalT > 0.88 && chLocalT < 0.94) isClicking = true;
+          // 14. Click "Load Bracelet Design ✦" and lace beads onto stage
+          curX = stageCenterX;
+          curY = stageCenterY + 32;
+          if (chLocalT < 0.94) isClicking = true;
         }
       } else if (chIdx === 1) {
-        // Chapter 1: Move to bead on stage and drag
+        // Chapter 1: Move to bead 2 on cord and slide smoothly along cord
         if (chLocalT < 0.25) {
-          curX = 220 + chLocalT * 400;
-          curY = 120 + chLocalT * 200;
-        } else if (chLocalT < 0.8) {
-          curX = stageCenterX - 40 + Math.sin(chLocalT * Math.PI * 3) * 35;
-          curY = stageCenterY - 20;
+          const p = chLocalT / 0.25;
+          curX = stageCenterX + 40 + (b2WorldPos.x - (stageCenterX + 40)) * p;
+          curY = stageCenterY + 60 + (b2WorldPos.y - (stageCenterY + 60)) * p;
+        } else if (chLocalT < 0.85) {
+          curX = b2WorldPos.x;
+          curY = b2WorldPos.y;
           isClicking = true;
         } else {
           curX = stageCenterX + 80;
@@ -7160,9 +7265,10 @@
         }
       } else if (chIdx === 5) {
         // Chapter 5: Click Wrist View header & Skin Tones
+        const wristBtn = headerBtnRects["Wrist View"] || { cx: w - 45, cy: 16 };
         if (chLocalT < 0.3) {
-          curX = w - 45;
-          curY = 16;
+          curX = wristBtn.cx;
+          curY = wristBtn.cy;
           if (chLocalT > 0.15 && chLocalT < 0.25) isClicking = true;
         } else {
           curX = stageCenterX;
@@ -7170,9 +7276,10 @@
         }
       } else if (chIdx === 6) {
         // Chapter 6: Click Materials & Export CSV
+        const matBtn = headerBtnRects["Materials"] || { cx: w - 110, cy: 16 };
         if (chLocalT < 0.35) {
-          curX = w - 110;
-          curY = 16;
+          curX = matBtn.cx;
+          curY = matBtn.cy;
           if (chLocalT > 0.2 && chLocalT < 0.3) isClicking = true;
         } else {
           curX = stageCenterX - 70;

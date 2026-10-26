@@ -4,6 +4,26 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.5] - 2026-10-25
+
+### Fixed - Demo Cursor Precision, Sizing Timing & Beads Laced on Cord Base
+- **Cursor Touch Precision on New & Header Buttons ([`index.html#L6584`](file:///Users/ethannorland/hello-world/index.html#L6584), [`#L7148`](file:///Users/ethannorland/hello-world/index.html#L7148)):**
+  - Resolved issue where the cursor clicked off to the side of the **New** button.
+  - Dynamically recorded exact bounding coordinates and horizontal centers (`headerBtnRects[bText].cx, cy`) from `measureText` calculations, landing and resting the cursor tip directly on the **New** button while clicking.
+- **Wrist Sizing Gold Ball Alignment ([`index.html#L7162`](file:///Users/ethannorland/hello-world/index.html#L7162)):**
+  - Resolved issue where wrist circumference changed before the cursor touched the gold ball slider thumb.
+  - Locked wrist circumference strictly at 160 mm while cursor navigates from the dialog, placing the cursor directly on top of the gold ball at 160 mm (`goldBallStartX`) before any dragging or dimension changes occur.
+  - Synchronously dragged the slider thumb from 160 mm to 175 mm with the cursor pinned to the thumb throughout the motion.
+- **Gold Chain Option Click Timing ([`index.html#L6652`](file:///Users/ethannorland/hello-world/index.html#L6652), [`#L7173`](file:///Users/ethannorland/hello-world/index.html#L7173)):**
+  - Kept the workspace cord and base chips strictly in Silver mode while the cursor travels to the "Gold Chain" option chip.
+  - Triggered the tactile click on the Gold Chain chip first (`chLocalT = 0.63–0.66`), switching the chip and the workspace cord to 18K Gold only upon that click (`chLocalT >= 0.64`).
+- **Beads Mathematically Laced on Bracelet Base Cord ([`index.html#L6862`](file:///Users/ethannorland/hello-world/index.html#L6862)):**
+  - Resolved issue where beads floated separately from the bracelet base cord during 3D turntable rotation.
+  - Rotated canvas context directly by `orbitAngle` and calculated bead positions $(bx, by)$ along the parametric ellipse $(cordRadius \cdot \cos\theta, cordMinorRadius \cdot \sin\theta)$, ensuring the distance between bead centers and the cord ellipse is 0 at all angles.
+  - Rendered visible cord threading channels through the center of every bead with dark entry and exit drilled hole chamfers along the cord tangent vector.
+  - Synchronized Chapter 1 cursor tracking with bead 2's exact world coordinates during sliding.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.5`.
+
 ## [1.9.4] - 2026-10-25
 
 ### Added - Starting Chapter: New Bracelet, Wrist Circumference, Base Type & Open Saved Project
