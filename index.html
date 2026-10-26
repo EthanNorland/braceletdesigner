@@ -809,6 +809,23 @@
       width: auto !important;
       max-width: none !important;
     }
+    .demo-video-caption-overlay {
+      font-size: 0.58rem !important;
+      line-height: 1.25 !important;
+      padding: 3px 8px 4px 8px !important;
+    }
+    #dlg-demo.demo-pip .demo-video-caption-overlay {
+      font-size: 0.52rem !important;
+      line-height: 1.2 !important;
+      padding: 2px 6px 3px 6px !important;
+    }
+  }
+  @media (max-width: 420px) {
+    .demo-video-caption-overlay {
+      font-size: 0.50rem !important;
+      line-height: 1.18 !important;
+      padding: 2px 5px 3px 5px !important;
+    }
   }
 
   /* Atelier Spotlight Feature Highlight Beacon */
@@ -1468,6 +1485,13 @@
       display: none !important;
     }
 
+    /* Mobile demo video caption sizing: compact font to prevent overlapping video artwork */
+    .demo-video-caption-overlay {
+      font-size: 0.68rem;
+      line-height: 1.30;
+      padding: 5px 12px 6px 12px;
+    }
+
     #btn-wrist {
       padding: 5px 8px;
       font-size: 0.78rem;
@@ -2040,7 +2064,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.14 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.15 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2184,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.14</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.15</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2336,7 +2360,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.14",
+      version: "1.9.15",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -7501,13 +7525,13 @@
         vidCtx.fillStyle = "rgba(11, 14, 20, 0.95)";
         vidCtx.strokeStyle = "rgba(136, 164, 196, 0.5)";
         vidCtx.beginPath();
-        drawRoundRect(vidCtx, stageCenterX - 140, 50, 280, 230, 10);
+        drawRoundRect(vidCtx, stageCenterX - 140, 42, 280, 248, 10);
         vidCtx.fill();
         vidCtx.stroke();
 
         vidCtx.fillStyle = "#FFF";
         vidCtx.font = "bold 12px -apple-system, sans-serif";
-        vidCtx.fillText("MATERIALS SPEC SHEET", stageCenterX - 120, 75);
+        vidCtx.fillText("MATERIALS SPEC SHEET", stageCenterX - 120, 66);
 
         // Recipe items strictly matching the opened bracelet design
         const rItems = [
@@ -7522,32 +7546,33 @@
         ];
         rItems.forEach((ri, idx) => {
           vidCtx.fillStyle = idx % 2 === 0 ? "rgba(255,255,255,0.03)" : "transparent";
-          vidCtx.fillRect(stageCenterX - 125, 88 + idx * 20, 250, 18);
+          vidCtx.fillRect(stageCenterX - 125, 76 + idx * 20, 250, 18);
           vidCtx.fillStyle = "#CBD5E1";
           vidCtx.font = "9.5px -apple-system, sans-serif";
-          vidCtx.fillText(ri, stageCenterX - 115, 101 + idx * 20);
+          vidCtx.fillText(ri, stageCenterX - 115, 89 + idx * 20);
         });
 
-        // Export CSV & PNG buttons: CSV turns gold ONLY when cursor clicks on it!
+        // Export CSV & PNG buttons moved down below all recipe items so they don't cover any text
         const isCsvClicked = (chIdx === 6 && chLocalT >= 0.58 && chLocalT < 0.72);
+        const btnY = 250;
         vidCtx.fillStyle = isCsvClicked ? "rgba(210, 172, 76, 0.4)" : "rgba(136, 164, 196, 0.25)";
         vidCtx.strokeStyle = isCsvClicked ? "#D2AC4C" : "#88A4C4";
         vidCtx.beginPath();
-        drawRoundRect(vidCtx, stageCenterX - 125, 220, 115, 24, 4);
+        drawRoundRect(vidCtx, stageCenterX - 125, btnY, 115, 24, 4);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = isCsvClicked ? "#D2AC4C" : "#FFF";
         vidCtx.font = "bold 9px -apple-system, sans-serif";
-        vidCtx.fillText("📥 Download CSV", stageCenterX - 112, 236);
+        vidCtx.fillText("📥 Download CSV", stageCenterX - 112, btnY + 16);
 
         vidCtx.fillStyle = "rgba(136, 164, 196, 0.25)";
         vidCtx.strokeStyle = "#88A4C4";
         vidCtx.beginPath();
-        drawRoundRect(vidCtx, stageCenterX + 5, 220, 120, 24, 4);
+        drawRoundRect(vidCtx, stageCenterX + 5, btnY, 120, 24, 4);
         vidCtx.fill();
         vidCtx.stroke();
         vidCtx.fillStyle = "#FFF";
-        vidCtx.fillText("📸 Export High-Res", stageCenterX + 15, 236);
+        vidCtx.fillText("📸 Export High-Res", stageCenterX + 15, btnY + 16);
       } else {
         // ── Normal 3D Turntable Studio Simulation ──
         vidCtx.save();
@@ -8194,8 +8219,13 @@
           curY = toneY;
         }
       } else if (chIdx === 6) {
-        // Chapter 6: Click Materials & Export CSV
+        // Chapter 6 (Ch 7): Click Materials & Export CSV (buttons positioned at Y = 250, center Y = 262)
         const matBtn = headerBtnRects["Materials"] || { cx: w - 110, cy: 16 };
+        const csvBtnCX = stageCenterX - 68;
+        const csvBtnCY = 262;
+        const exportBtnCX = stageCenterX + 65;
+        const exportBtnCY = 262;
+
         if (chLocalT < 0.15) {
           const p = chLocalT / 0.15;
           curX = stageCenterX + (matBtn.cx - stageCenterX) * p;
@@ -8206,15 +8236,15 @@
           if (chLocalT >= 0.18 && chLocalT < 0.28) isClicking = true;
         } else if (chLocalT < 0.58) {
           const p = (chLocalT - 0.32) / 0.26;
-          curX = matBtn.cx + (stageCenterX - 68 - matBtn.cx) * p;
-          curY = matBtn.cy + (232 - matBtn.cy) * p;
+          curX = matBtn.cx + (csvBtnCX - matBtn.cx) * p;
+          curY = matBtn.cy + (csvBtnCY - matBtn.cy) * p;
         } else if (chLocalT < 0.75) {
-          curX = stageCenterX - 68;
-          curY = 232;
+          curX = csvBtnCX;
+          curY = csvBtnCY;
           if (chLocalT >= 0.60 && chLocalT < 0.72) isClicking = true;
         } else {
-          curX = stageCenterX + 65;
-          curY = 232;
+          curX = exportBtnCX;
+          curY = exportBtnCY;
         }
       }
 

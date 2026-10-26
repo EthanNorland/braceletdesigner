@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.15] - 2026-10-26
+
+### Fixed & Improved - Chapter 7 Button Clearance & Mobile Video Caption Sizing
+- **Chapter 7 Materials Spec Sheet Button Clearance ([`index.html#L7525–L7576`](file:///Users/ethannorland/braceletdesigner/index.html#L7525-L7576), [`#L8225–L8245`](file:///Users/ethannorland/braceletdesigner/index.html#L8225-L8245)):**
+  - Moved the **Download CSV** and **Export High-Res** buttons down to `y = 250` (modal card height expanded to 248px), completely below all 8 itemized recipe entries.
+  - Eliminated overlap with Item 6 (*"1x Engraved Cube Bead '☮' (8mm)"*) and Item 7 (*"1x Emerald Green Stone (8mm)"*), ensuring full legibility across every recipe line.
+  - Recalibrated cursor trajectory and click ripple target to `csvBtnCY = 262` and `exportBtnCY = 262` matching button centers.
+- **Mobile Video Caption Sizing ([`index.html#L804–L825`](file:///Users/ethannorland/braceletdesigner/index.html#L804-L825), [`#L1490–L1500`](file:///Users/ethannorland/braceletdesigner/index.html#L1490-L1500)):**
+  - Reduced font size and padding of `.demo-video-caption-overlay` across mobile breakpoints (`0.70rem` on `<=900px`, `0.58rem` on `<=600px`, `0.50rem` on `<=420px`).
+  - Reduced caption height from ~100px (nearly 50% of video height) down to ~30px (~14% of video height), completely preventing the text from overlapping the 3D bracelet, beads, clasps, hands, or modal artwork in the video.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.15`.
+
 ## [1.9.14] - 2026-10-26
 
 ### Added - Antigravity Credit in About Dialog & Documentation
