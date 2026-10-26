@@ -2040,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.10 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.11 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.10</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.11</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2329,7 +2329,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.10",
+      version: "1.9.11",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -7031,181 +7031,309 @@
       let b2WorldPos = { x: stageCenterX - 30, y: stageCenterY - 15 };
 
       if (chIdx === 5) {
-        // ── Chapter 5 (Ch 6): Realistic 3D Wrist Mode Simulation with Sculpted Hand ──
+        // ── Chapter 5 (Ch 6): Realistic 3D Wrist Mode Simulation matching reference/wristview.png ──
+        const armX = stageCenterX;
+        const braceletY = 195;
+
+        // Dynamic Skin Tone selection matching wristview.png presets
+        let activeToneIdx = 1; // 0: Fair, 1: Natural, 2: Warm Tan, 3: Deep Rich
+        if (chLocalT >= 0.48 && chLocalT < 0.64) activeToneIdx = 0; // Fair
+        else if (chLocalT >= 0.64 && chLocalT < 0.78) activeToneIdx = 2; // Warm Tan
+        else activeToneIdx = 1; // Natural (default preset shown in wristview.png)
+
+        const tonePresets = [
+          { name: "Fair", hex: "#F4D0BA" },
+          { name: "Natural", hex: "#D8A684" },
+          { name: "Warm Tan", hex: "#A66D44" },
+          { name: "Deep Rich", hex: "#5C3826" }
+        ];
+        const currentTone = tonePresets[activeToneIdx];
+        const skinTone = currentTone.hex;
+
+        // ════════════════════════════════════════════════════════════════════════
+        // 1. BACK ARC OF BRACELET (Drawn behind the forearm)
+        // ════════════════════════════════════════════════════════════════════════
         vidCtx.save();
-        vidCtx.translate(stageCenterX - 25, stageCenterY);
+        vidCtx.beginPath();
+        vidCtx.ellipse(armX, braceletY, 54, 13, 0, Math.PI, Math.PI * 2);
+        vidCtx.strokeStyle = "#D2AC4C"; // 18K Yellow Gold Chain cord base
+        vidCtx.lineWidth = 3.5;
+        vidCtx.stroke();
 
-        // Skin Tone changes dynamically in Ch 6
-        let skinTone = "#D8A684";
-        if (chLocalT > 0.75) skinTone = "#5C3826";
-        else if (chLocalT > 0.5) skinTone = "#A66D44";
-        else if (chLocalT > 0.25) skinTone = "#F4D0BA";
+        // Authentic Gold Screw-in Clasp on back-right curve (kept on throughout entire demo)
+        const claspAngle = 1.62 * Math.PI;
+        const claspX = armX + Math.cos(claspAngle) * 54;
+        const claspY = braceletY + Math.sin(claspAngle) * 13;
+        drawScrewInClasp(vidCtx, claspX, claspY, false, true);
+        vidCtx.restore();
 
-        // ── 1. Forearm & Palm Mass ──
+        // ════════════════════════════════════════════════════════════════════════
+        // 2. FOREARM & PALM MASS (Vertical orientation matching wristview.png)
+        // ════════════════════════════════════════════════════════════════════════
+        vidCtx.save();
+
+        // ── 2A. Forearm Main Cylinder (Emerges from behind fit banner down to wrist) ──
         vidCtx.fillStyle = skinTone;
         vidCtx.beginPath();
-        vidCtx.moveTo(-140, -35);
-        vidCtx.bezierCurveTo(-60, -33, 10, -30, 65, -30); // Forearm upper edge to wrist dorsal
-        vidCtx.bezierCurveTo(84, -29, 100, -26, 114, -22); // Dorsum (back of hand) to index knuckle
-        // Palm base
-        vidCtx.lineTo(112, 12);
-        vidCtx.bezierCurveTo(95, 26, 80, 29, 65, 30); // Wrist palmar crease
-        vidCtx.bezierCurveTo(10, 32, -60, 34, -140, 36); // Forearm underside
+        vidCtx.moveTo(armX - 35, 80);
+        vidCtx.lineTo(armX + 35, 80);
+        // Right edge descending to wrist
+        vidCtx.bezierCurveTo(armX + 35, 120, armX + 33, 160, armX + 29, braceletY);
+        // Wrist base
+        vidCtx.lineTo(armX - 28, braceletY);
+        // Left edge ascending with ulnar styloid curvature
+        vidCtx.bezierCurveTo(armX - 34, 168, armX - 32, 130, armX - 35, 80);
         vidCtx.closePath();
         vidCtx.fill();
 
-        // ── 2. Realistic Sculpted Fingers (Graceful Jewelry Model Pose) ──
-        // Little finger (pinky curled along bottom)
+        // ── 2B. Forearm Volumetric Cylinder Lighting ──
+        const forearmGrad = vidCtx.createLinearGradient(armX - 35, 0, armX + 35, 0);
+        forearmGrad.addColorStop(0, "rgba(255, 255, 255, 0.24)"); // Keylight on left
+        forearmGrad.addColorStop(0.25, "rgba(255, 255, 255, 0.10)");
+        forearmGrad.addColorStop(0.60, "transparent");
+        forearmGrad.addColorStop(1, "rgba(0, 0, 0, 0.20)"); // Ambient falloff on right
+        vidCtx.fillStyle = forearmGrad;
+        vidCtx.fill();
+
+        // Subtle ulnar styloid process highlight (wrist bone bump on left)
+        const ulnarGrad = vidCtx.createRadialGradient(armX - 31, 168, 1, armX - 31, 168, 9);
+        ulnarGrad.addColorStop(0, "rgba(255, 255, 255, 0.16)");
+        ulnarGrad.addColorStop(1, "transparent");
+        vidCtx.fillStyle = ulnarGrad;
         vidCtx.beginPath();
-        vidCtx.moveTo(110, 10);
-        vidCtx.bezierCurveTo(126, 13, 142, 14, 150, 12);
-        vidCtx.bezierCurveTo(154, 11, 154, 8, 148, 6);
-        vidCtx.bezierCurveTo(138, 4, 124, 6, 112, 8);
-        vidCtx.closePath();
+        vidCtx.arc(armX - 31, 168, 9, 0, Math.PI * 2);
         vidCtx.fill();
 
-        // Ring finger
+        // ── 2C. Palm & Thumb Mass (Palm facing viewer, thumb to right) ──
+        vidCtx.fillStyle = skinTone;
         vidCtx.beginPath();
-        vidCtx.moveTo(112, 4);
-        vidCtx.bezierCurveTo(132, 6, 152, 6, 162, 3);
-        vidCtx.bezierCurveTo(166, 2, 166, -1, 160, -3);
-        vidCtx.bezierCurveTo(148, -5, 130, -3, 114, 1);
+        // Start at wrist left edge
+        vidCtx.moveTo(armX - 28, braceletY);
+        // Outer hypothenar palm margin (left contour)
+        vidCtx.bezierCurveTo(armX - 30, 220, armX - 34, 250, armX - 33, 275);
+        vidCtx.bezierCurveTo(armX - 32, 280, armX - 30, 284, armX - 28, 285); // Pinky base
+        // Across the bases of the 4 fingers
+        vidCtx.lineTo(armX + 25, 285); // Index finger base
+        // First interdigital web space (thumb-index cleft)
+        vidCtx.bezierCurveTo(armX + 34, 268, armX + 46, 262, armX + 58, 274);
+        // Inner thumb contour
+        vidCtx.bezierCurveTo(armX + 64, 282, armX + 68, 294, armX + 72, 304);
+        // Thumb tip (smooth rounded dome)
+        vidCtx.bezierCurveTo(armX + 76, 308, armX + 82, 304, armX + 82, 294);
+        // Outer thumb contour
+        vidCtx.bezierCurveTo(armX + 82, 282, armX + 72, 266, armX + 60, 252);
+        // Outer thenar eminence (ball of thumb) sweeping back to wrist right edge
+        vidCtx.bezierCurveTo(armX + 54, 244, armX + 46, 225, armX + 29, braceletY);
         vidCtx.closePath();
         vidCtx.fill();
 
-        // Middle finger (longest, resting naturally)
+        // ── 2D. Palm Anatomical Volume & Creases ──
+        // Palmar hollow depression (central cup of hand)
+        const palmCupGrad = vidCtx.createRadialGradient(armX + 6, 245, 2, armX + 6, 245, 34);
+        palmCupGrad.addColorStop(0, "rgba(0, 0, 0, 0.14)");
+        palmCupGrad.addColorStop(0.7, "rgba(0, 0, 0, 0.04)");
+        palmCupGrad.addColorStop(1, "transparent");
+        vidCtx.fillStyle = palmCupGrad;
         vidCtx.beginPath();
-        vidCtx.moveTo(114, -8);
-        vidCtx.bezierCurveTo(134, -7, 158, -7, 172, -4);
-        vidCtx.bezierCurveTo(176, -3, 176, 1, 169, 2);
-        vidCtx.bezierCurveTo(156, 3, 134, 1, 115, -2);
-        vidCtx.closePath();
+        vidCtx.arc(armX + 6, 245, 34, 0, Math.PI * 2);
         vidCtx.fill();
 
-        // Foreground Index finger (with prominent dorsal ridge & knuckle)
+        // Thenar muscle volume highlight (ball of thumb)
+        const thenarGrad = vidCtx.createRadialGradient(armX + 44, 244, 2, armX + 44, 244, 25);
+        thenarGrad.addColorStop(0, "rgba(255, 255, 255, 0.20)");
+        thenarGrad.addColorStop(0.7, "rgba(255, 255, 255, 0.04)");
+        thenarGrad.addColorStop(1, "transparent");
+        vidCtx.fillStyle = thenarGrad;
         vidCtx.beginPath();
-        vidCtx.moveTo(114, -22);
-        vidCtx.bezierCurveTo(130, -21, 148, -17, 164, -11);
-        vidCtx.bezierCurveTo(168, -9, 167, -5, 161, -4);
-        vidCtx.bezierCurveTo(148, -3, 132, -8, 116, -12);
-        vidCtx.closePath();
+        vidCtx.arc(armX + 44, 244, 25, 0, Math.PI * 2);
         vidCtx.fill();
 
-        // Foreground Thumb (emerges from thenar muscle pad)
+        // Hypothenar volume highlight (outer palm pad on left)
+        const hypoGrad = vidCtx.createRadialGradient(armX - 18, 252, 2, armX - 18, 252, 22);
+        hypoGrad.addColorStop(0, "rgba(255, 255, 255, 0.12)");
+        hypoGrad.addColorStop(1, "transparent");
+        vidCtx.fillStyle = hypoGrad;
         vidCtx.beginPath();
-        vidCtx.moveTo(85, 20);
-        vidCtx.bezierCurveTo(98, 24, 112, 24, 128, 19);
-        vidCtx.bezierCurveTo(133, 17, 133, 13, 127, 11);
-        vidCtx.bezierCurveTo(115, 8, 102, 11, 88, 12);
-        vidCtx.closePath();
+        vidCtx.arc(armX - 18, 252, 22, 0, Math.PI * 2);
         vidCtx.fill();
 
-        // ── 3. Anatomical Lighting & Volumetric Depth Gradient ──
-        const armGrad = vidCtx.createLinearGradient(0, -35, 0, 36);
-        armGrad.addColorStop(0, "rgba(255, 255, 255, 0.22)"); // Keylight on top
-        armGrad.addColorStop(0.35, "rgba(255, 255, 255, 0.04)");
-        armGrad.addColorStop(0.65, "transparent");
-        armGrad.addColorStop(1, "rgba(0, 0, 0, 0.35)"); // Ambient underside shadow
-        vidCtx.fillStyle = armGrad;
+        // Palmar flexion creases
+        vidCtx.strokeStyle = "rgba(0, 0, 0, 0.11)";
+        vidCtx.lineWidth = 1.2;
+        // Thenar crease (Life line wrapping thenar muscle)
         vidCtx.beginPath();
-        vidCtx.moveTo(-140, -35);
-        vidCtx.lineTo(176, -35);
-        vidCtx.lineTo(176, 36);
-        vidCtx.lineTo(-140, 36);
+        vidCtx.moveTo(armX + 44, 264);
+        vidCtx.bezierCurveTo(armX + 36, 252, armX + 28, 235, armX + 20, 215);
+        vidCtx.stroke();
+        // Transverse crease (Head line across mid-palm)
+        vidCtx.beginPath();
+        vidCtx.moveTo(armX + 38, 258);
+        vidCtx.bezierCurveTo(armX + 20, 254, armX + 2, 250, armX - 16, 246);
+        vidCtx.stroke();
+
+        // Thumb 3D directional cylinder lighting
+        const thumbGrad = vidCtx.createLinearGradient(armX + 50, 250, armX + 80, 295);
+        thumbGrad.addColorStop(0, "rgba(255, 255, 255, 0.20)");
+        thumbGrad.addColorStop(0.5, "transparent");
+        thumbGrad.addColorStop(1, "rgba(0, 0, 0, 0.22)");
+        vidCtx.fillStyle = thumbGrad;
+        vidCtx.beginPath();
+        vidCtx.moveTo(armX + 48, 255);
+        vidCtx.lineTo(armX + 82, 288);
+        vidCtx.lineTo(armX + 76, 306);
+        vidCtx.lineTo(armX + 56, 275);
         vidCtx.closePath();
         vidCtx.fill();
 
-        // ── 4. Finger Separation Creases & Hand Contours ──
-        vidCtx.strokeStyle = "rgba(0, 0, 0, 0.20)";
+        // ════════════════════════════════════════════════════════════════════════
+        // 3. FOUR VERTICAL FINGERS (Pointing straight DOWN with realistic gaps)
+        // ════════════════════════════════════════════════════════════════════════
+        // Each finger has individual geometry, rounded fingertip, and 3D volumetric cylinder lighting
+
+        // ── 3A. Little Finger (Pinky - leftmost) ──
+        vidCtx.fillStyle = skinTone;
+        vidCtx.beginPath();
+        vidCtx.moveTo(armX - 28, 285);
+        vidCtx.bezierCurveTo(armX - 28, 310, armX - 27.5, 335, armX - 26.5, 345);
+        vidCtx.bezierCurveTo(armX - 26, 352, armX - 18.5, 352, armX - 18, 345); // Rounded fingertip
+        vidCtx.bezierCurveTo(armX - 17.5, 335, armX - 17.5, 310, armX - 18, 285);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        const pGrad = vidCtx.createLinearGradient(armX - 28, 0, armX - 18, 0);
+        pGrad.addColorStop(0, "rgba(255, 255, 255, 0.20)");
+        pGrad.addColorStop(0.3, "rgba(255, 255, 255, 0.08)");
+        pGrad.addColorStop(0.7, "transparent");
+        pGrad.addColorStop(1, "rgba(0, 0, 0, 0.20)");
+        vidCtx.fillStyle = pGrad;
+        vidCtx.fill();
+
+        // ── 3B. Ring Finger (Second from left) ──
+        // (Clean 3px gap from armX - 18 to armX - 15)
+        vidCtx.fillStyle = skinTone;
+        vidCtx.beginPath();
+        vidCtx.moveTo(armX - 15, 284);
+        vidCtx.bezierCurveTo(armX - 15, 315, armX - 14.8, 345, armX - 14.5, 364);
+        vidCtx.bezierCurveTo(armX - 14, 372, armX - 5, 372, armX - 4.5, 364); // Rounded fingertip
+        vidCtx.bezierCurveTo(armX - 4.2, 345, armX - 4.2, 315, armX - 4, 283);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        const rGrad = vidCtx.createLinearGradient(armX - 15, 0, armX - 4, 0);
+        rGrad.addColorStop(0, "rgba(255, 255, 255, 0.20)");
+        rGrad.addColorStop(0.3, "rgba(255, 255, 255, 0.08)");
+        rGrad.addColorStop(0.7, "transparent");
+        rGrad.addColorStop(1, "rgba(0, 0, 0, 0.20)");
+        vidCtx.fillStyle = rGrad;
+        vidCtx.fill();
+
+        // ── 3C. Middle Finger (Third from left - Longest Finger!) ──
+        // (Clean 3px gap from armX - 4 to armX - 1)
+        vidCtx.fillStyle = skinTone;
+        vidCtx.beginPath();
+        vidCtx.moveTo(armX - 1, 283);
+        vidCtx.bezierCurveTo(armX - 1, 320, armX - 0.8, 355, armX - 0.5, 376);
+        vidCtx.bezierCurveTo(armX - 0.2, 385, armX + 10.2, 385, armX + 10.5, 376); // Longest tip at y=385
+        vidCtx.bezierCurveTo(armX + 10.8, 355, armX + 10.8, 320, armX + 11, 284);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        const mGrad = vidCtx.createLinearGradient(armX - 1, 0, armX + 11, 0);
+        mGrad.addColorStop(0, "rgba(255, 255, 255, 0.20)");
+        mGrad.addColorStop(0.3, "rgba(255, 255, 255, 0.08)");
+        mGrad.addColorStop(0.7, "transparent");
+        mGrad.addColorStop(1, "rgba(0, 0, 0, 0.20)");
+        vidCtx.fillStyle = mGrad;
+        vidCtx.fill();
+
+        // ── 3D. Index Finger (Fourth from left) ──
+        // (Clean 3px gap from armX + 11 to armX + 14)
+        vidCtx.fillStyle = skinTone;
+        vidCtx.beginPath();
+        vidCtx.moveTo(armX + 14, 284);
+        vidCtx.bezierCurveTo(armX + 14, 315, armX + 14.2, 345, armX + 14.5, 360);
+        vidCtx.bezierCurveTo(armX + 15, 368, armX + 24, 368, armX + 24.5, 360); // Rounded fingertip
+        vidCtx.bezierCurveTo(armX + 24.8, 345, armX + 24.8, 315, armX + 25, 285);
+        vidCtx.closePath();
+        vidCtx.fill();
+
+        const iGrad = vidCtx.createLinearGradient(armX + 14, 0, armX + 25, 0);
+        iGrad.addColorStop(0, "rgba(255, 255, 255, 0.20)");
+        iGrad.addColorStop(0.3, "rgba(255, 255, 255, 0.08)");
+        iGrad.addColorStop(0.7, "transparent");
+        iGrad.addColorStop(1, "rgba(0, 0, 0, 0.20)");
+        vidCtx.fillStyle = iGrad;
+        vidCtx.fill();
+
+        // Ambient creases at the interdigital webs (where fingers connect to palm)
+        vidCtx.strokeStyle = "rgba(0, 0, 0, 0.16)";
         vidCtx.lineWidth = 1;
-        // Index-middle cleft
+        // Pinky-ring web
         vidCtx.beginPath();
-        vidCtx.moveTo(116, -12);
-        vidCtx.lineTo(142, -9);
+        vidCtx.arc(armX - 16.5, 284, 1.8, 0, Math.PI);
         vidCtx.stroke();
-        // Middle-ring cleft
+        // Ring-middle web
         vidCtx.beginPath();
-        vidCtx.moveTo(115, -2);
-        vidCtx.lineTo(144, -1);
+        vidCtx.arc(armX - 2.5, 283, 1.8, 0, Math.PI);
         vidCtx.stroke();
-        // Ring-pinky cleft
+        // Middle-index web
         vidCtx.beginPath();
-        vidCtx.moveTo(112, 8);
-        vidCtx.lineTo(136, 8);
-        vidCtx.stroke();
-        // Thumb web crease
-        vidCtx.beginPath();
-        vidCtx.moveTo(88, 12);
-        vidCtx.bezierCurveTo(96, 15, 105, 17, 110, 13);
-        vidCtx.stroke();
-        // Wrist flexion creases
-        vidCtx.beginPath();
-        vidCtx.moveTo(64, -28);
-        vidCtx.bezierCurveTo(66, -10, 66, 10, 64, 28);
+        vidCtx.arc(armX + 12.5, 284, 1.8, 0, Math.PI);
         vidCtx.stroke();
 
-        // ── 5. Fingernail Highlights on Index and Thumb ──
-        vidCtx.fillStyle = "rgba(255, 255, 255, 0.35)";
-        vidCtx.beginPath();
-        vidCtx.ellipse(163, -9, 2.5, 1.8, Math.PI * 0.15, 0, Math.PI * 2);
-        vidCtx.fill();
-        vidCtx.beginPath();
-        vidCtx.ellipse(128, 16, 2.8, 2.0, -Math.PI * 0.1, 0, Math.PI * 2);
-        vidCtx.fill();
+        vidCtx.restore();
 
-        // ── 6. Draped bracelet wrapping around wrist at x=65 ──
+        // ════════════════════════════════════════════════════════════════════════
+        // 4. FRONT ARC OF BRACELET & LACED BEADS (In front of wrist)
+        // ════════════════════════════════════════════════════════════════════════
         vidCtx.save();
-        vidCtx.translate(65, 2);
-        vidCtx.rotate(Math.PI * 0.05);
 
-        // 1. 18K Gold Chain cord base wrapping around wrist
+        // 18K Yellow Gold Chain cord base wrapping across front of wrist
         vidCtx.strokeStyle = "#D2AC4C";
-        vidCtx.lineWidth = 4.5;
+        vidCtx.lineWidth = 3.5;
         vidCtx.beginPath();
-        vidCtx.ellipse(0, 0, 24, 42, 0, 0, Math.PI * 2);
+        vidCtx.ellipse(armX, braceletY, 54, 13, 0, 0, Math.PI);
         vidCtx.stroke();
 
-        // 2. Authentic Gold Screw-in Clasp at top edge of wrist (kept on throughout entire demo)
-        drawScrewInClasp(vidCtx, 0, -42, false, true);
-
-        // 3. Beads of the opened bracelet laced along front curve of wrist (base goes THROUGH beads, not on top!)
+        // Beads of the opened bracelet laced along front curve (cord passes THROUGH beads!)
         const wristBeads = getDemoBeadsForState(chIdx, chLocalT);
         const numWBeads = wristBeads.length;
         for (let wbi = 0; wbi < numWBeads; wbi++) {
           const wb = wristBeads[wbi];
-          const wTheta = -Math.PI * 0.38 + (wbi / (numWBeads - 1)) * Math.PI * 0.76;
-          const wbx = Math.cos(wTheta) * 24;
-          const wby = Math.sin(wTheta) * 42;
-          const wTangent = Math.atan2(42 * Math.cos(wTheta), -24 * Math.sin(wTheta));
-          const wbR = wb.radius * 0.62;
+          // Distribute along front arc: from theta = 0.14*PI to 0.86*PI
+          const wTheta = 0.14 * Math.PI + (wbi / (numWBeads - 1)) * 0.72 * Math.PI;
+          const wbx = armX + Math.cos(wTheta) * 54;
+          const wby = braceletY + Math.sin(wTheta) * 13;
+          const wTangent = Math.atan2(13 * Math.cos(wTheta), -54 * Math.sin(wTheta));
+          const wbR = wb.radius * 0.75;
 
           const winX = wbx - Math.cos(wTangent) * wbR;
           const winY = wby - Math.sin(wTangent) * wbR;
           const woutX = wbx + Math.cos(wTangent) * wbR;
           const woutY = wby + Math.sin(wTangent) * wbR;
 
-          // Bead body drawn OVER cord ellipse to occlude cord interior
+          // Bead body drawn OVER cord to cover cord inside bead
           vidCtx.fillStyle = wb.color;
           vidCtx.beginPath();
           if (wb.shape === "cube") {
             vidCtx.save();
             vidCtx.translate(wbx, wby);
             vidCtx.rotate(wTangent);
-            drawRoundRect(vidCtx, -wbR * 0.8, -wbR * 0.8, wbR * 1.6, wbR * 1.6, 1.5);
+            drawRoundRect(vidCtx, -wbR * 0.85, -wbR * 0.85, wbR * 1.7, wbR * 1.7, 2);
             vidCtx.fill();
             vidCtx.restore();
           } else if (wb.shape === "star") {
             vidCtx.save();
             vidCtx.translate(wbx, wby);
             vidCtx.rotate(wTangent + Math.PI / 2);
-            drawStarPath(vidCtx, 0, 0, 5, wbR * 1.25, wbR * 0.65);
+            drawStarPath(vidCtx, 0, 0, 5, wbR * 1.3, wbR * 0.65);
             vidCtx.fill();
             vidCtx.restore();
           } else if (wb.shape === "spacer") {
             vidCtx.save();
             vidCtx.translate(wbx, wby);
             vidCtx.rotate(wTangent);
-            drawRoundRect(vidCtx, -wbR * 0.4, -wbR, wbR * 0.8, wbR * 2, 1.5);
+            drawRoundRect(vidCtx, -wbR * 0.35, -wbR * 0.9, wbR * 0.7, wbR * 1.8, 1.5);
             vidCtx.fill();
             vidCtx.restore();
           } else {
@@ -7213,7 +7341,7 @@
             vidCtx.fill();
           }
 
-          // 3D Glint
+          // 3D Glint / Specular Shading
           const whGrad = vidCtx.createRadialGradient(wbx - wbR * 0.35, wby - wbR * 0.35, 1, wbx, wby, wbR);
           whGrad.addColorStop(0, "rgba(255, 255, 255, 0.75)");
           whGrad.addColorStop(0.3, "rgba(255, 255, 255, 0.2)");
@@ -7230,13 +7358,13 @@
           vidCtx.arc(woutX, woutY, 1.6, 0, Math.PI * 2);
           vidCtx.fill();
 
-          // Inscribed Peace Sign ☮ on Cube bead (replaces sample love engraving)
+          // Debossed Peace Sign ☮ on Cube Bead (chosen in Chapter 5)
           if (wb.shape === "cube") {
             vidCtx.save();
             vidCtx.translate(wbx, wby);
             vidCtx.rotate(wTangent);
             vidCtx.fillStyle = "rgba(0, 0, 0, 0.85)";
-            vidCtx.font = "bold 7.5px -apple-system, sans-serif";
+            vidCtx.font = "bold 8px -apple-system, sans-serif";
             vidCtx.textAlign = "center";
             vidCtx.textBaseline = "middle";
             vidCtx.fillText("☮", 0, 0);
@@ -7245,21 +7373,111 @@
             vidCtx.restore();
           }
         }
-
         vidCtx.restore();
 
-        vidCtx.restore();
+        // ════════════════════════════════════════════════════════════════════════
+        // 5. FLOATING UI OVERLAYS (Matching reference/wristview.png)
+        // ════════════════════════════════════════════════════════════════════════
+        // ── 5A. Top Banner: "✦ Wrist Preview   Tone: [○ ◉ ○ ○]   Exit Wrist" ──
+        const bannerW = 264;
+        const bannerH = 26;
+        const bannerX = armX - bannerW * 0.5;
+        const bannerY = 44;
 
-        // Dynamic wrist banner overlay in video
-        vidCtx.fillStyle = "rgba(11, 14, 20, 0.85)";
-        vidCtx.strokeStyle = "rgba(136, 164, 196, 0.3)";
+        vidCtx.save();
+        vidCtx.fillStyle = "rgba(14, 18, 26, 0.94)";
+        vidCtx.strokeStyle = "rgba(136, 164, 196, 0.45)";
+        vidCtx.lineWidth = 1;
         vidCtx.beginPath();
-        drawRoundRect(vidCtx, stageCenterX - 110, 45, 220, 26, 6);
+        drawRoundRect(vidCtx, bannerX, bannerY, bannerW, bannerH, 13);
         vidCtx.fill();
         vidCtx.stroke();
+
+        // "✦ Wrist Preview"
+        vidCtx.fillStyle = "#88A4C4";
+        vidCtx.font = "10px -apple-system, sans-serif";
+        vidCtx.fillText("✦", bannerX + 14, bannerY + 17);
         vidCtx.fillStyle = "#EDF2F7";
-        vidCtx.font = "bold 9px -apple-system, sans-serif";
-        vidCtx.fillText("WRIST VIEW • DYNAMIC ANATOMICAL FIT", stageCenterX - 95, 62);
+        vidCtx.font = "bold 9.5px -apple-system, sans-serif";
+        vidCtx.fillText("Wrist Preview", bannerX + 26, bannerY + 17);
+
+        // "Tone:"
+        vidCtx.fillStyle = "#8E9BAE";
+        vidCtx.font = "8.5px -apple-system, sans-serif";
+        vidCtx.fillText("Tone:", bannerX + 96, bannerY + 17);
+
+        // 4 Tone circles
+        const toneStartX = bannerX + 130;
+        tonePresets.forEach((tp, ti) => {
+          const tcx = toneStartX + ti * 16;
+          const tcy = bannerY + 13;
+          vidCtx.fillStyle = tp.hex;
+          vidCtx.beginPath();
+          vidCtx.arc(tcx, tcy, 4.8, 0, Math.PI * 2);
+          vidCtx.fill();
+
+          // Active Tone ring indicator (matches wristview.png glowing blue ring on Natural)
+          if (ti === activeToneIdx) {
+            vidCtx.strokeStyle = "#88A4C4";
+            vidCtx.lineWidth = 1.6;
+            vidCtx.beginPath();
+            vidCtx.arc(tcx, tcy, 7.2, 0, Math.PI * 2);
+            vidCtx.stroke();
+          }
+        });
+
+        // "Exit Wrist" button inside banner
+        const exitBtnX = bannerX + bannerW - 54;
+        const exitBtnY = bannerY + 5;
+        vidCtx.fillStyle = "rgba(255, 255, 255, 0.08)";
+        vidCtx.strokeStyle = "rgba(255, 255, 255, 0.16)";
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, exitBtnX, exitBtnY, 46, 16, 4);
+        vidCtx.fill();
+        vidCtx.stroke();
+        vidCtx.fillStyle = "#CBD5E1";
+        vidCtx.font = "bold 8px -apple-system, sans-serif";
+        vidCtx.fillText("Exit Wrist", exitBtnX + 5, exitBtnY + 11.5);
+
+        // ── 5B. Lower Banner: "Used: 70 mm / 175 mm   [===   ]   Remaining: 105 mm" ──
+        const fitW = 280;
+        const fitH = 20;
+        const fitX = armX - fitW * 0.5;
+        const fitY = 74;
+
+        vidCtx.fillStyle = "rgba(14, 18, 26, 0.90)";
+        vidCtx.strokeStyle = "rgba(136, 164, 196, 0.25)";
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, fitX, fitY, fitW, fitH, 6);
+        vidCtx.fill();
+        vidCtx.stroke();
+
+        // Fit used text
+        vidCtx.fillStyle = "#CBD5E1";
+        vidCtx.font = "8px 'SF Mono', Monaco, Consolas, monospace";
+        vidCtx.fillText("Used: 70 mm / 175 mm", fitX + 12, fitY + 13.5);
+
+        // Progress bar track & fill
+        const barX = fitX + 132;
+        const barY = fitY + 7.5;
+        const barW = 44;
+        const barH = 5;
+        vidCtx.fillStyle = "rgba(255, 255, 255, 0.12)";
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, barX, barY, barW, barH, 2.5);
+        vidCtx.fill();
+
+        vidCtx.fillStyle = "#3B82F6"; // Accent blue
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, barX, barY, barW * 0.40, barH, 2.5); // 70 / 175 = 40%
+        vidCtx.fill();
+
+        // Fit remain text
+        vidCtx.fillStyle = "#8E9BAE";
+        vidCtx.font = "8px 'SF Mono', Monaco, Consolas, monospace";
+        vidCtx.fillText("Remaining: 105 mm", barX + barW + 8, fitY + 13.5);
+
+        vidCtx.restore();
       } else if (chIdx === 6 && chLocalT > 0.3) {
         // ── Chapter 6: Materials Spec Sheet Modal Simulation ──
         vidCtx.fillStyle = "rgba(11, 14, 20, 0.95)";
@@ -7871,23 +8089,50 @@
           curY = stageCenterY;
         }
       } else if (chIdx === 5) {
-        // Chapter 5: Click Wrist View header & Skin Tones
+        // Chapter 5 (Ch 6): Click Wrist View header & Showcase Tone Presets
         const wristBtn = headerBtnRects["Wrist View"] || { cx: w - 45, cy: 16 };
+        const bannerW = 264;
+        const bannerX = stageCenterX - bannerW * 0.5;
+        const toneStartX = bannerX + 130;
+        const tone0X = toneStartX;       // Fair
+        const tone1X = toneStartX + 16;  // Natural (default preset matching wristview.png)
+        const tone2X = toneStartX + 32;  // Warm Tan
+        const toneY = 57;
+
         if (chLocalT < 0.12) {
           const p = chLocalT / 0.12;
           curX = stageCenterX + (wristBtn.cx - stageCenterX) * p;
           curY = stageCenterY + (wristBtn.cy - stageCenterY) * p;
-        } else if (chLocalT < 0.28) {
+        } else if (chLocalT < 0.24) {
           curX = wristBtn.cx;
           curY = wristBtn.cy;
-          if (chLocalT >= 0.15 && chLocalT < 0.25) isClicking = true;
-        } else if (chLocalT < 0.45) {
-          const p = (chLocalT - 0.28) / 0.17;
-          curX = wristBtn.cx + (stageCenterX - wristBtn.cx) * p;
-          curY = wristBtn.cy + (58 - wristBtn.cy) * p;
+          if (chLocalT >= 0.15 && chLocalT < 0.22) isClicking = true;
+        } else if (chLocalT < 0.44) {
+          // Glide to Fair tone (Tone 0)
+          const p = (chLocalT - 0.24) / 0.20;
+          curX = wristBtn.cx + (tone0X - wristBtn.cx) * p;
+          curY = wristBtn.cy + (toneY - wristBtn.cy) * p;
+        } else if (chLocalT < 0.58) {
+          // Hover and click Fair tone
+          curX = tone0X;
+          curY = toneY;
+          if (chLocalT >= 0.48 && chLocalT < 0.54) isClicking = true;
+        } else if (chLocalT < 0.72) {
+          // Glide to Warm Tan tone (Tone 2)
+          const p = (chLocalT - 0.58) / 0.14;
+          curX = tone0X + (tone2X - tone0X) * p;
+          curY = toneY;
+          if (chLocalT >= 0.64 && chLocalT < 0.70) isClicking = true;
+        } else if (chLocalT < 0.86) {
+          // Glide to Natural tone (Tone 1)
+          const p = (chLocalT - 0.72) / 0.14;
+          curX = tone2X + (tone1X - tone2X) * p;
+          curY = toneY;
+          if (chLocalT >= 0.78 && chLocalT < 0.84) isClicking = true;
         } else {
-          curX = stageCenterX;
-          curY = 58;
+          // Rest on Natural tone (matching reference/wristview.png)
+          curX = tone1X;
+          curY = toneY;
         }
       } else if (chIdx === 6) {
         // Chapter 6: Click Materials & Export CSV
@@ -7949,16 +8194,18 @@
       vidCtx.stroke();
       vidCtx.restore();
 
-      // Top-Left Chapter Watermark
-      vidCtx.fillStyle = "rgba(11, 14, 20, 0.75)";
-      vidCtx.strokeStyle = "rgba(136, 164, 196, 0.25)";
-      vidCtx.beginPath();
-      drawRoundRect(vidCtx, 145, 38, 180, 20, 4);
-      vidCtx.fill();
-      vidCtx.stroke();
-      vidCtx.fillStyle = "#88A4C4";
-      vidCtx.font = "bold 8.5px SF Mono, monospace";
-      vidCtx.fillText(`CHAPTER ${chIdx + 1} OF ${DEMO_VIDEO_CHAPTERS.length}: ${ch.title.toUpperCase()}`, 152, 51);
+      // Top-Left Chapter Watermark (hidden in Chapter 6 to allow clean Wrist Preview banner display)
+      if (chIdx !== 5) {
+        vidCtx.fillStyle = "rgba(11, 14, 20, 0.75)";
+        vidCtx.strokeStyle = "rgba(136, 164, 196, 0.25)";
+        vidCtx.beginPath();
+        drawRoundRect(vidCtx, 145, 38, 180, 20, 4);
+        vidCtx.fill();
+        vidCtx.stroke();
+        vidCtx.fillStyle = "#88A4C4";
+        vidCtx.font = "bold 8.5px SF Mono, monospace";
+        vidCtx.fillText(`CHAPTER ${chIdx + 1} OF ${DEMO_VIDEO_CHAPTERS.length}: ${ch.title.toUpperCase()}`, 152, 51);
+      }
     }
 
     // ── VIDEO PLAYBACK CONTROLLER ───────────────────────────────────────────
@@ -8218,7 +8465,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const skipStartup = localStorage.getItem("bracelet_demo_skip_startup") === "true";
         if (!skipStartup || urlParams.get("demo") === "1" || urlParams.get("tour") === "1" || urlParams.get("dialog") === "demo") {
-          setTimeout(() => openDemo(0), 300);
+          const chParam = parseInt(urlParams.get("ch") || "0", 10);
+          setTimeout(() => openDemo(isNaN(chParam) ? 0 : chParam), 300);
         }
       } catch {}
     }
@@ -8228,7 +8476,8 @@
     try {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get("dialog") === "demo" || urlParams.get("demo") === "1" || urlParams.get("tour") === "1") {
-        openDemo(0);
+        const chParam = parseInt(urlParams.get("ch") || "0", 10);
+        openDemo(isNaN(chParam) ? 0 : chParam);
       }
       if (urlParams.get("view") === "wrist") {
         const tone = urlParams.get("tone");

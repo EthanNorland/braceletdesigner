@@ -4,6 +4,24 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.11] - 2026-10-25
+
+### Fixed - Realistic Anatomical Vertical Arm & Palm-Forward Hand Calibrated to Reference `wristview.png`
+- **Reference-Calibrated Vertical Forearm & Hand in Chapter 6 ([`index.html#L7033–L7265`](file:///Users/ethannorland/hello-world/index.html#L7033-L7265)):**
+  - Completely redesigned the Chapter 6 Wrist View in the demo video simulation to faithfully mirror desktop reference [`reference/wristview.png`](file:///Users/ethannorland/hello-world/reference/wristview.png).
+  - **Vertical Forearm:** Forearm enters vertically from the top beneath the floating controls banners, tapering gently to the wrist joint with an authentic ulnar styloid process contour.
+  - **Palm-Forward Hand Pose:** The hand hangs downwards with the palm facing directly forward toward the viewer. Features a natural central palmar cup depression, prominent thenar eminence pad, hypothenar margin, and anatomical flexion creases.
+  - **Thumb Geometry:** Branches gracefully to the right with two anatomical segments, rounded dome tip, and deep U-shaped first interdigital web space curving into the index finger base.
+  - **Four Vertical Dangling Fingers:** Pinky, ring, middle (longest), and index fingers point straight downwards with distinct dark background gaps between every single finger, soft rounded dome tips, and cylindrical 3D studio keylight falloff.
+  - **Draped Horizontal Bracelet:** Centered horizontally across the wrist at `y = 195` with perspective depth layering—back arc passes behind the forearm with the 18K Yellow Gold Screw-in Clasp, while front arc wraps in front with the gold chain base and laced beads (inscribed Peace sign `☮` cube, star, spacers, turquoise, quartz gems) where cord base enters and exits drill holes.
+  - **Reference UI Overlay & Tone Interactions ([`index.html#L7200`](file:///Users/ethannorland/hello-world/index.html#L7200), [`#L8100`](file:///Users/ethannorland/hello-world/index.html#L8100)):**
+    - Rendered the authentic floating control pill (`✦ Wrist Preview   Tone: [○ ◉ ○ ○]   Exit Wrist`) with glowing blue indicator ring around the active swatch, and lower fit indicator pill (`Used: 70 mm / 175 mm   [===   ]   Remaining: 105 mm`).
+    - Synchronized cursor tracking across Fair, Warm Tan, and Natural skin tones, settling on Natural (`#D8A684`) matching `wristview.png`.
+    - Hidden top-left chapter watermark in Chapter 6 to allow clean, unobstructed view of the floating banners.
+- **Deep Linking Chapter Support ([`index.html#L8466`](file:///Users/ethannorland/hello-world/index.html#L8466), [`#L8476`](file:///Users/ethannorland/hello-world/index.html#L8476)):**
+  - Added support for `?demo=1&ch=5` URL parameters to directly launch the demo player at any specific chapter.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.11`.
+
 ## [1.9.10] - 2026-10-25
 
 ### Fixed - Chapter 2 Clasp Macro Zoom, Chapter 6 Realistic Sculpted Hand, and Streamlined Chapter Descriptions
