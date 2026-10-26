@@ -2040,7 +2040,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.8 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.9 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2160,7 +2160,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.8</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.9</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2329,7 +2329,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.8",
+      version: "1.9.9",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/hello-world"
     };
@@ -6299,6 +6299,12 @@
       // 2. Locate target element(s) and highlight
       const selectorList = Array.isArray(selectors) ? selectors : [selectors];
       selectorList.forEach(sel => {
+        if (sel === "#cube-inscription-section") {
+          const cubeBead = doc.beads.find(b => b.shape === "cube");
+          if (cubeBead && doc.selectedId !== cubeBead.id) {
+            change(d => { d.selectedId = cubeBead.id; });
+          }
+        }
         const el = document.querySelector(sel);
         if (!el) return;
 
@@ -6383,7 +6389,7 @@
         summaryTitle: "PBR Materials & Jewel-Tone Colors",
         summaryDesc: "Physical transmission, surface crackle veins, honed stone pits, and Linear Tone Mapping ensure colors match the 2D selector without glare burnout.",
         actionText: "Highlight Properties ✨",
-        action: () => spotlightFeature("#right-panel", "Materials & Properties")
+        action: () => spotlightFeature("#card-selected-bead", "Materials & Bead Properties")
       },
       {
         id: "engraving",
@@ -6392,7 +6398,7 @@
         timeEnd: 66,
         caption: "Select any Cube bead to deboss custom monograms (A–Z), lucky numbers (0–9), or jewelry symbols like Heart ♥ and Peace ☮.",
         summaryTitle: "Personalized Monograms & Hallmarks",
-        summaryDesc: "Dynamic procedural debossed normal mapping carves deep tactile engraved initials, lucky digits, and symbols directly into the bead face.",
+        summaryDesc: "Dynamic procedural debossed normal mapping carves deep tactile engraved initials, numerals, and symbols directly into the bead face.",
         actionText: "Highlight Inscriptions ✨",
         action: () => spotlightFeature("#cube-inscription-section", "Cube Monogram Inscriptions")
       },
@@ -6542,7 +6548,7 @@
       { shape: "faceted", color: "#06B6D4", radius: 11, name: "Turquoise Faceted Glass" },
       { shape: "spacer",  color: "#D2AC4C", radius: 7,  name: "18K Gold Spacer" },
       { shape: "sphere",  color: "#06B6D4", radius: 12, name: "Turquoise Sphere Bead" },
-      { shape: "cube",    color: "#D2AC4C", radius: 11, name: "Engraved Cube Bead" },
+      { shape: "cube",    color: "#D2AC4C", radius: 11, name: "Polished Cube Bead" },
       { shape: "sphere",  color: "#10B981", radius: 11, name: "Emerald Stone" },
       { shape: "faceted", color: "#E2E8F0", radius: 12, name: "Crystalline Quartz" },
       { shape: "spacer",  color: "#D2AC4C", radius: 7,  name: "18K Gold Spacer" },
@@ -6591,6 +6597,78 @@
       }
       ctx.lineTo(cx, cy - outerRadius);
       ctx.closePath();
+    }
+
+    function drawScrewInClasp(ctx, x, y, isVertical, isGold = true) {
+      ctx.save();
+      ctx.translate(x, y);
+      if (!isVertical) {
+        ctx.rotate(Math.PI / 2);
+      }
+      const w = 12;
+      const h = 22;
+      const colBase = isGold ? "#D2AC4C" : "#A8A9AC";
+      const colHighlight = isGold ? "#FFF2B2" : "#F8FAFC";
+      const colShadow = isGold ? "#7C5A14" : "#475569";
+      const colSeam = isGold ? "#4A3508" : "#1E293B";
+
+      // 1. Threaded End Collars / Connection Rings
+      ctx.fillStyle = colShadow;
+      ctx.fillRect(-3, -h / 2 - 2.5, 6, 2.5);
+      ctx.fillRect(-3, h / 2, 6, 2.5);
+      ctx.strokeStyle = colHighlight;
+      ctx.lineWidth = 0.8;
+      ctx.strokeRect(-3, -h / 2 - 2.5, 6, 2.5);
+      ctx.strokeRect(-3, h / 2, 6, 2.5);
+
+      // 2. Main Cylindrical Barrel with metallic specular shine
+      const grad = ctx.createLinearGradient(-w / 2, 0, w / 2, 0);
+      grad.addColorStop(0, colShadow);
+      grad.addColorStop(0.2, colHighlight);
+      grad.addColorStop(0.65, colBase);
+      grad.addColorStop(1, colShadow);
+
+      ctx.fillStyle = grad;
+      ctx.strokeStyle = colShadow;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      drawRoundRect(ctx, -w / 2, -h / 2, w, h, 3);
+      ctx.fill();
+      ctx.stroke();
+
+      // 3. Threaded Grip Ribs (Knurled ridges)
+      [-7, -5, 5, 7].forEach(ry => {
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.45)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(-w / 2 + 1, ry);
+        ctx.lineTo(w / 2 - 1, ry);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(-w / 2 + 1, ry + 0.8);
+        ctx.lineTo(w / 2 - 1, ry + 0.8);
+        ctx.stroke();
+      });
+
+      // 4. Center Screw-in Locking Seam
+      ctx.strokeStyle = colSeam;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(-w / 2, 0);
+      ctx.lineTo(w / 2, 0);
+      ctx.stroke();
+
+      ctx.strokeStyle = colHighlight;
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(-w / 2 + 1, 1);
+      ctx.lineTo(w / 2 - 1, 1);
+      ctx.stroke();
+
+      ctx.restore();
     }
 
     function drawDemoVideoFrame() {
@@ -6685,7 +6763,6 @@
       vidCtx.fillText("BEAD SHAPES", 10, 58);
 
       const shapes = ["Sphere", "Faceted", "Rondelle", "Barrel", "Cube", "Star"];
-      const shapeColors = ["#06B6D4", "#10B981", "#EC4899", "#E2E8F0", "#A8A9AC", "#D2AC4C"];
       shapes.forEach((s, si) => {
         const sy = 64 + si * 18;
         // Button changes color ONLY when cursor is on it and clicking it!
@@ -6697,8 +6774,8 @@
         vidCtx.fill();
         vidCtx.stroke();
 
-        // Mini shape icon
-        vidCtx.fillStyle = isHovered ? "#D2AC4C" : shapeColors[si];
+        // Mini shape icon: monochromatic neutral #8E9BAE (colors taken off symbols across all chapters)
+        vidCtx.fillStyle = isHovered ? "#D2AC4C" : "#8E9BAE";
         if (s === "Star") {
           vidCtx.save();
           drawStarPath(vidCtx, 16, sy + 7.5, 5, 4.5, 2.2);
@@ -6724,9 +6801,9 @@
       vidCtx.fillText("SPACERS", 10, spacerStartY + 8);
 
       const spacers = [
-        { name: "Gold Spacer", col: "#D2AC4C" },
-        { name: "Silver Spacer", col: "#A8A9AC" },
-        { name: "Carved Spacer", col: "#D2AC4C" }
+        { name: "Gold Spacer" },
+        { name: "Silver Spacer" },
+        { name: "Carved Spacer" }
       ];
       spacers.forEach((sp, spi) => {
         const spy = spacerStartY + 13 + spi * 18;
@@ -6737,7 +6814,8 @@
         vidCtx.fill();
         vidCtx.stroke();
 
-        vidCtx.fillStyle = sp.col;
+        // Monochromatic neutral symbol icon
+        vidCtx.fillStyle = "#8E9BAE";
         vidCtx.beginPath();
         drawRoundRect(vidCtx, 14, spy + 3.5, 4, 8, 1);
         vidCtx.fill();
@@ -6767,7 +6845,8 @@
         vidCtx.fill();
         vidCtx.stroke();
 
-        vidCtx.fillStyle = "#D2AC4C";
+        // Monochromatic neutral symbol icon
+        vidCtx.fillStyle = "#8E9BAE";
         vidCtx.beginPath();
         vidCtx.arc(16, cly + 7.5, 3, 0, Math.PI * 2);
         vidCtx.fill();
@@ -6901,21 +6980,48 @@
           }
         });
 
-        // If Inscription chapter, show simulated cube inscription card
+        // If Inscription chapter, show simulated cube inscription card with Peace sign selection
         if (chIdx === 4) {
-          const isInscActive = (chIdx === 4 && chLocalT >= 0.65);
-          vidCtx.fillStyle = isInscActive ? "rgba(210, 172, 76, 0.25)" : "rgba(136, 164, 196, 0.12)";
-          vidCtx.strokeStyle = isInscActive ? "#D2AC4C" : "#88A4C4";
+          const isPeaceSelected = (chLocalT >= 0.65);
+          vidCtx.fillStyle = isPeaceSelected ? "rgba(20, 25, 35, 0.98)" : "rgba(15, 19, 27, 0.92)";
+          vidCtx.strokeStyle = isPeaceSelected ? "#D2AC4C" : "rgba(136, 164, 196, 0.35)";
           vidCtx.beginPath();
-          drawRoundRect(vidCtx, w - 135, 175, 125, 60, 6);
+          drawRoundRect(vidCtx, w - 135, 172, 125, 74, 6);
           vidCtx.fill();
           vidCtx.stroke();
+
+          // Header
           vidCtx.fillStyle = "#EDF2F7";
-          vidCtx.font = "bold 9px -apple-system, sans-serif";
-          vidCtx.fillText("ENGRAVING: CUBE", w - 128, 192);
-          vidCtx.fillStyle = "#D2AC4C";
-          vidCtx.font = "14px -apple-system, sans-serif";
-          vidCtx.fillText("♥  L  O  V  E", w - 124, 216);
+          vidCtx.font = "bold 8.5px -apple-system, sans-serif";
+          vidCtx.fillText("ENGRAVING: CUBE", w - 128, 187);
+
+          // Symbol Selector Dropdown Box (cursor clicks here at 0.65 to choose peace sign!)
+          const selBoxY = 194;
+          vidCtx.fillStyle = isPeaceSelected ? "rgba(210, 172, 76, 0.28)" : "rgba(255, 255, 255, 0.05)";
+          vidCtx.strokeStyle = isPeaceSelected ? "#D2AC4C" : "rgba(255, 255, 255, 0.15)";
+          vidCtx.beginPath();
+          drawRoundRect(vidCtx, w - 128, selBoxY, 111, 22, 4);
+          vidCtx.fill();
+          vidCtx.stroke();
+
+          vidCtx.fillStyle = isPeaceSelected ? "#D2AC4C" : "#8E9BAE";
+          vidCtx.font = isPeaceSelected ? "bold 9px -apple-system, sans-serif" : "8.5px -apple-system, sans-serif";
+          vidCtx.fillText(isPeaceSelected ? "☮ Peace Sign" : "— Blank (Choose) —", w - 122, selBoxY + 14);
+
+          vidCtx.fillStyle = isPeaceSelected ? "#D2AC4C" : "#64748B";
+          vidCtx.font = "7px -apple-system, sans-serif";
+          vidCtx.fillText("▼", w - 28, selBoxY + 14);
+
+          // Confirmation status
+          if (isPeaceSelected) {
+            vidCtx.fillStyle = "#10B981";
+            vidCtx.font = "bold 8px -apple-system, sans-serif";
+            vidCtx.fillText("✓ Debossed ☮ Applied", w - 128, 234);
+          } else {
+            vidCtx.fillStyle = "#64748B";
+            vidCtx.font = "8px -apple-system, sans-serif";
+            vidCtx.fillText("Click dropdown to choose symbol", w - 128, 234);
+          }
         }
       }
 
@@ -6967,14 +7073,8 @@
         vidCtx.ellipse(0, 0, 24, 42, 0, 0, Math.PI * 2);
         vidCtx.stroke();
 
-        // 2. Clasp at top edge of wrist
-        vidCtx.fillStyle = "#D2AC4C";
-        vidCtx.beginPath();
-        vidCtx.arc(0, -42, 6, 0, Math.PI * 2);
-        vidCtx.fill();
-        vidCtx.strokeStyle = "#FFF";
-        vidCtx.lineWidth = 1;
-        vidCtx.stroke();
+        // 2. Authentic Gold Screw-in Clasp at top edge of wrist (kept on throughout entire demo)
+        drawScrewInClasp(vidCtx, 0, -42, false, true);
 
         // 3. Beads of the opened bracelet laced along front curve of wrist (base goes THROUGH beads, not on top!)
         const wristBeads = getDemoBeadsForState(chIdx, chLocalT);
@@ -7038,16 +7138,18 @@
           vidCtx.arc(woutX, woutY, 1.6, 0, Math.PI * 2);
           vidCtx.fill();
 
-          // Monogram on Cube bead
+          // Inscribed Peace Sign ☮ on Cube bead (replaces sample love engraving)
           if (wb.shape === "cube") {
             vidCtx.save();
             vidCtx.translate(wbx, wby);
             vidCtx.rotate(wTangent);
-            vidCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
-            vidCtx.font = "bold 7px -apple-system, sans-serif";
+            vidCtx.fillStyle = "rgba(0, 0, 0, 0.85)";
+            vidCtx.font = "bold 7.5px -apple-system, sans-serif";
             vidCtx.textAlign = "center";
             vidCtx.textBaseline = "middle";
-            vidCtx.fillText("♥", 0, 0);
+            vidCtx.fillText("☮", 0, 0);
+            vidCtx.fillStyle = "rgba(255, 255, 255, 0.35)";
+            vidCtx.fillText("☮", 0.4, 0.4);
             vidCtx.restore();
           }
         }
@@ -7082,12 +7184,12 @@
         // Recipe items strictly matching the opened bracelet design
         const rItems = [
           "1x 18K Yellow Gold Chain (175mm)",
-          "1x Magnetic Locking Clasp (18K Gold)",
+          "1x Screw-in Barrel Clasp (18K Gold)",
           "3x Turquoise Faceted Glass (8mm)",
           "2x Crystalline Quartz Sparkle (10mm)",
           "2x 18K Yellow Gold Spacers (6mm)",
           "1x Celestial Star Bead (10mm)",
-          "1x Engraved Cube Bead 'LOVE' (8mm)",
+          "1x Engraved Cube Bead '☮' (8mm)",
           "1x Emerald Green Stone (8mm)"
         ];
         rItems.forEach((ri, idx) => {
@@ -7180,16 +7282,11 @@
           vidCtx.textBaseline = "alphabetic";
         }
 
-        // Clasp on cord: Silver initially in Ch 0, then 18K Gold across all chapters
+        // Clasp on cord: Authentic Gold Screw-in Clasp across all chapters (kept on throughout entire demo)
         const cx = -cordRadius;
         const cy = 0;
-        vidCtx.fillStyle = (chIdx === 0 && !isGoldChainSelected) ? "#A8A9AC" : "#D2AC4C";
-        vidCtx.beginPath();
-        vidCtx.arc(cx, cy, 9, 0, Math.PI * 2);
-        vidCtx.fill();
-        vidCtx.strokeStyle = "#FFF";
-        vidCtx.lineWidth = 1.5;
-        vidCtx.stroke();
+        const isClaspGold = (chIdx > 0) || isGoldChainSelected;
+        drawScrewInClasp(vidCtx, cx, cy, true, isClaspGold);
 
         // Beads: LACED DIRECTLY ON THE CORD BASE (THE OPENED BRACELET ACROSS ALL CHAPTERS)
         const showBeads = (chIdx > 0) || (chIdx === 0 && chLocalT >= 0.90);
@@ -7286,16 +7383,34 @@
             vidCtx.arc(outX, outY, 2.2, 0, Math.PI * 2);
             vidCtx.fill();
 
-            // 4. If Cube bead, draw debossed heart
+            // 4. Cube bead debossing: Peace sign ☮ appears ONLY after chosen in Chapter 5!
             if (bDef.shape === "cube") {
+              const hasPeaceSign = (chIdx > 4) || (chIdx === 4 && chLocalT >= 0.65);
+              if (hasPeaceSign) {
+                vidCtx.save();
+                vidCtx.translate(bx, by);
+                vidCtx.rotate(tangent);
+                // Debossed dark inner shadow
+                vidCtx.fillStyle = "rgba(0, 0, 0, 0.85)";
+                vidCtx.font = "bold 11px -apple-system, sans-serif";
+                vidCtx.textAlign = "center";
+                vidCtx.textBaseline = "middle";
+                vidCtx.fillText("☮", 0, 0);
+                // Metallic bottom groove highlight
+                vidCtx.fillStyle = "rgba(255, 255, 255, 0.4)";
+                vidCtx.fillText("☮", 0.5, 0.5);
+                vidCtx.restore();
+              }
+            }
+
+            // Selection halo for Cube bead when clicked in Chapter 5
+            if (chIdx === 4 && bDef.shape === "cube" && chLocalT >= 0.22) {
               vidCtx.save();
-              vidCtx.translate(bx, by);
-              vidCtx.rotate(tangent);
-              vidCtx.fillStyle = "rgba(0, 0, 0, 0.75)";
-              vidCtx.font = "bold 10px -apple-system, sans-serif";
-              vidCtx.textAlign = "center";
-              vidCtx.textBaseline = "middle";
-              vidCtx.fillText("♥", 0, 0);
+              vidCtx.strokeStyle = "#D2AC4C";
+              vidCtx.lineWidth = 1.5;
+              vidCtx.beginPath();
+              vidCtx.arc(bx, by, beadR + 4, 0, Math.PI * 2);
+              vidCtx.stroke();
               vidCtx.restore();
             }
 
@@ -7388,7 +7503,7 @@
             vidCtx.fillText("summer-gemstone.bracelet", stageCenterX - 82, stageCenterY - 10);
             vidCtx.fillStyle = "#8E9BAE";
             vidCtx.font = "8px -apple-system, sans-serif";
-            vidCtx.fillText("Saved project file • 9 beads • 175mm gold chain", stageCenterX - 82, stageCenterY + 2);
+            vidCtx.fillText("Saved project file • 9 beads • Screw-in Clasp • 175mm gold chain", stageCenterX - 82, stageCenterY + 2);
 
             // Load button: stays neutral blue/gray and DOES NOT turn gold until cursor clicks on it at 0.89!
             const isLoadClicked = (chLocalT >= 0.89);
@@ -7576,15 +7691,15 @@
           curY = stageCenterY;
         }
       } else if (chIdx === 4) {
-        // Chapter 4: Click Cube bead & Inscription
+        // Chapter 5: Click Cube bead on stage, then choose Peace sign in Inscription card
         const b3Theta = (3 / 10) * Math.PI * 1.72 - Math.PI * 0.86;
         const b3x = Math.cos(b3Theta) * 88;
         const b3y = Math.sin(b3Theta) * (88 * 0.72);
         const b3OrbitAngle = t * 0.15;
         const b3WorldX = stageCenterX + (b3x * Math.cos(b3OrbitAngle) - b3y * Math.sin(b3OrbitAngle));
         const b3WorldY = stageCenterY + (b3x * Math.sin(b3OrbitAngle) + b3y * Math.cos(b3OrbitAngle));
-        const inscCardCX = w - 135 + 62;
-        const inscCardCY = 205;
+        const inscCardCX = w - 128 + 111 * 0.5; // center of dropdown box
+        const inscCardCY = 194 + 11;            // center of dropdown box (205)
 
         if (chLocalT < 0.20) {
           const p = chLocalT / 0.20;
@@ -7593,7 +7708,7 @@
         } else if (chLocalT < 0.42) {
           curX = b3WorldX;
           curY = b3WorldY;
-          if (chLocalT >= 0.24 && chLocalT < 0.38) isClicking = true;
+          if (chLocalT >= 0.22 && chLocalT < 0.38) isClicking = true;
         } else if (chLocalT < 0.62) {
           const p = (chLocalT - 0.42) / 0.20;
           curX = b3WorldX + (inscCardCX - b3WorldX) * p;

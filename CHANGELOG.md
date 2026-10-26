@@ -4,6 +4,25 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.9] - 2026-10-25
+
+### Fixed - Neutral Element Palette Symbols, Gold Screw-in Clasp Continuity, Targeted Properties Spotlight & Cube Peace Sign
+- **Monochromatic Neutral Element Palette Symbols ([`index.html#L6754`](file:///Users/ethannorland/hello-world/index.html#L6754)):**
+  - Removed color fills (cyan, emerald, pink, etc.) from all mini symbols next to element palette choices (Bead Shapes, Spacers, Clasp Styles) in the left sidebar across all chapters. All icons now render in neutral studio gray (`#8E9BAE`), maintaining professional aesthetic and lighting gold (`#D2AC4C`) only upon direct cursor interaction.
+- **Authentic 18K Gold Screw-in Clasp Throughout Demo ([`index.html#L6600`](file:///Users/ethannorland/hello-world/index.html#L6600), [`#L7279`](file:///Users/ethannorland/hello-world/index.html#L7279), [`#L7070`](file:///Users/ethannorland/hello-world/index.html#L7070), [`#L7178`](file:///Users/ethannorland/hello-world/index.html#L7178)):**
+  - In Chapter 1, the opened saved bracelet (`summer-gemstone.bracelet`) now features an authentic 18K Gold Screw-in Clasp with cylindrical barrel body, threaded knurled grip ridges, center division seam, and end collars.
+  - The gold screw-in clasp remains on the bracelet throughout the entire demo (3D Studio, Chapter 5 Wrist View at `(0, -42)`, and Chapter 7 Spec Sheet listing `"1x Screw-in Barrel Clasp (18K Gold)"`).
+- **Focused Properties Spotlight in Chapter 4 ([`index.html#L6385`](file:///Users/ethannorland/hello-world/index.html#L6385)):**
+  - Changed Chapter 4's "Highlight Properties ✨" action from `#right-panel` to `#card-selected-bead`. Clicking the highlight button spotlights solely the bead properties card (diameter, shape, PBR finishes, color swatches) without highlighting the Bracelet Cord Base or Base Type card below it.
+- **Description Correction in Chapter 5 ([`index.html#L6395`](file:///Users/ethannorland/hello-world/index.html#L6395)):**
+  - Replaced the words "lucky digits" with "numerals" in Chapter 5's summary description (*"Dynamic procedural debossed normal mapping carves deep tactile engraved initials, numerals, and symbols directly into the bead face."*).
+- **Interactive Cube Bead Peace Sign (☮) & Removal of Sample Love Text ([`index.html#L6977`](file:///Users/ethannorland/hello-world/index.html#L6977), [`#L7380`](file:///Users/ethannorland/hello-world/index.html#L7380), [`#L7687`](file:///Users/ethannorland/hello-world/index.html#L7687)):**
+  - Completely eliminated the sample "LOVE" and "♥" text everywhere. The Cube bead starts unengraved.
+  - In Chapter 5, the cursor navigates to the Cube bead on the 3D stage and clicks it, producing a golden selection halo.
+  - The cursor then moves to the simulated Inscription card on the right panel and clicks the Symbol selector dropdown, choosing `"☮ Peace Sign"`.
+  - The debossed `☮` Peace Sign appears directly on the front face of the Cube bead on the 3D stage and persists through Chapter 6 (Wrist View) and Chapter 7 (Spec Sheet: `"1x Engraved Cube Bead '☮' (8mm)"`).
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.9`.
+
 ## [1.9.8] - 2026-10-25
 
 ### Fixed - Safe Bead Sliding Clearance, Bottom-Left PiP Docking, Complete Palette Categories & Dynamic Star Addition
