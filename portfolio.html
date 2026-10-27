@@ -870,6 +870,10 @@
       </p>
 
       <div class="hero-social-links">
+        <a href="#stanlee" class="social-btn" style="border-color: rgba(230, 36, 41, 0.4); background: rgba(230, 36, 41, 0.08); color: #FCA5A5;">
+          <span>🦸‍♂️ Stan Lee</span>
+          <span>↓</span>
+        </a>
         <a href="#disney-zine" class="social-btn" style="border-color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.08); color: #C4B5FD;">
           <span>📖 Disney Zine</span>
           <span>↓</span>
@@ -1195,6 +1199,79 @@
         </p>
       </div>
     </div>
+
+    <!-- DIVIDER -->
+    <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(230, 36, 41, 0.4), transparent); margin: 68px 0 54px 0;"></div>
+
+    <!-- PROJECT 5: STAN LEE TYPOGRAPHIC PORTRAIT -->
+    <div class="project-hero-card" id="stanlee" style="border-color: rgba(230, 36, 41, 0.35); box-shadow: var(--shadow-lg), 0 0 50px rgba(230, 36, 41, 0.08);">
+      <div class="poster-preview-card" onclick="openStanLeeModal()" title="Click to inspect full resolution Stan Lee typographic portrait" style="border-color: rgba(230, 36, 41, 0.35);">
+        <img src="reference/typographic_portrait_stan_lee_preview.jpg" alt="Stan Lee Typographic Tribute Portrait by Ethan Norland" id="stanlee-thumb" style="aspect-ratio: 0.77; object-fit: cover; max-height: 480px; margin: 0 auto;">
+        <div class="poster-overlay-badge" style="background: rgba(11, 14, 20, 0.88);">
+          <span>🔍 Inspect Master (2550 × 3300)</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="project-meta-pill" style="color: #FCA5A5; background: rgba(230, 36, 41, 0.12); border: 1px solid rgba(230, 36, 41, 0.28);">✦ Typographic Illustration &amp; Digital Art</div>
+        <h3 class="project-title">Stan Lee — Typographic Tribute Portrait</h3>
+        <p class="project-desc">
+          A complex typographic illustration capturing the likeness of comic book pioneer Stan Lee, constructed entirely from the names of legendary Marvel heroes, villains, and cosmic entities he co-created. Letterforms are scaled, contoured, and weighted to delineate facial bone structure, nuanced wrinkles, and his iconic tinted aviator sunglasses.
+        </p>
+
+        <div class="project-tech-tags">
+          <span class="tech-tag">Typographic Portrait</span>
+          <span class="tech-tag">Letterform Shading</span>
+          <span class="tech-tag">Marvel Lore</span>
+          <span class="tech-tag">Digital Illustration</span>
+          <span class="tech-tag">Vector Contours</span>
+          <span class="tech-tag">2550 × 3300 Master</span>
+          <span class="tech-tag">300 DPI Print</span>
+        </div>
+
+        <div class="project-action-buttons">
+          <button type="button" onclick="openStanLeeModal()" class="btn-launch-primary" style="background: linear-gradient(135deg, #E62429 0%, #991B1B 100%); color: #FFF; box-shadow: 0 4px 16px rgba(230, 36, 41, 0.35); border: none; cursor: pointer;">
+            <span>Inspect Portrait</span>
+            <span>🔍</span>
+          </button>
+          <a href="reference/Typographic%20Portrait%20Stan%20Lee%20.png" target="_blank" class="btn-secondary-link" title="Open master file in new tab">
+            <span>Open Original</span>
+            <span>↗</span>
+          </a>
+          <a href="reference/Typographic%20Portrait%20Stan%20Lee%20.png" target="_blank" download="Typographic-Portrait-Stan-Lee-Ethan-Norland.png" class="btn-secondary-link" title="Download master PNG">
+            <span>Download Master</span>
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAN LEE HIGHLIGHTS GRID -->
+    <div class="highlights-grid" style="margin-top: 32px;">
+      <div class="highlight-card" style="border-color: rgba(230, 36, 41, 0.2);">
+        <div class="highlight-icon">🦸‍♂️</div>
+        <h4 class="highlight-card-title">Narrative Typographic Sculpture</h4>
+        <p class="highlight-card-text">
+          Every facial plane, shadow, and contour is composed of iconic characters (Spider-Man, Cyclops, Falcon, Kraven the Hunter, Overmind, Lockjaw)—merging storytelling directly into visual form.
+        </p>
+      </div>
+
+      <div class="highlight-card" style="border-color: rgba(230, 36, 41, 0.2);">
+        <div class="highlight-icon">👓</div>
+        <h4 class="highlight-card-title">Typographic Value &amp; Weight Density</h4>
+        <p class="highlight-card-text">
+          Font scale, tracking, and stroke weight dynamically vary to render dark lens reflections, skin tone gradients, and delicate hair highlights without traditional halftone screening.
+        </p>
+      </div>
+
+      <div class="highlight-card" style="border-color: rgba(230, 36, 41, 0.2);">
+        <div class="highlight-icon">📐</div>
+        <h4 class="highlight-card-title">Print-Ready 300 DPI Resolution</h4>
+        <p class="highlight-card-text">
+          Rendered at 2550 × 3300 px master resolution, preserving razor-sharp character legibility whether viewed at room scale as a poster or inspected under high digital magnification.
+        </p>
+      </div>
+    </div>
   </section>
 
   <!-- SKILLS & CAPABILITIES -->
@@ -1323,7 +1400,7 @@
         <li><a href="./index.html">3D Studio App</a></li>
         <li><a href="https://github.com/EthanNorland" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
-      <div>v1.9.32 • Built with Care</div>
+      <div>v1.9.33 • Built with Care</div>
     </div>
   </footer>
 
@@ -1400,6 +1477,31 @@
             <span>Download High-Res ↓</span>
           </a>
           <a href="reference/Still%20life%20drawing-Ethan%20Norland.jpg" target="_blank" class="btn-nav-outline">
+            <span>Open Original ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL FOR STAN LEE TYPOGRAPHIC PORTRAIT -->
+  <div id="stanlee-modal" class="poster-modal" aria-hidden="true" role="dialog" aria-label="Stan Lee Typographic Portrait Lightbox">
+    <div class="poster-modal-backdrop" onclick="closeStanLeeModal()"></div>
+    <div class="poster-modal-content" style="border-color: rgba(230, 36, 41, 0.45);">
+      <button class="poster-modal-close" onclick="closeStanLeeModal()" aria-label="Close modal">✕</button>
+      <div class="poster-modal-image-container">
+        <img src="reference/typographic_portrait_stan_lee_display.jpg" alt="Stan Lee Typographic Tribute Portrait Master Display" class="poster-modal-image" id="modal-stanlee-img" style="max-height: 72vh;">
+      </div>
+      <div class="poster-modal-bar">
+        <div class="poster-modal-info">
+          <h4>Stan Lee — Typographic Tribute Portrait</h4>
+          <p>Master Dimensions: 2550 × 3300 px • 300 DPI • Rendered with Marvel Character Letterforms</p>
+        </div>
+        <div class="poster-modal-actions">
+          <a href="reference/Typographic%20Portrait%20Stan%20Lee%20.png" target="_blank" download="Typographic-Portrait-Stan-Lee-Ethan-Norland.png" class="btn-nav-gold" style="background: linear-gradient(135deg, #E62429 0%, #991B1B 100%); color: #FFF;">
+            <span>Download Master ↓</span>
+          </a>
+          <a href="reference/Typographic%20Portrait%20Stan%20Lee%20.png" target="_blank" class="btn-nav-outline">
             <span>Open Original ↗</span>
           </a>
         </div>
@@ -1486,11 +1588,28 @@
       document.body.style.overflow = '';
     }
 
+    function openStanLeeModal() {
+      const modal = document.getElementById('stanlee-modal');
+      if (!modal) return;
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeStanLeeModal() {
+      const modal = document.getElementById('stanlee-modal');
+      if (!modal) return;
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closePosterModal();
         closeZineModal();
         closeStillLifeModal();
+        closeStanLeeModal();
       }
       const zineModal = document.getElementById('zine-modal');
       if (zineModal && zineModal.classList.contains('active')) {

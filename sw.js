@@ -1,5 +1,5 @@
 const APP_ID = "bracelet-designer";
-const VERSION = "1.9.32";
+const VERSION = "1.9.33";
 const CACHE = APP_ID + "-" + VERSION;
 const FILES = [
   "./",
@@ -30,6 +30,9 @@ const FILES = [
   "./reference/disneyzine_page_8.jpg",
   "./reference/Still%20life%20drawing-Ethan%20Norland.jpg",
   "./reference/still_life_drawing_preview.jpg",
+  "./reference/Typographic%20Portrait%20Stan%20Lee%20.png",
+  "./reference/typographic_portrait_stan_lee_preview.jpg",
+  "./reference/typographic_portrait_stan_lee_display.jpg",
   "./reference/Braceletuponappstartup.bracelet",
   "./reference/glasstexture.png",
   "./reference/quartztexture.png",

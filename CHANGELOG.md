@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.33] - 2026-10-27
+
+### Added - Stan Lee Typographic Tribute Portrait to Creator Portfolio
+- **Stan Lee Typographic Tribute Portrait ([`portfolio.html#stanlee`](file:///Users/ethannorland/braceletdesigner/portfolio.html#stanlee)):**
+  - Integrated the master typographic illustration (`reference/Typographic Portrait Stan Lee .png`) into a dedicated showcase card on the portfolio page.
+  - Highlights the likeness of comic icon Stan Lee constructed entirely from letterforms of legendary Marvel characters and comic lore (Spider-Man, Cyclops, Falcon, Kraven the Hunter, Overmind, Lockjaw).
+  - Features architectural highlight cards covering *Narrative Typographic Sculpture*, *Typographic Value & Weight Density*, and *Print-Ready 300 DPI Resolution*.
+- **Interactive Lightbox Modal:**
+  - Full-screen lightbox modal displaying the artwork in high definition with smooth pan/inspection, keyboard escape listener (`Esc`), and direct master downloads.
+- **PWA & Offline Precaching ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Precached `./reference/Typographic%20Portrait%20Stan%20Lee%20.png`, `./reference/typographic_portrait_stan_lee_preview.jpg`, and `./reference/typographic_portrait_stan_lee_display.jpg` in service worker cache `bracelet-designer-1.9.33`.
+
 ## [1.9.32] - 2026-10-27
 
 ### Changed - Portfolio Contact Section Direct Email
