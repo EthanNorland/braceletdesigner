@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.20 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.21 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.20</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.21</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.20",
+      version: "1.9.21",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -5368,6 +5368,42 @@
       return th;
     }
 
+    // Exact physical half-thickness along the cord axis (Z) for each bead shape
+    function getBeadHalfThickness(shape, sizeMm, isSpacer = false) {
+      const baseRadius = ((sizeMm || 10) / 10) * 0.75;
+      switch (shape) {
+        case "rondelle":
+          return baseRadius * 0.5217;
+        case "star":
+          return baseRadius * 0.4050;
+        case "barrel":
+          return baseRadius * (isSpacer ? 0.65 : 0.75);
+        case "carved":
+          return baseRadius * 0.65;
+        case "cube":
+          return baseRadius * 0.8250;
+        case "sphere":
+        case "faceted":
+        default:
+          return baseRadius * 0.9485;
+      }
+    }
+
+    // Exact angular contact chord distance so beads touch flush right next to each other
+    function getBeadContactDelta(b1, b2, radius) {
+      const t1 = getBeadHalfThickness(b1.shape, b1.sizeMm, b1.type === "spacer" || b1.isSpacer);
+      const t2 = getBeadHalfThickness(b2.shape, b2.sizeMm, b2.type === "spacer" || b2.isSpacer);
+      const chord = t1 + t2;
+      return 2 * Math.asin(Math.min(1.0, chord / (2 * radius)));
+    }
+
+    // Exact angular contact distance against the clasp ferrule
+    function getClaspContactDelta(bead, radius) {
+      const tD = getBeadHalfThickness(bead.shape, bead.sizeMm, bead.type === "spacer" || bead.isSpacer);
+      const chord = 0.06 + tD;
+      return 2 * Math.asin(Math.min(1.0, chord / (2 * radius)));
+    }
+
     canvas.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
@@ -5416,23 +5452,23 @@
           const phiMax = 2 * Math.PI - 2 * dragClaspOffset;
 
           if (selectedBead) {
-            const halfD = ((selectedBead.sizeMm / 10) * 0.75) / radius;
             const currentPhiD = thetaToCord(selectedBead.angle, dragClaspOffset);
             const draggedIndex = doc.beads.findIndex(b => b.id === draggedBeadId);
+            const claspDelta = getClaspContactDelta(selectedBead, radius);
 
-            let minBound = halfD;
-            let maxBound = phiMax - halfD;
+            let minBound = claspDelta;
+            let maxBound = phiMax - claspDelta;
 
             doc.beads.forEach((other, idx) => {
               if (other.id === draggedBeadId) return;
-              const halfOther = ((other.sizeMm / 10) * 0.75) / radius;
+              const contactDelta = getBeadContactDelta(selectedBead, other, radius);
               const phiOther = thetaToCord(other.angle, dragClaspOffset);
               const isBefore = (phiOther < currentPhiD) || (phiOther === currentPhiD && idx < draggedIndex);
               if (isBefore) {
-                const contactPhi = phiOther + halfOther + halfD;
+                const contactPhi = phiOther + contactDelta;
                 if (contactPhi > minBound) minBound = contactPhi;
               } else {
-                const contactPhi = phiOther - halfOther - halfD;
+                const contactPhi = phiOther - contactDelta;
                 if (contactPhi < maxBound) maxBound = contactPhi;
               }
             });

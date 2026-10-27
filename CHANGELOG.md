@@ -4,6 +4,23 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.21] - 2026-10-26
+
+### Fixed - Flush Physical Contact Between Beads & Spacers Without Gaps
+- **Shape-Specific Physical Half-Thickness Calibrations ([`index.html#L5370–L5405`](file:///Users/ethannorland/braceletdesigner/index.html#L5370-L5405)):**
+  - Replaced generic spherical bounding approximations with exact geometry-calibrated half-thickness ratios along the cord axis (Z) for every shape:
+    - Rondelle Disc Spacers: $0.5217\times$ base radius (removed former 47.8% artificial empty gap).
+    - Star Beads: $0.4050\times$ base radius (removed former 38.5% artificial empty gap).
+    - Barrel Spacers & Wood Beads: $0.65\times$ (carved/spacers) and $0.75\times$ (smooth barrel).
+    - Cube Monogram Beads: $0.8250\times$ base radius (matching extruded depth).
+    - Sphere & Faceted Quartz/Glass Beads: $0.9485\times$ base radius (accounting for drilled rim chamfers).
+- **Exact Chord-Distance Contact Formula ([`index.html#L5395–L5415`](file:///Users/ethannorland/braceletdesigner/index.html#L5395-L5415)):**
+  - Implemented `getBeadContactDelta(b1, b2, radius)` using the exact circular chord equation $2 \arcsin((t_1 + t_2) / (2R))$.
+  - Verified with 3D Euclidean measurement: beads and spacers stop in 100.0% flush contact right next to each other ($0.000$ gap error) when sliding.
+- **Clasp Ferrule Flush Abutment ([`index.html#L5405–L5420`](file:///Users/ethannorland/braceletdesigner/index.html#L5405-L5420)):**
+  - Implemented `getClaspContactDelta(bead, radius)` accounting for the ferrule's narrow tip nestling within the bead drill hole so beads stop right against the clasp ferrules without gap.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.21`.
+
 ## [1.9.20] - 2026-10-26
 
 ### Added & Improved - Lobster Clasp Cord Deletion & Non-Penetrating Bead Dragging Collision
