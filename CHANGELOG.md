@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.34] - 2026-10-27
+
+### Changed - Portfolio Showcase Project Sequencing
+- **Reordered Portfolio Project Sections ([`portfolio.html#projects`](file:///Users/ethannorland/braceletdesigner/portfolio.html#projects)):**
+  - Moved the Stan Lee Typographic Tribute Portrait project card and highlights grid above the Academic Still Life Study.
+  - Aligned the hero quick anchor jump pills to reflect the exact page layout: *Liquid Death* → *Disney Zine* → *Stan Lee* → *Still Life Study*.
+- **PWA & Version Sync:**
+  - Bumped version to `v1.9.34` across all documentation and service worker cache `bracelet-designer-1.9.34`.
+
 ## [1.9.33] - 2026-10-27
 
 ### Added - Stan Lee Typographic Tribute Portrait to Creator Portfolio
