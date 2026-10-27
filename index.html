@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.22 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.23 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.22</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.23</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.22",
+      version: "1.9.23",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -4488,7 +4488,7 @@
       return geo;
     }
 
-    function createBeadGeometry(shape, radius) {
+    function createBeadGeometry(shape, radius, isSpacer = false) {
       const holeRadius = getBeadHoleRadius(radius);
       switch(shape) {
         case "sphere":
@@ -4498,7 +4498,7 @@
         case "rondelle":
           return createHollowRondelleGeometry(radius, holeRadius);
         case "barrel":
-          return createHollowBarrelGeometry(radius, holeRadius, false);
+          return createHollowBarrelGeometry(radius, holeRadius, isSpacer);
         case "carved":
           return createHollowBarrelGeometry(radius, holeRadius, true);
         case "cube":
@@ -5306,7 +5306,7 @@
             mesh = new THREE.Mesh(cubeGeo, baseMat);
           }
         } else {
-          const geo = createBeadGeometry(b.shape, beadRadius);
+          const geo = createBeadGeometry(b.shape, beadRadius, b.type === "spacer" || b.isSpacer === true);
           mesh = new THREE.Mesh(geo, baseMat);
         }
         mesh.userData = { id: b.id };
@@ -5378,9 +5378,9 @@
         case "star":
           return baseRadius * 0.44;
         case "barrel":
-          return baseRadius * (isSpacer ? 0.67 : 0.76);
+          return baseRadius * (isSpacer ? 0.74 : 0.86);
         case "carved":
-          return baseRadius * 0.67;
+          return baseRadius * 0.74;
         case "cube":
           return baseRadius * 0.90;
         case "sphere":

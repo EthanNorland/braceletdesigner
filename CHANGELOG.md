@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.23] - 2026-10-26
+
+### Fixed - Barrel Bead & Carved Spacer Non-Penetration Collision Calibration
+- **Ornate Carved Spacer Geometry Instantiation ([`index.html#L4491–L4505`, `L5309`](file:///Users/ethannorland/braceletdesigner/index.html#L4491-L4505)):**
+  - Updated `createBeadGeometry(shape, radius, isSpacer)` to pass `isSpacer` to `createHollowBarrelGeometry(radius, holeRadius, isSpacer)`, ensuring the carved relief barrel spacer renders its authentic $1.3\times$ height and sculpted ornate relief ribs.
+- **Physical Half-Thickness Calibration ([`index.html#L5370–L5400`](file:///Users/ethannorland/braceletdesigner/index.html#L5370-L5400)):**
+  - Calibrated the effective half-thickness along the chord for both smooth barrel beads and carved spacers:
+    - Smooth Wood Barrel Beads: increased from $0.76\times$ to $0.86\times$ base radius, fully covering the $rEnd = 0.85$ end rim and preventing rim overlap on curved loop sections.
+    - Carved Barrel Spacers: adjusted from $0.67\times$ to $0.74\times$ base radius, accounting for relief ribs and end rims.
+  - Verified across all adjacent pairings (barrel + sphere, barrel + cube, carved spacer + rondelle, carved spacer + barrel): all combinations stop cleanly right before collision with guaranteed positive clearance ($0.02$ to $0.04$ units / ~$0.2\text{mm}$).
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.23`.
+
 ## [1.9.22] - 2026-10-26
 
 ### Fixed - Non-Penetration Hairline Clearance So Beads Stop Right Before Collision
