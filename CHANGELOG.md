@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.32] - 2026-10-27
+
+### Changed - Portfolio Contact Section Direct Email
+- **Direct Email in Contact Info ([`portfolio.html#contact`](file:///Users/ethannorland/braceletdesigner/portfolio.html#contact)):**
+  - Added direct email contact action button (`mailto:ethannorland3@gmail.com`) under the "Interested in Collaborating?" section.
+  - Added contact link in the portfolio site footer.
+  - Removed redundant "Launch Bracelet Designer →" button from the collaborating section to keep focus squarely on creator outreach.
+- **PWA & Version Sync:**
+  - Bumped version to `v1.9.32` across all application documents and service worker cache `bracelet-designer-1.9.32`.
+
 ## [1.9.31] - 2026-10-27
 
 ### Added - Disney Zine Editorial & Academic Still Life to Creator Portfolio
