@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.29] - 2026-10-27
+
+### Added - Creator Portfolio Page with Dedicated URL & Cross-Linking
+- **Creator Portfolio Page ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Designed and published an editorial portfolio page for Ethan Norland at dedicated URL `/portfolio.html`.
+  - Features flagship project deep dive for **Bracelet Designer** with technical architecture breakdowns (Three.js WebGL rendering, custom chord-based collision non-penetration mathematics, procedural Web Audio acoustic synthesis, dynamic anatomical 3D wrist scaling, and offline PWA capabilities).
+  - Outlines core disciplines (3D Web & Graphics, Software Architecture, Tactile Ergonomics & UX) and design philosophy manifesto (*Tactile Physicality, Privacy & Autonomy, Zero-Dependency Rigor*).
+  - Includes direct launch buttons to the live 3D studio, the landing page, and Ethan's GitHub profile (`@EthanNorland`).
+- **Landing Page Integration ([`landing.html#L731`, `L1034`](file:///Users/ethannorland/braceletdesigner/landing.html#L731)):**
+  - Added direct link to the portfolio page in the landing page's sticky header navigation (`Portfolio ↗`).
+  - Added an "About the Creator" showcase banner right above the footer with avatar and bio.
+  - Linked the creator portfolio in the landing page and app About dialog footers.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.29`, precaching `portfolio.html`.
+
 ## [1.9.28] - 2026-10-27
 
 ### Added - Dedicated Atelier Landing Page with Separate URL

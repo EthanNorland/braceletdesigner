@@ -1,11 +1,12 @@
 const APP_ID = "bracelet-designer";
-const VERSION = "1.9.28";
+const VERSION = "1.9.29";
 const CACHE = APP_ID + "-" + VERSION;
 const FILES = [
   "./",
   "./index.html",
   "./landing.html",
   "./welcome.html",
+  "./portfolio.html",
   "./manifest.webmanifest",
   "./icon.svg",
   "./icon-180.png",

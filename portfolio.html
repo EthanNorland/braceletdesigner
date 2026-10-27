@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethan Norland — Creative Technologist & 3D Web Craftsman</title>
+  <meta name="description" content="Portfolio of Ethan Norland. Creative technologist, 3D WebGL developer, and creator of Bracelet Designer.">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <meta name="theme-color" content="#0B0E14">
+
+  <style>
+    :root {
+      --bg: #0B0E14;
+      --bg-alt: #10141D;
+      --surface: #141923;
+      --surface-card: #1A2130;
+      --surface-hover: #222C3E;
+      --border: rgba(136, 164, 196, 0.18);
+      --border-gold: rgba(210, 172, 76, 0.35);
+      --gold: #D2AC4C;
+      --gold-light: #F3E5AB;
+      --gold-dark: #A57E23;
+      --silver: #A8A9AC;
+      --accent: #88A4C4;
+      --fg: #F1F5F9;
+      --fg-muted: #94A3B8;
+      --fg-subtle: #64748B;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
+      --font-serif: 'Cinzel', 'Playfair Display', 'Didot', 'Georgia', serif;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'SF Mono', Monaco, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--gold);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--gold-light);
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────────── */
+    .header-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(11, 14, 20, 0.85);
+      border-bottom: 1px solid var(--border);
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--fg);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+
+    .brand-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, #7A5812 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #0B0E14;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 8px rgba(210, 172, 76, 0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--fg-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--fg);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-nav-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--fg);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #FFF;
+    }
+
+    .btn-nav-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: #0B0E14;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 12px rgba(210, 172, 76, 0.35);
+      transition: all 0.15s ease;
+    }
+
+    .btn-nav-gold:hover {
+      color: #0B0E14;
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    /* ── HERO SECTION ─────────────────────────────────────────── */
+    .hero-section {
+      position: relative;
+      padding: 80px 24px 60px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse at 50% 30%, rgba(210, 172, 76, 0.14) 0%, rgba(136, 164, 196, 0.05) 50%, transparent 75%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(210, 172, 76, 0.10);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 5.5vw, 4.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #FFF;
+      margin-bottom: 20px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #FFF 20%, var(--gold-light) 65%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+      color: var(--fg);
+      max-width: 780px;
+      margin: 0 auto 16px auto;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .hero-bio {
+      font-size: 1.02rem;
+      color: var(--fg-muted);
+      max-width: 720px;
+      margin: 0 auto 36px auto;
+      line-height: 1.65;
+    }
+
+    .hero-social-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .social-btn:hover {
+      background: var(--surface-card);
+      border-color: var(--gold);
+      color: #FFF;
+      transform: translateY(-2px);
+    }
+
+    /* ── SECTION SHARED ────────────────────────────────────────── */
+    .section-wrap {
+      padding: 80px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .section-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 3.8vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: #FFF;
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      color: var(--fg-muted);
+      font-size: 1.05rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── FLAGSHIP PROJECT SPOTLIGHT ────────────────────────────── */
+    .project-hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 44px;
+      box-shadow: var(--shadow-lg), 0 0 50px rgba(210, 172, 76, 0.12);
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .project-preview-wrap {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(210, 172, 76, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      background: #0B0E14;
+    }
+
+    .project-preview-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .project-preview-wrap:hover img {
+      transform: scale(1.02);
+    }
+
+    .project-meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(210, 172, 76, 0.12);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    .project-title {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #FFF;
+      margin-bottom: 14px;
+    }
+
+    .project-desc {
+      color: var(--fg-muted);
+      font-size: 0.98rem;
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .project-tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .tech-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .project-action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-launch-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: #0B0E14;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 16px rgba(210, 172, 76, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-launch-primary:hover {
+      color: #0B0E14;
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--fg);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #FFF;
+      transform: translateY(-2px);
+    }
+
+    /* ── ARCHITECTURAL HIGHLIGHTS ──────────────────────────────── */
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .highlight-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .highlight-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(210, 172, 76, 0.35);
+    }
+
+    .highlight-icon {
+      font-size: 1.5rem;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+
+    .highlight-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFF;
+      margin-bottom: 10px;
+    }
+
+    .highlight-card-text {
+      color: var(--fg-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* ── SKILLS & SPECIALIZATIONS ──────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+    }
+
+    .skill-block-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .skill-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--fg);
+      font-size: 0.92rem;
+    }
+
+    .skill-bullet {
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    /* ── PHILOSOPHY MANIFESTO ──────────────────────────────────── */
+    .philosophy-banner {
+      background: linear-gradient(135deg, rgba(20, 25, 35, 0.9) 0%, rgba(26, 33, 48, 0.9) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 48px 36px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-top: 24px;
+    }
+
+    .phil-item h3 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: #FFF;
+      margin-bottom: 10px;
+    }
+
+    .phil-item p {
+      color: var(--fg-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* ── CONTACT & FOOTER ──────────────────────────────────────── */
+    .contact-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 56px 32px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      background: #080A0F;
+      padding: 48px 32px 36px 32px;
+      color: var(--fg-subtle);
+      font-size: 0.88rem;
+      margin-top: 60px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--fg-muted);
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    /* ── MOBILE ────────────────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .header-nav {
+        padding: 0 16px;
+      }
+      .nav-links {
+        display: none;
+      }
+      .project-hero-card {
+        grid-template-columns: 1fr;
+        padding: 24px;
+        gap: 28px;
+      }
+      .hero-section {
+        padding: 50px 16px 40px 16px;
+      }
+      .section-wrap {
+        padding: 60px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="header-nav">
+    <a href="./portfolio.html" class="brand-link">
+      <div class="brand-avatar">EN</div>
+      <span>Ethan Norland</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="./landing.html">Atelier Landing</a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <a href="./landing.html" class="btn-nav-outline" title="View Bracelet Designer Landing Page">
+        <span>Atelier Guide</span>
+      </a>
+      <a href="./index.html" class="btn-nav-gold" title="Open 3D Bracelet Designer Studio">
+        <span>Launch 3D Studio →</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>✦</span> Creative Technologist & 3D Web Craftsman
+      </div>
+      <h1 class="hero-title">
+        Crafting <span>Tactile Digital Experiences</span>
+      </h1>
+      <p class="hero-tagline">
+        Building high-performance 3D atelier software, zero-dependency graphics systems, and tactile physical interfaces for the modern web.
+      </p>
+      <p class="hero-bio">
+        Hi, I'm Ethan Norland. I bridge the worlds of digital craftsmanship and real-time graphics—crafting immersive in-browser workshops that feel tangible, resonant, and physically alive without external trackers, bloat, or cloud dependencies.
+      </p>
+
+      <div class="hero-social-links">
+        <a href="https://github.com/EthanNorland" target="_blank" rel="noopener noreferrer" class="social-btn">
+          <span>GitHub</span>
+          <span style="color:var(--gold);">↗</span>
+        </a>
+        <a href="./index.html" class="social-btn" style="border-color:var(--border-gold); background:rgba(210,172,76,0.1); color:var(--gold-light);">
+          <span>Live 3D Studio</span>
+          <span>→</span>
+        </a>
+        <a href="./landing.html" class="social-btn">
+          <span>Landing Page</span>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED FLAGSHIP PROJECT -->
+  <section class="section-wrap" id="projects">
+    <div class="section-header">
+      <span class="section-tag">Featured Work</span>
+      <h2 class="section-title">Flagship Creation: Bracelet Designer</h2>
+      <p class="section-desc">
+        A single-page, real-time 3D atelier enabling creators to design, manipulate, and test authentic bracelets with physical collision constraints and anatomical wrist draping.
+      </p>
+    </div>
+
+    <div class="project-hero-card">
+      <div class="project-preview-wrap">
+        <a href="./index.html" title="Open Live 3D Studio">
+          <img src="reference/studio_hero_preview.png" alt="Bracelet Designer 3D Atelier Preview">
+        </a>
+      </div>
+
+      <div>
+        <div class="project-meta-pill">✦ Interactive 3D WebGL PWA</div>
+        <h3 class="project-title">Bracelet Designer</h3>
+        <p class="project-desc">
+          Created to give jewelers, artisans, and everyday creators an intuitive 3D tabletop workbench. Slide realistic beads along flexible cord bases, deboss personalized monograms, simulate gemstone clearcoat physics, and test true-to-scale fit on an anatomical human arm.
+        </p>
+
+        <div class="project-tech-tags">
+          <span class="tech-tag">Three.js r128</span>
+          <span class="tech-tag">WebGL</span>
+          <span class="tech-tag">PBR Shaders</span>
+          <span class="tech-tag">Web Audio API</span>
+          <span class="tech-tag">Raycast Sliding</span>
+          <span class="tech-tag">IndexedDB</span>
+          <span class="tech-tag">PWA Offline</span>
+        </div>
+
+        <div class="project-action-buttons">
+          <a href="./index.html" class="btn-launch-primary">
+            <span>Launch Studio</span>
+            <span>→</span>
+          </a>
+          <a href="./landing.html" class="btn-secondary-link">
+            <span>View Landing Page</span>
+            <span>↗</span>
+          </a>
+          <a href="https://github.com/EthanNorland/braceletdesigner" target="_blank" rel="noopener noreferrer" class="btn-secondary-link">
+            <span>Source Code</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARCHITECTURAL HIGHLIGHTS -->
+    <div class="highlights-grid">
+      <div class="highlight-card">
+        <div class="highlight-icon">⚡</div>
+        <h4 class="highlight-card-title">Physical Non-Penetration Collision</h4>
+        <p class="highlight-card-text">
+          Custom chord-based collision geometry preventing beads and spacers from passing through each other. Beads stop flush with hairline clearance right before surface contact.
+        </p>
+      </div>
+
+      <div class="highlight-card">
+        <div class="highlight-icon">🦾</div>
+        <h4 class="highlight-card-title">Anatomical 3D Arm Fit Scaling</h4>
+        <p class="highlight-card-text">
+          Watertight human arm and hand model with ulnar styloid bone geometry that dynamically scales in real time with wrist circumference adjustments (140mm–220mm) across 4 skin tones.
+        </p>
+      </div>
+
+      <div class="highlight-card">
+        <div class="highlight-icon">🔊</div>
+        <h4 class="highlight-card-title">Tactile Procedural Audio Engine</h4>
+        <p class="highlight-card-text">
+          Zero-dependency Web Audio synthesizer generating unique resonant acoustic timbres tailored to glass, quartz, precious metals, stone, and wood during sliding and latching.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS & CAPABILITIES -->
+  <section class="section-wrap" id="skills" style="background: var(--bg-alt); max-width: 100%;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="section-header">
+        <span class="section-tag">Core Disciplines</span>
+        <h2 class="section-title">Technical Expertise & Capabilities</h2>
+        <p class="section-desc">
+          Crafting performant digital tools at the intersection of engineering rigor, tactile human ergonomics, and real-time graphics.
+        </p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-block">
+          <h3 class="skill-block-title">🌐 3D Web & Graphics</h3>
+          <ul class="skill-items">
+            <li class="skill-item"><span class="skill-bullet">✦</span> Three.js & Raw WebGL</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> PBR Materials & BRDF Shading</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Custom Normal & Bump Mapping</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Extruded & Parametric Geometries</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> 3D Raycasting & Space Transforms</li>
+          </ul>
+        </div>
+
+        <div class="skill-block">
+          <h3 class="skill-block-title">🛠️ Software Architecture</h3>
+          <ul class="skill-items">
+            <li class="skill-item"><span class="skill-bullet">✦</span> Zero-Dependency Vanilla JavaScript</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Progressive Web Apps (PWA)</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Service Workers & Offline Caching</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Client-Side IndexedDB Storage</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Undo/Redo Mutation History Stacks</li>
+          </ul>
+        </div>
+
+        <div class="skill-block">
+          <h3 class="skill-block-title">🎨 Interaction & UX</h3>
+          <ul class="skill-items">
+            <li class="skill-item"><span class="skill-bullet">✦</span> Tactile Direct Manipulation</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Web Audio API Acoustic Feedback</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Responsive Mobile Studio Architecture</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Real-Time Spec Sheets & CSV Exports</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> High-Contrast Atelier Design Systems</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN PHILOSOPHY -->
+  <section class="section-wrap" id="philosophy">
+    <div class="philosophy-banner">
+      <span class="section-tag">Guiding Principles</span>
+      <h2 class="section-title" style="text-align: left; margin-bottom: 12px;">Craftsmanship Over Bloat</h2>
+      <p style="color:var(--fg-muted); max-width:750px; font-size:1.02rem; line-height:1.6;">
+        Software is most rewarding when it behaves like a set of finely tuned physical tools on a real workshop bench.
+      </p>
+
+      <div class="philosophy-grid">
+        <div class="phil-item">
+          <h3>✦ Tactile Physicality</h3>
+          <p>
+            Digital objects shouldn't feel flat or lifeless. When dragging a bead along a cord, physical collision feedback, acoustic material resonance, and realistic specular luster make digital manipulation deeply satisfying.
+          </p>
+        </div>
+
+        <div class="phil-item">
+          <h3>✦ Privacy & Autonomy</h3>
+          <p>
+            Users shouldn't have to create accounts, accept tracking cookies, or depend on remote clouds just to explore a creative idea. All designs persist locally in the browser, completely private.
+          </p>
+        </div>
+
+        <div class="phil-item">
+          <h3>✦ Zero-Dependency Rigor</h3>
+          <p>
+            Bypassing massive framework overhead results in lightning-fast initial load times (&lt;50ms), pristine 60fps performance on mobile, and codebases that endure for years without dependency breakage.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GET IN TOUCH / CONTACT -->
+  <section class="section-wrap" id="contact">
+    <div class="contact-banner">
+      <span class="section-tag">Let's Connect</span>
+      <h2 class="section-title">Interested in Collaborating?</h2>
+      <p style="color:var(--fg-muted); max-width:580px; margin:0 auto 28px auto; font-size:1.05rem;">
+        Whether you have questions about Bracelet Designer, want to discuss 3D web graphics, or explore creative engineering projects, I'd love to connect.
+      </p>
+      <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+        <a href="https://github.com/EthanNorland" target="_blank" rel="noopener noreferrer" class="btn-launch-primary">
+          <span>GitHub: @EthanNorland ↗</span>
+        </a>
+        <a href="./index.html" class="btn-secondary-link">
+          <span>Launch Bracelet Designer →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="brand-avatar" style="width:28px; height:28px; font-size:0.75rem;">EN</div>
+        <span><strong>Ethan Norland</strong> — Creative Technologist</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="./portfolio.html">Portfolio</a></li>
+        <li><a href="./landing.html">Atelier Landing</a></li>
+        <li><a href="./index.html">3D Studio App</a></li>
+        <li><a href="https://github.com/EthanNorland/braceletdesigner" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+      <div>v1.9.29 • Built with Care</div>
+    </div>
+  </footer>
+
+</body>
+</html>
