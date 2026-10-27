@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethan Norland — Creative Technologist & 3D Web Craftsman</title>
-  <meta name="description" content="Portfolio of Ethan Norland. Creative technologist, 3D WebGL developer, and creator of Bracelet Designer.">
+  <title>Ethan Norland — Creative Technologist & Visual Craftsman</title>
+  <meta name="description" content="Portfolio of Ethan Norland. Creative technologist, 3D WebGL developer, visual brand designer, and creator of Bracelet Designer.">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="apple-touch-icon" href="icon-180.png">
   <meta name="theme-color" content="#0B0E14">
@@ -526,6 +526,172 @@
       font-size: 0.8rem;
     }
 
+    /* ── POSTER PREVIEW & LIGHTBOX MODAL ──────────────────────── */
+    .poster-preview-card {
+      position: relative;
+      cursor: pointer;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(255, 90, 95, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      background: #06080C;
+    }
+
+    .poster-preview-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    .poster-preview-card:hover img {
+      transform: scale(1.02);
+      filter: brightness(1.04);
+    }
+
+    .poster-overlay-badge {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(11, 14, 20, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFF;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: all 0.2s ease;
+      pointer-events: none;
+    }
+
+    .poster-preview-card:hover .poster-overlay-badge {
+      background: rgba(255, 90, 95, 0.95);
+      border-color: rgba(255, 90, 95, 1);
+    }
+
+    .poster-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .poster-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .poster-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 10, 15, 0.90);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .poster-modal-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      width: 100%;
+      max-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+      overflow: hidden;
+      animation: modalZoom 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalZoom {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .poster-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 10;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(11, 14, 20, 0.85);
+      border: 1px solid var(--border);
+      color: #FFF;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .poster-modal-close:hover {
+      background: #E11D48;
+      border-color: #E11D48;
+      transform: rotate(90deg);
+    }
+
+    .poster-modal-image-container {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #06080C;
+      padding: 16px;
+      overflow: auto;
+    }
+
+    .poster-modal-image {
+      max-width: 100%;
+      max-height: 72vh;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+      display: block;
+    }
+
+    .poster-modal-bar {
+      padding: 18px 24px;
+      background: var(--surface-card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .poster-modal-info h4 {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      color: #FFF;
+      margin-bottom: 2px;
+    }
+
+    .poster-modal-info p {
+      font-size: 0.84rem;
+      color: var(--fg-muted);
+    }
+
+    .poster-modal-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     /* ── PHILOSOPHY MANIFESTO ──────────────────────────────────── */
     .philosophy-banner {
       background: linear-gradient(135deg, rgba(20, 25, 35, 0.9) 0%, rgba(26, 33, 48, 0.9) 100%);
@@ -667,9 +833,9 @@
       </p>
 
       <div class="hero-social-links">
-        <a href="https://github.com/EthanNorland" target="_blank" rel="noopener noreferrer" class="social-btn">
-          <span>GitHub</span>
-          <span style="color:var(--gold);">↗</span>
+        <a href="#liquid-death" class="social-btn" style="border-color: rgba(255, 90, 95, 0.4); background: rgba(255, 90, 95, 0.08); color: #FF8589;">
+          <span>💀 Liquid Death Poster</span>
+          <span>↓</span>
         </a>
         <a href="./index.html" class="social-btn" style="border-color:var(--border-gold); background:rgba(210,172,76,0.1); color:var(--gold-light);">
           <span>Live 3D Studio</span>
@@ -679,20 +845,25 @@
           <span>Landing Page</span>
           <span>→</span>
         </a>
+        <a href="https://github.com/EthanNorland" target="_blank" rel="noopener noreferrer" class="social-btn">
+          <span>GitHub</span>
+          <span style="color:var(--gold);">↗</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- FEATURED FLAGSHIP PROJECT -->
+  <!-- FEATURED PROJECTS -->
   <section class="section-wrap" id="projects">
     <div class="section-header">
-      <span class="section-tag">Featured Work</span>
-      <h2 class="section-title">Flagship Creation: Bracelet Designer</h2>
+      <span class="section-tag">Selected Works</span>
+      <h2 class="section-title">Featured Projects & Art Direction</h2>
       <p class="section-desc">
-        A single-page, real-time 3D atelier enabling creators to design, manipulate, and test authentic bracelets with physical collision constraints and anatomical wrist draping.
+        Bridging high-performance 3D interactive engineering, tactile atelier software, and high-impact visual design & brand identity.
       </p>
     </div>
 
+    <!-- PROJECT 1: BRACELET DESIGNER -->
     <div class="project-hero-card">
       <div class="project-preview-wrap">
         <a href="./index.html" title="Open Live 3D Studio">
@@ -760,6 +931,79 @@
         </p>
       </div>
     </div>
+
+    <!-- DIVIDER -->
+    <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 90, 95, 0.4), transparent); margin: 68px 0 54px 0;"></div>
+
+    <!-- PROJECT 2: LIQUID DEATH POSTER -->
+    <div class="project-hero-card" id="liquid-death" style="border-color: rgba(255, 90, 95, 0.35); box-shadow: var(--shadow-lg), 0 0 50px rgba(255, 90, 95, 0.08);">
+      <div class="poster-preview-card" onclick="openPosterModal()" title="Click to inspect full resolution poster">
+        <img src="reference/liquid_death_poster_preview.jpg" alt="Liquid Death Halloween Final Poster Artwork" id="poster-thumb">
+        <div class="poster-overlay-badge">
+          <span>🔍 Inspect Master (5100 × 3300)</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="project-meta-pill" style="color: #FF7D82; background: rgba(255, 90, 95, 0.12); border: 1px solid rgba(255, 90, 95, 0.28);">✦ Visual Branding & Art Direction</div>
+        <h3 class="project-title">Liquid Death — Halloween Campaign</h3>
+        <p class="project-desc">
+          Official commemorative Halloween campaign poster created for <em>Liquid Death Mountain Water</em> under their iconic brand ethos <em>Murder Your Thirst</em>. Features an ominous ice-cold atmosphere, custom distressed and frost-bitten headline typography ("SERVED CHILLED" & "HAPPY HALLOWEEN"), and visceral commercial art direction crafted for large-format print advertising.
+        </p>
+
+        <div class="project-tech-tags">
+          <span class="tech-tag">Art Direction</span>
+          <span class="tech-tag">Brand Identity</span>
+          <span class="tech-tag">Poster Design</span>
+          <span class="tech-tag">Distressed Typography</span>
+          <span class="tech-tag">Large-Format Print</span>
+          <span class="tech-tag">5100 × 3300 Master</span>
+          <span class="tech-tag">CMYK SWOP v2</span>
+        </div>
+
+        <div class="project-action-buttons">
+          <button type="button" onclick="openPosterModal()" class="btn-launch-primary" style="background: linear-gradient(135deg, #FF5A5F 0%, #B81D24 100%); color: #FFF; box-shadow: 0 4px 16px rgba(255, 90, 95, 0.35); border: none; cursor: pointer;">
+            <span>Inspect Artwork</span>
+            <span>🔍</span>
+          </button>
+          <a href="reference/liquid%20death%20final%20poster%20.jpg" target="_blank" download="Liquid-Death-Final-Poster.jpg" class="btn-secondary-link" title="Download original 16MB print master">
+            <span>Download Master (16 MB)</span>
+            <span>↓</span>
+          </a>
+          <a href="reference/liquid%20death%20final%20poster%20.jpg" target="_blank" class="btn-secondary-link" title="Open master file in new tab">
+            <span>Open Original</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- POSTER HIGHLIGHTS GRID -->
+    <div class="highlights-grid" style="margin-top: 32px;">
+      <div class="highlight-card" style="border-color: rgba(255, 90, 95, 0.2);">
+        <div class="highlight-icon">💀</div>
+        <h4 class="highlight-card-title">Subversive Brand Atmosphere</h4>
+        <p class="highlight-card-text">
+          Channeled Liquid Death's aggressive heavy-metal aesthetic into a seasonal Halloween campaign—amplifying their signature irreverent tone with chilling iced visual storytelling.
+        </p>
+      </div>
+
+      <div class="highlight-card" style="border-color: rgba(255, 90, 95, 0.2);">
+        <div class="highlight-icon">❄️</div>
+        <h4 class="highlight-card-title">Chilled Typography & Custom Lettering</h4>
+        <p class="highlight-card-text">
+          Engineered frost-bitten, distressed headline typography ("SERVED CHILLED" & "HAPPY HALLOWEEN") layered over ominous icy depth to command immediate visual attention.
+        </p>
+      </div>
+
+      <div class="highlight-card" style="border-color: rgba(255, 90, 95, 0.2);">
+        <div class="highlight-icon">📐</div>
+        <h4 class="highlight-card-title">Commercial Print Master (300 DPI)</h4>
+        <p class="highlight-card-text">
+          Crafted at 5100 × 3300 px ultra-high resolution with precise CMYK color separations, tailored for large-format commercial street posters, in-store endcaps, and high-DPI digital displays.
+        </p>
+      </div>
+    </div>
   </section>
 
   <!-- SKILLS & CAPABILITIES -->
@@ -804,6 +1048,17 @@
             <li class="skill-item"><span class="skill-bullet">✦</span> Responsive Mobile Studio Architecture</li>
             <li class="skill-item"><span class="skill-bullet">✦</span> Real-Time Spec Sheets & CSV Exports</li>
             <li class="skill-item"><span class="skill-bullet">✦</span> High-Contrast Atelier Design Systems</li>
+          </ul>
+        </div>
+
+        <div class="skill-block">
+          <h3 class="skill-block-title">🖋️ Graphic Design & Art Direction</h3>
+          <ul class="skill-items">
+            <li class="skill-item"><span class="skill-bullet">✦</span> Brand Identity & Campaign Direction</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> High-Impact Poster & Print Design</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Custom Distressed & Display Typography</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> SWOP v2 Pre-Press & Color Calibration</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Large-Format Commercial Production</li>
           </ul>
         </div>
       </div>
@@ -876,9 +1131,58 @@
         <li><a href="./index.html">3D Studio App</a></li>
         <li><a href="https://github.com/EthanNorland/braceletdesigner" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
-      <div>v1.9.29 • Built with Care</div>
+      <div>v1.9.30 • Built with Care</div>
     </div>
   </footer>
+
+  <!-- LIGHTBOX MODAL FOR LIQUID DEATH POSTER -->
+  <div id="poster-modal" class="poster-modal" aria-hidden="true" role="dialog" aria-label="Liquid Death Poster Lightbox">
+    <div class="poster-modal-backdrop" onclick="closePosterModal()"></div>
+    <div class="poster-modal-content">
+      <button class="poster-modal-close" onclick="closePosterModal()" aria-label="Close modal">✕</button>
+      <div class="poster-modal-image-container">
+        <img src="reference/liquid_death_poster_display.jpg" alt="Liquid Death Final Poster - High Resolution Master Display" class="poster-modal-image" id="modal-poster-img">
+      </div>
+      <div class="poster-modal-bar">
+        <div class="poster-modal-info">
+          <h4>Liquid Death — Halloween Campaign Poster</h4>
+          <p>Master Dimensions: 5100 × 3300 px • 300 DPI • SWOP v2 CMYK & sRGB Calibrated</p>
+        </div>
+        <div class="poster-modal-actions">
+          <a href="reference/liquid%20death%20final%20poster%20.jpg" target="_blank" download="Liquid-Death-Final-Poster.jpg" class="btn-nav-gold">
+            <span>Download Master (16 MB) ↓</span>
+          </a>
+          <a href="reference/liquid%20death%20final%20poster%20.jpg" target="_blank" class="btn-nav-outline">
+            <span>Open Raw Master ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openPosterModal() {
+      const modal = document.getElementById('poster-modal');
+      if (!modal) return;
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePosterModal() {
+      const modal = document.getElementById('poster-modal');
+      if (!modal) return;
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closePosterModal();
+      }
+    });
+  </script>
 
 </body>
 </html>

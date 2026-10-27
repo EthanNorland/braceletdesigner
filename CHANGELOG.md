@@ -4,6 +4,23 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.30] - 2026-10-27
+
+### Added - Liquid Death Brand Poster Showcase & Interactive Lightbox
+- **Liquid Death Poster Project Showcase ([`portfolio.html#liquid-death`](file:///Users/ethannorland/braceletdesigner/portfolio.html#liquid-death)):**
+  - Integrated the official high-resolution Liquid Death campaign poster artwork (`reference/liquid death final poster .jpg`) into the creator portfolio page under a dedicated showcase card.
+  - Highlights the official Halloween marketing campaign created for *Liquid Death Mountain Water* under their iconic mantra *Murder Your Thirst*.
+  - Displays tags for `Art Direction`, `Brand Identity`, `Poster Design`, `Distressed Typography`, `Large-Format Print`, `5100 × 3300 Master`, and `CMYK SWOP v2`.
+  - Added architectural highlight cards covering *Subversive Brand Atmosphere*, *Chilled Typography & Custom Lettering*, and *Commercial Print Master (300 DPI)*.
+  - Added new core discipline to Skills section: *Graphic Design & Art Direction* (Brand Identity, High-Impact Poster Design, Custom Distressed Typography, SWOP v2 Pre-Press).
+- **Interactive High-Resolution Lightbox Modal:**
+  - Embedded a dedicated full-screen lightbox modal allowing visitors to inspect the intricate artwork in high definition.
+  - Includes smooth backdrop blur (`backdrop-filter: blur(14px)`), keyboard escape listener (`Esc`), close button, and direct master file download links.
+  - Generates color-managed sRGB web versions (`liquid_death_poster_preview.jpg` and `liquid_death_poster_display.jpg`) calibrated from the embedded SWOP v2 CMYK press profile for instantaneous load times and color fidelity, while providing direct access and downloads to the original 16MB 5100 × 3300 CMYK master.
+- **PWA & Offline precaching ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped service worker cache to `bracelet-designer-1.9.30`.
+  - Precached `./reference/liquid_death_poster_preview.jpg`, `./reference/liquid_death_poster_display.jpg`, and `./reference/liquid%20death%20final%20poster%20.jpg`.
+
 ## [1.9.29] - 2026-10-27
 
 ### Added - Creator Portfolio Page with Dedicated URL & Cross-Linking
