@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/braceletdesigner/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.27](https://img.shields.io/badge/Version-1.9.27-lightgrey?style=flat-square)](#)
+[![Version: 1.9.28](https://img.shields.io/badge/Version-1.9.28-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -16,9 +16,10 @@ Instead of navigating flat online store catalogs or static 2D grid software, **B
 
 ---
 
-## Live Link & Installation
+## Live Links & Installation
 
-- **Live URL:** [https://ethannorland.github.io/braceletdesigner/](https://ethannorland.github.io/braceletdesigner/)
+- **3D Studio App:** [https://ethannorland.github.io/braceletdesigner/](https://ethannorland.github.io/braceletdesigner/)
+- **Landing Page & Overview:** [https://ethannorland.github.io/braceletdesigner/landing.html](https://ethannorland.github.io/braceletdesigner/landing.html) (or [`/welcome.html`](https://ethannorland.github.io/braceletdesigner/welcome.html))
 - **Install as an App (PWA):**
   - **Mac (Safari):** File → *Add to Dock*.
   - **Chrome / Edge (Desktop & Android):** Click the install icon in the address bar, or menu → *Install app*.

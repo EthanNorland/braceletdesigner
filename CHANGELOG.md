@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.28] - 2026-10-27
+
+### Added - Dedicated Atelier Landing Page with Separate URL
+- **Dedicated Landing Page ([`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html) & [`welcome.html`](file:///Users/ethannorland/braceletdesigner/welcome.html)):**
+  - Created a luxury editorial showcase landing page accessible via its own dedicated URL (`/landing.html` and `/welcome.html`) for visitors to read and explore before launching the 3D studio.
+  - Features high-impact hero section with dual CTAs (*Launch 3D Studio →* linking to `./index.html` and *Explore Features ↓*).
+  - High-resolution studio preview mockup (`reference/studio_hero_preview.png`) in browser frame.
+  - Bento grid highlighting the 6 core pillars: Direct Raycast Bead Sliding with non-penetration physics, 6 Bead Geometries, Custom Monogram Debossing, Physically Based Materials, Realistic 3D Wrist Mode, and Spec Sheet CSV exports.
+  - Interactive 3-step atelier workflow guide, calibrated materials and clasps gallery, dynamic anatomical wrist showcase with 4 skin tone presets, and FAQ section.
+- **In-App Integration ([`index.html#L2195`](file:///Users/ethannorland/braceletdesigner/index.html#L2195)):**
+  - Added direct link to the landing page in the studio About dialog.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.28`, precaching `landing.html`, `welcome.html`, and `reference/studio_hero_preview.png`.
+
 ## [1.9.27] - 2026-10-27
 
 ### Changed - Eliminated Post-Action Idle Dead Time in Chapters 3 & 7
