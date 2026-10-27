@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.21 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.22 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.21</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.22</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.21",
+      version: "1.9.22",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -5368,39 +5368,43 @@
       return th;
     }
 
-    // Exact physical half-thickness along the cord axis (Z) for each bead shape
+    // Calibrated physical half-thickness along the cord axis (Z) for each bead shape,
+    // accounting for geometry profile, corner bounds, and curve inclination
     function getBeadHalfThickness(shape, sizeMm, isSpacer = false) {
       const baseRadius = ((sizeMm || 10) / 10) * 0.75;
       switch (shape) {
         case "rondelle":
-          return baseRadius * 0.5217;
+          return baseRadius * 0.54;
         case "star":
-          return baseRadius * 0.4050;
+          return baseRadius * 0.44;
         case "barrel":
-          return baseRadius * (isSpacer ? 0.65 : 0.75);
+          return baseRadius * (isSpacer ? 0.67 : 0.76);
         case "carved":
-          return baseRadius * 0.65;
+          return baseRadius * 0.67;
         case "cube":
-          return baseRadius * 0.8250;
+          return baseRadius * 0.90;
         case "sphere":
         case "faceted":
         default:
-          return baseRadius * 0.9485;
+          return baseRadius * 0.98;
       }
     }
 
-    // Exact angular contact chord distance so beads touch flush right next to each other
+    // Hairline non-penetration buffer (~0.2mm) ensuring beads stop cleanly right before colliding
+    const BEAD_COLLISION_MARGIN = 0.025;
+
+    // Exact angular contact chord distance so beads stop right before they collide without overlap
     function getBeadContactDelta(b1, b2, radius) {
       const t1 = getBeadHalfThickness(b1.shape, b1.sizeMm, b1.type === "spacer" || b1.isSpacer);
       const t2 = getBeadHalfThickness(b2.shape, b2.sizeMm, b2.type === "spacer" || b2.isSpacer);
-      const chord = t1 + t2;
+      const chord = t1 + t2 + BEAD_COLLISION_MARGIN;
       return 2 * Math.asin(Math.min(1.0, chord / (2 * radius)));
     }
 
     // Exact angular contact distance against the clasp ferrule
     function getClaspContactDelta(bead, radius) {
       const tD = getBeadHalfThickness(bead.shape, bead.sizeMm, bead.type === "spacer" || bead.isSpacer);
-      const chord = 0.06 + tD;
+      const chord = 0.08 + tD + BEAD_COLLISION_MARGIN;
       return 2 * Math.asin(Math.min(1.0, chord / (2 * radius)));
     }
 

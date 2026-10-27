@@ -4,6 +4,21 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.22] - 2026-10-26
+
+### Fixed - Non-Penetration Hairline Clearance So Beads Stop Right Before Collision
+- **Loop Curvature Tilt & Outer Profile Allowance ([`index.html#L5370–L5400`](file:///Users/ethannorland/braceletdesigner/index.html#L5370-L5400)):**
+  - Accounted for the radial thickness and tilt angle along the curved bracelet loop so outer profiles (equatorial sphere diameters, cube inner corners, 5-point star tips, and spacer rims) do not clip or penetrate into neighboring beads when placed side by side.
+  - Adjusted half-thickness parameters:
+    - Spheres & Faceted Quartz/Glass: $0.98\times$ base radius (matching true 3D outer sphere profile).
+    - Cube Beads: $0.90\times$ base radius (preventing inner corner clipping on curved chords).
+    - Star Beads: $0.44\times$ base radius (preventing protruding star tip intersection).
+    - Rondelle Disc Spacers: $0.54\times$ base radius.
+    - Barrel Spacers: $0.67\times$ (carved/spacers) and $0.76\times$ (smooth wood).
+- **Hairline Non-Penetration Buffer ([`index.html#L5395–L5415`](file:///Users/ethannorland/braceletdesigner/index.html#L5395-L5415)):**
+  - Added dedicated `BEAD_COLLISION_MARGIN = 0.025` (~$0.2\text{mm}$ real scale), ensuring that when beads slide along the cord, they stop cleanly right before they collide without any surface overlap, visual clipping, or z-fighting.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.22`.
+
 ## [1.9.21] - 2026-10-26
 
 ### Fixed - Flush Physical Contact Between Beads & Spacers Without Gaps
