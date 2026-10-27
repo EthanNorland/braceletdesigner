@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.23 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.24 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.23</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.24</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.23",
+      version: "1.9.24",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -2805,27 +2805,34 @@
     }
 
     // ── DOCUMENT DATA MODEL (SINGLE SOURCE OF TRUTH - PART 3.4) ─────────────
-    let doc = {
+    // Initial startup bracelet seeded from reference/Braceletuponappstartup.bracelet
+    const STARTUP_DOC = {
       format: "bracelet-designer",
       formatVersion: 1,
       appVersion: APP.version,
       wristMm: 175,
       cordType: "silver",
-      cordColor: "#1E293B",
+      cordColor: "#f1f2f4",
       claspType: "lobster",
-      claspColor: "gold",
+      claspColor: "silver",
       beads: [
-        { id: 1, type: "bead", shape: "cube", material: "stone", color: "#F8FAFC", sizeMm: 10, text: "DASH", angle: Math.PI * 0.45 },
-        { id: 2, type: "bead", shape: "star", material: "metal", color: "#D2AC4C", sizeMm: 10, angle: Math.PI * 0.35 },
-        { id: 3, type: "bead", shape: "sphere", material: "stone", color: "#1E40AF", sizeMm: 10, angle: Math.PI * 0.25 },
-        { id: 4, type: "bead", shape: "sphere", material: "glass", color: "#38BDF8", sizeMm: 10, angle: Math.PI * 0.15 },
-        { id: 5, type: "bead", shape: "faceted", material: "quartz", color: "#F8FAFC", sizeMm: 10, angle: Math.PI * 0.05 },
-        { id: 6, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: -Math.PI * 0.05 }
+        { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#c61010", sizeMm: 10, angle: 1.2907963267948963 },
+        { id: 3, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 0.8449265478082718 },
+        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#82450d", sizeMm: 10, angle: 0.38675297948188403 },
+        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -0.11813644503831888 },
+        { id: 6, type: "bead", shape: "rondelle", material: "stone", color: "#c1a767", sizeMm: 11, angle: -0.6073420388576416 },
+        { id: 7, type: "spacer", shape: "barrel", material: "metal", color: "#A8A9AC", sizeMm: 8, angle: -1.211415459581454 },
+        { id: 8, type: "bead", shape: "barrel", material: "wood", color: "#05573c", sizeMm: 12, angle: -1.8302339118037643 },
+        { id: 9, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -2.4611835593425466 },
+        { id: 10, type: "bead", shape: "cube", material: "stone", color: "#1E40AF", sizeMm: 10, angle: -3.014265239407177, text: "HEART" },
+        { id: 11, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 2.6594578303837593 },
+        { id: 12, type: "bead", shape: "star", material: "metal", color: "#A855F7", sizeMm: 10, angle: 2.172583650335916 }
       ],
-      selectedId: 1
+      selectedId: 5
     };
 
-    let nextBeadId = 7;
+    let doc = JSON.parse(JSON.stringify(STARTUP_DOC));
+    let nextBeadId = 13;
 
     // ── INDEXEDDB PERSISTENCE & DEBOUNCED AUTOSAVE (PART 3.4) ───────────────
     const IDB_NAME = "bracelet-designer-db";
@@ -8837,13 +8844,30 @@
 
     async function initSession() {
       try {
+        const startupKey = "bracelet_startup_seeded_v1924";
+        const alreadySeeded = localStorage.getItem(startupKey) === "true";
         const saved = await idbGet("current_design");
-        if (saved && Array.isArray(saved.beads) && saved.beads.length > 0) {
+
+        // Check if saved session is the legacy 6-bead DASH default or if startup design hasn't been seeded yet
+        const isLegacyDoc = saved && Array.isArray(saved.beads) && (
+          (saved.beads.length === 6 && saved.beads[0]?.text === "DASH") ||
+          (!alreadySeeded)
+        );
+
+        if (saved && Array.isArray(saved.beads) && saved.beads.length > 0 && !isLegacyDoc) {
           const { doc: restored, maxId } = migrateAndValidateDoc(saved);
           doc = restored;
           nextBeadId = Math.max(maxId, ...doc.beads.map(b => b.id || 0), 0) + 1;
           updateApp();
           showToast("Restored your active session from the atelier bench.");
+        } else {
+          // Seed the startup design from reference/Braceletuponappstartup.bracelet
+          const { doc: restored, maxId } = migrateAndValidateDoc(STARTUP_DOC);
+          doc = restored;
+          nextBeadId = Math.max(maxId, ...doc.beads.map(b => b.id || 0), 0) + 1;
+          await idbSet("current_design", doc);
+          localStorage.setItem(startupKey, "true");
+          updateApp();
         }
       } catch (e) {
         console.warn("Could not restore session from IndexedDB:", e);

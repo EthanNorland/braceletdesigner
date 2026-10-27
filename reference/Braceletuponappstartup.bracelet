@@ -1,0 +1,113 @@
+{
+  "format": "bracelet-designer",
+  "formatVersion": 1,
+  "appVersion": "1.9.24",
+  "wristMm": 175,
+  "cordType": "silver",
+  "cordColor": "#f1f2f4",
+  "claspType": "lobster",
+  "claspColor": "silver",
+  "beads": [
+    {
+      "id": 2,
+      "type": "bead",
+      "shape": "sphere",
+      "material": "glass",
+      "color": "#c61010",
+      "sizeMm": 10,
+      "angle": 1.2907963267948963
+    },
+    {
+      "id": 3,
+      "type": "spacer",
+      "shape": "rondelle",
+      "material": "metal",
+      "color": "#A8A9AC",
+      "sizeMm": 6,
+      "angle": 0.8449265478082718
+    },
+    {
+      "id": 4,
+      "type": "bead",
+      "shape": "faceted",
+      "material": "quartz",
+      "color": "#82450d",
+      "sizeMm": 10,
+      "angle": 0.38675297948188403
+    },
+    {
+      "id": 5,
+      "type": "spacer",
+      "shape": "rondelle",
+      "material": "metal",
+      "color": "#D2AC4C",
+      "sizeMm": 6,
+      "angle": -0.11813644503831888
+    },
+    {
+      "id": 6,
+      "type": "bead",
+      "shape": "rondelle",
+      "material": "stone",
+      "color": "#c1a767",
+      "sizeMm": 11,
+      "angle": -0.6073420388576416
+    },
+    {
+      "id": 7,
+      "type": "spacer",
+      "shape": "barrel",
+      "material": "metal",
+      "color": "#A8A9AC",
+      "sizeMm": 8,
+      "angle": -1.211415459581454
+    },
+    {
+      "id": 8,
+      "type": "bead",
+      "shape": "barrel",
+      "material": "wood",
+      "color": "#05573c",
+      "sizeMm": 12,
+      "angle": -1.8302339118037643
+    },
+    {
+      "id": 9,
+      "type": "spacer",
+      "shape": "rondelle",
+      "material": "metal",
+      "color": "#D2AC4C",
+      "sizeMm": 6,
+      "angle": -2.4611835593425466
+    },
+    {
+      "id": 10,
+      "type": "bead",
+      "shape": "cube",
+      "material": "stone",
+      "color": "#1E40AF",
+      "sizeMm": 10,
+      "angle": -3.014265239407177,
+      "text": "HEART"
+    },
+    {
+      "id": 11,
+      "type": "spacer",
+      "shape": "rondelle",
+      "material": "metal",
+      "color": "#A8A9AC",
+      "sizeMm": 6,
+      "angle": 2.6594578303837593
+    },
+    {
+      "id": 12,
+      "type": "bead",
+      "shape": "star",
+      "material": "metal",
+      "color": "#A855F7",
+      "sizeMm": 10,
+      "angle": 2.172583650335916
+    }
+  ],
+  "selectedId": 5
+}

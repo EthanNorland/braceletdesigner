@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.24] - 2026-10-26
+
+### Added - Reference Startup Bracelet Configuration
+- **Initial App State Model Seeded ([`index.html#L2808–L2835`](file:///Users/ethannorland/braceletdesigner/index.html#L2808-L2835)):**
+  - Updated the initial application data model `doc` and `STARTUP_DOC` to match the exact design in [`reference/Braceletuponappstartup.bracelet`](file:///Users/ethannorland/braceletdesigner/reference/Braceletuponappstartup.bracelet):
+    - Base: Silver chain cord (`#f1f2f4`) with silver lobster clasp (`claspType: "lobster"`, `claspColor: "silver"`), 175mm wrist size.
+    - 11 Arranged Beads & Spacers: Red glass sphere (#2), silver metal rondelle spacer (#3), quartz faceted bead (#4), gold metal rondelle spacer (#5, selected), stone rondelle bead (#6), silver metal carved barrel spacer (#7), green wood barrel bead (#8), gold metal rondelle spacer (#9), blue stone cube bead inscribed with "HEART" (#10), silver metal rondelle spacer (#11), and purple metal star bead (#12).
+    - Initial `nextBeadId`: Set to 13.
+- **Session Restoration & Migration ([`index.html#L8850–L8875`](file:///Users/ethannorland/braceletdesigner/index.html#L8850-L8875)):**
+  - Updated `initSession()` with migration flag `bracelet_startup_seeded_v1924` to automatically seed this reference design into IndexedDB, cleanly upgrading sessions that held the legacy 6-bead DASH default.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.24`.
+
 ## [1.9.23] - 2026-10-26
 
 ### Fixed - Barrel Bead & Carved Spacer Non-Penetration Collision Calibration
