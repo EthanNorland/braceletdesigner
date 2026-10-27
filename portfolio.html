@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ethan Norland — Creative Technologist & Visual Craftsman</title>
-  <meta name="description" content="Portfolio of Ethan Norland. Creative technologist, 3D WebGL developer, visual brand designer, and creator of Bracelet Designer.">
+  <title>Ethan Norland — Creative Technologist, Visual Designer & Artist</title>
+  <meta name="description" content="Portfolio of Ethan Norland. Creative technologist, 3D WebGL developer, visual brand designer, editorial publisher, and creator of Bracelet Designer.">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="apple-touch-icon" href="icon-180.png">
   <meta name="theme-color" content="#0B0E14">
@@ -692,6 +692,43 @@
       gap: 10px;
     }
 
+    .zine-page-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-zine-page {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: #FFF;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-zine-page:hover:not(:disabled) {
+      background: rgba(139, 92, 246, 0.35);
+      border-color: #8B5CF6;
+      color: #FFF;
+    }
+
+    .btn-zine-page:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .zine-page-counter {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #C4B5FD;
+      min-width: 90px;
+      text-align: center;
+    }
+
     /* ── PHILOSOPHY MANIFESTO ──────────────────────────────────── */
     .philosophy-banner {
       background: linear-gradient(135deg, rgba(20, 25, 35, 0.9) 0%, rgba(26, 33, 48, 0.9) 100%);
@@ -833,8 +870,16 @@
       </p>
 
       <div class="hero-social-links">
+        <a href="#disney-zine" class="social-btn" style="border-color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.08); color: #C4B5FD;">
+          <span>📖 Disney Zine</span>
+          <span>↓</span>
+        </a>
+        <a href="#still-life" class="social-btn" style="border-color: rgba(224, 169, 109, 0.4); background: rgba(224, 169, 109, 0.08); color: #F0C495;">
+          <span>✏️ Still Life</span>
+          <span>↓</span>
+        </a>
         <a href="#liquid-death" class="social-btn" style="border-color: rgba(255, 90, 95, 0.4); background: rgba(255, 90, 95, 0.08); color: #FF8589;">
-          <span>💀 Liquid Death Poster</span>
+          <span>💀 Liquid Death</span>
           <span>↓</span>
         </a>
         <a href="./index.html" class="social-btn" style="border-color:var(--border-gold); background:rgba(210,172,76,0.1); color:var(--gold-light);">
@@ -1004,6 +1049,152 @@
         </p>
       </div>
     </div>
+
+    <!-- DIVIDER -->
+    <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.4), transparent); margin: 68px 0 54px 0;"></div>
+
+    <!-- PROJECT 3: DISNEY ZINE -->
+    <div class="project-hero-card" id="disney-zine" style="border-color: rgba(139, 92, 246, 0.35); box-shadow: var(--shadow-lg), 0 0 50px rgba(139, 92, 246, 0.08);">
+      <div class="poster-preview-card" onclick="openZineModal(1)" title="Click to read all 8 pages of Disney Zine" style="border-color: rgba(139, 92, 246, 0.35);">
+        <img src="reference/disneyzine_spread_preview.jpg" alt="Best and Worst of Disney World Editorial Zine Spread Preview" id="disney-zine-thumb">
+        <div class="poster-overlay-badge" style="background: rgba(11, 14, 20, 0.88);">
+          <span>📖 Read Online (8 Pages)</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="project-meta-pill" style="color: #C4B5FD; background: rgba(139, 92, 246, 0.12); border: 1px solid rgba(139, 92, 246, 0.28);">✦ Editorial Publication &amp; Zine Design</div>
+        <h3 class="project-title">The Best &amp; Worst of Disney World</h3>
+        <p class="project-desc">
+          An original 8-page folded editorial critique zine dissecting the magic and missteps of Walt Disney World. Analyzes theme park architecture, attraction design, transportation logistics, resort hotels, dining, and snacks with candid commentary, sharp categorization, and high-contrast typographic layout.
+        </p>
+
+        <div class="project-tech-tags">
+          <span class="tech-tag">Editorial Design</span>
+          <span class="tech-tag">Publication Layout</span>
+          <span class="tech-tag">Zine Culture</span>
+          <span class="tech-tag">Typography</span>
+          <span class="tech-tag">Theme Park Critique</span>
+          <span class="tech-tag">8-Page Folded Print</span>
+          <span class="tech-tag">PDF Document</span>
+        </div>
+
+        <div class="project-action-buttons">
+          <button type="button" onclick="openZineModal(1)" class="btn-launch-primary" style="background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); color: #FFF; box-shadow: 0 4px 16px rgba(139, 92, 246, 0.35); border: none; cursor: pointer;">
+            <span>Read Online</span>
+            <span>📖</span>
+          </button>
+          <a href="reference/DisneyZine.pdf" target="_blank" class="btn-secondary-link" title="Open PDF in new tab">
+            <span>Open PDF (18 MB)</span>
+            <span>↗</span>
+          </a>
+          <a href="reference/DisneyZine.pdf" target="_blank" download="DisneyZine-EthanNorland.pdf" class="btn-secondary-link" title="Download original PDF">
+            <span>Download PDF</span>
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISNEY ZINE HIGHLIGHTS GRID -->
+    <div class="highlights-grid" style="margin-top: 32px;">
+      <div class="highlight-card" style="border-color: rgba(139, 92, 246, 0.2);">
+        <div class="highlight-icon">🎢</div>
+        <h4 class="highlight-card-title">Unvarnished Park Critique</h4>
+        <p class="highlight-card-text">
+          Honest, unfiltered evaluations contrasting peak Disney immersion (Rise of the Resistance, Dole Whip) against cautionary missteps (All-Star Sports, Turkey Leg).
+        </p>
+      </div>
+
+      <div class="highlight-card" style="border-color: rgba(139, 92, 246, 0.2);">
+        <div class="highlight-icon">📑</div>
+        <h4 class="highlight-card-title">Pocket Zine Architecture</h4>
+        <p class="highlight-card-text">
+          Engineered for the half-letter 8-page folded booklet format, pacing distinct categories (Parks, Transit, Rides, Snacks, Hotels, Dining) into punchy, highly readable spreads.
+        </p>
+      </div>
+
+      <div class="highlight-card" style="border-color: rgba(139, 92, 246, 0.2);">
+        <div class="highlight-icon">🎨</div>
+        <h4 class="highlight-card-title">Categorical Visual Hierarchy</h4>
+        <p class="highlight-card-text">
+          High-contrast visual partitioning between "BEST" and "WORST" classifications utilizing bold vertical letter-spacing, bulleted breakdowns, and structured reading rhythm.
+        </p>
+      </div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(224, 169, 109, 0.4), transparent); margin: 68px 0 54px 0;"></div>
+
+    <!-- PROJECT 4: ACADEMIC STILL LIFE STUDY -->
+    <div class="project-hero-card" id="still-life" style="border-color: rgba(224, 169, 109, 0.35); box-shadow: var(--shadow-lg), 0 0 50px rgba(224, 169, 109, 0.08);">
+      <div class="poster-preview-card" onclick="openStillLifeModal()" title="Click to inspect full resolution still life drawing" style="border-color: rgba(224, 169, 109, 0.35);">
+        <img src="reference/still_life_drawing_preview.jpg" alt="Academic Still Life Study by Ethan Norland" id="still-life-thumb" style="aspect-ratio: 0.76; object-fit: cover; max-height: 480px; margin: 0 auto;">
+        <div class="poster-overlay-badge" style="background: rgba(11, 14, 20, 0.88);">
+          <span>🔍 Inspect Master (1920 × 2515)</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="project-meta-pill" style="color: #F0C495; background: rgba(224, 169, 109, 0.12); border: 1px solid rgba(224, 169, 109, 0.28);">✦ Fine Art &amp; Observational Drawing</div>
+        <h3 class="project-title">Academic Still Life — Tonal &amp; Form Study</h3>
+        <p class="project-desc">
+          A classical academic studio drawing exploring the architecture of light, volumetric mass, and surface textures. Features intricate directional chiaroscuro shading across arranged containers, weathered boots, reflective vessels, and cascading folded drapery—grounded in rigorous observational draftsmanship.
+        </p>
+
+        <div class="project-tech-tags">
+          <span class="tech-tag">Fine Art</span>
+          <span class="tech-tag">Observational Drawing</span>
+          <span class="tech-tag">Chiaroscuro</span>
+          <span class="tech-tag">Tonal Value Mapping</span>
+          <span class="tech-tag">Form &amp; Mass</span>
+          <span class="tech-tag">Material Textures</span>
+          <span class="tech-tag">1920 × 2515 Master</span>
+        </div>
+
+        <div class="project-action-buttons">
+          <button type="button" onclick="openStillLifeModal()" class="btn-launch-primary" style="background: linear-gradient(135deg, #E0A96D 0%, #A57E23 100%); color: #0B0E14; box-shadow: 0 4px 16px rgba(224, 169, 109, 0.35); border: none; cursor: pointer;">
+            <span>Inspect Drawing</span>
+            <span>🔍</span>
+          </button>
+          <a href="reference/Still%20life%20drawing-Ethan%20Norland.jpg" target="_blank" class="btn-secondary-link" title="Open master file in new tab">
+            <span>Open Original</span>
+            <span>↗</span>
+          </a>
+          <a href="reference/Still%20life%20drawing-Ethan%20Norland.jpg" target="_blank" download="Still-Life-Drawing-Ethan-Norland.jpg" class="btn-secondary-link" title="Download high resolution master">
+            <span>Download High-Res</span>
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STILL LIFE HIGHLIGHTS GRID -->
+    <div class="highlights-grid" style="margin-top: 32px;">
+      <div class="highlight-card" style="border-color: rgba(224, 169, 109, 0.2);">
+        <div class="highlight-icon">🕯️</div>
+        <h4 class="highlight-card-title">Chiaroscuro &amp; Tonal Depth</h4>
+        <p class="highlight-card-text">
+          Deep, resonant core shadows transitioning through midtones into crisp specular highlights, rendering three-dimensional mass and spatial volume with directional illumination.
+        </p>
+      </div>
+
+      <div class="highlight-card" style="border-color: rgba(224, 169, 109, 0.2);">
+        <div class="highlight-icon">👞</div>
+        <h4 class="highlight-card-title">Tactile Material Differentiation</h4>
+        <p class="highlight-card-text">
+          Nuanced graphite mark-making differentiating supple crumpled leather, rigid ceramic and glass reflections, and heavyweight woven textile folds.
+        </p>
+      </div>
+
+      <div class="highlight-card" style="border-color: rgba(224, 169, 109, 0.2);">
+        <div class="highlight-icon">✏️</div>
+        <h4 class="highlight-card-title">Observational Draftsmanship</h4>
+        <p class="highlight-card-text">
+          Strict sight-size measurement, negative space calculation, and contour foreshortening grounded in academic atelier fine art training.
+        </p>
+      </div>
+    </div>
   </section>
 
   <!-- SKILLS & CAPABILITIES -->
@@ -1052,13 +1243,13 @@
         </div>
 
         <div class="skill-block">
-          <h3 class="skill-block-title">🖋️ Graphic Design & Art Direction</h3>
+          <h3 class="skill-block-title">🖋️ Visual Arts, Publication &amp; Print</h3>
           <ul class="skill-items">
-            <li class="skill-item"><span class="skill-bullet">✦</span> Brand Identity & Campaign Direction</li>
-            <li class="skill-item"><span class="skill-bullet">✦</span> High-Impact Poster & Print Design</li>
-            <li class="skill-item"><span class="skill-bullet">✦</span> Custom Distressed & Display Typography</li>
-            <li class="skill-item"><span class="skill-bullet">✦</span> SWOP v2 Pre-Press & Color Calibration</li>
-            <li class="skill-item"><span class="skill-bullet">✦</span> Large-Format Commercial Production</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Editorial &amp; Multi-Page Zine Layout</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Brand Identity &amp; High-Impact Posters</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Observational Drawing &amp; Chiaroscuro</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> Custom Distressed &amp; Display Typography</li>
+            <li class="skill-item"><span class="skill-bullet">✦</span> SWOP v2 Pre-Press &amp; Color Calibration</li>
           </ul>
         </div>
       </div>
@@ -1131,7 +1322,7 @@
         <li><a href="./index.html">3D Studio App</a></li>
         <li><a href="https://github.com/EthanNorland/braceletdesigner" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
-      <div>v1.9.30 • Built with Care</div>
+      <div>v1.9.31 • Built with Care</div>
     </div>
   </footer>
 
@@ -1146,7 +1337,7 @@
       <div class="poster-modal-bar">
         <div class="poster-modal-info">
           <h4>Liquid Death — Halloween Campaign Poster</h4>
-          <p>Master Dimensions: 5100 × 3300 px • 300 DPI • SWOP v2 CMYK & sRGB Calibrated</p>
+          <p>Master Dimensions: 5100 × 3300 px • 300 DPI • SWOP v2 CMYK &amp; sRGB Calibrated</p>
         </div>
         <div class="poster-modal-actions">
           <a href="reference/liquid%20death%20final%20poster%20.jpg" target="_blank" download="Liquid-Death-Final-Poster.jpg" class="btn-nav-gold">
@@ -1154,6 +1345,61 @@
           </a>
           <a href="reference/liquid%20death%20final%20poster%20.jpg" target="_blank" class="btn-nav-outline">
             <span>Open Raw Master ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL FOR DISNEY ZINE -->
+  <div id="zine-modal" class="poster-modal" aria-hidden="true" role="dialog" aria-label="Disney Zine Reader Lightbox">
+    <div class="poster-modal-backdrop" onclick="closeZineModal()"></div>
+    <div class="poster-modal-content" style="border-color: rgba(139, 92, 246, 0.45);">
+      <button class="poster-modal-close" onclick="closeZineModal()" aria-label="Close modal">✕</button>
+      <div class="poster-modal-image-container">
+        <img src="reference/disneyzine_page_1.jpg" alt="Disney Zine Page" class="poster-modal-image" id="modal-zine-img" style="max-height: 70vh;">
+      </div>
+      <div class="poster-modal-bar">
+        <div class="poster-modal-info">
+          <h4>The Best &amp; Worst of Disney World — Zine Reader</h4>
+          <p>8-Page Folded Publication • Written, Designed &amp; Illustrated by Ethan Norland</p>
+        </div>
+        <div class="zine-page-nav">
+          <button type="button" class="btn-zine-page" id="btn-zine-prev" onclick="prevZinePage()">← Previous</button>
+          <span class="zine-page-counter" id="zine-page-counter">Page 1 of 8</span>
+          <button type="button" class="btn-zine-page" id="btn-zine-next" onclick="nextZinePage()">Next →</button>
+        </div>
+        <div class="poster-modal-actions">
+          <a href="reference/DisneyZine.pdf" target="_blank" class="btn-nav-outline" style="border-color: rgba(139, 92, 246, 0.5); color: #C4B5FD;">
+            <span>Open PDF ↗</span>
+          </a>
+          <a href="reference/DisneyZine.pdf" target="_blank" download="DisneyZine-EthanNorland.pdf" class="btn-nav-gold" style="background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); color: #FFF;">
+            <span>Download PDF (18 MB) ↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL FOR STILL LIFE DRAWING -->
+  <div id="stilllife-modal" class="poster-modal" aria-hidden="true" role="dialog" aria-label="Still Life Drawing Lightbox">
+    <div class="poster-modal-backdrop" onclick="closeStillLifeModal()"></div>
+    <div class="poster-modal-content" style="border-color: rgba(224, 169, 109, 0.45);">
+      <button class="poster-modal-close" onclick="closeStillLifeModal()" aria-label="Close modal">✕</button>
+      <div class="poster-modal-image-container">
+        <img src="reference/Still life drawing-Ethan Norland.jpg" alt="Academic Still Life Study by Ethan Norland" class="poster-modal-image" id="modal-stilllife-img" style="max-height: 72vh;">
+      </div>
+      <div class="poster-modal-bar">
+        <div class="poster-modal-info">
+          <h4>Academic Still Life — Tonal &amp; Form Study</h4>
+          <p>Master Dimensions: 1920 × 2515 px • Directional Chiaroscuro &amp; Observational Study</p>
+        </div>
+        <div class="poster-modal-actions">
+          <a href="reference/Still%20life%20drawing-Ethan%20Norland.jpg" target="_blank" download="Still-Life-Drawing-Ethan-Norland.jpg" class="btn-nav-gold" style="background: linear-gradient(135deg, #E0A96D 0%, #A57E23 100%); color: #0B0E14;">
+            <span>Download High-Res ↓</span>
+          </a>
+          <a href="reference/Still%20life%20drawing-Ethan%20Norland.jpg" target="_blank" class="btn-nav-outline">
+            <span>Open Original ↗</span>
           </a>
         </div>
       </div>
@@ -1177,9 +1423,81 @@
       document.body.style.overflow = '';
     }
 
+    let currentZinePage = 1;
+    const totalZinePages = 8;
+
+    function openZineModal(page) {
+      currentZinePage = typeof page === 'number' ? page : 1;
+      updateZineModal();
+      const modal = document.getElementById('zine-modal');
+      if (!modal) return;
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeZineModal() {
+      const modal = document.getElementById('zine-modal');
+      if (!modal) return;
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateZineModal() {
+      const img = document.getElementById('modal-zine-img');
+      const counter = document.getElementById('zine-page-counter');
+      const btnPrev = document.getElementById('btn-zine-prev');
+      const btnNext = document.getElementById('btn-zine-next');
+      if (img) img.src = `reference/disneyzine_page_${currentZinePage}.jpg`;
+      if (counter) counter.textContent = `Page ${currentZinePage} of ${totalZinePages}`;
+      if (btnPrev) btnPrev.disabled = (currentZinePage <= 1);
+      if (btnNext) btnNext.disabled = (currentZinePage >= totalZinePages);
+    }
+
+    function nextZinePage() {
+      if (currentZinePage < totalZinePages) {
+        currentZinePage++;
+        updateZineModal();
+      }
+    }
+
+    function prevZinePage() {
+      if (currentZinePage > 1) {
+        currentZinePage--;
+        updateZineModal();
+      }
+    }
+
+    function openStillLifeModal() {
+      const modal = document.getElementById('stilllife-modal');
+      if (!modal) return;
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeStillLifeModal() {
+      const modal = document.getElementById('stilllife-modal');
+      if (!modal) return;
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closePosterModal();
+        closeZineModal();
+        closeStillLifeModal();
+      }
+      const zineModal = document.getElementById('zine-modal');
+      if (zineModal && zineModal.classList.contains('active')) {
+        if (e.key === 'ArrowRight') {
+          nextZinePage();
+        } else if (e.key === 'ArrowLeft') {
+          prevZinePage();
+        }
       }
     });
   </script>

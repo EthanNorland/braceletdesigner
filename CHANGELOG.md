@@ -4,6 +4,24 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.31] - 2026-10-27
+
+### Added - Disney Zine Editorial & Academic Still Life to Creator Portfolio
+- **"The Best & Worst of Disney World" Editorial Zine ([`portfolio.html#disney-zine`](file:///Users/ethannorland/braceletdesigner/portfolio.html#disney-zine)):**
+  - Integrated the complete 8-page original publication (`reference/DisneyZine.pdf`) into a dedicated portfolio showcase card.
+  - Interactive multi-page in-browser zine reader modal allowing visitors to flip through all 8 pages with page navigation buttons, page counter, and keyboard arrow key shortcuts (`←` / `→`).
+  - Highlights the unfiltered park critique, categorical visual hierarchy, and pocket zine folding format.
+  - Added direct links to read online, open the raw 18MB PDF in a new tab, and download the full document.
+- **"Academic Still Life Study" Fine Art Showcase ([`portfolio.html#still-life`](file:///Users/ethannorland/braceletdesigner/portfolio.html#still-life)):**
+  - Integrated Ethan's master tonal drawing (`reference/Still life drawing-Ethan Norland.jpg`) into a dedicated fine art showcase card.
+  - High-resolution lightbox modal allowing visitors to inspect the intricate chiaroscuro shading, complex drapery folds, material textures (leather, ceramic, metal, cloth), and academic draftsmanship in full 1920 × 2515 resolution.
+  - Direct links to open original master and download high-resolution master file.
+- **Core Disciplines Expansion:**
+  - Expanded portfolio skills to *Visual Arts, Publication & Print* covering Multi-Page Zine Layout, High-Impact Posters, Observational Drawing & Chiaroscuro, Custom Typography, and SWOP v2 Pre-Press.
+- **PWA Bump:**
+  - Bumped service worker cache to `bracelet-designer-1.9.31`.
+  - Precached Disney Zine cover, 2-page spread, all 8 rendered page images, and Still Life previews.
+
 ## [1.9.30] - 2026-10-27
 
 ### Added - Liquid Death Brand Poster Showcase & Interactive Lightbox

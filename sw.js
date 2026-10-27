@@ -1,5 +1,5 @@
 const APP_ID = "bracelet-designer";
-const VERSION = "1.9.30";
+const VERSION = "1.9.31";
 const CACHE = APP_ID + "-" + VERSION;
 const FILES = [
   "./",
@@ -17,6 +17,19 @@ const FILES = [
   "./reference/liquid_death_poster_preview.jpg",
   "./reference/liquid_death_poster_display.jpg",
   "./reference/liquid%20death%20final%20poster%20.jpg",
+  "./reference/DisneyZine.pdf",
+  "./reference/disneyzine_cover_preview.jpg",
+  "./reference/disneyzine_spread_preview.jpg",
+  "./reference/disneyzine_page_1.jpg",
+  "./reference/disneyzine_page_2.jpg",
+  "./reference/disneyzine_page_3.jpg",
+  "./reference/disneyzine_page_4.jpg",
+  "./reference/disneyzine_page_5.jpg",
+  "./reference/disneyzine_page_6.jpg",
+  "./reference/disneyzine_page_7.jpg",
+  "./reference/disneyzine_page_8.jpg",
+  "./reference/Still%20life%20drawing-Ethan%20Norland.jpg",
+  "./reference/still_life_drawing_preview.jpg",
   "./reference/Braceletuponappstartup.bracelet",
   "./reference/glasstexture.png",
   "./reference/quartztexture.png",
