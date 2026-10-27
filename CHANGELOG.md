@@ -4,6 +4,23 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.19] - 2026-10-26
+
+### Fixed - Safari Web Audio Engine Unlock, Hardware Keep-Alive & Playback Pipeline
+- **Synchronous User-Gesture Audio Synthesis Execution ([`index.html#L2446–L2465`](file:///Users/ethannorland/braceletdesigner/index.html#L2446-L2465)):**
+  - Eliminated the asynchronous `ctx.resume().then(...)` deferral in `playWithContext` that caused WebKit / Safari to drop user activation and swallow audio node scheduling. All audio synthesis triggers now execute synchronously within the user event handler call-stack.
+- **Persistent Silent Hardware Keep-Alive Node ([`index.html#L2406–L2425`](file:///Users/ethannorland/braceletdesigner/index.html#L2406-L2425)):**
+  - Added an inaudible 1 Hz sub-audible keep-alive oscillator (`gain: 0.00001`) piped into `ctx.destination` upon first interaction. This prevents Safari and macOS/iOS CoreAudio from putting the hardware `AudioOutputUnit` into low-power sleep, eliminating audio clipping and wake latency on short bead sliding and clicking transients.
+- **Scratch Buffer & AudioSession Pipeline Prime ([`index.html#L2390–L2445`](file:///Users/ethannorland/braceletdesigner/index.html#L2390-L2445)):**
+  - Integrated a 1-sample silent buffer kick (`ctx.createBuffer(1, 1, 22050)`) inside `unlockAudio` to properly spin up WebKit audio rendering hardware.
+  - Configured `navigator.audioSession.type = 'playback'` and inline HTML5 audio priming so Web Audio routes reliably through the media pipeline on iOS and macOS Safari regardless of system silent mode.
+- **Handling of `interrupted` Context State & Visibility Resumption ([`index.html#L2396–L2445`](file:///Users/ethannorland/braceletdesigner/index.html#L2396-L2445)):**
+  - Extended context state checks to handle Safari's specific `"interrupted"` state alongside `"suspended"`.
+  - Added a `visibilitychange` listener to automatically restore `AudioContext` when returning to the tab from background or lock screen.
+- **Lookahead Timing Helper ([`index.html#L2465–L2470`](file:///Users/ethannorland/braceletdesigner/index.html#L2465-L2470)):**
+  - Added `getAudioNow(ctx)` helper across all 8 synthesis functions (`audioPlayAdd`, `audioPlaySlide`, `audioPlayClasp`, `audioPlaySelect`, `audioPlayTick`, `audioPlayDuplicate`, `audioPlayDelete`, `audioPlayUndo`, `audioPlayRedo`), ensuring 0ms latency when running and a tiny 40ms safety margin if starting from cold suspension.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.19`.
+
 ## [1.9.18] - 2026-10-26
 
 ### Improved - Calibrated Authentic Silver Shading for Glass, Quartz & Wood Materials
