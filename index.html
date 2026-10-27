@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.24 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.25 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.24</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.25</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2322,7 +2322,7 @@
       <!-- Video Control Bar -->
       <div class="demo-video-controls">
         <button type="button" class="demo-ctrl-btn" id="btn-vid-play" title="Play / Pause (Space)">▶</button>
-        <span class="demo-vid-time" id="demo-vid-time">0:00 / 1:32</span>
+        <span class="demo-vid-time" id="demo-vid-time">0:00 / 1:00</span>
         <div class="demo-vid-scrubber-track" id="demo-vid-track">
           <div class="demo-vid-scrubber-fill" id="demo-vid-fill"></div>
           <div class="demo-vid-scrubber-thumb" id="demo-vid-thumb"></div>
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.24",
+      version: "1.9.25",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -6675,7 +6675,7 @@
         id: "start",
         title: "New, Sizing & Open",
         timeStart: 0,
-        timeEnd: 14,
+        timeEnd: 9.0,
         caption: "Start a fresh design, adjust wrist circumference & cord base, or open an existing .bracelet project file from your computer.",
         summaryTitle: "New Bracelet, Base Sizing & Open File",
         summaryDesc: "Create a blank canvas or starter design, dial in wrist circumference (140–220mm), select cord base (Silver, Gold, Cord, Leather), or open any saved .bracelet file.",
@@ -6685,8 +6685,8 @@
       {
         id: "slide",
         title: "3D Stage & Bead Sliding",
-        timeStart: 14,
-        timeEnd: 27,
+        timeStart: 9.0,
+        timeEnd: 17.5,
         caption: "Orbit freely in 3D to inspect your design. Click and drag any bead or spacer directly on the cord to slide it into place.",
         summaryTitle: "Direct 3D Studio & Raycast Bead Sliding",
         summaryDesc: "Rotate the tabletop 360° under studio illumination, zoom into micro-details, and drag beads and spacers freely along the cord with live millimeter fit tracking.",
@@ -6696,8 +6696,8 @@
       {
         id: "palette",
         title: "Palette & Clasps",
-        timeStart: 27,
-        timeEnd: 40,
+        timeStart: 17.5,
+        timeEnd: 26.0,
         caption: "Choose from 6 bead shapes, gold, silver, and carved spacers, and swap between magnetic, lobster claw, and screw-in clasps.",
         summaryTitle: "Bead Geometries, Spacers & Clasps",
         summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Stars with jewelry spacers, paired with 3 mechanical clasp styles.",
@@ -6707,8 +6707,8 @@
       {
         id: "materials",
         title: "Materials & Colors",
-        timeStart: 40,
-        timeEnd: 53,
+        timeStart: 26.0,
+        timeEnd: 34.5,
         caption: "Select from 5 PBR materials—glass, quartz, stone, metal, and painted wood—with true-to-selection color rendering.",
         summaryTitle: "PBR Materials & Jewel-Tone Colors",
         summaryDesc: "Physical transmission, surface crackle veins, honed stone pits, and Linear Tone Mapping ensure colors match the 2D selector without glare burnout.",
@@ -6718,8 +6718,8 @@
       {
         id: "engraving",
         title: "Monogram Inscriptions",
-        timeStart: 53,
-        timeEnd: 66,
+        timeStart: 34.5,
+        timeEnd: 43.0,
         caption: "Select any Cube bead to deboss custom monograms (A–Z), numbers (0–9), or jewelry symbols like Heart ♥ and Peace ☮.",
         summaryTitle: "Personalized Monograms & Hallmarks",
         summaryDesc: "Dynamic procedural debossed normal mapping carves deep tactile engraved initials, numerals, and symbols directly into the bead face.",
@@ -6729,8 +6729,8 @@
       {
         id: "wrist",
         title: "Realistic Wrist View",
-        timeStart: 66,
-        timeEnd: 79,
+        timeStart: 43.0,
+        timeEnd: 51.5,
         caption: "Click 'Wrist View' to drape your bracelet onto an anatomical 3D arm with 4 skin tone presets and dynamic wrist sizing.",
         summaryTitle: "3D Wrist Preview & Anatomical Fit",
         summaryDesc: "Switch from tabletop studio to a realistic anatomical forearm and hand with Fair, Natural, Warm Tan, and Deep Rich tones that scale to your wrist size.",
@@ -6740,8 +6740,8 @@
       {
         id: "export",
         title: "Spec Sheet & Export",
-        timeStart: 79,
-        timeEnd: 92,
+        timeStart: 51.5,
+        timeEnd: 60.0,
         caption: "Access an itemized materials recipe with 1-click CSV export for ordering supplies, or download high-res PNG studio renders.",
         summaryTitle: "Materials Recipe, CSV & Project Export",
         summaryDesc: "Get an exact physical parts breakdown for jewelers, download CSV order spreadsheets, and capture crisp PNG photos.",
@@ -6750,7 +6750,7 @@
       }
     ];
 
-    const DEMO_VIDEO_TOTAL_DURATION = 92.0;
+    const DEMO_VIDEO_TOTAL_DURATION = 60.0;
     let videoCurrentTime = 0.0;
     let videoIsPlaying = false;
     let videoLastTimestamp = null;

@@ -4,6 +4,22 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.25] - 2026-10-27
+
+### Changed - Demo Video Acceleration & 1-Minute Duration Reduction
+- **Demo Video Timeline Scaled to 60.0 Seconds ([`index.html#L6673–L6755`, `L2325`](file:///Users/ethannorland/braceletdesigner/index.html#L6673-L6755)):**
+  - Reduced total walkthrough duration `DEMO_VIDEO_TOTAL_DURATION` from 92.0s down to exactly 60.0s (1:00), accelerating all animated actions, cursor tracking, and transitions proportionally.
+  - Recalibrated chapter intervals across all 7 feature chapters:
+    - Chapter 1: *New, Sizing & Open* (0:00–0:09)
+    - Chapter 2: *3D Stage & Bead Sliding* (0:09–0:17)
+    - Chapter 3: *Palette & Clasps* (0:17–0:26)
+    - Chapter 4: *Materials & Colors* (0:26–0:34)
+    - Chapter 5: *Monogram Inscriptions* (0:34–0:43)
+    - Chapter 6: *Realistic Wrist View* (0:43–0:51)
+    - Chapter 7: *Spec Sheet & Export* (0:51–1:00)
+  - Updated time display counter from `0:00 / 1:32` to `0:00 / 1:00` in video controls and scrubber tracks.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.25`.
+
 ## [1.9.24] - 2026-10-26
 
 ### Added - Reference Startup Bracelet Configuration
