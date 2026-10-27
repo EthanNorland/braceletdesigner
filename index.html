@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.19 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.20 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.19</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.20</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.19",
+      version: "1.9.20",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -4605,11 +4605,17 @@
         trigger.rotation.z = -Math.PI / 4.0;
         group.add(trigger);
 
-        // 6. Opposing Jump Ring (connector on the right side)
-        const opposingRing = new THREE.Mesh(new THREE.TorusGeometry(0.32, 0.08, 18, 32), mat);
-        opposingRing.position.set(0.82, 0, 0);
-        opposingRing.rotation.y = Math.PI / 2;
-        group.add(opposingRing);
+        // 6. Connecting parts: Catch ring hooked directly inside claw hook, and link ring to right ferrule
+        const catchRing = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.075, 18, 32), mat);
+        catchRing.position.set(0.56, 0, 0.02);
+        catchRing.rotation.y = Math.PI / 2.2;
+        catchRing.rotation.x = 0.3;
+        group.add(catchRing);
+
+        const linkRing = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.075, 18, 32), mat);
+        linkRing.position.set(0.86, 0, 0);
+        linkRing.rotation.y = Math.PI / 2;
+        group.add(linkRing);
       } else if (type === "screw") {
         // Screw-in barrel with decorative ribs and end-loops
         const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 1.5, 32), mat);
@@ -5140,18 +5146,29 @@
       return textures;
     }
 
-    function createCordBaseMesh(cordType, radius, cordColorHex, claspColor) {
+    function createCordBaseMesh(cordType, radius, cordColorHex, claspColor, claspType = doc.claspType) {
       const baseGroup = new THREE.Group();
       // Cord core tube radius: 0.092 (leaves ample visible clearance inside 0.19-0.30 bead holes)
       const cordRadius = 0.092;
-      const cordGeo = new THREE.TorusGeometry(radius, cordRadius, 32, 200);
+      const claspOffsetAngle = 1.05 / radius; // aligns precisely adjacent to clasp jump rings
+
+      const isLobster = claspType === "lobster";
+      const arc = isLobster ? (2 * Math.PI - 2 * claspOffsetAngle) : (2 * Math.PI);
+      const cordGeo = new THREE.TorusGeometry(radius, cordRadius, 32, 200, arc);
+      if (isLobster) {
+        cordGeo.rotateX(Math.PI / 2);
+        cordGeo.rotateY(-(Math.PI / 2 + claspOffsetAngle));
+      } else {
+        cordGeo.rotateX(Math.PI / 2);
+      }
       let cordMat;
 
+      const arcRatio = isLobster ? (arc / (2 * Math.PI)) : 1.0;
       if (cordType === "silver" || cordType === "gold") {
         const isGold = cordType === "gold";
         const textures = createSnakeChainTexture(isGold);
         // Repeat texture so links match authentic snake chain link density (~120 links)
-        const repeats = Math.max(6, Math.round(radius * 1.45));
+        const repeats = Math.max(6, Math.round(radius * 1.45 * arcRatio));
         textures.colorMap.repeat.set(repeats, 1);
         textures.bumpMap.repeat.set(repeats, 1);
         textures.roughnessMap.repeat.set(repeats, 1);
@@ -5168,7 +5185,7 @@
         });
       } else if (cordType === "cord") {
         const textures = createWovenCordTexture(cordColorHex);
-        const repeats = Math.max(4, Math.round(radius * 1.1));
+        const repeats = Math.max(4, Math.round(radius * 1.1 * arcRatio));
         textures.colorMap.repeat.set(repeats, 1);
         textures.bumpMap.repeat.set(repeats, 1);
 
@@ -5184,7 +5201,7 @@
       } else {
         // leather
         const textures = createLeatherTexture();
-        const repeats = Math.max(4, Math.round(radius * 1.1));
+        const repeats = Math.max(4, Math.round(radius * 1.1 * arcRatio));
         textures.colorMap.repeat.set(repeats, 1);
         textures.bumpMap.repeat.set(repeats, 1);
 
@@ -5200,7 +5217,6 @@
       }
 
       const ringMesh = new THREE.Mesh(cordGeo, cordMat);
-      ringMesh.rotation.x = Math.PI / 2;
       baseGroup.add(ringMesh);
 
       // Sleek tapered metal end-cap ferrules flanking the clasp (faithful to reference photos)
@@ -5208,7 +5224,6 @@
                           (cordType === "silver") ? "#A8A9AC" :
                           (claspColor === "gold" ? "#D2AC4C" : "#A8A9AC");
       const capMat = getPBRMaterial("metal", capColorHex);
-      const claspOffsetAngle = 1.05 / radius; // aligns precisely adjacent to clasp jump rings
 
       // Left end cap (x < 0, angle = pi/2 + claspOffsetAngle)
       // Tangent points away from clasp; narrow end at +Z (away), wider bell at -Z (toward clasp)
@@ -5239,7 +5254,7 @@
 
       // 1. Rebuild Cord Base Ring & End Caps
       if (cordMesh) braceletGroup.remove(cordMesh);
-      cordMesh = createCordBaseMesh(doc.cordType, radius, doc.cordColor, doc.claspColor);
+      cordMesh = createCordBaseMesh(doc.cordType, radius, doc.cordColor, doc.claspColor, doc.claspType);
       braceletGroup.add(cordMesh);
 
       // 2. Rebuild Clasp
@@ -5326,6 +5341,33 @@
     let lastSlideAngle = null;
     let lastSlideSoundTime = 0;
 
+    // 1D Cord Collision Tracking State
+    let dragPhiMin = 0;
+    let dragPhiMax = 2 * Math.PI;
+    let dragTargetPhi = 0;
+    let dragLastRawPhi = 0;
+    let dragClaspOffset = 0;
+
+    function thetaToCord(theta, claspOffsetAngle) {
+      const thetaStart = Math.PI / 2 - claspOffsetAngle;
+      let diff = (thetaStart - theta) % (2 * Math.PI);
+      if (diff < 0) diff += 2 * Math.PI;
+      const phiMax = 2 * Math.PI - 2 * claspOffsetAngle;
+      if (diff > phiMax) {
+        const claspMid = 2 * Math.PI - claspOffsetAngle;
+        return diff > claspMid ? 0 : phiMax;
+      }
+      return diff;
+    }
+
+    function cordToTheta(phi, claspOffsetAngle) {
+      const thetaStart = Math.PI / 2 - claspOffsetAngle;
+      let th = thetaStart - phi;
+      while (th <= -Math.PI) th += 2 * Math.PI;
+      while (th > Math.PI) th -= 2 * Math.PI;
+      return th;
+    }
+
     canvas.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
@@ -5367,6 +5409,51 @@
           // Hide invitation hint
           const inv = document.getElementById("invitation");
           if (inv) inv.style.opacity = "0";
+
+          // Calculate collision constraints along cord
+          const radius = getRadius();
+          dragClaspOffset = 1.05 / radius;
+          const phiMax = 2 * Math.PI - 2 * dragClaspOffset;
+
+          if (selectedBead) {
+            const halfD = ((selectedBead.sizeMm / 10) * 0.75) / radius;
+            const currentPhiD = thetaToCord(selectedBead.angle, dragClaspOffset);
+            const draggedIndex = doc.beads.findIndex(b => b.id === draggedBeadId);
+
+            let minBound = halfD;
+            let maxBound = phiMax - halfD;
+
+            doc.beads.forEach((other, idx) => {
+              if (other.id === draggedBeadId) return;
+              const halfOther = ((other.sizeMm / 10) * 0.75) / radius;
+              const phiOther = thetaToCord(other.angle, dragClaspOffset);
+              const isBefore = (phiOther < currentPhiD) || (phiOther === currentPhiD && idx < draggedIndex);
+              if (isBefore) {
+                const contactPhi = phiOther + halfOther + halfD;
+                if (contactPhi > minBound) minBound = contactPhi;
+              } else {
+                const contactPhi = phiOther - halfOther - halfD;
+                if (contactPhi < maxBound) maxBound = contactPhi;
+              }
+            });
+
+            if (minBound > maxBound) {
+              minBound = Math.min(minBound, currentPhiD);
+              maxBound = Math.max(maxBound, currentPhiD);
+            }
+
+            dragPhiMin = Math.min(minBound, currentPhiD);
+            dragPhiMax = Math.max(maxBound, currentPhiD);
+            dragTargetPhi = currentPhiD;
+
+            if (raycaster.ray.intersectPlane(dragPlane, planeIntersect)) {
+              const localPt = braceletGroup.worldToLocal(planeIntersect.clone());
+              const rawAngle = Math.atan2(localPt.z, localPt.x);
+              dragLastRawPhi = thetaToCord(rawAngle, dragClaspOffset);
+            } else {
+              dragLastRawPhi = currentPhiD;
+            }
+          }
         }
       }
     }
@@ -5382,29 +5469,44 @@
       if (raycaster.ray.intersectPlane(dragPlane, planeIntersect)) {
         // Transform into braceletGroup local space
         const localPt = braceletGroup.worldToLocal(planeIntersect.clone());
-        const angle = Math.atan2(localPt.z, localPt.x);
+        const rawAngle = Math.atan2(localPt.z, localPt.x);
 
         const bead = doc.beads.find(b => b.id === draggedBeadId);
         if (bead) {
+          const rawPhi = thetaToCord(rawAngle, dragClaspOffset);
+
+          // Incremental motion delta along cord to smoothly handle barriers
+          let dPhi = rawPhi - dragLastRawPhi;
+          while (dPhi > Math.PI) dPhi -= 2 * Math.PI;
+          while (dPhi < -Math.PI) dPhi += 2 * Math.PI;
+          dragLastRawPhi = rawPhi;
+
+          // Update target phi clamped slightly beyond bounds to prevent lag on reversal
+          dragTargetPhi += dPhi;
+          dragTargetPhi = Math.max(dragPhiMin - 0.05, Math.min(dragPhiMax + 0.05, dragTargetPhi));
+
+          const clampedPhi = Math.max(dragPhiMin, Math.min(dragPhiMax, dragTargetPhi));
+          const newAngle = cordToTheta(clampedPhi, dragClaspOffset);
+
           if (lastSlideAngle !== null) {
-            let dAngle = Math.abs(angle - lastSlideAngle);
+            let dAngle = Math.abs(newAngle - lastSlideAngle);
             if (dAngle > Math.PI) dAngle = 2 * Math.PI - dAngle;
             const nowMs = performance.now();
             if (nowMs - lastSlideSoundTime > 65 && dAngle > 0.035) {
               audioPlaySlide(bead.material || "glass");
               lastSlideSoundTime = nowMs;
-              lastSlideAngle = angle;
+              lastSlideAngle = newAngle;
             }
           } else {
-            lastSlideAngle = angle;
+            lastSlideAngle = newAngle;
           }
 
-          bead.angle = angle;
+          bead.angle = newAngle;
           const radius = getRadius();
           const mesh = beadMeshes.get(bead.id);
           if (mesh) {
-            mesh.position.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
-            mesh.rotation.y = -angle;
+            mesh.position.set(Math.cos(newAngle) * radius, 0, Math.sin(newAngle) * radius);
+            mesh.rotation.y = -newAngle;
             updateSelectionIndicator();
           }
         }

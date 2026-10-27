@@ -4,6 +4,23 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.20] - 2026-10-26
+
+### Added & Improved - Lobster Clasp Cord Deletion & Non-Penetrating Bead Dragging Collision
+- **Lobster Clasp Open-Space Connection & Cord Segment Deletion ([`index.html#L4605–L4620`, `L5146–L5260`](file:///Users/ethannorland/braceletdesigner/index.html#L4605-L4620)):**
+  - Deleted the base cord geometry (leather, snake chain, woven cord) between the lobster claw ferrule and opposing ring ferrule when `doc.claspType === "lobster"`.
+  - Replaced the continuous cord torus with a partial torus arc $2\pi - 2\cdot \text{claspOffsetAngle}$ precisely aligned with end-cap ferrules at $\pi/2 \pm \text{claspOffsetAngle}$, completely clearing the cord gap inside the clasp.
+  - Added interlocking 3D connector jewelry: `catchRing` (tilted and hooked directly inside the lobster claw throat at $x = 0.56, z = 0.02$) and `linkRing` (interlocking with catch ring and connecting into the right ferrule at $x = 0.86$), creating an authentic mechanical connection in open 3D space.
+- **Topological Bead Drag Collision Constraints ([`index.html#L5348–L5515`](file:///Users/ethannorland/braceletdesigner/index.html#L5348-L5515)):**
+  - Implemented continuous 1D cord space mapping functions `thetaToCord(theta, claspOffsetAngle)` and `cordToTheta(phi, claspOffsetAngle)` spanning $\phi \in [0, \Phi_{\max}]$ along the cord from right ferrule ($\phi = 0$) to left ferrule ($\phi = \Phi_{\max}$).
+  - Dynamic collision boundary calculation: computes exact 3D angular half-widths $r_i / R$ based on each bead's diameter `sizeMm` and limits dragged bead movement strictly between its immediate neighbors:
+    - Left limit: $\phi_{\min} = \phi_L + r_L + r_D$ (or right ferrule $r_D$).
+    - Right limit: $\phi_{\max} = \phi_R - r_R - r_D$ (or left ferrule $\Phi_{\max} - r_D$).
+  - Beads can never pass through each other, overlap, or penetrate through the clasp when dragged around the bracelet loop.
+  - Added zero-latency direction-reversal damping to prevent deadband lag when sliding away from contact boundaries.
+  - Tactile slide audio plays exclusively when physical motion occurs, staying silent when held against a collision boundary.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.20`.
+
 ## [1.9.19] - 2026-10-26
 
 ### Fixed - Safari Web Audio Engine Unlock, Hardware Keep-Alive & Playback Pipeline
