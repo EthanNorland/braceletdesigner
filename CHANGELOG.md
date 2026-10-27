@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.35] - 2026-10-27
+
+### Removed - Portfolio Skills Section
+- **Removed Skills Section & Nav Link ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Removed the "Core Disciplines / Technical Expertise & Capabilities" skills section (`#skills`) from the portfolio page to keep the narrative focused on concrete projects and visual works.
+  - Removed "Skills" link from the top navigation bar.
+  - Cleaned up unused CSS classes (`.skills-grid`, `.skill-block`, `.skill-items`, `.skill-item`, etc.).
+- **PWA & Version Sync:**
+  - Bumped version to `v1.9.35` across all documentation and service worker cache `bracelet-designer-1.9.35`.
+
 ## [1.9.34] - 2026-10-27
 
 ### Changed - Portfolio Showcase Project Sequencing
