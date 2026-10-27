@@ -4,6 +4,21 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.26] - 2026-10-27
+
+### Changed - Accelerated Chapters 3, 4 & 5 in Demo Walkthrough
+- **Pacing Optimization for Chapters 3, 4, and 5 ([`index.html#L6696–L6730`](file:///Users/ethannorland/braceletdesigner/index.html#L6696-L6730)):**
+  - Sped up Chapters 3 (*Palette & Clasps*), 4 (*Materials & Colors*), and 5 (*Monogram Inscriptions*) by reducing each duration from 8.5s down to 7.0s (~18% faster pace).
+  - Maintained the overall 60.0s (1:00) total duration by distributing the saved time to Chapter 1 (10.0s), Chapter 2 (9.5s), Chapter 6 (9.5s), and Chapter 7 (10.0s) for smoother viewing:
+    - Chapter 1: *New, Sizing & Open* (0:00–0:10.0)
+    - Chapter 2: *3D Stage & Bead Sliding* (10.0–19.5)
+    - Chapter 3: *Palette & Clasps* (19.5–26.5) [Sped Up]
+    - Chapter 4: *Materials & Colors* (26.5–33.5) [Sped Up]
+    - Chapter 5: *Monogram Inscriptions* (33.5–40.5) [Sped Up]
+    - Chapter 6: *Realistic Wrist View* (40.5–50.0)
+    - Chapter 7: *Spec Sheet & Export* (50.0–60.0)
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.26`.
+
 ## [1.9.25] - 2026-10-27
 
 ### Changed - Demo Video Acceleration & 1-Minute Duration Reduction
