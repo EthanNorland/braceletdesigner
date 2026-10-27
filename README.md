@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/braceletdesigner/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.35](https://img.shields.io/badge/Version-1.9.35-lightgrey?style=flat-square)](#)
+[![Version: 1.9.36](https://img.shields.io/badge/Version-1.9.36-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -20,7 +20,7 @@ Instead of navigating flat online store catalogs or static 2D grid software, **B
 
 - **3D Studio App:** [https://ethannorland.github.io/braceletdesigner/](https://ethannorland.github.io/braceletdesigner/)
 - **Landing Page & Overview:** [https://ethannorland.github.io/braceletdesigner/landing.html](https://ethannorland.github.io/braceletdesigner/landing.html) (or [`/welcome.html`](https://ethannorland.github.io/braceletdesigner/welcome.html))
-- **Creator Portfolio:** [https://ethannorland.github.io/braceletdesigner/portfolio.html](https://ethannorland.github.io/braceletdesigner/portfolio.html) (featuring 3D Studio, Liquid Death Poster, Stan Lee Typographic Portrait, Disney Zine & Academic Still Life)
+- **Creator Portfolio:** [https://ethannorland.github.io/braceletdesigner/portfolio.html](https://ethannorland.github.io/braceletdesigner/portfolio.html) (featuring 3D Studio, Liquid Death Poster, Disney Zine, Stan Lee Typographic Portrait & Footwear Study)
 - **Install as an App (PWA):**
   - **Mac (Safari):** File → *Add to Dock*.
   - **Chrome / Edge (Desktop & Android):** Click the install icon in the address bar, or menu → *Install app*.

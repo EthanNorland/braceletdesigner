@@ -1,5 +1,5 @@
 const APP_ID = "bracelet-designer";
-const VERSION = "1.9.35";
+const VERSION = "1.9.36";
 const CACHE = APP_ID + "-" + VERSION;
 const FILES = [
   "./",
@@ -28,6 +28,9 @@ const FILES = [
   "./reference/disneyzine_page_6.jpg",
   "./reference/disneyzine_page_7.jpg",
   "./reference/disneyzine_page_8.jpg",
+  "./reference/shoe.jpg",
+  "./reference/shoe_preview.jpg",
+  "./reference/shoe_display.jpg",
   "./reference/Still%20life%20drawing-Ethan%20Norland.jpg",
   "./reference/still_life_drawing_preview.jpg",
   "./reference/Typographic%20Portrait%20Stan%20Lee%20.png",

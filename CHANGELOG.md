@@ -4,6 +4,20 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.36] - 2026-10-27
+
+### Changed - Creator Portfolio Footwear Study (Shoe Drawing)
+- **Replaced Academic Still Life with Footwear Study ([`portfolio.html#shoe`](file:///Users/ethannorland/braceletdesigner/portfolio.html#shoe)):**
+  - Replaced the Academic Still Life project card with a dedicated Footwear Study observational drawing showcase (`reference/shoe.jpg`, master 3609 × 2772 px).
+  - Generated web-optimized responsive preview (`reference/shoe_preview.jpg`, 1400 × 1075 px) and high-resolution modal display (`reference/shoe_display.jpg`, 2400 × 1843 px).
+  - Added dedicated narrative highlights focusing on *Tactile Material Differentiation* (stitched leather, woven textile mesh, rubber foxing, cotton laces), *Volumetric Footwear Anatomy* (heel collar, arch curvature, asymmetrical toe box), and *Chiaroscuro & Tonal Depth*.
+  - Updated hero quick jump pills to `👟 Shoe Study` pointing to `#shoe`.
+- **Interactive Lightbox Modal ([`#shoe-modal`](file:///Users/ethannorland/braceletdesigner/portfolio.html#shoe-modal)):**
+  - Upgraded modal to display the high-resolution footwear drawing with direct full master download (`Shoe-Drawing-Ethan-Norland.jpg`), keyboard navigation (`Esc`), and accessible dialog semantics.
+- **PWA & Offline Precaching ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Precached `./reference/shoe.jpg`, `./reference/shoe_preview.jpg`, and `./reference/shoe_display.jpg` in service worker cache `bracelet-designer-1.9.36`.
+  - Bumped version to `v1.9.36` across `portfolio.html`, `index.html`, `landing.html`, `welcome.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.35] - 2026-10-27
 
 ### Removed - Portfolio Skills Section
