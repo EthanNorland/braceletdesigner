@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.26 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.27 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.26</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.27</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.
@@ -2322,7 +2322,7 @@
       <!-- Video Control Bar -->
       <div class="demo-video-controls">
         <button type="button" class="demo-ctrl-btn" id="btn-vid-play" title="Play / Pause (Space)">▶</button>
-        <span class="demo-vid-time" id="demo-vid-time">0:00 / 1:00</span>
+        <span class="demo-vid-time" id="demo-vid-time">0:00 / 0:53</span>
         <div class="demo-vid-scrubber-track" id="demo-vid-track">
           <div class="demo-vid-scrubber-fill" id="demo-vid-fill"></div>
           <div class="demo-vid-scrubber-thumb" id="demo-vid-thumb"></div>
@@ -2363,7 +2363,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.26",
+      version: "1.9.27",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -6697,7 +6697,7 @@
         id: "palette",
         title: "Palette & Clasps",
         timeStart: 19.5,
-        timeEnd: 26.5,
+        timeEnd: 24.0,
         caption: "Choose from 6 bead shapes, gold, silver, and carved spacers, and swap between magnetic, lobster claw, and screw-in clasps.",
         summaryTitle: "Bead Geometries, Spacers & Clasps",
         summaryDesc: "String Spheres, Faceted Crystals, Rondelles, Barrels, Cubes, and Stars with jewelry spacers, paired with 3 mechanical clasp styles.",
@@ -6707,8 +6707,8 @@
       {
         id: "materials",
         title: "Materials & Colors",
-        timeStart: 26.5,
-        timeEnd: 33.5,
+        timeStart: 24.0,
+        timeEnd: 31.0,
         caption: "Select from 5 PBR materials—glass, quartz, stone, metal, and painted wood—with true-to-selection color rendering.",
         summaryTitle: "PBR Materials & Jewel-Tone Colors",
         summaryDesc: "Physical transmission, surface crackle veins, honed stone pits, and Linear Tone Mapping ensure colors match the 2D selector without glare burnout.",
@@ -6718,8 +6718,8 @@
       {
         id: "engraving",
         title: "Monogram Inscriptions",
-        timeStart: 33.5,
-        timeEnd: 40.5,
+        timeStart: 31.0,
+        timeEnd: 38.0,
         caption: "Select any Cube bead to deboss custom monograms (A–Z), numbers (0–9), or jewelry symbols like Heart ♥ and Peace ☮.",
         summaryTitle: "Personalized Monograms & Hallmarks",
         summaryDesc: "Dynamic procedural debossed normal mapping carves deep tactile engraved initials, numerals, and symbols directly into the bead face.",
@@ -6729,8 +6729,8 @@
       {
         id: "wrist",
         title: "Realistic Wrist View",
-        timeStart: 40.5,
-        timeEnd: 50.0,
+        timeStart: 38.0,
+        timeEnd: 47.5,
         caption: "Click 'Wrist View' to drape your bracelet onto an anatomical 3D arm with 4 skin tone presets and dynamic wrist sizing.",
         summaryTitle: "3D Wrist Preview & Anatomical Fit",
         summaryDesc: "Switch from tabletop studio to a realistic anatomical forearm and hand with Fair, Natural, Warm Tan, and Deep Rich tones that scale to your wrist size.",
@@ -6740,8 +6740,8 @@
       {
         id: "export",
         title: "Spec Sheet & Export",
-        timeStart: 50.0,
-        timeEnd: 60.0,
+        timeStart: 47.5,
+        timeEnd: 53.0,
         caption: "Access an itemized materials recipe with 1-click CSV export for ordering supplies, or download high-res PNG studio renders.",
         summaryTitle: "Materials Recipe, CSV & Project Export",
         summaryDesc: "Get an exact physical parts breakdown for jewelers, download CSV order spreadsheets, and capture crisp PNG photos.",
@@ -6750,7 +6750,7 @@
       }
     ];
 
-    const DEMO_VIDEO_TOTAL_DURATION = 60.0;
+    const DEMO_VIDEO_TOTAL_DURATION = 53.0;
     let videoCurrentTime = 0.0;
     let videoIsPlaying = false;
     let videoLastTimestamp = null;
@@ -6883,8 +6883,8 @@
     const DEMO_STAR_BEAD = { shape: "star", color: "#D2AC4C", radius: 12, name: "Celestial Star Bead" };
 
     function getDemoBeadsForState(chIdx, chLocalT) {
-      // Star option is clicked in Chapter 3 (chIdx === 2) at chLocalT >= 0.35, adding Star bead to bracelet!
-      const hasStar = (chIdx > 2) || (chIdx === 2 && chLocalT >= 0.35);
+      // Star option is clicked in Chapter 3 (chIdx === 2) at chLocalT >= 0.38, adding Star bead to bracelet!
+      const hasStar = (chIdx > 2) || (chIdx === 2 && chLocalT >= 0.38);
       if (!hasStar) {
         return DEMO_BASE_BEADS;
       }
@@ -7056,7 +7056,7 @@
           isTargetHeaderBtn = true; // Open button turns gold ONLY upon click!
         } else if (chIdx === 5 && bText === "Wrist View" && chLocalT >= 0.12 && chLocalT < 0.28) {
           isTargetHeaderBtn = true; // Wrist View turns gold ONLY when clicked!
-        } else if (chIdx === 6 && bText === "Materials" && chLocalT >= 0.15 && chLocalT < 0.32) {
+        } else if (chIdx === 6 && bText === "Materials" && chLocalT >= 0.18 && chLocalT < 0.38) {
           isTargetHeaderBtn = true; // Materials turns gold ONLY when clicked!
         }
 
@@ -7090,7 +7090,7 @@
       shapes.forEach((s, si) => {
         const sy = 64 + si * 18;
         // Button changes color ONLY when cursor is on it and clicking it!
-        const isHovered = isPaletteActive && (chLocalT >= 0.25 && chLocalT <= 0.42 && s === "Star");
+        const isHovered = isPaletteActive && (chLocalT >= 0.25 && chLocalT <= 0.50 && s === "Star");
         vidCtx.fillStyle = isHovered ? "rgba(210, 172, 76, 0.35)" : "rgba(255, 255, 255, 0.04)";
         vidCtx.strokeStyle = isHovered ? "#D2AC4C" : "rgba(255, 255, 255, 0.08)";
         vidCtx.beginPath();
@@ -7813,7 +7813,7 @@
         vidCtx.fillText("Remaining: 105 mm", barX + barW + 8, fitY + 13.5);
 
         vidCtx.restore();
-      } else if (chIdx === 6 && chLocalT > 0.3) {
+      } else if (chIdx === 6 && chLocalT > 0.34) {
         // ── Chapter 6: Materials Spec Sheet Modal Simulation ──
         vidCtx.fillStyle = "rgba(11, 14, 20, 0.95)";
         vidCtx.strokeStyle = "rgba(136, 164, 196, 0.5)";
@@ -7846,7 +7846,7 @@
         });
 
         // Copy Spec Sheet & Export CSV buttons (left: Copy Spec Sheet, right: Export CSV)
-        const isExportCsvClicked = (chIdx === 6 && chLocalT >= 0.58 && chLocalT < 0.72);
+        const isExportCsvClicked = (chIdx === 6 && chLocalT >= 0.70 && chLocalT < 0.88);
         const btnY = 250;
 
         // Left button: Copy Spec Sheet
@@ -8111,8 +8111,8 @@
             }
 
             // 5. Star bead addition sparkle ring in Chapter 3
-            if (chIdx === 2 && chLocalT >= 0.35 && chLocalT < 0.60 && bDef.shape === "star") {
-              const spawnPhase = (chLocalT - 0.35) / 0.25;
+            if (chIdx === 2 && chLocalT >= 0.38 && chLocalT < 0.85 && bDef.shape === "star") {
+              const spawnPhase = (chLocalT - 0.38) / 0.47;
               vidCtx.save();
               vidCtx.strokeStyle = `rgba(210, 172, 76, ${1.0 - spawnPhase})`;
               vidCtx.lineWidth = 2.5;
@@ -8372,16 +8372,16 @@
         const starWorldX = stageCenterX + (starBx * Math.cos(starOrbitAngle) - starBy * Math.sin(starOrbitAngle));
         const starWorldY = stageCenterY + (starBx * Math.sin(starOrbitAngle) + starBy * Math.cos(starOrbitAngle));
 
-        if (chLocalT < 0.25) {
-          const p = chLocalT / 0.25;
+        if (chLocalT < 0.28) {
+          const p = chLocalT / 0.28;
           curX = stageCenterX + (starBtnCX - stageCenterX) * p;
           curY = stageCenterY + (starBtnCY - stageCenterY) * p;
-        } else if (chLocalT < 0.38) {
+        } else if (chLocalT < 0.48) {
           curX = starBtnCX;
           curY = starBtnCY;
-          if (chLocalT >= 0.26) isClicking = true;
-        } else if (chLocalT < 0.58) {
-          const p = (chLocalT - 0.38) / 0.20;
+          if (chLocalT >= 0.30 && chLocalT < 0.46) isClicking = true;
+        } else if (chLocalT < 0.85) {
+          const p = (chLocalT - 0.48) / 0.37;
           curX = starBtnCX + (starWorldX - starBtnCX) * p;
           curY = starBtnCY + (starWorldY - starBtnCY) * p;
         } else {
@@ -8521,24 +8521,24 @@
         const exportCsvBtnCX = stageCenterX + 65;
         const exportCsvBtnCY = 262;
 
-        if (chLocalT < 0.15) {
-          const p = chLocalT / 0.15;
+        if (chLocalT < 0.20) {
+          const p = chLocalT / 0.20;
           curX = stageCenterX + (matBtn.cx - stageCenterX) * p;
           curY = stageCenterY + (matBtn.cy - stageCenterY) * p;
-        } else if (chLocalT < 0.32) {
+        } else if (chLocalT < 0.38) {
           curX = matBtn.cx;
           curY = matBtn.cy;
-          if (chLocalT >= 0.18 && chLocalT < 0.28) isClicking = true;
-        } else if (chLocalT < 0.58) {
+          if (chLocalT >= 0.22 && chLocalT < 0.36) isClicking = true;
+        } else if (chLocalT < 0.70) {
           // Glide directly across from Materials button to Export CSV button
-          const p = (chLocalT - 0.32) / 0.26;
+          const p = (chLocalT - 0.38) / 0.32;
           curX = matBtn.cx + (exportCsvBtnCX - matBtn.cx) * p;
           curY = matBtn.cy + (exportCsvBtnCY - matBtn.cy) * p;
-        } else if (chLocalT < 0.75) {
+        } else if (chLocalT < 0.88) {
           // Click Export CSV button! (turns button gold)
           curX = exportCsvBtnCX;
           curY = exportCsvBtnCY;
-          if (chLocalT >= 0.60 && chLocalT < 0.72) isClicking = true;
+          if (chLocalT >= 0.72 && chLocalT < 0.86) isClicking = true;
         } else {
           // Rest on Export CSV button
           curX = exportCsvBtnCX;

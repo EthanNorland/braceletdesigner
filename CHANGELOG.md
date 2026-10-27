@@ -4,6 +4,23 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.27] - 2026-10-27
+
+### Changed - Eliminated Post-Action Idle Dead Time in Chapters 3 & 7
+- **Chapter 3 & 7 Dead Time Removal ([`index.html#L6696–L6755`, `L8375–L8547`](file:///Users/ethannorland/braceletdesigner/index.html#L6696-L6755)):**
+  - Removed trailing dead idle time in Chapter 3 (*Palette & Clasps*) after the celestial star bead has spawned and the cursor settles, trimming chapter duration from 7.0s down to 4.5s.
+  - Removed trailing idle gap in Chapter 7 (*Spec Sheet & Export*) after the Export CSV button has been clicked, trimming chapter duration from 10.0s down to 5.5s.
+  - Reduced total walkthrough duration `DEMO_VIDEO_TOTAL_DURATION` from 60.0s down to **53.0s** (`0:53`), keeping the entire video under one minute with no dead pauses:
+    - Chapter 1: *New, Sizing & Open* (0:00–0:10.0)
+    - Chapter 2: *3D Stage & Bead Sliding* (10.0–19.5)
+    - Chapter 3: *Palette & Clasps* (19.5–24.0) [Extra Time Deleted]
+    - Chapter 4: *Materials & Colors* (24.0–31.0)
+    - Chapter 5: *Monogram Inscriptions* (31.0–38.0)
+    - Chapter 6: *Realistic Wrist View* (38.0–47.5)
+    - Chapter 7: *Spec Sheet & Export* (47.5–53.0) [Extra Time Deleted]
+  - Updated time display counter and scrubber track to `0:00 / 0:53`.
+- **PWA Bump:** Bumped service worker cache to `bracelet-designer-1.9.27`.
+
 ## [1.9.26] - 2026-10-27
 
 ### Changed - Accelerated Chapters 3, 4 & 5 in Demo Walkthrough

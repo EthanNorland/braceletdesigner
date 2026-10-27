@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/braceletdesigner/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.26](https://img.shields.io/badge/Version-1.9.26-lightgrey?style=flat-square)](#)
+[![Version: 1.9.27](https://img.shields.io/badge/Version-1.9.27-lightgrey?style=flat-square)](#)
 
 ---
 
@@ -38,7 +38,7 @@ Works 100% offline after your first visit. All designs are saved privately in yo
   5. *Personalized Monograms & Hallmarks* (cube bead selection, peace sign ☮ symbol debossing replacing sample love text, and numerals description).
   6. *Realistic 3D Wrist Mode & Reference-Calibrated Hand* (anatomical vertical forearm and palm-forward hand matching desktop reference `wristview.png`, 4 downward fingers with gaps, rightward thumb, floating control pills, 18K gold screw-in clasp, 4 natural skin tones with active selector ring, and dynamic wrist scaling).
   7. *Materials Spec Sheet & Project Exports* (itemized recipe with 18K Gold Screw-in Clasp and ☮ Cube, 1-click CSV order export, high-res PNG studio renders).
-  Includes custom video player controls (Play/Pause, interactive Scrubber slider track, 0:00/1:00 timestamp counter, Restart), 7 clickable Chapter navigation pills, lower-third explanatory captions, animated mouse cursor and click ripples, keyboard shortcuts (<kbd>Space</kbd>, <kbd>←</kbd>, <kbd>→</kbd>), auto-open on app startup, instant close buttons (`✕` and footer close), and a *"Don't show video automatically when opening the app"* preference saved to `localStorage`.
+  Includes custom video player controls (Play/Pause, interactive Scrubber slider track, 0:00/0:53 timestamp counter, Restart), 7 clickable Chapter navigation pills, lower-third explanatory captions, animated mouse cursor and click ripples, keyboard shortcuts (<kbd>Space</kbd>, <kbd>←</kbd>, <kbd>→</kbd>), auto-open on app startup, instant close buttons (`✕` and footer close), and a *"Don't show video automatically when opening the app"* preference saved to `localStorage`.
 - **Curated Starter Design Templates (Phase 6):** An atelier gallery modal accessible via **New** featuring 6 professionally balanced designs—*The Signature Atelier* (evil eye & lapis), *Minimalist 18K Heirloom* (gold & celestial star), *Bohemian Earth & Sandalwood* (desert solstice), *Chakra Resonance Spectrum* (7 energy centers), *Monogram Keepsake* ("LOVE" cubes & gold stars), and a pristine *Blank Canvas*—all with instant sequence visualizers, tactile loading chime, and full undo protection.
 - **Procedural Tactile Audio Synthesis Engine:** 100% client-side Web Audio synthesis providing real-time acoustic resonance tailored by physical bead material (Glass, Quartz, Metal, Stone, Wood), throttled micro-tick clatter during 3D sliding, realistic dual-action clasp clicks (Magnetic, Lobster Claw, Screw-in), and subtle tactile feedback for selection, duplicate, and delete.
 - **3D Preview on Wrist Mode:** Toggle between Studio View and Wrist View to drape your custom bracelet onto an anatomically realistic human arm and gracefully posed hand, featuring 4 skin tone presets (Fair, Natural, Warm Tan, Deep Rich) and dynamic scaling matching your exact wrist circumference.
