@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.58] - 2026-10-28
+
+### Changed - Streamlined Bead Color Swatches & Cleaned Duplicate Palette Circles
+- **Bead Color Palette Streamlining ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Removed duplicate Gold (`#D2AC4C`) and Sterling Silver (`#A8A9AC`) swatch circles from the bead color selection container (`#bead-swatches`), relying on the dedicated, always-visible **Silver** and **Gold** quick action buttons positioned directly below.
+  - Removed two redundant gray swatches (`#373A40` Basalt Charcoal Slate and `#A2A5A0` Honed Limestone), retaining a single balanced neutral gray circle (`#4B4E54` Gunmetal / Slate Gray).
+  - Maintained complete backwards compatibility for existing `.bracelet` project files and materials spec sheet naming lookups for all historic color hex values.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.58` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.57] - 2026-10-28
 
 ### Fixed - Fit Indicator Accuracy & 3D Geometry-Calibrated Cord Occupancy
