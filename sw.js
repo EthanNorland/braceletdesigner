@@ -1,5 +1,5 @@
 const APP_ID = "bracelet-designer";
-const VERSION = "1.9.53";
+const VERSION = "1.9.54";
 const CACHE = APP_ID + "-" + VERSION;
 const FILES = [
   "./",

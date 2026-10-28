@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.53 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.54 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.53</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.54</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.<br>
@@ -2368,7 +2368,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.53",
+      version: "1.9.54",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -2821,17 +2821,17 @@
       claspType: "lobster",
       claspColor: "silver",
       beads: [
-        { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#c61010", sizeMm: 10, angle: 1.139949 },
-        { id: 3, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 0.852718 },
-        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#82450d", sizeMm: 10, angle: 0.565487 },
-        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: 0.278256 },
-        { id: 6, type: "bead", shape: "rondelle", material: "stone", color: "#c1a767", sizeMm: 11, angle: -0.026927 },
-        { id: 7, type: "spacer", shape: "barrel", material: "metal", color: "#A8A9AC", sizeMm: 8, angle: -0.368014 },
-        { id: 8, type: "bead", shape: "barrel", material: "wood", color: "#05573c", sizeMm: 12, angle: -0.727053 },
-        { id: 9, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -1.050188 },
-        { id: 10, type: "bead", shape: "cube", material: "stone", color: "#1E40AF", sizeMm: 10, angle: -1.337419, text: "HEART" },
-        { id: 11, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: -1.624650 },
-        { id: 12, type: "bead", shape: "star", material: "metal", color: "#A855F7", sizeMm: 10, angle: -1.911881 }
+        { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#c61010", sizeMm: 10, angle: 1.108971 },
+        { id: 3, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 0.846318 },
+        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#82450d", sizeMm: 10, angle: 0.583665 },
+        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: 0.321012 },
+        { id: 6, type: "bead", shape: "rondelle", material: "stone", color: "#c1a767", sizeMm: 11, angle: 0.108505 },
+        { id: 7, type: "spacer", shape: "barrel", material: "metal", color: "#A8A9AC", sizeMm: 8, angle: -0.206645 },
+        { id: 8, type: "bead", shape: "barrel", material: "wood", color: "#05573c", sizeMm: 12, angle: -0.651249 },
+        { id: 9, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -0.993211 },
+        { id: 10, type: "bead", shape: "cube", material: "stone", color: "#1E40AF", sizeMm: 10, angle: -1.290769, text: "HEART" },
+        { id: 11, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: -1.588328 },
+        { id: 12, type: "bead", shape: "star", material: "metal", color: "#A855F7", sizeMm: 10, angle: -1.896421 }
       ],
       selectedId: 5
     };
@@ -5403,20 +5403,64 @@
       return ((Number(sizeMm) || 10) * SCENE_MM_SCALE) * 0.5;
     }
 
-    // Exact angular contact chord distance calibrated to bead millimeter sizes
+    // Exact angular half-extent along the cord circle accounting for true 3D mesh geometry,
+    // chord curvature, flat inner faces, and end-rim radii so beads touch flush with zero penetration.
+    function getBeadAngularHalfExtent(b, radius) {
+      if (!b) return 0.15;
+      const sizeMm = Number(b.sizeMm) || 10;
+      const s = sizeMm * SCENE_MM_SCALE;
+      const halfS = s * 0.5;
+      const shape = b.shape || "sphere";
+      const isSpacer = b.type === "spacer" || b.isSpacer === true;
+      const buffer = 0.010; // Hairline clearance preventing 3D mesh z-fighting and face collision
+
+      switch (shape) {
+        case "cube": {
+          // Flat square faces of width s x s. On a curved loop of radius R, the inner face
+          // sits at rInner = (R - halfS). The angular half-span to its inner corners is atan2(halfS, rInner).
+          const rInner = Math.max(0.5, radius - halfS);
+          return Math.atan2(halfS, rInner) + buffer;
+        }
+        case "star": {
+          // Star tips reach outward radially up to 1.22 * halfS. On the inside of the loop,
+          // inner points reach inwards to (R - halfS * 1.22).
+          const rInner = Math.max(0.5, radius - halfS * 1.22);
+          return Math.atan2(halfS, rInner) + buffer;
+        }
+        case "barrel": {
+          // Flat circular rims with radius rEnd = (isSpacer ? 0.95 : 0.88) * halfS.
+          // On a curved loop, the inner rim sits at rInner = (radius - rEnd).
+          const radialReach = isSpacer ? (halfS * 0.95) : (halfS * 0.88);
+          const rInner = Math.max(0.5, radius - radialReach);
+          return Math.atan2(halfS, rInner) + buffer;
+        }
+        case "rondelle": {
+          // Rounded disk/wheel with half-thickness along cord halfL = halfS * 0.5,
+          // and radial bulge rOuter = 1.25 * halfS.
+          const halfL = Math.max(0.18, halfS * 0.5);
+          const rInner = Math.max(0.5, radius - halfS * 1.25);
+          return Math.atan2(halfL, rInner) + buffer;
+        }
+        case "faceted":
+        case "sphere":
+        default: {
+          // True angular subtense of a sphere/faceted bead of radius halfS along circle of radius R:
+          // Center-to-center contact chord is 2 * halfS, so sin(theta) = halfS / R.
+          const sinVal = Math.min(0.99, halfS / radius);
+          return Math.asin(sinVal) + buffer;
+        }
+      }
+    }
+
+    // Exact angular contact distance calibrated to bead millimeter sizes and geometry shapes
     // so adjacent beads touch flush directly next to each other with zero gaps and zero penetration.
     function getBeadContactDelta(b1, b2, radius) {
-      const s1 = (Number(b1.sizeMm) || 10) * SCENE_MM_SCALE;
-      const s2 = (Number(b2.sizeMm) || 10) * SCENE_MM_SCALE;
-      const chord = (s1 + s2) * 0.5;
-      return chord / radius;
+      return getBeadAngularHalfExtent(b1, radius) + getBeadAngularHalfExtent(b2, radius);
     }
 
     // Exact angular contact distance against the clasp ferrule
     function getClaspContactDelta(bead, radius) {
-      const s = (Number(bead.sizeMm) || 10) * SCENE_MM_SCALE;
-      const chord = s * 0.5;
-      return chord / radius;
+      return getBeadAngularHalfExtent(bead, radius) + 0.02;
     }
 
     // Find an empty spot on the bracelet where a new or duplicated bead can be placed without collision
@@ -6458,6 +6502,7 @@
         change(d => {
           Object.assign(d, validated);
           d.beads = validated.beads.map(b => ({ ...b }));
+          resolveBeadOverlaps(d.beads, d.wristMm);
         });
         nextBeadId = Math.max(maxId, ...doc.beads.map(b => b.id || 0), 0) + 1;
         updateApp();
@@ -9094,6 +9139,7 @@
         if (saved && Array.isArray(saved.beads) && saved.beads.length > 0 && !isLegacyDoc) {
           const { doc: restored, maxId } = migrateAndValidateDoc(saved);
           doc = restored;
+          resolveBeadOverlaps(doc.beads, doc.wristMm);
           nextBeadId = Math.max(maxId, ...doc.beads.map(b => b.id || 0), 0) + 1;
           updateApp();
           showToast("Restored your active session from the atelier bench.");
@@ -9101,6 +9147,7 @@
           // Seed the startup design from reference/Braceletuponappstartup.bracelet
           const { doc: restored, maxId } = migrateAndValidateDoc(STARTUP_DOC);
           doc = restored;
+          resolveBeadOverlaps(doc.beads, doc.wristMm);
           nextBeadId = Math.max(maxId, ...doc.beads.map(b => b.id || 0), 0) + 1;
           await idbSet("current_design", doc);
           localStorage.setItem(startupKey, "true");

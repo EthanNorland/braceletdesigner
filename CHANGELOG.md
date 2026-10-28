@@ -4,6 +4,22 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.54] - 2026-10-28
+
+### Fixed - Star, Barrel, and Cube Bead Collision and Overlap
+- **3D Geometry-Calibrated Angular Extent Solver ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Replaced the uniform chord approximation `(s1 + s2) * 0.5 / radius` with shape-aware geometry math via `getBeadAngularHalfExtent(b, radius)`:
+    - **Cube:** Computes the angular subtense of flat square faces to their inner corners at $r_{inner} = R - s/2$ using $\arctan(s/2 / r_{inner})$, eliminating up to 2.56 mm of corner intersection.
+    - **Star:** Computes the radial reach of the 5-pointed star tips at $r_{inner} = R - 1.22 \times s/2$ using $\arctan(s/2 / r_{inner})$, eliminating star tip penetration into neighboring beads.
+    - **Barrel & Carved Spacers:** Computes the angular subtense of circular end rims ($r_{end} = 0.88 \dots 0.95 \times s/2$) along the curved bracelet loop, eliminating up to 2.38 mm of rim penetration between barrels and neighboring beads.
+    - **Spheres & Faceted:** Calibrated to exact angular subtense $\arcsin(\text{halfS} / R)$ with hairline buffer to eliminate mesh z-fighting.
+  - Symmetrically calculates `getBeadContactDelta(b1, b2, radius)` and `getClaspContactDelta(bead, radius)` so that contact detection across dragging, placement, resizing, and reflow prevents penetration and guarantees flush contact across all shape combinations.
+- **Startup Reference & Initial State Alignment ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html), [`reference/Braceletuponappstartup.bracelet`](file:///Users/ethannorland/braceletdesigner/reference/Braceletuponappstartup.bracelet)):**
+  - Updated `STARTUP_DOC` and `Braceletuponappstartup.bracelet` with verified non-overlapping contact angles for all 11 starter beads (sphere, rondelle, faceted, barrel 8mm, barrel 12mm, cube 10mm, and star 10mm).
+  - Added automatic `resolveBeadOverlaps(doc.beads, doc.wristMm)` call upon session restoration and project file loading to clean up any legacy overlapping angles.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.54` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.53] - 2026-10-28
 
 ### Changed - Portfolio Page About Navigation
