@@ -1973,9 +1973,11 @@
           <div class="swatch active" style="background:#38BDF8;" data-color="#38BDF8" title="Cyan / Turquoise"></div>
           <div class="swatch" style="background:#1E40AF;" data-color="#1E40AF" title="Lapis Blue"></div>
           <div class="swatch" style="background:#F8FAFC;" data-color="#F8FAFC" title="Crackle Crystal White"></div>
-          <div class="swatch" style="background:#4B4E54;" data-color="#4B4E54" title="Gunmetal / Antiqued Steel (Metal)"></div>
+          <div class="swatch" style="background:#4B4E54;" data-color="#4B4E54" title="Gunmetal / Slate Gray"></div>
           <div class="swatch" style="background:#A855F7;" data-color="#A855F7" title="Amethyst Purple"></div>
           <div class="swatch" style="background:#10B981;" data-color="#10B981" title="Emerald Green"></div>
+          <div class="swatch" style="background:#FEF08A;" data-color="#FEF08A" title="Light Yellow"></div>
+          <div class="swatch" style="background:#F97316;" data-color="#F97316" title="Orange"></div>
           <div class="swatch" style="background:#EF4444;" data-color="#EF4444" title="Coral Red"></div>
           <input type="color" id="picker-bead-color" value="#38BDF8" title="Custom color picker">
         </div>
@@ -2063,7 +2065,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.58 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.59 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2183,7 +2185,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.58</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.59</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.<br>
@@ -2364,7 +2366,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.58",
+      version: "1.9.59",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -4073,7 +4075,7 @@
     function getPBRMaterial(type, colorHex) {
       const col = new THREE.Color(colorHex);
       const hexUpper = (typeof colorHex === "string" ? colorHex : ("#" + col.getHexString())).toUpperCase();
-      const isGold = ["#D2AC4C", "#CCAD5C", "#FACC15", "#FDE047", "#EAB308", "#D4B565", "#C8A959"].includes(hexUpper);
+      const isGold = ["#D2AC4C", "#CCAD5C", "#FACC15", "#EAB308", "#D4B565", "#C8A959"].includes(hexUpper);
       const isSilver = ["#A8A9AC", "#E2E8F0", "#C0C7D0", "#CBD5E1", "#94A3B8"].includes(hexUpper);
 
       switch(type) {
@@ -6269,7 +6271,7 @@
     // ── MATERIALS SPEC SHEET & SUPPLY SOURCING (PHASE 6.2) ──────────────────
     function getColorName(hex, material) {
       const norm = (hex || "").toUpperCase();
-      if (["#D2AC4C", "#CCAD5C", "#FACC15", "#FDE047", "#EAB308", "#D4B565", "#C8A959"].includes(norm)) {
+      if (["#D2AC4C", "#CCAD5C", "#FACC15", "#EAB308", "#D4B565", "#C8A959"].includes(norm)) {
         if (material === "stone") return "Deep Gold Stone (Pyrite / Bronzite)";
         if (material === "wood") return "Golden Teak Wood";
         return "18K Yellow Gold";
@@ -6288,6 +6290,10 @@
         "#16A34A": "Imperial Jade",
         "#9333EA": "Amethyst Glass",
         "#DC2626": "Red Jasper",
+        "#EF4444": "Coral Red",
+        "#F97316": "Mandarin Orange",
+        "#FEF08A": "Light Lemon Yellow",
+        "#FDE047": "Citrine Yellow",
         "#EA580C": "Carnelian Agate",
         "#373A40": "Volcanic Basalt / Slate Stone",
         "#35383D": "Volcanic Basalt / Slate Stone",

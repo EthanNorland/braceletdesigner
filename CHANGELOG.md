@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.59] - 2026-10-28
+
+### Added - Orange & Light Yellow Palette Swatches
+- **Bead Color Swatches ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Added dedicated **Orange** (`#F97316`, Mandarin / Carnelian) and **Light Yellow** (`#FEF08A`, Light Lemon / Citrine) swatch circles to the Properties panel bead color palette (`#bead-swatches`).
+  - Added material naming mappings for `#F97316` ("Mandarin Orange"), `#FEF08A` ("Light Lemon Yellow"), `#FDE047` ("Citrine Yellow"), and `#EF4444` ("Coral Red") in [`getColorName()`](file:///Users/ethannorland/braceletdesigner/index.html#L6271-L6315) for complete fidelity in materials breakdowns and CSV exports.
+  - Calibrated shader classifications so light yellow shades render with realistic translucency and tint across glass, quartz, stone, wood, and metal without false classification as antique gold metal.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.59` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.58] - 2026-10-28
 
 ### Changed - Streamlined Bead Color Swatches & Cleaned Duplicate Palette Circles

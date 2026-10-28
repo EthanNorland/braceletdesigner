@@ -4,7 +4,7 @@
 
 [![Live App](https://img.shields.io/badge/Live_App-Visit_Site-88A4C4?style=flat-square)](https://ethannorland.github.io/braceletdesigner/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version: 1.9.58](https://img.shields.io/badge/Version-1.9.58-lightgrey?style=flat-square)](#)
+[![Version: 1.9.59](https://img.shields.io/badge/Version-1.9.59-lightgrey?style=flat-square)](#)
 
 ---
 
