@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.57] - 2026-10-28
+
+### Fixed - Fit Indicator Accuracy & 3D Geometry-Calibrated Cord Occupancy
+- **3D Geometry-Calibrated Fit Meter ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Replaced the naive 1D linear sum of bead diameters in [`calculateFit`](file:///Users/ethannorland/braceletdesigner/index.html#L5850-L5885) with actual 3D physical cord arc occupancy derived from [`getBeadAngularHalfExtent`](file:///Users/ethannorland/braceletdesigner/index.html#L5408-L5454).
+  - Factored in loop curvature, shape angular extents, and clasp ferrule contact offsets so the live Used and Remaining mm indicators agree 100% with the visual fullness of the bracelet.
+  - Resolved discrepancy where the information previously showed up to 26–45 mm remaining when the 3D bracelet was already completely full of beads from clasp to clasp.
+  - Added capacity state detection: when no open spot remains for even the smallest 6mm spacer, the indicator clearly displays `Bracelet Full (0 mm left)` at 100% capacity.
+  - Refined toast notifications in [`addBead`](file:///Users/ethannorland/braceletdesigner/index.html#L5980) and [`duplicateSelected`](file:///Users/ethannorland/braceletdesigner/index.html#L6224) to distinguish between a completely full bracelet vs insufficient space for a specific bead size.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.57` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.56] - 2026-10-28
 
 ### Removed - Portfolio Header Navigation Links
