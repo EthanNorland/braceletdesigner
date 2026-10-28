@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.50] - 2026-10-27
+
+### Changed - Features Section Copy Refinement on Landing & Welcome Pages
+- **Feature Cards Copy Alignment ([`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html), [`welcome.html`](file:///Users/ethannorland/braceletdesigner/welcome.html)):**
+  - Updated the *6 Distinct Bead Geometries* card description to: *"Select from spheres, facets, rondelles, barrels, cubes, and 5-pointed stars featuring threading holes."*
+  - Streamlined the *Realistic 3D Wrist Mode* card description so the sentence concludes cleanly at `"tones"`: *"Switch from the tabletop bench directly onto an anatomical 3D forearm and hand. Choose between Fair, Natural, Warm Tan, and Deep Rich skin tones."*
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.50` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.49] - 2026-10-27
 
 ### Changed - Landing Page Copy & Navigation Streamlining
