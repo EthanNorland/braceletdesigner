@@ -4,6 +4,14 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.46] - 2026-10-27
+
+### Changed - Bracelet Designer Portfolio Copy Calibration
+- **Portfolio Description Refinement ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Updated the Bracelet Designer description to include *"along bases"*: *"Created to give jewelers, artisans, and everyday creators an intuitive 3D tabletop workbench. Slide realistic beads along bases, deboss personalized monograms, and test true-to-scale fit on an anatomical human arm."*
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.46` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.45] - 2026-10-27
 
 ### Changed - Refine Bracelet Designer Portfolio Card Description
