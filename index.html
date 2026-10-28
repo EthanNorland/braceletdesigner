@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.36 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.37 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.36</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.37</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.<br>
@@ -2368,7 +2368,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.36",
+      version: "1.9.37",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -2821,17 +2821,17 @@
       claspType: "lobster",
       claspColor: "silver",
       beads: [
-        { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#c61010", sizeMm: 10, angle: 1.2907963267948963 },
-        { id: 3, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 0.8449265478082718 },
-        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#82450d", sizeMm: 10, angle: 0.38675297948188403 },
-        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -0.11813644503831888 },
-        { id: 6, type: "bead", shape: "rondelle", material: "stone", color: "#c1a767", sizeMm: 11, angle: -0.6073420388576416 },
-        { id: 7, type: "spacer", shape: "barrel", material: "metal", color: "#A8A9AC", sizeMm: 8, angle: -1.211415459581454 },
-        { id: 8, type: "bead", shape: "barrel", material: "wood", color: "#05573c", sizeMm: 12, angle: -1.8302339118037643 },
-        { id: 9, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -2.4611835593425466 },
-        { id: 10, type: "bead", shape: "cube", material: "stone", color: "#1E40AF", sizeMm: 10, angle: -3.014265239407177, text: "HEART" },
-        { id: 11, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 2.6594578303837593 },
-        { id: 12, type: "bead", shape: "star", material: "metal", color: "#A855F7", sizeMm: 10, angle: 2.172583650335916 }
+        { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#c61010", sizeMm: 10, angle: 1.139949 },
+        { id: 3, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 0.852718 },
+        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#82450d", sizeMm: 10, angle: 0.565487 },
+        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: 0.278255 },
+        { id: 6, type: "bead", shape: "rondelle", material: "stone", color: "#c1a767", sizeMm: 11, angle: -0.026928 },
+        { id: 7, type: "spacer", shape: "barrel", material: "metal", color: "#A8A9AC", sizeMm: 8, angle: -0.368015 },
+        { id: 8, type: "bead", shape: "barrel", material: "wood", color: "#05573c", sizeMm: 12, angle: -0.727054 },
+        { id: 9, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -1.050190 },
+        { id: 10, type: "bead", shape: "cube", material: "stone", color: "#1E40AF", sizeMm: 10, angle: -1.337421, text: "HEART" },
+        { id: 11, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: -1.624652 },
+        { id: 12, type: "bead", shape: "star", material: "metal", color: "#A855F7", sizeMm: 10, angle: -1.911884 }
       ],
       selectedId: 5
     };
@@ -3150,7 +3150,7 @@
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, initAspect, 0.1, 1000);
-    camera.position.set(0, 16, 26);
+    camera.position.set(0, 9.5, 15.5);
 
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setSize(initW, initH);
@@ -3180,8 +3180,8 @@
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.maxPolarAngle = Math.PI * 0.82;
-    controls.minDistance = 8;
-    controls.maxDistance = 75;
+    controls.minDistance = 4.5;
+    controls.maxDistance = 50;
 
     // Studio Lighting (Calibrated Studio Illumination for True Color Fidelity)
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
@@ -4654,9 +4654,16 @@
       return group;
     }
 
-    // Radius calculation from wrist circumference in mm (Scale: 1 Three unit = ~25mm)
+    // ── 3D PHYSICAL MM CALIBRATION SCALE ─────────────────────────────────────
+    // Scale: 0.15 Three.js units per millimeter (1 Three.js unit = 6.667mm)
+    // - 10mm bead diameter = 1.50 Three units (beadRadius = 0.75)
+    // - 14mm clasp length = 2.10 Three units (half-length = 1.05)
+    // Circumference = doc.wristMm * SCENE_MM_SCALE ensures the 3D beads wrap
+    // completely around the loop when accumulator mm matches bracelet base length.
+    const SCENE_MM_SCALE = 0.15;
+
     function getRadius() {
-      return (doc.wristMm / (2 * Math.PI)) * 0.26;
+      return (doc.wristMm / (2 * Math.PI)) * SCENE_MM_SCALE;
     }
 
     // ── REAL ARM & WRIST PREVIEW MODE LOGIC ───────────────────────────────────
@@ -4829,7 +4836,7 @@
         banner.classList.remove("active");
         if (invitation) invitation.style.display = "";
 
-        camera.position.set(0, 16, 26);
+        camera.position.set(0, 9.5, 15.5);
         controls.target.set(0, 0, 0);
         controls.update();
       }
@@ -5405,18 +5412,20 @@
     // Hairline non-penetration buffer (~0.2mm) ensuring beads stop cleanly right before colliding
     const BEAD_COLLISION_MARGIN = 0.025;
 
-    // Exact angular contact chord distance so beads stop right before they collide without overlap
+    // Exact angular contact chord distance calibrated to millimeter bead sizes
+    // so beads stop right before they collide without overlap or gaps,
+    // ensuring the beads span exactly their millimeter accumulator length along the cord.
     function getBeadContactDelta(b1, b2, radius) {
-      const t1 = getBeadHalfThickness(b1.shape, b1.sizeMm, b1.type === "spacer" || b1.isSpacer);
-      const t2 = getBeadHalfThickness(b2.shape, b2.sizeMm, b2.type === "spacer" || b2.isSpacer);
-      const chord = t1 + t2 + BEAD_COLLISION_MARGIN;
+      const s1 = (Number(b1.sizeMm) || 10) * SCENE_MM_SCALE;
+      const s2 = (Number(b2.sizeMm) || 10) * SCENE_MM_SCALE;
+      const chord = (s1 + s2) * 0.5;
       return 2 * Math.asin(Math.min(1.0, chord / (2 * radius)));
     }
 
     // Exact angular contact distance against the clasp ferrule
     function getClaspContactDelta(bead, radius) {
-      const tD = getBeadHalfThickness(bead.shape, bead.sizeMm, bead.type === "spacer" || bead.isSpacer);
-      const chord = 0.08 + tD + BEAD_COLLISION_MARGIN;
+      const s = (Number(bead.sizeMm) || 10) * SCENE_MM_SCALE;
+      const chord = s * 0.5;
       return 2 * Math.asin(Math.min(1.0, chord / (2 * radius)));
     }
 
@@ -5704,9 +5713,19 @@
     // ── ELEMENT PALETTE ACTIONS (ADD BEADS & SPACERS) ───────────────────────
     function addBead(shape, material = "glass", color = "#38BDF8", sizeMm = 10, isSpacer = false, text = "") {
       change(d => {
-        // Find next open angle around the circle
-        const lastAngle = d.beads.length > 0 ? d.beads[d.beads.length - 1].angle : Math.PI * 0.5;
-        const newAngle = (lastAngle - 0.28 + Math.PI * 2) % (Math.PI * 2);
+        // Find next open angle around the circle flush adjacent to previous bead
+        const radius = getRadius();
+        const claspOffset = 1.05 / radius;
+        let newAngle;
+        if (d.beads.length === 0) {
+          const firstHalfSpan = (Math.PI * sizeMm) / d.wristMm;
+          newAngle = cordToTheta(firstHalfSpan, claspOffset);
+        } else {
+          const lastBead = d.beads[d.beads.length - 1];
+          const lastSize = Number(lastBead.sizeMm) || 10;
+          const dTheta = Math.PI * (lastSize + sizeMm) / d.wristMm;
+          newAngle = cordToTheta(thetaToCord(lastBead.angle, claspOffset) + dTheta, claspOffset);
+        }
         const newId = ++nextBeadId;
 
         d.beads.push({
@@ -6438,7 +6457,10 @@
 
     function layoutTemplateAngles(beads, wristMm) {
       if (!beads || beads.length === 0) return [];
-      const startAngle = 1.35;
+      const radius = (wristMm / (2 * Math.PI)) * SCENE_MM_SCALE;
+      const claspOffset = 1.05 / radius;
+      const firstHalfSpan = (Math.PI * (beads[0].sizeMm || 10)) / wristMm;
+      const startAngle = cordToTheta(firstHalfSpan, claspOffset);
       const angles = [startAngle];
       for (let i = 1; i < beads.length; i++) {
         const prevSize = beads[i - 1].sizeMm || 10;

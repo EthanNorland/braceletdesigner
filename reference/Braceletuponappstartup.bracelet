@@ -1,7 +1,7 @@
 {
   "format": "bracelet-designer",
   "formatVersion": 1,
-  "appVersion": "1.9.24",
+  "appVersion": "1.9.37",
   "wristMm": 175,
   "cordType": "silver",
   "cordColor": "#f1f2f4",
@@ -15,7 +15,7 @@
       "material": "glass",
       "color": "#c61010",
       "sizeMm": 10,
-      "angle": 1.2907963267948963
+      "angle": 1.139949
     },
     {
       "id": 3,
@@ -24,7 +24,7 @@
       "material": "metal",
       "color": "#A8A9AC",
       "sizeMm": 6,
-      "angle": 0.8449265478082718
+      "angle": 0.852718
     },
     {
       "id": 4,
@@ -33,7 +33,7 @@
       "material": "quartz",
       "color": "#82450d",
       "sizeMm": 10,
-      "angle": 0.38675297948188403
+      "angle": 0.565487
     },
     {
       "id": 5,
@@ -42,7 +42,7 @@
       "material": "metal",
       "color": "#D2AC4C",
       "sizeMm": 6,
-      "angle": -0.11813644503831888
+      "angle": 0.278255
     },
     {
       "id": 6,
@@ -51,7 +51,7 @@
       "material": "stone",
       "color": "#c1a767",
       "sizeMm": 11,
-      "angle": -0.6073420388576416
+      "angle": -0.026928
     },
     {
       "id": 7,
@@ -60,7 +60,7 @@
       "material": "metal",
       "color": "#A8A9AC",
       "sizeMm": 8,
-      "angle": -1.211415459581454
+      "angle": -0.368015
     },
     {
       "id": 8,
@@ -69,7 +69,7 @@
       "material": "wood",
       "color": "#05573c",
       "sizeMm": 12,
-      "angle": -1.8302339118037643
+      "angle": -0.727054
     },
     {
       "id": 9,
@@ -78,7 +78,7 @@
       "material": "metal",
       "color": "#D2AC4C",
       "sizeMm": 6,
-      "angle": -2.4611835593425466
+      "angle": -1.050190
     },
     {
       "id": 10,
@@ -87,7 +87,7 @@
       "material": "stone",
       "color": "#1E40AF",
       "sizeMm": 10,
-      "angle": -3.014265239407177,
+      "angle": -1.337421,
       "text": "HEART"
     },
     {
@@ -97,7 +97,7 @@
       "material": "metal",
       "color": "#A8A9AC",
       "sizeMm": 6,
-      "angle": 2.6594578303837593
+      "angle": -1.624652
     },
     {
       "id": 12,
@@ -106,7 +106,7 @@
       "material": "metal",
       "color": "#A855F7",
       "sizeMm": 10,
-      "angle": 2.172583650335916
+      "angle": -1.911884
     }
   ],
   "selectedId": 5

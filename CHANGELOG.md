@@ -4,6 +4,24 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.37] - 2026-10-27
+
+### Fixed - 3D Physical Scale Calibration & Millimeter Accumulator Harmony
+- **Calibrated 3D Bracelet Cord Loop to Millimeter Scale ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Resolved the mathematical discrepancy where the 3D bracelet cord loop was scaled at `0.26` Three.js units per millimeter while the bead geometries and clasps were modeled at `0.15` Three.js units per millimeter.
+  - Introduced unified physical scale constant `SCENE_MM_SCALE = 0.15` (1 Three.js unit = 6.667mm), ensuring `getRadius()` calculates $R = \frac{\text{wristMm} \times 0.15}{2\pi}$.
+  - When the live mm accumulator shows the beads have filled up the total bracelet base (`totalUsedMm == doc.wristMm`, e.g. 175 mm / 175 mm), the beads wrap 100% around the circumference from one side of the clasp to the other, eliminating the previous ~43% empty cord gap.
+- **Unified Bead Collision & Contact Chord Deltas:**
+  - Calibrated `getBeadContactDelta()` and `getClaspContactDelta()` to millimeter sizes ($chord = \frac{S_1 + S_2}{2} \times 0.15$), ensuring adjacent beads stop cleanly flush with hairline contact without penetration or gaps.
+  - Dynamically positioned new beads in `addBead()` immediately adjacent to the previous bead or clasp ferrule.
+  - Updated `layoutTemplateAngles()` to position template strands flush starting adjacent to the clasp ferrule.
+  - Updated startup preset angles in `STARTUP_DOC` and [`reference/Braceletuponappstartup.bracelet`](file:///Users/ethannorland/braceletdesigner/reference/Braceletuponappstartup.bracelet) to match the calibrated scale.
+- **Calibrated Studio & Wrist Mode Camera Framing:**
+  - Re-framed default Studio View camera to `(0, 9.5, 15.5)` and OrbitControls min/max distance to `4.5` / `50` for balanced perspective and crisp inspection.
+  - Re-framed Wrist View camera to `(0, 8.2, 29)` with target `(0, -5.2, 0)` and calibrated arm mesh scaling `(radius * 0.76) / 1.125` for natural drape around the wrist.
+- **PWA & Offline Service Worker Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.37` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.36] - 2026-10-27
 
 ### Changed - Creator Portfolio Footwear Study (Shoe Drawing)
