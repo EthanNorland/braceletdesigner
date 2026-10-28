@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.47] - 2026-10-27
+
+### Removed - Bracelet Designer Technology Tag Block on Portfolio
+- **Portfolio Simplification ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Deleted the rectangular technology tag block (`Three.js r128`, `WebGL`, `PBR Shaders`, `Web Audio API`, `Raycast Sliding`, `IndexedDB`, `PWA Offline`) from the Bracelet Designer project card.
+  - Aligns the Bracelet Designer showcase with the clean presentation established across all fine art projects on the portfolio page.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.47` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.46] - 2026-10-27
 
 ### Changed - Bracelet Designer Portfolio Copy Calibration
