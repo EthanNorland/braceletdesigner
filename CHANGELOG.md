@@ -4,6 +4,30 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.55] - 2026-10-28
+
+### Fixed - Spacers and Rondelle Bead Overlap and Collision Geometry
+- **Rondelle & Disc Spacer Tangent Cone Formulation ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Corrected the physical half-thickness of rondelle beads and spacers in [`getBeadAngularHalfExtent`](file:///Users/ethannorland/braceletdesigner/index.html#L5408-L5454) from halved `halfS * 0.5` to full 3D mesh thickness `halfS` matching [`createHollowRondelleGeometry`](file:///Users/ethannorland/braceletdesigner/index.html#L4335).
+  - Derived and applied the closed-form tangent cone $\arctan\left(\frac{\text{halfS}}{\sqrt{R^2 - (1.25 \times \text{halfS})^2}}\right)$ for the elliptical radial bulge ($r_{\text{outer}} = 1.25 \times \text{halfS}$), eliminating up to 2.87 mm of overlap and penetration across all rondelle and spacer interactions.
+  - Corrected star outer point reach to $1.26 \times \text{halfS}$ matching extruded bevel geometry.
+- **Startup Reference & Initial State Alignment ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html), [`reference/Braceletuponappstartup.bracelet`](file:///Users/ethannorland/braceletdesigner/reference/Braceletuponappstartup.bracelet)):**
+  - Updated all 11 startup beads in `STARTUP_DOC` and `reference/Braceletuponappstartup.bracelet` with the verified non-overlapping contact angles:
+    - id 2 (sphere 10mm): `1.108971`
+    - id 3 (rondelle spacer 6mm): `0.800196`
+    - id 4 (faceted 10mm): `0.491422`
+    - id 5 (rondelle spacer 6mm): `0.182647`
+    - id 6 (rondelle 11mm): `-0.146654`
+    - id 7 (barrel spacer 8mm): `-0.532476`
+    - id 8 (barrel 12mm): `-0.975115`
+    - id 9 (rondelle spacer 6mm): `-1.361233`
+    - id 10 (cube 10mm): `-1.704913`
+    - id 11 (rondelle spacer 6mm): `-2.048593`
+    - id 12 (star 10mm): `-2.404832`
+  - Bumped IndexedDB seed key to `bracelet_startup_seeded_v1955` ensuring clean default load with zero overlaps.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.55` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.54] - 2026-10-28
 
 ### Fixed - Star, Barrel, and Cube Bead Collision and Overlap

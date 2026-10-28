@@ -2067,7 +2067,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.54 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.55 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2187,7 +2187,7 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.54</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.55</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.<br>
@@ -2368,7 +2368,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.54",
+      version: "1.9.55",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -2822,16 +2822,16 @@
       claspColor: "silver",
       beads: [
         { id: 2, type: "bead", shape: "sphere", material: "glass", color: "#c61010", sizeMm: 10, angle: 1.108971 },
-        { id: 3, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 0.846318 },
-        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#82450d", sizeMm: 10, angle: 0.583665 },
-        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: 0.321012 },
-        { id: 6, type: "bead", shape: "rondelle", material: "stone", color: "#c1a767", sizeMm: 11, angle: 0.108505 },
-        { id: 7, type: "spacer", shape: "barrel", material: "metal", color: "#A8A9AC", sizeMm: 8, angle: -0.206645 },
-        { id: 8, type: "bead", shape: "barrel", material: "wood", color: "#05573c", sizeMm: 12, angle: -0.651249 },
-        { id: 9, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -0.993211 },
-        { id: 10, type: "bead", shape: "cube", material: "stone", color: "#1E40AF", sizeMm: 10, angle: -1.290769, text: "HEART" },
-        { id: 11, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: -1.588328 },
-        { id: 12, type: "bead", shape: "star", material: "metal", color: "#A855F7", sizeMm: 10, angle: -1.896421 }
+        { id: 3, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: 0.800196 },
+        { id: 4, type: "bead", shape: "faceted", material: "quartz", color: "#82450d", sizeMm: 10, angle: 0.491422 },
+        { id: 5, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: 0.182647 },
+        { id: 6, type: "bead", shape: "rondelle", material: "stone", color: "#c1a767", sizeMm: 11, angle: -0.146654 },
+        { id: 7, type: "spacer", shape: "barrel", material: "metal", color: "#A8A9AC", sizeMm: 8, angle: -0.532476 },
+        { id: 8, type: "bead", shape: "barrel", material: "wood", color: "#05573c", sizeMm: 12, angle: -0.975115 },
+        { id: 9, type: "spacer", shape: "rondelle", material: "metal", color: "#D2AC4C", sizeMm: 6, angle: -1.361233 },
+        { id: 10, type: "bead", shape: "cube", material: "stone", color: "#1E40AF", sizeMm: 10, angle: -1.704913, text: "HEART" },
+        { id: 11, type: "spacer", shape: "rondelle", material: "metal", color: "#A8A9AC", sizeMm: 6, angle: -2.048593 },
+        { id: 12, type: "bead", shape: "star", material: "metal", color: "#A855F7", sizeMm: 10, angle: -2.404832 }
       ],
       selectedId: 5
     };
@@ -5422,24 +5422,25 @@
           return Math.atan2(halfS, rInner) + buffer;
         }
         case "star": {
-          // Star tips reach outward radially up to 1.22 * halfS. On the inside of the loop,
-          // inner points reach inwards to (R - halfS * 1.22).
-          const rInner = Math.max(0.5, radius - halfS * 1.22);
+          // Star tips reach outward radially up to 1.26 * halfS. On the inside of the loop,
+          // inner points reach inwards to (radius - halfS * 1.26).
+          const rInner = Math.max(0.5, radius - halfS * 1.26);
           return Math.atan2(halfS, rInner) + buffer;
         }
         case "barrel": {
-          // Flat circular rims with radius rEnd = (isSpacer ? 0.95 : 0.88) * halfS.
+          // Flat circular rims with radius rEnd = (isSpacer ? 0.95 : 0.85) * halfS.
           // On a curved loop, the inner rim sits at rInner = (radius - rEnd).
-          const radialReach = isSpacer ? (halfS * 0.95) : (halfS * 0.88);
+          const radialReach = isSpacer ? (halfS * 0.95) : (halfS * 0.85);
           const rInner = Math.max(0.5, radius - radialReach);
           return Math.atan2(halfS, rInner) + buffer;
         }
         case "rondelle": {
-          // Rounded disk/wheel with half-thickness along cord halfL = halfS * 0.5,
+          // Elliptical disc profile with full physical half-thickness along cord halfS,
           // and radial bulge rOuter = 1.25 * halfS.
-          const halfL = Math.max(0.18, halfS * 0.5);
-          const rInner = Math.max(0.5, radius - halfS * 1.25);
-          return Math.atan2(halfL, rInner) + buffer;
+          // Closed-form tangent cone from bracelet center: atan2(halfS, sqrt(radius^2 - (1.25 * halfS)^2)).
+          const rReach = halfS * 1.25;
+          const sqrtTerm = Math.sqrt(Math.max(0.25, radius * radius - rReach * rReach));
+          return Math.atan2(halfS, sqrtTerm) + buffer;
         }
         case "faceted":
         case "sphere":
@@ -9126,7 +9127,7 @@
 
     async function initSession() {
       try {
-        const startupKey = "bracelet_startup_seeded_v1924";
+        const startupKey = "bracelet_startup_seeded_v1955";
         const alreadySeeded = localStorage.getItem(startupKey) === "true";
         const saved = await idbGet("current_design");
 
