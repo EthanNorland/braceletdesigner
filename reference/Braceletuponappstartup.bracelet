@@ -1,7 +1,7 @@
 {
   "format": "bracelet-designer",
   "formatVersion": 1,
-  "appVersion": "1.9.37",
+  "appVersion": "1.9.38",
   "wristMm": 175,
   "cordType": "silver",
   "cordColor": "#f1f2f4",
@@ -15,7 +15,7 @@
       "material": "glass",
       "color": "#c61010",
       "sizeMm": 10,
-      "angle": 1.139949
+      "angle": 1.139707
     },
     {
       "id": 3,
@@ -24,7 +24,7 @@
       "material": "metal",
       "color": "#A8A9AC",
       "sizeMm": 6,
-      "angle": 0.852718
+      "angle": 0.905799
     },
     {
       "id": 4,
@@ -33,7 +33,7 @@
       "material": "quartz",
       "color": "#82450d",
       "sizeMm": 10,
-      "angle": 0.565487
+      "angle": 0.671891
     },
     {
       "id": 5,
@@ -42,7 +42,7 @@
       "material": "metal",
       "color": "#D2AC4C",
       "sizeMm": 6,
-      "angle": 0.278255
+      "angle": 0.437982
     },
     {
       "id": 6,
@@ -51,7 +51,7 @@
       "material": "stone",
       "color": "#c1a767",
       "sizeMm": 11,
-      "angle": -0.026928
+      "angle": 0.276239
     },
     {
       "id": 7,
@@ -60,7 +60,7 @@
       "material": "metal",
       "color": "#A8A9AC",
       "sizeMm": 8,
-      "angle": -0.368015
+      "angle": 0.060396
     },
     {
       "id": 8,
@@ -69,7 +69,7 @@
       "material": "wood",
       "color": "#05573c",
       "sizeMm": 12,
-      "angle": -0.727054
+      "angle": -0.264162
     },
     {
       "id": 9,
@@ -78,7 +78,7 @@
       "material": "metal",
       "color": "#D2AC4C",
       "sizeMm": 6,
-      "angle": -1.050190
+      "angle": -0.534261
     },
     {
       "id": 10,
@@ -87,7 +87,7 @@
       "material": "stone",
       "color": "#1E40AF",
       "sizeMm": 10,
-      "angle": -1.337421,
+      "angle": -0.76817,
       "text": "HEART"
     },
     {
@@ -97,7 +97,7 @@
       "material": "metal",
       "color": "#A8A9AC",
       "sizeMm": 6,
-      "angle": -1.624652
+      "angle": -1.002078
     },
     {
       "id": 12,
@@ -106,7 +106,7 @@
       "material": "metal",
       "color": "#A855F7",
       "sizeMm": 10,
-      "angle": -1.911884
+      "angle": -1.145817
     }
   ],
   "selectedId": 5

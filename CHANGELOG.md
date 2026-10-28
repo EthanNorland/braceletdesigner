@@ -4,6 +4,30 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.38] - 2026-10-27
+
+### Fixed - Flush Bead Contact & Unified Physical Thickness Accumulator
+- **True Physical Cord Thickness Calibration ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Resolved the empty room issue where the live millimeter accumulator reached full bracelet length (`totalUsedMm == doc.wristMm`) while visible cord space remained unfilled, and beads exhibited floating gaps between them.
+  - Implemented `getBeadThicknessMm(shape, sizeMm, isSpacer)` and `getBeadHalfThicknessUnits()` calibrated directly to the 3D meshes along the cord axis (Z):
+    - Rondelle spacer / bead: $0.55 \times \text{sizeMm}$ (e.g. 6mm spacer $= 3\text{mm}$, 11mm rondelle $= 6\text{mm}$)
+    - Star bead: $0.45 \times \text{sizeMm}$ (e.g. 10mm star $= 5\text{mm}$)
+    - Carved spacer: $0.70 \times \text{sizeMm}$ (e.g. 8mm carved $= 6\text{mm}$)
+    - Spacer barrel: $0.75 \times \text{sizeMm}$ (e.g. 8mm spacer barrel $= 6\text{mm}$; 12mm barrel bead $= 12\text{mm}$)
+    - Sphere, faceted, cube: $1.00 \times \text{sizeMm}$ (e.g. 10mm bead $= 10\text{mm}$)
+- **Flush Bead Contact Without Gaps or Penetration:**
+  - Calibrated contact chord in `getBeadContactDelta(b1, b2, radius)` to $t_1 + t_2$ (half-thicknesses along cord), placing beads touching directly next to each other flush with hairline contact ($0\text{mm}$ air gap).
+  - Calibrated `getClaspContactDelta(bead, radius)` to $t_{\text{bead}}$, seating the first and last beads directly adjacent to clasp ferrules.
+  - Updated `addBead()`, `layoutTemplateAngles()`, and startup preset in `STARTUP_DOC` and [`reference/Braceletuponappstartup.bracelet`](file:///Users/ethannorland/braceletdesigner/reference/Braceletuponappstartup.bracelet) with exact flush angles.
+- **Harmonized Fit Calculation (`calculateFit`):**
+  - Updated `calculateFit()` accumulator to sum true physical cord thickness `getBeadThicknessMm(...)` rather than nominal outer diameter.
+  - Now every millimeter counted on the accumulator corresponds to an exact physical millimeter occupied along the cord: when `totalUsedMm == doc.wristMm`, beads span 100% of the cord loop from ferrule to ferrule with zero remaining room.
+- **Dynamic Wrist Sizing & Overlap Resolution:**
+  - Implemented `reflowBeadsForWristSize(beads, oldWristMm, newWristMm)` preserving physical cord positions and flush bead contact when wrist size slider is moved.
+  - Implemented `resolveBeadOverlaps(beads, wristMm)` ensuring beads dynamically push and accommodate neighbors when bead size or shape is edited in Properties Inspector.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.38` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.37] - 2026-10-27
 
 ### Fixed - 3D Physical Scale Calibration & Millimeter Accumulator Harmony
