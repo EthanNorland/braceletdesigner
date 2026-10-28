@@ -4,6 +4,17 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.60] - 2026-10-28
+
+### Added - Clickable Bracelet Designer Brand Link & In-App About & Portfolio Overlay
+- **Brand Link Navigation ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Converted the header brand title **Bracelet DESIGNER** into an interactive clickable link (`#brand-link`) with subtle hover styling and gold title glow.
+  - Clicking "Bracelet DESIGNER" pops up Ethan Norland's personal About and Portfolio page (`portfolio.html`) in a sleek in-app modal overlay window (`#dlg-portfolio`) without losing or interrupting the active 3D studio session.
+  - Embedded modal header with custom "EN" monogram avatar, title, an "Open Full Page ↗" link for external tab viewing, and a quick-close button (with backdrop click and `Escape` key support).
+  - Added matching mobile drawer menu item `💼 Ethan Norland (About & Portfolio)` for instant access on phone viewports.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.60` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.59] - 2026-10-28
 
 ### Added - Orange & Light Yellow Palette Swatches

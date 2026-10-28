@@ -77,6 +77,27 @@
     gap: 10px;
   }
 
+  .brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin: -3px -6px;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+
+  .brand-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .brand-link:hover h1 {
+    color: var(--accent-gold, #D2AC4C);
+  }
+
   .brand h1 {
     margin: 0;
     font-family: var(--serif);
@@ -84,6 +105,7 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     color: var(--fg);
+    transition: color 0.15s ease;
   }
 
   .brand .tagline {
@@ -825,6 +847,131 @@
       font-size: 0.50rem !important;
       line-height: 1.18 !important;
       padding: 2px 5px 3px 5px !important;
+    }
+  }
+
+  /* Personal About & Portfolio Overlay Modal */
+  #dlg-portfolio {
+    max-width: 1100px;
+    width: 94vw;
+    height: 88vh;
+    max-height: 88vh;
+    padding: 0;
+    border-radius: 14px;
+    background: #0B0E14;
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(210, 172, 76, 0.2);
+    overflow: hidden;
+  }
+  #dlg-portfolio[open] {
+    display: flex;
+    flex-direction: column;
+  }
+  #dlg-portfolio:not([open]) {
+    display: none;
+  }
+  #dlg-portfolio::backdrop {
+    background: rgba(5, 7, 10, 0.82);
+    backdrop-filter: blur(6px);
+  }
+  .portfolio-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--panel-border);
+    flex-shrink: 0;
+  }
+  .portfolio-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--fg);
+    letter-spacing: 0.02em;
+  }
+  .portfolio-modal-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-gold, #D2AC4C), #8C6A28);
+    color: #0B0E14;
+    font-size: 0.72rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .portfolio-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .portfolio-modal-actions .btn-external {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.80rem;
+    font-weight: 500;
+    color: var(--accent-gold, #D2AC4C);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(210, 172, 76, 0.35);
+    background: rgba(210, 172, 76, 0.08);
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .portfolio-modal-actions .btn-external:hover {
+    background: rgba(210, 172, 76, 0.22);
+    border-color: var(--accent-gold, #D2AC4C);
+    color: #FFF;
+  }
+  .portfolio-modal-close {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--panel-border);
+    color: var(--fg-muted);
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .portfolio-modal-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #EF4444;
+    color: #FFF;
+  }
+  #portfolio-frame {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #0B0E14;
+  }
+  @media (max-width: 768px) {
+    #dlg-portfolio {
+      width: 98vw;
+      height: 94vh;
+      max-height: 94vh;
+    }
+  }
+  @media (max-width: 600px) {
+    #dlg-portfolio {
+      width: 100vw;
+      height: 100vh;
+      max-height: 100vh;
+      border-radius: 0;
+      border: none;
+    }
+    .portfolio-modal-header {
+      padding: 10px 14px;
     }
   }
 
@@ -1748,8 +1895,10 @@
   <!-- Header -->
   <header>
     <div class="brand">
-      <img src="icon.svg" alt="Bracelet Designer Logo" width="24" height="24" style="border-radius:4px; display:inline-block; vertical-align:middle; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
-      <h1>Bracelet DESIGNER</h1>
+      <a href="./portfolio.html" id="brand-link" class="brand-link" title="Click to pop up Ethan Norland's About &amp; Portfolio page">
+        <img src="icon.svg" alt="Bracelet Designer Logo" width="24" height="24" style="border-radius:4px; display:inline-block; vertical-align:middle; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
+        <h1>Bracelet DESIGNER</h1>
+      </a>
       <span class="tagline">Atelier Studio <span id="autosave-status" class="autosave-status"></span></span>
     </div>
     <div class="header-actions">
@@ -2038,6 +2187,7 @@
     <div class="mobile-menu-item" id="m-menu-demo">🎬 Interactive Feature Demo</div>
     <div class="mobile-menu-item" id="m-menu-help">❓ Searchable Help Guide</div>
     <div class="mobile-menu-item" id="m-menu-about">ℹ️ About Bracelet Designer</div>
+    <div class="mobile-menu-item" id="m-menu-portfolio">💼 Ethan Norland (About &amp; Portfolio)</div>
   </div>
 
   <!-- Mobile Bottom Dock Bar (Active on screens <= 900px) -->
@@ -2065,7 +2215,7 @@
   <div id="mobile-drawer-backdrop"></div>
 
   <!-- Version Chip -->
-  <button id="chip" title="Check for a newer version">1.9.59 ↻</button>
+  <button id="chip" title="Check for a newer version">1.9.60 ↻</button>
 
   <!-- Starter Design Templates Dialog (Phase 6) -->
   <dialog id="dlg-templates">
@@ -2185,14 +2335,14 @@
     <h2>Bracelet DESIGNER</h2>
     <p><em>"Bracelet Designer exists because everyone should be able to test their creative instincts and feel like they are manipulating physical materials on a tabletop."</em></p>
     <p style="font-size:0.82rem; color:var(--fg-muted); line-height: 1.6;">
-      Version: <strong style="color:var(--fg);" id="about-version">1.9.59</strong><br>
+      Version: <strong style="color:var(--fg);" id="about-version">1.9.60</strong><br>
       Created by <strong>Ethan Norland</strong> with <strong>Antigravity</strong> pair programming.<br>
       Released under the <strong>MIT License</strong>. 3D rendering powered by <strong>Three.js</strong>.<br>
       100% Client-side atelier: your designs persist locally in IndexedDB; nothing is ever uploaded.<br>
       <span style="display:inline-flex; gap:12px; margin-top:4px;">
         <a href="./landing.html" target="_blank" style="color:var(--accent-gold); text-decoration:none; display:inline-flex; align-items:center; gap:4px; font-weight:600;">📖 Landing Page ↗</a>
         <span style="color:var(--panel-border);">•</span>
-        <a href="./portfolio.html" target="_blank" style="color:var(--accent-gold); text-decoration:none; display:inline-flex; align-items:center; gap:4px; font-weight:600;">💼 Creator Portfolio ↗</a>
+        <a href="./portfolio.html" id="link-about-portfolio" style="color:var(--accent-gold); text-decoration:none; display:inline-flex; align-items:center; gap:4px; font-weight:600;" title="Open Ethan Norland's About &amp; Portfolio overlay">💼 Creator Portfolio ↗</a>
       </span>
     </p>
 
@@ -2297,6 +2447,24 @@
     </div>
   </dialog>
 
+  <!-- Ethan Norland About & Portfolio Overlay Modal -->
+  <dialog id="dlg-portfolio" aria-label="Ethan Norland About and Portfolio">
+    <div class="portfolio-modal-header">
+      <div class="portfolio-modal-title">
+        <div class="portfolio-modal-avatar">EN</div>
+        <span>Ethan Norland — About &amp; Portfolio</span>
+      </div>
+      <div class="portfolio-modal-actions">
+        <a href="./portfolio.html" target="_blank" rel="noopener noreferrer" class="btn-external" title="Open full portfolio in a new browser tab">
+          <span>Open Full Page</span>
+          <span>↗</span>
+        </a>
+        <button type="button" class="portfolio-modal-close" id="btn-portfolio-close" title="Close overlay (Esc)" aria-label="Close overlay">✕</button>
+      </div>
+    </div>
+    <iframe id="portfolio-frame" title="Ethan Norland Portfolio" loading="lazy"></iframe>
+  </dialog>
+
   <!-- Interactive Feature Demo Video Dialog (Phase 28-29) -->
   <dialog id="dlg-demo">
     <div class="demo-modal-header">
@@ -2366,7 +2534,7 @@
     const APP = {
       name: "Bracelet Designer",
       id: "bracelet-designer",
-      version: "1.9.59",
+      version: "1.9.60",
       author: "Ethan Norland",
       repo: "https://github.com/EthanNorland/braceletdesigner"
     };
@@ -3137,6 +3305,51 @@
       document.getElementById("dlg-help").showModal();
     });
     document.getElementById("btn-about").addEventListener("click", () => document.getElementById("dlg-about").showModal());
+
+    // ── ETHAN NORLAND ABOUT & PORTFOLIO OVERLAY MODAL ────────────────────────
+    const dlgPortfolio = document.getElementById("dlg-portfolio");
+    const portfolioFrame = document.getElementById("portfolio-frame");
+    const btnPortfolioClose = document.getElementById("btn-portfolio-close");
+    const brandLink = document.getElementById("brand-link");
+
+    function openPortfolioOverlay(e) {
+      if (e) e.preventDefault();
+      if (portfolioFrame && (!portfolioFrame.src || portfolioFrame.src === "about:blank")) {
+        portfolioFrame.src = "./portfolio.html";
+      }
+      if (dlgPortfolio && typeof dlgPortfolio.showModal === "function") {
+        dlgPortfolio.showModal();
+        audioPlaySelect();
+      }
+    }
+
+    function closePortfolioOverlay() {
+      if (dlgPortfolio && dlgPortfolio.open) {
+        dlgPortfolio.close();
+      }
+    }
+
+    brandLink?.addEventListener("click", openPortfolioOverlay);
+    btnPortfolioClose?.addEventListener("click", closePortfolioOverlay);
+
+    dlgPortfolio?.addEventListener("click", e => {
+      const rect = dlgPortfolio.getBoundingClientRect();
+      const isInDialog = (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+      if (!isInDialog) {
+        closePortfolioOverlay();
+      }
+    });
+
+    document.getElementById("link-about-portfolio")?.addEventListener("click", e => {
+      e.preventDefault();
+      document.getElementById("dlg-about")?.close();
+      openPortfolioOverlay();
+    });
 
     // ── THREE.JS STAGE & SCENE SETUP ─────────────────────────────────────────
     const container = document.getElementById("stage-container");
@@ -9236,6 +9449,9 @@
       if (urlParams.get("dialog") === "about") {
         document.getElementById("dlg-about").showModal();
       }
+      if (urlParams.get("dialog") === "portfolio" || urlParams.get("dialog") === "creator") {
+        openPortfolioOverlay();
+      }
       if (urlParams.get("dialog") === "materials") {
         document.getElementById("btn-list").click();
       }
@@ -9379,6 +9595,10 @@
       mobileMenuDropdown?.classList.remove("open");
       document.getElementById("dlg-about")?.showModal();
       audioPlaySelect();
+    });
+    document.getElementById("m-menu-portfolio")?.addEventListener("click", () => {
+      mobileMenuDropdown?.classList.remove("open");
+      openPortfolioOverlay();
     });
 
     // ── SERVICE WORKER FOR OFFLINE & UPDATE CHIP ────────────────────────────
