@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.44] - 2026-10-27
+
+### Removed - Keyword Tag Rectangles from Portfolio Art Pieces
+- **Streamlined Artwork Presentation ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Deleted the rectangular keyword tag blocks (`.project-tech-tags`) from all fine art and graphic design pieces across the portfolio:
+    - **Liquid Death:** Removed `Art Direction`, `Brand Identity`, `Poster Design`, `Distressed Typography`, `Large-Format Print`, `5100 × 3300 Master`, `CMYK SWOP v2`.
+    - **Disney Zine:** Removed `Editorial Design`, `Publication Layout`, `Zine Culture`, `Typography`, `Theme Park Critique`, `8-Page Folded Print`, `PDF Document`.
+    - **Stan Lee:** Removed `Typographic Portrait`, `Letterform Shading`, `Marvel Lore`, `Digital Illustration`, `Vector Contours`, `2550 × 3300 Master`, `300 DPI Print`.
+    - **Footwear Study:** Removed `Observational Drawing`, `Footwear Study`, `Material Textures`, `Tonal Value Mapping`, `Chiaroscuro`, `Form & Volume`, `3609 × 2772 Master`.
+  - Maintained natural vertical rhythm directly from project descriptions into the primary action buttons.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.44` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.43] - 2026-10-27
 
 ### Changed - Position About Ethan Norland Card at Top of Portfolio
