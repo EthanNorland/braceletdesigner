@@ -4,6 +4,29 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.39] - 2026-10-27
+
+### Fixed - Open Spot Bead Placement & Barrel Bead Flush Contact
+- **Open Spot Placement on Add & Duplicate ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Resolved the bug where newly added beads and duplicated beads (`D`) were placed directly on top of existing beads, causing overlapping collisions.
+  - Implemented `findOpenSpotForBead(newBeadSpec, preferredBead)` which scans all intervals along the cord loop (before first bead, between adjacent beads, and after the last bead) to locate legitimate empty spaces with zero overlap.
+  - When duplicating a bead, checks for open space immediately adjacent to the selected bead; if flanked, places the duplicate in the open space at the end of the strand or largest open gap.
+  - When adding a bead, places it in the open space at the end of the strand (or first open gap).
+  - If the bracelet is completely full, prevents spawning overlapping beads and triggers an informative toast notice: *"Bracelet base is full! Increase wrist size or remove beads to add more."*
+- **Barrel Bead Flush Lining Up Calibration:**
+  - Resolved the visible empty air gap (~1.5mm on each side) between barrel beads and adjacent beads.
+  - Diagnosed that `createHollowBarrelGeometry` models barrel beads with length $h = \text{beadRadius} \times 1.5$ ($0.75 \times \text{sizeMm}$), but `getBeadThicknessMm` was returning nominal outer diameter $s$ ($1.0 \times \text{sizeMm}$), creating a 3mm phantom separation chord.
+  - Calibrated `getBeadHalfThicknessUnits` and `getBeadThicknessMm` to exact mesh geometry formulas across all shapes:
+    - Barrel beads: $0.75 \times \text{sizeMm}$ ($12\text{mm} = 9\text{mm}$ cord length)
+    - Barrel / carved spacers: $0.65 \times \text{sizeMm}$ ($8\text{mm} = 5.2\text{mm}$ cord length)
+    - Spheres / faceted crystals: $0.95 \times \text{sizeMm}$ ($10\text{mm} = 10\text{mm}$)
+    - Monogram cubes: $0.825 \times \text{sizeMm}$ ($10\text{mm} = 8\text{mm}$)
+    - Star beads: $0.405 \times \text{sizeMm}$ ($10\text{mm} = 4\text{mm}$)
+    - Rondelle spacers / beads: $0.52 \times \text{sizeMm}$ ($6\text{mm} = 3\text{mm}$, $11\text{mm} = 6\text{mm}$)
+  - Barrel beads now touch flush against spacers and beads on either side with exact $0.000\text{mm}$ air gap.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.39` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.38] - 2026-10-27
 
 ### Fixed - Flush Bead Contact & Unified Physical Thickness Accumulator
