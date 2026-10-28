@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.56] - 2026-10-28
+
+### Removed - Portfolio Header Navigation Links
+- **Top Navigation Streamlining ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Removed links labeled **Atelier Landing**, **Atelier Guide**, and **Launch 3D Studio** from the header navigation bar at the top of the portfolio page.
+  - Kept primary portfolio section anchor links (`About`, `Projects`, `Philosophy`, `Contact`) clean and centered.
+  - Updated mobile responsive layout so that navigation links remain accessible and appropriately spaced across mobile viewports.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.56` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.55] - 2026-10-28
 
 ### Fixed - Spacers and Rondelle Bead Overlap and Collision Geometry
