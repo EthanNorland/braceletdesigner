@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.51] - 2026-10-27
+
+### Added - App Creation Attribution in Landing & Welcome FAQs
+- **FAQ Section Addition ([`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html), [`welcome.html`](file:///Users/ethannorland/braceletdesigner/welcome.html)):**
+  - Added question: *"How was this app made?"*
+  - Answer: *"Ethan Norland made this app using Terminal, Google Gemini, and GitHub."*
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.51` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.50] - 2026-10-27
 
 ### Changed - Features Section Copy Refinement on Landing & Welcome Pages
