@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.45] - 2026-10-27
+
+### Changed - Refine Bracelet Designer Portfolio Card Description
+- **Portfolio Description Polishing ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Streamlined the project description paragraph for Bracelet Designer by removing *"flexible cord bases"* and *"simulate gemstone clearcoat physics"*.
+  - Updated to: *"Created to give jewelers, artisans, and everyday creators an intuitive 3D tabletop workbench. Slide realistic beads, deboss personalized monograms, and test true-to-scale fit on an anatomical human arm."*
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.45` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.44] - 2026-10-27
 
 ### Removed - Keyword Tag Rectangles from Portfolio Art Pieces
