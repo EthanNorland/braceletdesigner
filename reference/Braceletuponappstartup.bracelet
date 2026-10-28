@@ -1,7 +1,7 @@
 {
   "format": "bracelet-designer",
   "formatVersion": 1,
-  "appVersion": "1.9.51",
+  "appVersion": "1.9.52",
   "wristMm": 175,
   "cordType": "silver",
   "cordColor": "#f1f2f4",

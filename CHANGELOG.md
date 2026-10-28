@@ -4,6 +4,19 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.52] - 2026-10-27
+
+### Added - Coming Soon Navigation Link & Roadmap Section
+- **Landing & Welcome Pages ([`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html), [`welcome.html`](file:///Users/ethannorland/braceletdesigner/welcome.html)):**
+  - Added a **Coming Soon** button to the header navigation bar directly next to FAQ (`#coming-soon`).
+  - Added a dedicated **Coming Soon** roadmap section beneath the Frequently Asked Questions featuring a responsive 4-card grid:
+    1. *Choose a skin tone from a color picker in wrist mode*
+    2. *Ability to design your own beads*
+    3. *Option to see bracelet under different lighting types*
+    4. *Additional jewelry hallmarks to choose from*
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.52` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.51] - 2026-10-27
 
 ### Added - App Creation Attribution in Landing & Welcome FAQs
