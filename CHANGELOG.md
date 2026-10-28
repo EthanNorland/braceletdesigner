@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.48] - 2026-10-27
+
+### Removed - Zero-Dependency Rigor Principle on Portfolio
+- **Philosophy Section Streamlining ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Removed the *"Zero-Dependency Rigor"* card from the Design Philosophy section (`#philosophy`).
+  - Focused the guiding principles cleanly on *"Tactile Physicality"* and *"Privacy & Autonomy"*, which automatically re-balance across the responsive philosophy grid.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.48` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.47] - 2026-10-27
 
 ### Removed - Bracelet Designer Technology Tag Block on Portfolio
