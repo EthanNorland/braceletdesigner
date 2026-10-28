@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.49] - 2026-10-27
+
+### Changed - Landing Page Copy & Navigation Streamlining
+- **Landing & Welcome Pages ([`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html), [`welcome.html`](file:///Users/ethannorland/braceletdesigner/welcome.html)):**
+  - Removed `(PWA)` text suffix from the trust banner item (`"Works 100% Offline"`).
+  - Deleted the introductory paragraph under the Key Capabilities section header (*"Engineered with precision raycasting, physical collision detection, and calibrated PBR material shaders to simulate physical tabletop jewelry craft."*).
+  - Removed the **Materials** navigation link (`#materials`) and deleted the entire **Calibrated Jewelry Textures** materials showcase section along with its dedicated styling.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.49` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.48] - 2026-10-27
 
 ### Removed - Zero-Dependency Rigor Principle on Portfolio
