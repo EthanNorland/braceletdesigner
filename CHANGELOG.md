@@ -4,6 +4,15 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.43] - 2026-10-27
+
+### Changed - Position About Ethan Norland Card at Top of Portfolio
+- **About Ethan Norland Section Relocation ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Moved the dedicated "About Ethan Norland" card section from the bottom of the page to the top, directly beneath the hero banner and immediately preceding the "Selected Works" project showcase.
+  - Added `#about` navigation anchors to the top navigation bar and site footer links for smooth intra-page jumping.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.43` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.42] - 2026-10-27
 
 ### Changed - Portfolio Bio Relocation & Third-Person Collaboration Copy
