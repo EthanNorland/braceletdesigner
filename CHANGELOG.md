@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.42] - 2026-10-27
+
+### Changed - Portfolio Bio Relocation & Third-Person Collaboration Copy
+- **Portfolio Bio Relocation ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Moved the student/designer bio ("Ethan Norland is a student at Kendall College of Art and Design...") from the hero section to a dedicated creator card at the bottom of the page directly beneath the "Interested in Collaborating?" section.
+- **Third-Person Copy Alignment:**
+  - Updated the collaboration description from *"Whether you have questions about my projects..."* to *"Whether you have questions about his projects..."* for consistent third-person narrative tone across the portfolio.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.42` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.41] - 2026-10-27
 
 ### Changed - Creator Bio & Educational Background Alignment
