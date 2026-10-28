@@ -4,6 +4,21 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.40] - 2026-10-27
+
+### Fixed - Exact Bead Diameter Accumulator Math & 3D Flush Contact Alignment
+- **Exact Millimeter Accumulator Math ([`index.html`](file:///Users/ethannorland/braceletdesigner/index.html)):**
+  - Resolved discrepancy where selecting bead diameters added reduced millimeter amounts to the "Used" indicator (e.g. an 8 mm rondelle added only 4 mm instead of 8 mm).
+  - Updated `calculateFit()` so every bead directly adds its exact selected diameter (`doc.beads.reduce((sum, b) => sum + Number(b.sizeMm), 0)`): an 8 mm rondelle adds exactly +8 mm, a 10 mm bead adds +10 mm, a 12 mm bead adds +12 mm, and a 6 mm spacer adds +6 mm.
+  - Aligned `getBeadThicknessMm(shape, sizeMm)` to return `Number(sizeMm) || 10` uniformly.
+- **Harmonized 3D Mesh Cord Depth & Zero Gap Contact:**
+  - Calibrated 3D geometries along the tangential cord axis (Z) across all shapes (`createHollowSphereGeometry`, `createHollowRondelleGeometry`, `createHollowBarrelGeometry`, `createHollowFacetedGeometry`, `createHollowCubeGeometry`, `createHollowStarGeometry`) to extend to $\pm \text{radius} = \pm (\text{sizeMm} \times 0.15 \times 0.5)$.
+  - This mathematically harmonizes the 3D meshes with the accumulator: every bead occupies its exact millimeter diameter on the cord loop, touches neighboring beads with $0.000\text{ mm}$ gap, ensures barrel beads line up flush with neighboring beads, and wraps 100% around the circumference when `totalUsedMm == doc.wristMm`.
+- **Startup Document & Reference Alignment ([`reference/Braceletuponappstartup.bracelet`](file:///Users/ethannorland/braceletdesigner/reference/Braceletuponappstartup.bracelet)):**
+  - Updated startup bracelet bead contact angles to calibrated positions with zero gaps: `[1.139707, 0.851479, 0.563251, 0.275023, -0.031357, -0.374119, -0.735116, -1.059673, -1.347901, -1.636129, -1.924357]`.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.40` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.39] - 2026-10-27
 
 ### Fixed - Open Spot Bead Placement & Barrel Bead Flush Contact
