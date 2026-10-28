@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.41] - 2026-10-27
+
+### Changed - Creator Bio & Educational Background Alignment
+- **Portfolio Hero Bio ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Updated the hero bio description to: *"Ethan Norland is a student at Kendall College of Art and Design. He is majoring in Collaborative Design and minoring in Graphic Design. He is just beginning his journey as a UI/UX designer."*
+- **Landing Page Creator Card ([`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html), [`welcome.html`](file:///Users/ethannorland/braceletdesigner/welcome.html)):**
+  - Replaced the *"Creative Technologist, Digital Craftsman & 3D Web Architect"* subtitle in the "Designed & Built by Ethan Norland" section at the bottom of the landing page with the updated student/designer bio.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.41` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.40] - 2026-10-27
 
 ### Fixed - Exact Bead Diameter Accumulator Math & 3D Flush Contact Alignment
