@@ -4,6 +4,16 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.53] - 2026-10-28
+
+### Changed - Portfolio Page About Navigation
+- **About Button Navigation ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html)):**
+  - Updated the **About** button in the top navigation bar and site footer links to navigate directly to the start of the page (`#top`), with smooth scrolling behavior (`window.scrollTo({top: 0, behavior: 'smooth'})`).
+  - Added `<body id="top">` and top anchor `<div id="about"></div>` at the very beginning of the document.
+  - Relabeled the mid-page bio card section ID to `id="about-card"` so clicking About always brings the user back to the top of the portfolio.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.53` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.52] - 2026-10-27
 
 ### Added - Coming Soon Navigation Link & Roadmap Section
