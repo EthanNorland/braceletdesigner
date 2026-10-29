@@ -7,7 +7,14 @@
   <meta name="description" content="Portfolio of Ethan Norland. Creative technologist, 3D WebGL developer, visual brand designer, editorial publisher, and creator of Bracelet Designer.">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="canonical" href="https://ethannorland.github.io/">
   <meta name="theme-color" content="#0B0E14">
+  <script>
+    // Standalone visitor redirect to root GitHub account portfolio
+    if (window.self === window.top && location.hostname.includes("github.io") && location.pathname.includes("/braceletdesigner/portfolio")) {
+      location.replace("https://ethannorland.github.io/");
+    }
+  </script>
 
   <style>
     :root {
@@ -1246,7 +1253,7 @@
         <li><a href="./index.html">3D Studio App</a></li>
         <li><a href="https://github.com/EthanNorland" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
-      <div>v1.9.60 • Built with Care</div>
+      <div>v1.9.61 • Built with Care</div>
     </div>
   </footer>
 

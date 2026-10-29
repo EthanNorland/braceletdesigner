@@ -4,6 +4,18 @@ All notable changes to **Bracelet Designer** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.9.61] - 2026-10-28
+
+### Changed - Root GitHub Pages Portfolio Setup & Link Architecture
+- **Root GitHub Pages Portfolio Repository (`EthanNorland.github.io`):**
+  - Prepared and initialized dedicated root user repository [`EthanNorland.github.io`](https://github.com/EthanNorland/EthanNorland.github.io) so Ethan Norland's portfolio is served directly at the root of his GitHub account: **`https://ethannorland.github.io/`**.
+  - Packaged complete portfolio assets, previews, and master files (`reference/`, `icon.svg`, `icon-180.png`) and updated internal navigation so Live 3D Studio and Atelier Landing point directly to `https://ethannorland.github.io/braceletdesigner/`.
+- **Portfolio Forwarding & Atelier Links ([`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html), [`index.html`](file:///Users/ethannorland/braceletdesigner/index.html), [`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html)):**
+  - Added seamless client-side forwarder on standalone visits to `braceletdesigner/portfolio.html` to navigate visitors directly to root `https://ethannorland.github.io/`.
+  - Updated all external "Creator Portfolio ↗" links across the About dialog, portfolio overlay header, landing page, and documentation to reference `https://ethannorland.github.io/`.
+- **PWA & Documentation Sync ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)):**
+  - Bumped version to `v1.9.61` across `sw.js`, `index.html`, `landing.html`, `welcome.html`, `portfolio.html`, `reference/Braceletuponappstartup.bracelet`, `README.md`, `CHANGELOG.md`, and `HANDOFF.md`.
+
 ## [1.9.60] - 2026-10-28
 
 ### Added - Clickable Bracelet Designer Brand Link & In-App About & Portfolio Overlay
