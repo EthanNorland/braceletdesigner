@@ -2,202 +2,166 @@
 
 ## Current State
 - **Version:** `1.9.61`
-- **Phase:** Root GitHub Pages Portfolio Setup & Link Architecture (`v1.9.61`); Clickable Bracelet Designer Brand Link & In-App About & Portfolio Overlay (`v1.9.60`); Orange & Light Yellow Palette Swatches (`v1.9.59`); Streamlined Bead Color Swatches & Cleaned Duplicate Palette Circles (`v1.9.58`); Fit Indicator Accuracy & 3D Geometry-Calibrated Cord Occupancy (`v1.9.57`); Portfolio Top Navigation Link Streamlining (`v1.9.56`); Spacers and Rondelle Bead Overlap and Collision Geometry Fix (`v1.9.55`); Star, Barrel, and Cube Bead Collision and Overlap Fix (`v1.9.54`); Portfolio Page About Navigation (`v1.9.53`); Coming Soon Navigation Link & Roadmap Section (`v1.9.52`); App Creation Attribution in Landing & Welcome FAQs (`v1.9.51`); Features Section Copy Refinement on Landing & Welcome Pages (`v1.9.50`); Landing Page Copy & Navigation Streamlining (`v1.9.49`); Removed Zero-Dependency Rigor Principle on Portfolio (`v1.9.48`); Removed Bracelet Designer Tag Block on Portfolio (`v1.9.47`); Bracelet Designer Portfolio Copy Calibration (`v1.9.46`); Refine Bracelet Designer Portfolio Card Description (`v1.9.45`); Removed Keyword Tag Rectangles from Portfolio Art Pieces (`v1.9.44`); Position About Ethan Norland Card at Top of Portfolio (`v1.9.43`); Portfolio Bio Relocation & Third-Person Collaboration Copy (`v1.9.42`); Creator Bio & Educational Background Alignment (`v1.9.41`); Exact Bead Diameter Accumulator Math & 3D Flush Contact Alignment (`v1.9.40`); Open Spot Bead Placement & Barrel Bead Flush Contact (`v1.9.39`); Flush Bead Contact & Unified Physical Thickness Accumulator (`v1.9.38`); 3D Physical Scale Calibration & Millimeter Accumulator Harmony (`v1.9.37`); Footwear Study (Shoe Drawing) Fine Art Showcase on Portfolio Page (`v1.9.36`); Portfolio Skills Section Streamlined Removal (`v1.9.35`); Portfolio Project Sequencing: Stan Lee Above Still Life (`v1.9.34`); Stan Lee Typographic Tribute Portrait Showcase (`v1.9.33`); Portfolio Direct Email Contact & Collaboration Action Updates (`v1.9.32`); Disney Zine Publication & Academic Still Life Fine Art Showcase (`v1.9.31`); Liquid Death Brand Poster & Interactive Lightbox Showcase (`v1.9.30`); Creator Portfolio Page with Dedicated URL & Cross-Linking (`v1.9.29`); Dedicated Atelier Landing Page with Separate URL (`v1.9.28`); Demo Walkthrough Post-Action Dead Time Deleted in Chapters 3 & 7 (`v1.9.27`); Demo Walkthrough Chapters 3, 4, 5 Accelerated (`v1.9.26`); Demo Video Accelerated to 1-Minute Walkthrough (`v1.9.25`); Reference Startup Bracelet Seeded (`v1.9.24`); Barrel Bead & Carved Spacer Non-Penetration Collision Calibration (`v1.9.23`); Non-Penetration Hairline Clearance So Beads Stop Right Before Collision (`v1.9.22`); Flush Physical Contact Between Beads & Spacers Without Gaps (`v1.9.21`); Lobster Clasp Cord Deletion & Non-Penetrating Bead Dragging Collision Constraints (`v1.9.20`); Safari Web Audio Engine Unlock, Hardware Keep-Alive & Playback Pipeline (`v1.9.19`); Calibrated Authentic Silver Shading for Glass, Quartz & Wood Materials (`v1.9.18`); Calibrated Darker Silver Color for Chain, Disc Spacers & Bead Selection Matching Clasp (`v1.9.17`); Demo Captions, Targeted Base/Materials Spotlight Highlighting & Chapter 7 Export CSV Click (`v1.9.16`); Chapter 7 Button Clearance Downward Positioning & Mobile Video Caption Sizing Fix (`v1.9.15`); Antigravity Credit in Inspiration & Credits Gallery, About Dialog & Documentation (`v1.9.14`); Demo Video Chapter 4 Interactive Bead Selection Halo & Quartz Sequencing, Chapter 3 Carved Spacers Caption, Chapter 5 Streamlined Numbers Caption (`v1.9.13`); Website Location & GitHub Repository Migration to `braceletdesigner` (`v1.9.12`); Chapter 6 Realistic Anatomical Vertical Forearm & Palm-Forward Hand Calibrated to Reference `wristview.png` (`v1.9.11`); Chapter 2 Clasp Macro Zoom, Chapter 6 Realistic Sculpted Hand, and Streamlined Chapter Descriptions (`v1.9.10`); Neutral Element Palette Symbols, Gold Screw-in Clasp Continuity, Targeted Properties Spotlight & Cube Peace Sign (`v1.9.9`); Safe Bead Sliding Clearance, Bottom-Left PiP Docking, Complete Palette Categories & Dynamic Star Addition (`v1.9.8`); Strict Button Hover/Click Timing, Continuous Opened Bracelet Continuity & Authentic Internal Cord Lacing (`v1.9.7`); Demo Modal Sequencing, Pronounced Workspace Cord Expansion & Load Button Timing (`v1.9.6`); Demo Cursor Precision, Sizing Timing & Beads Laced on Cord Base (`v1.9.5`); Silent 7-Chapter Walkthrough Video Engine: New Bracelet, Wrist Sizing, Base Types & Open File (`v1.9.4`); Studio Feature Spotlighting & Picture-in-Picture Demo Player (`v1.9.3`); Demo Video Playback Controller & Cross-Browser Canvas Polyfill (`v1.9.2`); Animated Feature Walkthrough Video Engine (`v1.9.1`); Interactive Feature Demo & Guided Tour (`v1.9.0`); GitHub Credit Card Addition (`v1.8.26`); Alphabetical Ordering of Inspiration & Credits (`v1.8.25`); Beadmod Credit Link Calibration (`v1.8.24`); Curated Community & Inspiration Credits in About Dialog (`v1.8.23`); Inspiration & Credits Section in About Dialog (`v1.8.22`); Softened Clearcoat Glaze & Dense Pigment Tuning on Light Glass and Quartz (`v1.8.21`); True-to-Selection Studio Lighting & Linear Tone Mapping Calibration (`v1.8.20`); Painted Wood Beads with Selected Palette Color & Tactile Grain (`v1.8.19`); Luminous Vibrant Jewel-Tone Colors on Glass & Crystalline Quartz (`v1.8.18`); Smooth High-Polish Jeweler's Metal Finish (`v1.8.17`); Reference-Calibrated Honed Limestone & Pitted Travertine Texture (`v1.8.16`); Reference-Calibrated Tumble-Polished Metal with Micro-Scratches & Patina (`v1.8.15`); Reference-Calibrated Craggy Slate / Volcanic Basalt Stone Texture (`v1.8.14`); Reference-Calibrated Polished Wood & Brushed Satin Metal Textures (`v1.8.13`); Reference-Calibrated Crystalline Quartz & Natural Stone Textures (`v1.8.12`); Reference-Calibrated Hammered Glass Texture Matching Desktop Reference `glasstexture.png` (`v1.8.11`); Deep Dark Brown Leather Tone Recalibration (`v1.8.10`); Exact Match to Desktop Reference Swatch "leather color" (`v1.8.9`); Exact Reference-Calibrated Vintage Brown Leather Tone (`v1.8.8`); Deep Dark Antique Leather Recalibration (`v1.8.7`); Authentic 3D Base Types Matching Desktop Reference Photos (`v1.8.6`); Neutral Pure White Studio Lighting (`v1.8.5`); Rich Darker Gold & Silver Shading for Stone & Wood (`v1.8.4`); Harmonized Gold & Silver Shader Engine (`v1.8.3`); Metal Auto-Switch on Silver/Gold Swatch Selection (`v1.8.2`); Reference-Calibrated Gold & Silver Metals (`v1.8.1`); Enlarged Drilled Bead Holes with Visible Base Clearance (`v1.8.0`); Safari WebKit Grid & Canvas Fix (`v1.7.6`); Mobile Overflow Menu Specificity Patch (`v1.7.5`); Universal Mobile & iPhone Responsive Studio Architecture (`v1.7.4`); Clean Materials Spec Sheet & Parts Breakdown (`v1.7.3`); AudioContext Asynchronous Resume Patch (`v1.7.2`); Curated Starter Design Templates Gallery (`v1.7.0`) fully operational; Procedural Tactile Audio Engine (`v1.6.0`) verified.
-- **App URL:** https://ethannorland.github.io/braceletdesigner/
-- **Landing Page URL:** https://ethannorland.github.io/braceletdesigner/landing.html (also accessible at `/welcome.html`)
-- **Portfolio Page URL:** https://ethannorland.github.io/ (root repository `EthanNorland.github.io`)
-- **Repository:** https://github.com/EthanNorland/braceletdesigner
+- **Phase:** Root GitHub Pages Portfolio Setup & Link Architecture (`v1.9.61`); Clickable Bracelet Designer Brand Link & In-App About & Portfolio Overlay (`v1.9.60`); Orange & Light Yellow Palette Swatches (`v1.9.59`); Streamlined Bead Color Swatches & Cleaned Duplicate Palette Circles (`v1.9.58`); Fit Indicator Accuracy & 3D Geometry-Calibrated Cord Occupancy (`v1.9.57`); Portfolio Top Navigation Link Streamlining (`v1.9.56`); Spacers and Rondelle Bead Overlap and Collision Geometry Fix (`v1.9.55`); Star, Barrel, and Cube Bead Collision and Overlap Fix (`v1.9.54`); Portfolio Page About Navigation (`v1.9.53`); Coming Soon Navigation Link & Roadmap Section (`v1.9.52`).
+- **Primary Studio App URL:** [https://ethannorland.github.io/braceletdesigner/](https://ethannorland.github.io/braceletdesigner/)
+- **Landing Page URL:** [https://ethannorland.github.io/braceletdesigner/landing.html](https://ethannorland.github.io/braceletdesigner/landing.html) (also accessible at `/welcome.html`)
+- **Creator Portfolio Page URL:** [https://ethannorland.github.io/](https://ethannorland.github.io/) (hosted via dedicated root repository `EthanNorland.github.io`)
+- **Studio Codebase Repository:** [https://github.com/EthanNorland/braceletdesigner](https://github.com/EthanNorland/braceletdesigner)
+- **Portfolio Repository:** [https://github.com/EthanNorland/EthanNorland.github.io](https://github.com/EthanNorland/EthanNorland.github.io)
+
+---
+
+## Repositories & Deployment Architecture
+
+### 1. `braceletdesigner` ([`github.com/EthanNorland/braceletdesigner`](https://github.com/EthanNorland/braceletdesigner))
+- **Deployment URL:** `https://ethannorland.github.io/braceletdesigner/`
+- **Architecture:** Zero-dependency single-page WebGL PWA using Three.js r128 vendored locally in `/vendor/`.
+- **Primary Files:**
+  - [`index.html`](file:///Users/ethannorland/braceletdesigner/index.html): Complete 3D jewelry atelier application.
+  - [`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html) & [`welcome.html`](file:///Users/ethannorland/braceletdesigner/welcome.html): Marketing and guided product showcase (maintained 100% byte-for-byte identical).
+  - [`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html): Atelier portfolio page with client-side forwarder to `https://ethannorland.github.io/` for standalone visits, and embedded in `#dlg-portfolio` modal inside `index.html`.
+  - [`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js): Progressive Web App service worker with offline cache management (`APP_ID + "-" + VERSION`).
+  - [`manifest.webmanifest`](file:///Users/ethannorland/braceletdesigner/manifest.webmanifest): PWA manifest for macOS Dock, iOS Home Screen, and Android app install.
+  - [`reference/Braceletuponappstartup.bracelet`](file:///Users/ethannorland/braceletdesigner/reference/Braceletuponappstartup.bracelet): Seed startup project file.
+  - [`models/arm_wrist.glb`](file:///Users/ethannorland/braceletdesigner/models/arm_wrist.glb): 3D anatomical arm and resting hand for Wrist View.
+  - [`vendor/`](file:///Users/ethannorland/braceletdesigner/vendor/): Local Three.js runtime (`three.min.js`, `OrbitControls.js`, `GLTFLoader.js`).
+
+### 2. `EthanNorland.github.io` ([`github.com/EthanNorland/EthanNorland.github.io`](https://github.com/EthanNorland/EthanNorland.github.io))
+- **Deployment URL:** `https://ethannorland.github.io/` (Root user domain)
+- **Architecture:** Standalone personal portfolio showcase of Ethan Norland.
+- **Featured Works:**
+  1. *Bracelet Designer* (Interactive 3D WebGL PWA)
+  2. *Liquid Death Halloween Poster* (Brand identity, typography, 16MB master print download)
+  3. *The Best & Worst of Disney World* (8-page editorial zine, 18MB PDF download)
+  4. *Stan Lee Typographic Tribute Portrait* (Digital typography illustration)
+  5. *Footwear Study / Shoe Drawing* (Observational graphite illustration)
+- **Media Assets:** All exhibition displays, preview thumbnails, and PDFs stored locally in `reference/`.
+
+---
 
 ## What Works
-- Single-file HTML app (`index.html`) using Three.js r128 vendored locally in `/vendor/` (`three.min.js`, `OrbitControls.js`, `GLTFLoader.js`).
-- Full Core Loop (`Select → Add → Slide → Check Fit`):
-  - Direct 3D Raycasting: click and drag any bead or spacer to slide smoothly along the bracelet loop.
-  - Left Palette: Add sphere, faceted, rondelle, barrel, cube, and star beads; silver/gold/carved spacers; swap magnetic, lobster, and screw-in clasps with gold/silver materials.
-  - Right Properties: Edit selected bead diameter (6mm-16mm), switch shape across 6 options (Sphere, Faceted, Rondelle, Barrel, Cube, Star), swap materials (`Glass`, `Quartz`, `Stone`, `Metal`, `Wood`), and customize color with swatches, hex picker, and dedicated always-visible **Silver** & **Gold** quick buttons.
-  - Front Monogram & Symbol Engraving: Dedicated cube inscription inspector with text input, full dropdown (Symbols: Dash, Heart, Cross, Smiley Face, Peace; Letters A–Z; Numbers 0–9; Blank), clear button, and dynamic 512x512 debossed canvas texture mapped onto outward-facing (+X) face.
-  - Star Bead Geometry: 5-pointed extruded beveled geometry, oriented upright with silhouette facing outward (+X) and threaded along the cord (+Z/-Z).
-  - Fit Calculation: Live accumulator showing mm used vs wrist circumference, remaining space, and visual overflow indicator.
-  - Bracelet Base Tailoring: Dynamically adjust wrist circumference (140mm-220mm), chain types, and custom cord color.
-  - Complete Undo/Redo stack wired to on-screen buttons and `Cmd+Z` / `Cmd+Shift+Z`.
-  - Quick Actions: Duplicate bead (`D`) and Delete bead (`Delete`/`Backspace`).
-  - Exports: High-res beauty shot PNG export, `.bracelet` project file save (`Cmd+S`), and itemized materials spec sheet with 1-click clipboard copy including the **bracelet base type**, clasp mechanism, and engraved beads/symbols.
-- Phase 3 Persistence & Project Management:
-  - **Continuous Autosave (IndexedDB):** Real-time debounced storage to `bracelet-designer-db` with fallback to `localStorage`.
-  - **Session Restoration:** Automatically restores current working bracelet on page visit/reload with atelier notification.
-  - **Project Open:** Open `.bracelet` and `.json` project files via file picker (`Cmd+O`) or header **Open** button.
-  - **Drag-and-Drop on 3D Stage:** Drag `.bracelet` project files directly onto the 3D viewport with an atelier drop overlay.
-  - **Format Migration:** Validates and normalizes legacy formats and external JSON to ensure clean schema, valid IDs, and safe fallback defaults.
-  - **Undoable Loading & Reset:** Project opens and "New Design" resets are snapshot to the undo history stack.
-  - **Atelier Feedback:** Unobtrusive brand bar saving indicator (`• Saving…` / `• Saved`) and floating toast notifications.
-- Phase 4 Visual Identity, Custom Logo & Realistic Anatomical Arm:
-  - **3D Preview on Wrist Mode (`btn-wrist`):** Instant toggle between Studio View and Wrist View draping the active bracelet around a realistic anatomical human arm and posed resting hand (`models/arm_wrist.glb`) with natural forearm musculature, ulnar styloid bone bump, carpal wrist recess, and relaxed fingers.
-  - **Watertight Solid Planar Arm Cap (v1.6.1):** Truncated the forearm at natural display height ($Z \approx 14.6$) with a 100% watertight, solid planar horizontal cutoff and smooth beveled perimeter rim. Mesh contains 0 boundary edges. `wristSkinMat` configured with `side: THREE.DoubleSide` to prevent interior hollow voids under any orbit or clipping angle.
-  - **Clean Anterior Surface (No Hanging Flaps):** Boundary loop sliced cleanly at planar threshold ($Z > 0.41$) removing non-manifold vertices; completely eliminates the excess skin flap and seam on the anterior arm surface.
-  - **Smoothed Lateral Arm Surface (Creases Eliminated):** Cyclically smoothed relative perimeter offsets along the wrist-to-forearm boundary, replacing alternating in-and-out vertex pleats with a smooth organic curve to eliminate the two vertical creases on the outside of the arm.
-  - **Dynamic Anatomical Fit Scaling:** Arm geometry dynamically scales in real time in unison with the wrist circumference slider (140mm–220mm) using calibrated ratio `(wristRadius * 0.76) / 1.95`.
-  - **Calibrated Studio Lighting in Wrist Mode:** Shading balanced (`keyLight: 1.30`, `fillLight: 0.50`, `ambientLight: 0.60`, `rimLight: 0.35`) to prevent palm/forearm highlight burnout.
-  - **Skin Tone Swatches:** 4 realistic skin tone presets (Fair `#F4D0BA`, Natural `#D8A684`, Warm Tan `#A66D44`, Deep Rich `#5C3826`) in a floating control banner (`#wrist-banner`) with real-time material updates and dedicated Exit button.
-  - **Brand Mark in Header:** Embedded brand logo (`icon.svg`) directly into the header brand block with balanced vertical centering.
-  - **Custom Logo in About Dialog:** Embedded high-resolution brand mark (`reference/bracelet designer logo.jpg`) within a shadowed editorial card in `dlg-about`, with complete Three.js engine and Antigravity pair programming credits.
-  - **Searchable Help Dialog:** Instant keyword filter (`#help-search`) in `dlg-help` with real-time guide matching and workbench ring highlighting.
-  - **Deep Linking Query Parameters:** Support for `?view=wrist&tone=...&cam=top` and `&cam=side`, `?dialog=about`, `?dialog=help&q=...`, `?dialog=templates`, `?template=...`, and `?sound=1` / `?sound=0`.
-- Phase 5 Procedural Tactile Audio Synthesis Engine:
-  - **100% Procedural Synthesis:** Zero external audio files or network latency; uses Web Audio API oscillators, exponential gain ramps, and harmonic overtones.
-  - **Material Signatures:** Unique acoustic timbres for glass (clear ping), quartz (crystalline chime with shimmer), metal (harmonic ping), stone (dense mineral knock), and wood (warm triangle marimba).
-  - **Sliding Cadence:** Throttled micro-ticks ($\ge 65$ms and $\Delta\theta > 0.035$ rad) when beads are dragged in 3D.
-  - **Mechanical Clasps:** Dual-snap magnetic latch, spring-loaded lobster claw click, and double-thread screw-in lock.
-  - **Tactile UI Actions:** Subtle ticks for 3D selection, spawn chimes for duplication, unstring pop for deletion, and directional ticks for undo/redo.
-  - **Header Sound Toggle & Persistence:** `#btn-sound` (`🔊 Sound` / `🔇 Mute`) with user preference saved to `localStorage` (`bracelet_sound_enabled`).
-- Phase 6 Curated Starter Design Templates:
-  - **Atelier Templates Gallery (`dlg-templates`):** Replaced plain browser reset confirm with a 6-card curated gallery accessible via **New** button in the header bar or `?dialog=templates`.
-  - **6 Curated Iconic Presets:**
-    1. *The Signature Atelier* (Evil eye & royal lapis talisman)
-    2. *Minimalist 18K Heirloom* (Pure polished gold with celestial star focal)
-    3. *Bohemian Earth & Sandalwood* (Desert solstice with sandalwood & raw turquoise)
-    4. *Chakra Resonance Spectrum* (Complete 7 energy center alignment)
-    5. *Monogram Keepsake* ("LOVE" monogram cubes framed by gold stars & quartz)
-    6. *Blank Canvas* (Clean unadorned cord ready for freeform stringing)
-  - **Instant Sequence Visualizer:** Each card renders an interactive visual pill preview of every bead with shape geometry, color swatch, and tooltip.
-  - **Precise Arc-Spacing Math:** Adjacent beads touch naturally with exact physical arc calculations ($\Delta\theta = \pi(d_i + d_{i+1}) / \text{wristMm}$).
-  - **Full Undo Protection:** Template loading automatically snapshots previous design to `undoStack`, allowing instant undo via <kbd>Cmd+Z</kbd>.
-  - **Deep Linking:** Full support for `?template=signature`, `?template=gold`, `?template=boho`, `?template=chakra`, `?template=keepsake`, `?template=blank`.
-- Phase 6.2 Materials Spec Sheet & Parts Recipe:
-  - **Itemized Parts Breakdown:** Tabbed modal view inside `#dlg-materials` with item quantities, color dots, component names, category tags, and dimensions.
-  - **Plaintext Spec Sheet:** Formatted text recipe with complete parts breakdown and dimensions for jeweler ordering.
-  - **1-Click CSV Recipe Export (`btn-export-csv`):** Downloads `bracelet-materials-spec-[timestamp].csv` with itemized part names, quantities, sizes, materials, and colors.
-  - **Deep Linking:** Added `?dialog=materials` to open the Materials Spec Sheet on load.
-- Phase 7 Universal Mobile & iPhone Responsive Studio Architecture:
-  - **Bottom Drawer System:** `#left-panel` and `#right-panel` smoothly animate upward as touch sheets on viewports $\le 900$px with drag handles and close buttons (`✕`).
-  - **Mobile Navigation Dock:** Fixed bottom dock (`#mobile-dock`) with 1-tap thumb controls for Palette, Properties, Undo, and Redo.
-  - **Compact Header & Overflow Menu:** Condenses desktop header into visible quick buttons and sleek `⋯` dropdown for Templates, Open, Save, Export PNG, Materials, Help, and About.
-  - **Safe Area & Dynamic Viewport:** `100dvh` and `viewport-fit=cover` with `env(safe-area-inset-*)` support.
-  - **100% Desktop Preservation:** Zero visual or functional changes on desktop viewports ($> 900$px).
-- Phase 8 Enlarged Drilled Bead Holes with Visible Base Clearance (v1.8.0):
-  - **Hollow Drilled Bead Geometries:** Replaced solid bead meshes with realistic drilled hollow geometries across all 6 bead shapes (`Sphere`, `Faceted`, `Rondelle`, `Barrel`, `Cube`, `Star`) and carved/disc spacers.
-  - **Dynamic Hole Radius (`getBeadHoleRadius`):** Bead hole diameters dynamically calibrate from ~0.40 to 0.60 relative units across sizes (4mm–20mm), ensuring beads maintain substantial, realistic wall thickness while displaying open apertures.
-  - **Refined Cord Base Proportions:** Refined base cord/chain tube radius to `0.09` (diameter `0.18`), creating a clear, visible annular daylight gap (`0.11`–`0.19` clearance on all sides) between the base cord and the bead hole.
-  - **Chamfered Drilled Rims:** Applied realistic jeweler's chamfer steps around bead hole openings to capture specular highlights and prevent polygon edge artifacts.
-  - **Double-Sided PBR Interior Shading:** Configured `side: THREE.DoubleSide` across all PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`), allowing light to illuminate the inner cylindrical drill walls and rendering realistic refractive air tunnels in translucent glass and crystalline quartz.
-  - **Hollow Inscribed Cube Beads:** Adapted monogram and symbol engravings on cube beads with synchronized double-sided overlays on outward-facing (+X) and inward-facing (-X) faces.
-- Phase 28 Interactive Feature Demo & Guided Tour (v1.9.0):
-  - **Auto-Launch Guided Tour Modal:** Implemented [`#dlg-demo`](file:///Users/ethannorland/hello-world/index.html#L2068) that opens automatically on app launch, leading creators through 6 interactive steps showcasing 3D stage sliding, element palette & clasps, PBR materials & tone mapping, monogram engravings, anatomical 3D wrist view, and materials recipe with CSV export.
-  - **Quick Dismissal & Startup Memory:** Integrated a prominent top-right `✕` close button, footer "Close Demo" button, and "Don't show demo automatically when opening the app" checkbox saved to `localStorage` for returning users.
-  - **Interactive Triggers & Auto-Play:** Features progress step indicators, spotlight triggers (`ring()`), optional 6.5s auto-play progression, and instant relaunch via `#btn-demo`, mobile overflow menu, and Help dialog.
-- Phase 27 Curated Community & Inspiration Credits in About Dialog (v1.8.23–v1.8.26):
-  - **11 Alphabetized Credit Cards:** Populated and sorted the About dialog ([`dlg-about`](file:///Users/ethannorland/hello-world/index.html#L1710)) credits in alphabetical order: Banter, Beadmod ([`beadmod.com`](https://beadmod.com)), Bracelet Designer, Etsy, Fire Mountain Gems, GitHub ([`github.com`](https://github.com)), JewDIY, Pantone, Phillip Renato, Textures.com, and Three.js Community.
-  - **Dedicated Inner Scroll Container:** Added a slim, styled inner scroll container (`max-height: 320px; overflow-y: auto;`) within `#about-credits-list`, keeping header and close button anchored while allowing smooth browsing of all inspiration entries.
-- Phase 26 Inspiration & Credits Section in About Dialog (v1.8.22):
-  - **Inspiration & Credits Panel:** Integrated a dedicated "Inspiration & Credits" section within [`dlg-about`](file:///Users/ethannorland/hello-world/index.html#L1693) to celebrate and attribute the creators, artisans, and websites that gave ideas and inspiration for Bracelet Designer.
-  - **Responsive Layout & External Links:** Implemented sleek, responsive credit cards (`.credit-card`) displaying creator/site name, contribution description, and external link buttons (`↗`) styled in `var(--accent-blue)` opening in new tabs (`target="_blank" rel="noopener noreferrer"`).
-  - **Mobile Scroll Handling:** Added `#dlg-about` responsive scroll handling (`max-height: 86vh; overflow-y: auto;`), ensuring smooth scrolling across desktop and mobile devices.
-- Phase 25 Softened Clearcoat Glaze & Dense Pigment Tuning on Light Glass and Quartz (v1.8.21):
-  - **Clearcoat Glare Reduction:** Reduced clearcoat reflection from 0.75 to 0.35 on glass and 0.70 to 0.30 on quartz with increased clearcoatRoughness (0.10–0.12) and tuned specularIntensity (0.60–0.65), preventing white specular sheen from bleaching light tints into pure white.
-  - **Dynamic Transmission & Pigment Density:** Scaled optical transmission dynamically based on material lightness (trans: 0.18–0.35 on glass, 0.12–0.22 on quartz), keeping lighter tones (pastel pink, light cyan, pale yellow, mint) richly pigmented and colorful rather than washing out into clear or white.
-- Phase 24 True-to-Selection Studio Lighting & Linear Tone Mapping Calibration (v1.8.20):
-  - **Calibrated Studio Illumination:** Replaced 5× over-illumination (`key: 2.30`, `fill: 1.50`, `rim: 1.60`, `ambient: 0.85`) with balanced daylight studio lighting (`ambient: 0.65`, `key: 0.55`, `fill: 0.35`, `rim: 0.30`), achieving $\approx 1.00$ combined frontal illumination so rendered bead colors faithfully match the 2D color selector.
-  - **Linear Tone Mapping (`renderer.toneMapping = THREE.LinearToneMapping`, `exposure = 1.0`):** Eliminated ACES highlight bleaching and cross-channel desaturation that washed out vibrant reds, cyans, greens, and purples into chalky pastels. Specular jewelry glints remain brilliant white without bleaching the diffuse bead bodies.
-  - **Direct Color Mapping on Glass & Quartz:** Connected chosen colors directly (`color: col`) across Glass and Quartz, ensuring all palette swatches and custom hex picker colors display true to the user's intent. Calibrated Wrist View lighting transition (`ambient: 0.55`, `key: 0.60`, `fill: 0.30`, `rim: 0.20`), and bumped version to `1.8.20`.
-- Phase 23 Painted Wood Beads with Selected Palette Color & Tactile Grain (v1.8.19):
-  - **Neutral High-Key Wood Grain Map:** Overhauled [`getWoodTextures()`](file:///Users/ethannorland/hello-world/index.html#L3107) to replace baked brown teak pixels with neutral monochrome high-key grain (`240–255` luminance). Allows 94%–100% of any selected paint color (turquoise, red, blue, green, white, purple, gold, silver) to show true to the picker without muddy brown or olive discoloration, while preserving natural growth rings and fiber pores.
-  - **Satin Painted Lacquer PBR Shader:** Upgraded wood shader in [`getPBRMaterial()`](file:///Users/ethannorland/hello-world/index.html#L3363) to `MeshPhysicalMaterial` with satin jewelry lacquer (`clearcoat: 0.28`, `clearcoatRoughness: 0.16`, `roughness: 0.38`), tactile grain normal & bump maps, and soft metallic luster (`metalness: 0.30`) for painted gold and silver finishes, and bumped version to `1.8.19`.
-- Phase 22 Luminous Vibrant Jewel-Tone Colors on Glass & Crystalline Quartz (v1.8.18):
-  - **Glass Transmission & Clearcoat Calibration:** Reduced glass transmission from `0.86` to `0.48`, preventing 86% dark studio background washout and boosting direct diffuse bead color reflection by more than 3.5× while retaining refractive depth and caustics. Elevated clearcoat glaze to `0.75` with `clearcoatRoughness: 0.04`, `roughness: 0.08`, and `envMapIntensity: 1.25`.
-  - **High-Key Crystalline Quartz Texture:** Overhauled the quartz color texture generator with a pure white foundation (`255, 255, 255`), high-key sparkle micro-facets, and fine crackle hairline veins (`218–255` luminance). Offscreen buffered `reference/quartztexture.png` so photographic luminance is mapped to crystalline contrast (`218 + lum * 37`) without contaminating beads with opaque grey pixels.
-  - **Intelligent Gemstone Saturation Engine (`getVibrantGemColor`):** Boosts chromatic bead color saturation ($S \times 1.32$) and clamps lightness ($L \in [0.42, 0.60]$) across glass and quartz, producing radiant jewel tones across turquoise, lapis, amethyst, emerald, and ruby while preserving neutral white crystal and sterling silver. Tuned quartz PBR parameters to `transmission: 0.30`, `roughness: 0.14`, and `clearcoat: 0.70`, and bumped version to `1.8.18`.
-- Phase 21 Smooth High-Polish Jeweler's Metal Finish (v1.8.17):
-  - **Smooth Metal Surface:** Replaced scratch bump maps and normal distortion on metal beads with a pristine, mirror-polished fine jeweler's finish. Bead geometries reflect light with smooth, continuous, razor-sharp specular highlights.
-  - **Lustrous PBR Shading:** Tuned `roughness: 0.12`, `metalness: 0.96`, and `envMapIntensity: 1.40` for gleaming liquid-metal reflections across 18K gold, sterling silver, gunmetal, and custom metallic beads, and bumped version to `1.8.17`.
-- Phase 20 Reference-Calibrated Honed Limestone & Pitted Travertine Texture (v1.8.16):
-  - **Honed Limestone & Pitted Travertine Calibration:** Calibrated the stone material directly from desktop reference photo `reference/stonetexture3.png`. Built a smooth spherical stone body with directional honing striations and organic clustered porous cavities with toroidal boundary wrapping and spatial grid acceleration.
-  - **Porous Cavity Normal & AO Mapping:** Synthesized fine pin-prick micro-pores, sand mottling, Sobel-filtered tangent normal vectors (`bumpStrength = 4.8`, `normalScale: [1.0, 1.0]`, `bumpScale: 0.020`), and ambient occlusion shading inside the pockmarks (`ao: 0.55 - 1.0`).
-  - **Honed Matte Stone PBR Shading:** Tuned `roughness: 0.78`, `metalness: 0.02`, `bumpScale: 0.020`, `normalScale: [1.0, 1.0]`, and `envMapIntensity: 0.38` for authentic architectural limestone and travertine realism.
-  - **Studio Swatch & Precache:** Added a dedicated Honed Limestone / Travertine swatch (`#A2A5A0`) to `#bead-swatches` with materials spec sheet labeling, and bumped version to `1.8.16`.
-- Phase 19 Reference-Calibrated Tumble-Polished Metal with Micro-Scratches & Patina (v1.8.15):
-  - **Polished Micro-Scratched Metal Calibration:** Calibrated the metal material directly from desktop reference photo `reference/metaltexture2.png`. Engineered 140 multi-directional organic micro-scratches with toroidal boundary wrapping and spatial grid acceleration ($16 \times 16$ lookup buckets).
-  - **Cloudy Patina & High-Frequency Grain:** Synthesized continuous 2D Hermite spline patina smudging simulating subtle jeweler hand-wear and oxidation, high-frequency micro-abrasion grain, Sobel-filtered tangent normal vectors (`bumpStrength = 3.6`, `normalScale: [0.95, 0.95]`, `bumpScale: 0.015`), and micro-AO in scratch cuts.
-  - **Pixel-Level Roughness Mapping:** Applied `roughnessMap: textures.roughnessMap` to `MeshStandardMaterial` for metal beads, dynamically varying surface reflectivity from high-gloss polished facets (`0.12`) to soft micro-abrasion scuffs (`0.28`) under `metalness: 0.94` and `envMapIntensity: 1.35`.
-  - **Studio Swatch & Precache:** Added a dedicated Gunmetal / Antiqued Steel swatch (`#4B4E54`) to `#bead-swatches` with materials spec sheet labeling and auto-switching, and bumped version to `1.8.15`.
-- Phase 18 Reference-Calibrated Craggy Slate / Volcanic Basalt Stone Texture (v1.8.14):
-  - **Craggy Basalt & Slate Rock Calibration:** Calibrated the stone material directly from desktop reference photo `reference/stone2.png`. Engineered a 22x22 polygonal Voronoi rock cell network with tilted planar cleavage facets, domain-warped geological fault lines, and deep exponential crevice fissures (`1.0 - Math.exp(-crackDist * 2.6)`).
-  - **Multi-Octave Ridged Rock Crags & Foliation:** Integrated multi-frequency ridged noise (`ridgedNoise(u, v, 12)` and `ridgedNoise(..., 24)`) to produce sharp chiseled rock ridges, metamorphic foliation grain, and volcanic micro-sand pitting, replacing rounded cobblestone domes with realistic cleaved rock cleavage.
-  - **Authentic Matte Rock PBR Shading:** Tuned `roughness: 0.88`, `metalness: 0.03`, `bumpScale: 0.045`, `normalScale: [1.4, 1.4]`, and `envMapIntensity: 0.32` to capture the dry, tactile, unpolished basalt rock surface of `stone2.png`. Added edge highlight glints on chiseled ridges and ambient occlusion crevice shading in the color map.
-  - **Studio Swatch & Precache:** Added a dedicated Basalt Charcoal Slate swatch (`#373A40`) to `#bead-swatches` with materials spec sheet labeling, precached `stone2.png` and `metaltexture2.png` in `sw.js`, and bumped version to `1.8.14`.
-- Phase 17 Reference-Calibrated Polished Wood & Brushed Satin Metal Textures (v1.8.13):
-  - **Polished Natural Wood Grain Calibration:** Calibrated the wood material directly from desktop 3D reference `reference/woodtexture.png`. Engineered 512x512 multi-harmonic growth ring bands ($18\pi$ and $42\pi$ frequencies) with longitudinal micro-fiber striations, micro-pore relief, and smooth lacquer clearcoat glaze (`clearcoat: 0.32`, `clearcoatRoughness: 0.10`, `roughness: 0.44`, `normalScale: [0.65, 0.65]`, `bumpScale: 0.018`).
-  - **Brushed Satin Jeweler's Metal Calibration:** Calibrated the metal material directly from desktop 3D reference `reference/metaltexture.png`. Synthesized high-frequency horizontal lathe/spun brushing hairline tracks ($192\pi$ and $384\pi$) with anisotropic normal filtering (`normalScale: [0.85, 0.45]`, `bumpScale: 0.012`, `metalness: 0.92`, `roughness: 0.22`, `envMapIntensity: 1.35`), delivering authentic anisotropic specular highlight elongation across silver, gold, clasps, and spacers.
-  - **Complete 5-Material Atelier Suite:** All 5 core materials in the studio (`Glass`, `Quartz`, `Metal`, `Stone`, `Wood`) now possess reference-calibrated PBR textures and normal maps matching desktop standards.
-- Phase 16 Reference-Calibrated Crystalline Quartz & Natural Stone Textures (v1.8.12):
-  - **Photographic Crystalline Quartz Calibration:** Calibrated the quartz material directly from desktop reference `reference/quartztexture.png`. Built a 512x512 multi-tone crystalline fleck canvas with sparkling crystal facets, slate-charcoal inclusions, and ivory quartzite grains, backed by automatic asynchronous ground-truth upgrade via `new Image()`. Configured micro-facet normal mapping (`normalScale: [0.70, 0.70]`, `bumpScale: 0.016`), semi-translucent crystalline depth (`transmission: 0.58`, `ior: 1.54`, `thickness: 2.2`), and polished tumble clearcoat (`0.35`).
-  - **Weathered Pitted Natural Stone Calibration:** Calibrated the stone material directly from desktop 3D reference `reference/stonetexture.png`. Engineered a 28x28 Voronoi cellular rock plateau height field with steep fissure crevices, multi-octave Hermite spline rock turbulence, and ambient occlusion crevice shading. Generated a high-contrast tangent-space normal map via Sobel gradient filtering (`normalScale: [1.25, 1.25]`, `bumpScale: 0.038`, `roughness: 0.70`), casting realistic micro-shadows into deep stone pits across all bead shapes.
-- Phase 15 Reference-Calibrated Hammered Glass Texture Matching Desktop Reference `glasstexture.png` (v1.8.11):
-  - **Procedural Hammered Glass Surface Synthesis:** Modeled the dense organic water-ripple / cathedral glass surface directly from desktop reference `reference/glasstexture.png`. Engineered a 30x30 Voronoi/Worley cellular height field with smooth cosine-squared dome facets ($h_{\text{cell}} = \cos^2(d_1 / R \times \pi / 2)$), continuous depression valleys, and fluid Hermite spline domain warping simulating molten blown glass. Generated a high-resolution tangent-space normal map via Sobel gradient filtering ($dX, dY, dZ$) with isotropic 2:1 equator-to-meridian repeat wrapping (`repeat.set(2, 1)`), producing hundreds of sparkling specular glints across all 3D bead shapes (Sphere, Faceted, Rondelle, Barrel, Cube, Star).
-  - **Physical Glass PBR Shading:** Integrated `normalMap: textures.normalMap` (`normalScale: [0.95, 0.95]`) and `bumpMap: textures.bumpMap` (`bumpScale: 0.024`) with physical transmission (`transmission: 0.86`), optical refraction (`ior: 1.52`, `thickness: 2.5`), smooth surface glaze (`clearcoat: 0.45`, `clearcoatRoughness: 0.08`), and studio environment radiance (`envMapIntensity: 1.35`). Tuned silver/white swatch selection (`#E2E8F0` / `#F8FAFC`) to match the clear crystalline ice glass aesthetic of `glasstexture.png`, while allowing all palette colors to inherit the hammered ripple finish.
-- Phase 14 Deep Dark Brown Leather Tone Recalibration (v1.8.10):
-  - **Dark Brown Leather Color Ramp:** Recalibrated the procedural 2D Hermite spline noise color ramp to render an authentic, rich deep dark chocolate / walnut leather brown under Three.js multi-point studio illumination. Anchored midtone body at `[60, 36, 22]` (`#3C2416`), highlights at `[86, 54, 34]` (`#563622`), and deep rolled crevice seams at `[36, 20, 12]` (`#24140C`), eliminating washed-out caramel/tan highlights caused by strong studio key lighting.
-  - **PBR Specular & Studio Balancing:** Increased `roughness` to `0.74`, tuned `envMapIntensity` to `0.22`, `metalness` to `0.02`, and `bumpScale` to `0.024`, ensuring soft, authentic satin sheen without milky environment washout. Synchronized leather base swatch in `migrateAndValidateDoc()`, `buildMaterialsData()`, `getColorName()`, and starter template `Bohemian Earth & Sandalwood` to `#3C2416`.
-- Phase 13 Exact Match to Desktop Reference Swatch "leather color" (v1.8.9):
-  - **Master Reference Swatch Calibration:** Calibrated the procedural 2D Hermite spline noise color ramp directly against the user-provided master swatch file `reference/leathercolor.png` (Display P3 `[118, 87, 63]` / `#76573F`, ColorSync sRGB `[124, 85, 59]` / `#7C553B`). Centered the core body of the leather cord at `[124, 85, 59]`, capturing the exact warm vegetable-tanned / saddle cowhide leather brown from the desktop reference. Highlight tuned to `[148, 106, 76]` and burnished crevice depth to `[96, 62, 42]`.
-  - **PBR Specular & UI Sync:** Tuned `roughness: 0.68`, `metalness: 0.03`, and `envMapIntensity: 0.35` for balanced satin highlights under neutral white studio lighting. Updated leather color indicators in `migrateAndValidateDoc()`, `buildMaterialsData()`, `getColorName()`, and starter template `Bohemian Earth & Sandalwood` to `#7C553B`.
-- Phase 12 Exact Reference-Calibrated Vintage Brown Leather Tone (v1.8.8):
-  - **Reference-Sampled Vintage Brown Leather:** Calibrated the procedural 2D Hermite spline noise color ramp directly against the pixel distribution of `reference/Leather Bracelet.png`. Aligned midtone leather body with reference median: `[105, 80, 72]` (`#695048`), crevice/burnished seam with shadow tones `[72, 46, 38]` (`#482E26`), and highlights with weathered surface sheen `[138, 114, 105]` (`#8A7269`).
-  - **PBR Specular Balancing:** Calibrated `roughness: 0.70`, `metalness: 0.03`, and `envMapIntensity: 0.32` for authentic satin leather highlight roll-off. Swatch and spec sheet dot updated to `#5D4037`.
-- Phase 11 Deep Dark Antique Leather Recalibration (v1.8.7):
-  - **Dark Antique Leather Color Ramp:** Recalibrated the procedural 2D Hermite spline noise color ramp to render rich, dark antique cowhide leather matching the darkest tones in `reference/Leather Bracelet.png`. Shifted highlight from light cognac (`#915C30`) down to subtle dark chestnut (`[100, 64, 42]`), midtone down to rich dark chocolate / antique saddle (`[66, 40, 26]`), and crevice depth down to deep espresso (`[34, 18, 12]`).
-  - **Specular & Environment Balancing:** Adjusted `roughness: 0.72` and reduced `envMapIntensity` from `0.45` to `0.28`, preventing studio light reflections from washing out the deep dark leather tones while preserving subtle satin highlight roll-off.
-  - **Materials Spec Sheet Swatch Sync:** Configured leather base swatch indicator in [Materials Spec Sheet](file:///Users/ethannorland/hello-world/index.html#L4229) to `#3E2723` (dark espresso).
-- Phase 10 Authentic 3D Base Types Matching Desktop Reference Photos (v1.8.6):
-  - **Sterling Silver & 18K Gold Snake Chains:** Generated procedural PBR textures encoding ~128 tightly packed, interlocking, slanted metal links wrapping seamlessly horizontally and vertically around the tube. Deep dark ambient occlusion joint seams between adjacent links with convex rounded crowns and micro-bevels. Specular roughness maps (`0.14` on crests, `0.35` in crevices) and bump maps (`bumpScale: 0.026`), glinting with realistic metallic reflections under studio lighting. Includes polished tapered metal end-cap ferrules flanking the clasp.
-  - **Two-Tone Braided Diamond Woven Cord:** Continuous interlacing twill braid with micro-fiber yarn striations, primary cord color inheritance (with new *Tangerine Blaze* `#EA580C` swatch matching `Woven Cord Bracelet.png`), and contrasting deep charcoal-black (`#181A20`) strands. Tactile textile bump mapping (`bumpScale: 0.045`), matte fabric roughness (`0.82`), and sleek ferrule sleeves adjacent to the clasp.
-  - **Vintage Round Bolo Leather Cord:** True round bolo cowhide cord rendered via multi-octave continuous 2D periodic Hermite spline noise with rich cognac/chestnut mottling (`#915C30`, `#663C1E`, `#3A2212`), longitudinal rolled burnished seam, micro-pore surface grain, and satin leather sheen (`roughness: 0.68`, `metalness: 0.04`, `bumpScale: 0.022`).
-  - **Preserved Bead Threading Clearance:** Base cord core radius maintained at `0.092` (diameter `0.184`), ensuring clear visible clearance inside bead holes (`0.19`–`0.30` radius) with zero clipping during 3D sliding.
-  - **Updated Materials Spec Sheet & UI:** Plaintext spec sheet, materials breakdown, and UI button titles updated to reflect authentic base names.
-- Phase 9 Reference-Calibrated Gold & Silver Metals & Universal Shader Engine (v1.8.1–v1.8.5):
-  - **Neutral Pure White Studio Lighting (v1.8.5):** Converted studio `rimLight` from yellow `0xd4af37` (RGB 212, 175, 55) to neutral white `0xffffff`, `keyLight` from `0xfff5e6` to `0xffffff`, `fillLight` to `0xf1f5f9`, and PMREM key reflector to `0xffffff`. Completely eliminated the yellow light cast over silver metal, stone, and wood beads, rendering crisp white specular reflections while preserving authentic gold warmth.
-  - **Master Reference Calibration (`#D2AC4C`):** Calibrated warm 18K yellow gold directly from `reference/gold.png` via macOS ColorSync Display P3-to-sRGB profile translation (`#D2AC4C`, rgb(210, 172, 76)) and sterling silver from `reference/silver.png` (`#A8A9AC`, rgb(168, 169, 172)).
-  - **Unified Cook-Torrance BRDF Shading:** Harmonized metal shader parameters across clasps, beads, base chains, and spacers: `metalness: 0.90`, `roughness: 0.18`, `envMapIntensity: 1.2`, and `side: THREE.DoubleSide`. This guarantees 100% visual consistency between clasps, beads, and spacers.
-  - **Darker Gold & Silver Shading on Stone & Wood (v1.8.4):** Calibrated deep antique gold mineral stone (`#7D5A18`), silver hematite slate (`#4A4D53`), golden teak wood (`#744E14`), and weathered silver driftwood (`#46494F`), eliminating diffuse chalk/white artifacts when gold or silver is selected on stone or wood beads while maintaining the user's material choice.
-  - **Engraved Cube Bead PBR Transparency:** Rendered inscriptions with transparent canvas backgrounds (`createInscribedTexture`) layered over solid 3D metal geometries with `depthWrite: false`, ensuring engraved gold cubes display authentic gold metallic luster without white specular sheen.
-- Phase 28 Interactive Feature Demo & Guided Tour (v1.9.0):
-  - **Auto-Launch Guided Tour Modal:** Implemented an automated walkthrough modal ([`#dlg-demo`](file:///Users/ethannorland/hello-world/index.html#L2124)) that opens on application startup (`openDemo(0)`) to familiarize new visitors with the 6 major features of the studio.
-  - **Quick Dismissal:** Included a prominent `✕` button and "Close Demo" button so returning users can dismiss it immediately in 0.1s.
-  - **Persistent Opt-Out:** *"Don't show demo automatically when opening the app"* checkbox saved to `localStorage` (`bracelet_demo_skip_startup`).
-- Phase 29 Animated Feature Walkthrough Video Engine (v1.9.1):
-  - **Procedural 60fps Video Player Canvas:** Engineered a zero-dependency, 16:9 widescreen animated video canvas (`720x405`) running procedural Three.js/2D canvas rendering loops without external video files, cookies, or latency.
-  - **6 Dynamic Video Chapters (78 seconds total):**
-    1. *3D Stage Orbit & Bead Sliding* (0:00–0:13): Turntable rotation, bead 2 sliding along cord, live fit gauge update.
-    2. *Bead Geometries, Spacers & Clasps* (0:13–0:26): Highlighting sphere, cube, star shapes, spacers, and clasps.
-    3. *PBR Materials & Jewel-Tone Colors* (0:26–0:39): Simulating glass, crystalline quartz, stone, high-polish metal, and painted wood with color palette switching.
-    4. *Personalized Monograms & Hallmarks* (0:39–0:52): Dynamic cube bead monogram debossing with letters A–Z, numbers 0–9, and jewelry symbols.
-    5. *Realistic 3D Wrist Mode & Anatomical Fit* (0:52–1:05): Draping bracelet onto anatomical 3D forearm and hand with Fair, Natural, Warm Tan, and Deep Rich skin tones.
-    6. *Materials Spec Sheet & Project Exports* (1:05–1:18): Itemized recipe, 1-click CSV order export, and high-res PNG studio render downloads.
-  - **Complete Video Controls Suite:** Play/pause button (`▶`/`⏸`), interactive scrubber track with draggable thumb and progress fill, time display (`0:00 / 1:18`), audio mute toggle (`🔊`/`🔇`), and restart button (`↺`).
-  - **Chapter Selector Pills:** Clickable pills for each of the 6 chapters with synchronized active states.
-  - **Animated Cursor & Sound FX:** Smooth animated mouse cursor paths, click ripples, and synchronized Web Audio acoustic cues matching actions on screen.
-  - **Accessible Controls:** Keyboard shortcuts (<kbd>Space</kbd> for play/pause, <kbd>←</kbd> and <kbd>→</kbd> for 5s scrub), and deep linking (`?dialog=demo`, `?demo=1`, `?tour=1`).
-- PWA setup: `manifest.webmanifest` and `sw.js` with offline caching; version chip `1.9.3 ↻` with update hook; precaches `vendor/GLTFLoader.js` and `models/arm_wrist.glb`.
-- Local markup review tools in `/tools/` (`markup-server.py` and `markup-inject.js`), gitignored and verified.
-- Screen context hook `window.__markupContext` configured.
 
-## What's Next
-- Enhanced materials spec export with estimated physical weight and supply catalog links.
-- Solicit end-user feedback on tactile audio sweet spot across various mobile devices.
+### 1. Root Portfolio Ecosystem & Link Architecture (`v1.9.61`)
+- **Root Domain Deployment:** Served directly from `main` of `EthanNorland.github.io` at `https://ethannorland.github.io/`.
+- **Cross-Linking:** All project cards seamlessly cross-link to the live 3D studio at `https://ethannorland.github.io/braceletdesigner/`.
+- **Standalone Forwarder:** Standalone visitors hitting `/braceletdesigner/portfolio.html` are smoothly routed to `https://ethannorland.github.io/` without breaking in-app iframe usage.
+
+### 2. In-App About & Portfolio Modal Overlay (`v1.9.60`)
+- **Clickable Header Wordmark:** The header title **"Bracelet DESIGNER"** is an interactive link (`#brand-link`) with subtle hover transitions and gold accent lighting.
+- **Tabletop Preservation (`#dlg-portfolio`):** Clicking the title opens a modal dialog embedding `portfolio.html` in an iframe. Users can browse Ethan's bio, projects, and art without resetting, reloading, or losing unsaved beads on the 3D tabletop.
+- **Modal Header & Controls:** Custom top bar with EN avatar, "Open Full Page ↗" link to the root portfolio, and close button (`✕`) supporting backdrop-click and `Escape` key dismissal.
+- **Mobile Menu Integration:** Added `💼 Ethan Norland (About & Portfolio)` to the mobile drawer menu.
+
+### 3. Streamlined Color Palette & Harmonized Materials (`v1.9.58` - `v1.9.59`)
+- **Clean Palette Layout:** Removed redundant gold and silver swatch circles (relying on the dedicated, persistent **Silver** & **Gold** action buttons directly beneath). Removed two duplicate gray swatches, keeping a single neutral Gunmetal/Slate Gray circle (`#4B4E54`).
+- **New Swatches:** Added vibrant **Orange** (`#F97316`, Mandarin / Carnelian) and **Light Yellow** (`#FEF08A`, Light Lemon / Citrine) circles.
+- **Material Classification & Spec Sheet Sync:**
+  - Added names to `getColorName()`: `#FEF08A` (*Light Lemon Yellow*), `#F97316` (*Mandarin Orange*), `#EF4444` (*Coral Red*).
+  - Calibrated shader classification in `getPBRMaterial()` so light yellow beads retain crystalline/glass translucency instead of being misclassified as opaque gold metal.
+
+### 4. 3D Geometry-Calibrated Fit Meter & Accumulator (`v1.9.57`)
+- **Arc-Occupancy Math:** Replaced naive 1D diameter summing with true 3D cord arc occupancy derived from `getBeadAngularHalfExtent(b, radius)`.
+- **Discrepancy Resolution:** Resolved the issue where the fit meter showed remaining mm even when the physical bracelet loop was full clasp-to-clasp.
+- **Capacity State Detection:** Live indicator clearly reads `Bracelet Full (0 mm left)` at 100% capacity when no space remains for even the smallest 6mm spacer.
+
+### 5. Shape-Aware Non-Penetration Collision Physics (`v1.9.54` - `v1.9.55`)
+- **Closed-Form Extent Math:**
+  - **Cube:** Uses flat square corner subtense to inner corner radius $r_{\text{inner}} = R - s/2$ using $\arctan(s/2 / r_{\text{inner}})$.
+  - **Star:** Uses 5-pointed star tip reach $r_{\text{tip}} = R - 1.22 \times s/2$.
+  - **Barrel & Carved Spacers:** Uses end-rim subtense along loop curvature.
+  - **Rondelle Beads & Spacers:** Derived closed-form asymmetric elliptical tangent cone ($a = \text{halfS}$, $b = 1.25 \times \text{halfS}$) matching physical thickness ($s/2$) along the cord.
+- **Pairwise Verification:** Validated across all 36 shape combinations, ensuring flush physical contact without mesh penetration during dragging, resizing, duplication, and template loading.
+
+### 6. Core 3D Atelier Loop (`Select → Add → Slide → Check Fit`)
+- **Direct 3D Raycasting:** Click and drag any bead or spacer to slide smoothly along the bracelet cord loop with collision detection.
+- **Element Palette:** Add sphere, faceted, rondelle, barrel, cube, and star beads; silver/gold/carved spacers; swap magnetic, lobster, and screw-in clasps.
+- **Properties Inspector:** Adjust bead diameter (6mm–16mm), change shape, swap materials (`Glass`, `Quartz`, `Stone`, `Metal`, `Wood`), and select colors.
+- **Engraved Inscriptions:** Monogram cube beads with debossed canvas textures mapped onto outward (+X) and inward (-X) faces (letters A–Z, numbers 0–9, and symbols: Heart, Cross, Smiley Face, Peace, Dash).
+- **Persistent Autosave (IndexedDB):** Real-time debounced storage to `bracelet-designer-db` with fallback to `localStorage`.
+- **Tactile Procedural Audio:** 100% procedural Web Audio synthesis with unique acoustic signatures for each material (glass ping, quartz chime, metal ring, stone knock, wood marimba).
+- **Wrist View Preview:** Toggle into 3D Wrist Mode draping the bracelet onto a realistic anatomical arm with 4 selectable skin tones.
+- **Exports:** High-resolution beauty shot PNG preview, `.bracelet` project file save (`Cmd+S`), and itemized materials spec sheet with 1-click CSV export.
+
+---
+
+## Key Mathematical Formulations & Implementations
+
+### 1. Shape-Aware Angular Extent (`getBeadAngularHalfExtent`)
+```javascript
+function getBeadAngularHalfExtent(b, radius) {
+  const s = (b.sizeMm || 10) * 0.1;
+  const halfS = s * 0.5;
+  if (b.shape === "cube") {
+    const rInner = Math.max(0.1, radius - halfS);
+    return Math.atan(halfS / rInner) + 0.008;
+  }
+  if (b.shape === "star") {
+    const rInner = Math.max(0.1, radius - halfS * 1.22);
+    return Math.atan(halfS / rInner) + 0.008;
+  }
+  if (b.shape === "barrel") {
+    const rEnd = Math.max(0.1, radius - halfS * 0.92);
+    return Math.atan(halfS / rEnd) + 0.006;
+  }
+  if (b.shape === "rondelle" || b.isSpacer || b.type === "spacer") {
+    const a = halfS;
+    const bRad = halfS * 1.25;
+    const phi = Math.atan2(bRad, a);
+    const rTangent = Math.hypot(a * Math.cos(phi), bRad * Math.sin(phi));
+    return Math.asin(Math.min(0.999, rTangent / Math.max(rTangent + 0.01, radius))) + 0.005;
+  }
+  return Math.asin(Math.min(0.999, halfS / Math.max(halfS + 0.01, radius))) + 0.004;
+}
+```
+
+### 2. Physical Cord Arc Occupancy in `calculateFit()`
+```javascript
+function calculateFit() {
+  const beads = doc.beads || [];
+  const radius = getBraceletRadius();
+  let occupiedAngle = 0;
+  for (let i = 0; i < beads.length; i++) {
+    occupiedAngle += getBeadAngularHalfExtent(beads[i], radius) * 2;
+  }
+  const claspAngle = (CLASP_FERRULE_OFFSET * 2) / radius;
+  const totalUsableAngle = Math.PI * 2 - claspAngle;
+  const fractionUsed = occupiedAngle / totalUsableAngle;
+  const mmCircumference = doc.wristMm;
+  const mmUsed = Math.min(mmCircumference, Math.round(fractionUsed * mmCircumference));
+  const mmLeft = Math.max(0, mmCircumference - mmUsed);
+}
+```
+
+---
+
+## Canonical Version Synchronization Rule
+Any version bump MUST be synchronized across all 9 canonical files simultaneously:
+1. [`index.html`](file:///Users/ethannorland/braceletdesigner/index.html) (`#chip`, `#about-version`, `APP.version`)
+2. [`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js) (`const VERSION = "...";`)
+3. [`landing.html`](file:///Users/ethannorland/braceletdesigner/landing.html) (footer badge)
+4. [`welcome.html`](file:///Users/ethannorland/braceletdesigner/welcome.html) (100% byte-for-byte identical to `landing.html`)
+5. [`portfolio.html`](file:///Users/ethannorland/braceletdesigner/portfolio.html) (footer badge)
+6. [`reference/Braceletuponappstartup.bracelet`](file:///Users/ethannorland/braceletdesigner/reference/Braceletuponappstartup.bracelet) (`"appVersion": "..."`)
+7. [`README.md`](file:///Users/ethannorland/braceletdesigner/README.md) (version badge and text)
+8. [`CHANGELOG.md`](file:///Users/ethannorland/braceletdesigner/CHANGELOG.md) (release heading and itemized notes)
+9. [`HANDOFF.md`](file:///Users/ethannorland/braceletdesigner/HANDOFF.md) (Current State header)
+
+---
 
 ## Rules Learned & Project Constraints
-- Metal color calibration: For jewelry metals in Three.js standard material, use reference-sampled diffuse albedo values (`#D2AC4C` for warm 18K yellow gold, `#A8A9AC` for sterling silver) combined with `metalness: 0.90`, `roughness: 0.18`, and `envMapIntensity: 1.2` across ALL metal components to ensure identical specular sheen and environment radiance.
-- Bead holes: Beads strung on a bracelet cord must be modeled with through-holes along the tangential cord axis (local Z). Sizing the hole diameter to ~0.40–0.60 (relative to a 0.18 cord) provides a visible annular gap/space while maintaining robust wall thickness.
-- Safari WebKit CSS Grid bug: `position: fixed` elements inside a CSS Grid are still counted during grid auto-placement unless explicit `grid-row` / `grid-column` are assigned to grid children; always explicitly anchor `#stage-container` to `grid-row: 2; grid-column: 1;`.
-- Three.js camera initialization must guard against `0` dimensions (`Math.max(container.clientWidth || 0, window.innerWidth)`) to avoid `NaN` aspect ratios before WebKit completes its initial layout pass.
-- Web Audio synthesis must resume or initialize on user interaction (`pointerdown`, `keydown`) to satisfy browser autoplay policies.
-- Always use non-zero start and stop levels (e.g. `0.001` or `0.0001`) with `exponentialRampToValueAtTime` to avoid DOMExceptions.
-- Raycast pointer dragging fires at high frequency (60Hz–120Hz); sliding audio must be throttled with both time interval and angular displacement thresholds.
-- Dragging a bead records ONE undo step (pointerdown snapshot, pointerup commit).
-- Direct manipulation in 3D must temporarily disable OrbitControls during raycast pointermove.
-- Selection indicator ring follows the active 3D bead position and scales with bead diameter.
-- Always bump version in both `APP.version` in `index.html` and `VERSION` in `sw.js`.
-- On BoxGeometry cube beads, local face index 0 (+X) points radially outward toward the viewer; canvas texture materials (`faceMat`) must set `faceMat.color.setHex(0xFFFFFF)` to prevent Three.js color squaring with `material.map`.
-- Form inputs (`input`, `textarea`, `select`) must be excluded from global single-key shortcuts (`D`, `Delete`, `Backspace`).
-- Symbol vector canvas operations (`drawSymbol`) provide cross-platform consistency without relying on OS-level emoji fonts.
-- Star ExtrudeGeometry created in X-Y plane must be rotated with `geo.rotateY(Math.PI / 2)` to align its front normal along +X (radially outward) and its cord passage along Z.
-- For wrist mesh shader under bright multi-light studio environment, use `MeshStandardMaterial` with `envMapIntensity: 0.35` and call `renderer.render(scene, camera)` synchronously on tone switch for instant visual feedback.
-- To reframe camera in OrbitControls, always update `controls.target` (e.g. `controls.target.set(0, -9, 0); controls.update();`), otherwise OrbitControls overrides manual `camera.lookAt()` calls on the next render frame.
-- When generating glTF forearm models in Blender via extrusion stages, apply vertex scaling relative to the base wrist loop rather than compounding onto previous extrusion rings.
+- **Landing & Welcome Sync:** `welcome.html` must always be an exact copy of `landing.html` (`cp landing.html welcome.html && cmp landing.html welcome.html`).
+- **Metal Color Calibration:** Use reference-sampled diffuse albedos (`#D2AC4C` for 18K yellow gold, `#A8A9AC` for sterling silver) with `metalness: 0.90`, `roughness: 0.18`, and `envMapIntensity: 1.2` across clasps, beads, chains, and spacers for consistent specular reflections.
+- **Bead Hole Clearance:** Base cord radius is `0.09` (diameter `0.18`), while bead holes range from ~`0.40` to `0.60`. This guarantees daylight clearance around the cord with zero clipping.
+- **Double-Sided PBR Shading:** All PBR materials (`glass`, `quartz`, `metal`, `stone`, `wood`) must specify `side: THREE.DoubleSide` to properly shade the inside of drilled holes and hollow sections.
+- **Raycast Dragging:** Direct manipulation in 3D temporarily disables `OrbitControls` during raycast `pointermove`. Dragging records exactly one undo snapshot upon `pointerdown` and commits on `pointerup`.
+- **Safari CSS Grid Bug:** Elements with `position: fixed` inside a CSS Grid can trigger auto-placement errors in WebKit; explicitly define `grid-row` and `grid-column` for grid children.
+- **Web Audio Context:** AudioContext must initialize or resume asynchronously inside user pointer/touch handlers to obey browser autoplay restrictions. All exponential ramps must start and end on non-zero positive values (e.g. `0.0001`).
+- **Cube Engraving Orientation:** In Three.js `BoxGeometry`, face index 0 (+X) points radially outward toward the viewer on the bracelet ring; inscriptions are drawn on an offscreen canvas and mapped to this face.
+
+---
+
+## What's Next & Roadmap Opportunities
+1. **Catalog & Weight Estimates:** Extend the CSV spec sheet to calculate estimated gram weights for precious metals and include supplier search links (e.g., Fire Mountain Gems).
+2. **Wrist Mode Custom Color Picker:** As outlined in the "Coming Soon" roadmap, add a freeform hex/RGB color picker for skin tone customization in Wrist Mode.
+3. **Custom Bead Designer:** Interactive lathe or bead sculpting tool allowing users to define custom geometry profiles.
+4. **Studio Lighting Presets:** Add selectable studio lighting environments (Daylight, Warm Candlelight, High-Key Jewelry Showcase).
