@@ -1,6 +1,7 @@
 # Handoff Notes
 
 ## Current State
+- **Date & Time:** November 9, 2026 (13:00 EST)
 - **Version:** `1.9.61`
 - **Phase:** Root GitHub Pages Portfolio Setup & Link Architecture (`v1.9.61`); Clickable Bracelet Designer Brand Link & In-App About & Portfolio Overlay (`v1.9.60`); Orange & Light Yellow Palette Swatches (`v1.9.59`); Streamlined Bead Color Swatches & Cleaned Duplicate Palette Circles (`v1.9.58`); Fit Indicator Accuracy & 3D Geometry-Calibrated Cord Occupancy (`v1.9.57`); Portfolio Top Navigation Link Streamlining (`v1.9.56`); Spacers and Rondelle Bead Overlap and Collision Geometry Fix (`v1.9.55`); Star, Barrel, and Cube Bead Collision and Overlap Fix (`v1.9.54`); Portfolio Page About Navigation (`v1.9.53`); Coming Soon Navigation Link & Roadmap Section (`v1.9.52`).
 - **Primary Studio App URL:** [https://ethannorland.github.io/braceletdesigner/](https://ethannorland.github.io/braceletdesigner/)
@@ -8,6 +9,25 @@
 - **Creator Portfolio Page URL:** [https://ethannorland.github.io/](https://ethannorland.github.io/) (hosted via dedicated root repository `EthanNorland.github.io`)
 - **Studio Codebase Repository:** [https://github.com/EthanNorland/braceletdesigner](https://github.com/EthanNorland/braceletdesigner)
 - **Portfolio Repository:** [https://github.com/EthanNorland/EthanNorland.github.io](https://github.com/EthanNorland/EthanNorland.github.io)
+
+---
+
+## Deliverables & Course Template Audit (Part 12)
+Verified against [`Single_File_HTML_App_Template.TXT`](file:///Users/ethannorland/Downloads/Single_File_HTML_App_Template.TXT) and [`Single_File_HTML_App_Template (1).TXT`](file:///Users/ethannorland/Downloads/Single_File_HTML_App_Template%20(1).TXT) (both verified identical, MD5 `df49fa33721d65d997680bfe93b0018f`):
+
+| Requirement | Status | Verification & Notes |
+| :--- | :---: | :--- |
+| **Live App URL** | ✅ Active | [https://ethannorland.github.io/braceletdesigner/](https://ethannorland.github.io/braceletdesigner/) |
+| **Public GitHub Repo** | ✅ Active | [`github.com/EthanNorland/braceletdesigner`](https://github.com/EthanNorland/braceletdesigner) with [`README.md`](file:///Users/ethannorland/braceletdesigner/README.md), [`LICENSE`](file:///Users/ethannorland/braceletdesigner/LICENSE), [`CHANGELOG.md`](file:///Users/ethannorland/braceletdesigner/CHANGELOG.md), [`ATTRIBUTION.md`](file:///Users/ethannorland/braceletdesigner/ATTRIBUTION.md) |
+| **Portfolio Site** | ✅ Active | Root domain [https://ethannorland.github.io/](https://ethannorland.github.io/) (dedicated repository `EthanNorland.github.io`) |
+| **[`BRIEF.md`](file:///Users/ethannorland/braceletdesigner/BRIEF.md)** | ✅ Complete | 190 lines covering Raison d'être, User, Interaction Model, Prior Art, and "What's mine" (0 provisional tags) |
+| **Tagged Versions (≥3)** | ✅ Exceeded | 61+ releases tagged from `v1.0.0` through `v1.9.61` |
+| **Visual Identity** | ✅ Complete | Wordmark, custom logo, favicon, touch icons ([`icon-192.png`](file:///Users/ethannorland/braceletdesigner/icon-192.png), [`icon-512.png`](file:///Users/ethannorland/braceletdesigner/icon-512.png), [`icon.svg`](file:///Users/ethannorland/braceletdesigner/icon.svg)) |
+| **Searchable Help & Tooltips** | ✅ Active | Searchable Help modal with animated beacon rings pointing to controls; tooltips across workbench |
+| **About Dialog** | ✅ Active | Features version chip, purpose, inspiration & credits gallery, MIT license, and AI disclosure |
+| **Autosave, Project Save & Export** | ✅ Active | IndexedDB autosave, `.bracelet` project file save/load, high-res PNG studio render export, and CSV/plaintext materials spec list |
+| **Offline PWA** | ✅ Active | Offline service worker ([`sw.js`](file:///Users/ethannorland/braceletdesigner/sw.js)), [`manifest.webmanifest`](file:///Users/ethannorland/braceletdesigner/manifest.webmanifest), and active version chip (`1.9.0 ↻`) |
+| **Review Tools** | ✅ Ready | Local markup server ([`markup-server.py`](file:///Users/ethannorland/braceletdesigner/tools/markup-server.py)) and toolbar ([`markup-inject.js`](file:///Users/ethannorland/braceletdesigner/tools/markup-inject.js)) configured in [`tools/`](file:///Users/ethannorland/braceletdesigner/tools/) |
 
 ---
 
@@ -160,8 +180,31 @@ Any version bump MUST be synchronized across all 9 canonical files simultaneousl
 
 ---
 
+## How to Resume Work in the Next Session
+
+1. **Check Repositories Status:**
+   ```bash
+   git -C /Users/ethannorland/braceletdesigner status
+   git -C /Users/ethannorland/EthanNorland.github.io status
+   ```
+2. **Local Testing & Markup Review:**
+   ```bash
+   cd /Users/ethannorland/braceletdesigner
+   python3 tools/markup-server.py 8765
+   # Opens in browser at http://localhost:8765/
+   ```
+3. **Commit & Deploy:**
+   ```bash
+   git -C /Users/ethannorland/braceletdesigner add .
+   git -C /Users/ethannorland/braceletdesigner commit -m "Your commit message"
+   git -C /Users/ethannorland/braceletdesigner push origin main
+   ```
+
+---
+
 ## What's Next & Roadmap Opportunities
-1. **Catalog & Weight Estimates:** Extend the CSV spec sheet to calculate estimated gram weights for precious metals and include supplier search links (e.g., Fire Mountain Gems).
-2. **Wrist Mode Custom Color Picker:** As outlined in the "Coming Soon" roadmap, add a freeform hex/RGB color picker for skin tone customization in Wrist Mode.
-3. **Custom Bead Designer:** Interactive lathe or bead sculpting tool allowing users to define custom geometry profiles.
-4. **Studio Lighting Presets:** Add selectable studio lighting environments (Daylight, Warm Candlelight, High-Key Jewelry Showcase).
+1. **Presentation / Review Preparation:** Walkthrough practice, live demo talking points, or project submission packaging.
+2. **Catalog & Weight Estimates:** Extend the CSV spec sheet to calculate estimated gram weights for precious metals and include supplier search links (e.g., Fire Mountain Gems).
+3. **Wrist Mode Custom Color Picker:** As outlined in the "Coming Soon" roadmap, add a freeform hex/RGB color picker for skin tone customization in Wrist Mode.
+4. **Custom Bead Designer:** Interactive lathe or bead sculpting tool allowing users to define custom geometry profiles.
+5. **Studio Lighting Presets:** Add selectable studio lighting environments (Daylight, Warm Candlelight, High-Key Jewelry Showcase).
